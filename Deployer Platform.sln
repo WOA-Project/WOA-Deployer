@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui.Common", "Depl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx", "Deployer.NetFx\Deployer.NetFx.csproj", "{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registry", "..\..\..\Deployer Platform\Registry\Registry\Registry.csproj", "{CA35A981-A69C-4E0E-817D-C327A9F0F782}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registry", "Registry\Registry\Registry.csproj", "{199EC816-6C41-4252-85FA-1C91865FC9AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA35A981-A69C-4E0E-817D-C327A9F0F782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA35A981-A69C-4E0E-817D-C327A9F0F782}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA35A981-A69C-4E0E-817D-C327A9F0F782}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA35A981-A69C-4E0E-817D-C327A9F0F782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

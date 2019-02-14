@@ -44,10 +44,6 @@
     <Compile Include="WimlibImageService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Registry\Registry\Registry.csproj">
-      <Project>{30f3b1fc-9165-4b5b-8aa9-ed5bdf94fc08}</Project>
-      <Name>Registry</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer\Deployer.csproj">
       <Project>{b0709401-1148-43b4-a06c-79173393dd98}</Project>
       <Name>Deployer</Name>
