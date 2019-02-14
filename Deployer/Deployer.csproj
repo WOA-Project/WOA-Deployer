@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
+    <ProjectReference Include="..\..\Registry\Registry\Registry.csproj" />
   </ItemGroup>
 
 </Project>
