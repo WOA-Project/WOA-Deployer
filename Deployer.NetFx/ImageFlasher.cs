@@ -39,9 +39,10 @@ namespace Deployer.Filesystem.FullFx
                     {
                         if (!isValidating && CultureInfo.CurrentCulture.CompareInfo.IndexOf(s, "validating", 0, CompareOptions.IgnoreCase) != -1)
                         {
-                            Log.Information("Validating flashed image...");
+                            progressObserver?.OnNext(double.NaN);
+                            Log.Information("Validating flashed image...");                            
                             isValidating = true;
-                        }
+                        }                        
                     })
                     .Select(GetPercentage)
                     .Where(d => !double.IsNaN(d))
