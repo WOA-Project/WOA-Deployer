@@ -35,5 +35,13 @@ namespace Deployer
         {
             Directory.CreateDirectory(path);
         }
+
+        public void EnsureDirectoryExists(string directoryPath)
+        {
+            if (!DirectoryExists(directoryPath))
+            {
+                CreateDirectory(directoryPath);
+            }
+        }
     }
 }

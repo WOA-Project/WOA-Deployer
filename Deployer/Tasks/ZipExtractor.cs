@@ -17,8 +17,9 @@ namespace Deployer.Tasks
 
         public async Task ExtractFirstChildToFolder(Stream stream, string folderPath)
         {
-            await Extract(stream, folderPath, FileUtils.GetTempDirectoryName());
-            await MoveFirstChildToDestination(folderPath, FileUtils.GetTempDirectoryName());
+            var tempDir = FileUtils.GetTempDirectoryName();
+            await Extract(stream, folderPath, tempDir);
+            await MoveFirstChildToDestination(tempDir, folderPath);
         }
 
         public async Task ExtractToFolder(Stream stream, string folderPath)

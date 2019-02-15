@@ -32,5 +32,9 @@ namespace Deployer.Execution.Testing
         public void CreateDirectory(string path)
         {
         }
+
+        public void EnsureDirectoryExists(string directoryPath)
+        {            
+        }
     }
 }

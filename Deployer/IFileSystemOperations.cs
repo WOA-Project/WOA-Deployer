@@ -9,5 +9,6 @@ namespace Deployer
         Task DeleteDirectory(string path);
         bool DirectoryExists(string path);
         void CreateDirectory(string path);
+        void EnsureDirectoryExists(string directoryPath);
     }
 }
