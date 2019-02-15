@@ -5,6 +5,7 @@ using Deployer.Execution;
 
 namespace Deployer.Tasks
 {
+    [TaskDescription("Zip Unpack from {0} to {1}")]
     public class ZipUnpack : IDeploymentTask
     {
         private readonly string url;
