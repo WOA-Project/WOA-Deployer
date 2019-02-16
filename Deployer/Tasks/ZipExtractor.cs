@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Utils;
@@ -57,6 +59,43 @@ namespace Deployer.Tasks
             if (fileSystemOperations.DirectoryExists(folderPath))
             {
                 await fileSystemOperations.DeleteDirectory(folderPath);
+            }
+        }
+
+        public async Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination)
+        {
+            using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Read))
+            {
+                var baseEntry = RootPath(relativeZipPath, zipArchive);
+                var contents = zipArchive.Entries.Where(x => x.FullName.StartsWith(baseEntry) && !x.FullName.EndsWith("/"));
+                await ExtractContents(contents, destination, baseEntry);
+            }            
+        }
+
+        private static string RootPath(string relativeZipPath, ZipArchive zipArchive)
+        {
+            return relativeZipPath.EndsWith("/") ? relativeZipPath : relativeZipPath + "/";
+        }
+
+        private async Task ExtractContents(IEnumerable<ZipArchiveEntry> entries, string destination,
+            string baseEntryPath = "")
+        {
+            foreach (var entry in entries)
+            {
+                var filePath = entry.FullName.Substring(baseEntryPath.Length);
+
+                var destFile = Path.Combine(destination, filePath.Replace("/", "\\"));
+                var dir = Path.GetDirectoryName(destFile);
+                if (!fileSystemOperations.DirectoryExists(dir))
+                {
+                    fileSystemOperations.CreateDirectory(dir);
+                }
+
+                using (var destStream = File.Open(destFile, FileMode.OpenOrCreate))
+                using (var stream = entry.Open())
+                {
+                    await stream.CopyToAsync(destStream);
+                }
             }
         }
     }

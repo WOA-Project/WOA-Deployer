@@ -4,16 +4,15 @@ using System.Threading.Tasks;
 
 namespace Deployer
 {
-    public class GitHubDownloader : IGitHubDownloader
+    public class GitHubClient : IGitHubClient
     {
-        public async Task<Stream> OpenZipStream(string mainUrl)
+        public async Task<Stream> Open(string repositoryBaseUrl, string branch = "master")
         {
             using (var client = new System.Net.Http.HttpClient())
             {
-                var matches = Regex.Match(mainUrl, "https://github\\.com/([\\w-]*)/([\\w-]*)");
+                var matches = Regex.Match(repositoryBaseUrl, "https://github\\.com/([\\w-]*)/([\\w-]*)");
                 var username = matches.Groups[1].Value;
                 var repository = matches.Groups[2].Value;
-                var branch = "master";
 
                 var url = $"https://github.com/{username}/{repository}/archive/{branch}.zip";
 

@@ -10,7 +10,7 @@ namespace Deployer.Tasks
     public class GitHubUnpack : IDeploymentTask
     {
         private readonly string downloadUrl;
-        private readonly IGitHubDownloader downloader;
+        private readonly IGitHubClient client;
         private readonly IZipExtractor extractor;
         private string repository;
         private string branch;
@@ -18,11 +18,11 @@ namespace Deployer.Tasks
         private string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public GitHubUnpack(string downloadUrl, IGitHubDownloader downloader, IZipExtractor extractor)
+        public GitHubUnpack(string downloadUrl, IGitHubClient client, IZipExtractor extractor)
         {
             ParseUrl(downloadUrl);
             this.downloadUrl = downloadUrl;
-            this.downloader = downloader;
+            this.client = client;
             this.extractor = extractor;
         }
 
@@ -43,7 +43,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            var openZipStream = await downloader.OpenZipStream(downloadUrl);
+            var openZipStream = await client.Open(downloadUrl);
             using (var stream = openZipStream)
             {
                 await extractor.ExtractFirstChildToFolder(stream, folderPath);
