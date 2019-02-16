@@ -64,17 +64,19 @@ namespace Deployer.Tasks
 
         public async Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination)
         {
-            using (var zipArchive = new ZipArchive(stream, ZipArchiveMode.Read))
+            var archive = await Observable.Start(() => new ZipArchive(stream, ZipArchiveMode.Read));
+            using (var zipArchive = archive)
             {
-                var baseEntry = RootPath(relativeZipPath, zipArchive);
+                var baseEntry = RootPath(relativeZipPath);
                 var contents = zipArchive.Entries.Where(x => x.FullName.StartsWith(baseEntry) && !x.FullName.EndsWith("/"));
                 await ExtractContents(contents, destination, baseEntry);
-            }            
+            }
         }
 
-        private static string RootPath(string relativeZipPath, ZipArchive zipArchive)
+        private static string RootPath(string relativeZipPath)
         {
-            return relativeZipPath.EndsWith("/") ? relativeZipPath : relativeZipPath + "/";
+            relativeZipPath = relativeZipPath.Replace('\\', '/');
+            return relativeZipPath.EndsWith("//") ? relativeZipPath : relativeZipPath + "/";
         }
 
         private async Task ExtractContents(IEnumerable<ZipArchiveEntry> entries, string destination,

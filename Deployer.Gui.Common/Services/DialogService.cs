@@ -16,5 +16,11 @@ namespace Deployer.Gui.Common.Services
         {
             return coordinator.ShowMessageAsync(owner, title, text);
         }
+
+        public async Task<DialogResult> ShowConfirmation(object owner, string title, string text)
+        {
+            var result = await coordinator.ShowMessageAsync(owner, title, text, MessageDialogStyle.AffirmativeAndNegative);
+            return result == MessageDialogResult.Affirmative ? DialogResult.Yes : DialogResult.No;
+        }
     }
 }
