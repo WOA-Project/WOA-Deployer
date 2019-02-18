@@ -5,6 +5,7 @@ using Deployer.Execution;
 
 namespace Deployer.Tasks
 {
+    [TaskDescription("License from {0}")]
     public class ShowLicense : IDeploymentTask
     {
         private readonly string path;
@@ -18,7 +19,8 @@ namespace Deployer.Tasks
 
         public async Task Execute()
         {
-            var result = await dialog.PickOptions(File.ReadAllText(path), new List<Option>()
+            var msg = File.ReadAllText(path);
+            var result = await dialog.PickOptions(msg, new List<Option>()
             {
                 new Option("Accept", DialogValue.OK),
                 new Option("Decline", DialogValue.Cancel),
