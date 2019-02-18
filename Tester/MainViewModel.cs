@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
 using System.Windows;
+using Deployer;
 using Deployer.Gui.Common.Services;
-using Deployer.Gui.Common.Views;
 using ReactiveUI;
 
 namespace Tester

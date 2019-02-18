@@ -65,7 +65,6 @@
     <Compile Include="Services\DialogResult.cs" />
     <Compile Include="Services\Dialog.cs" />
     <Compile Include="Services\FilePicker.cs" />
-    <Compile Include="Services\IMarkdownDialog.cs" />
     <Compile Include="Services\ViewService.cs" />
     <Compile Include="UIServices.cs" />
     <Compile Include="Views\AsyncWindowExtension.cs" />
@@ -75,7 +74,6 @@
       <DependentUpon>MarkdownViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MessageViewModel.cs" />
-    <Compile Include="Views\Option.cs" />
     <Compile Include="Views\OptionViewModel.cs" />
     <Compile Include="WimMetadataViewModel.cs" />
     <Page Include="Themes\Generic.xaml">
