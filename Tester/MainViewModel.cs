@@ -11,7 +11,7 @@ namespace Tester
     {
         public MainViewModel()
         {
-            var dialogService = new DialogService(null);
+            var dialogService = new Dialog(null);
             
 
             OpenCommand = ReactiveCommand.CreateFromTask(async () =>

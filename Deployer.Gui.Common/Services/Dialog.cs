@@ -5,11 +5,11 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace Deployer.Gui.Common.Services
 {
-    public class DialogService : IDialogService, IMarkdownDialog
+    public class Dialog : IDialog, IMarkdownDialog
     {
         private readonly IDialogCoordinator coordinator;
 
-        public DialogService(IDialogCoordinator coordinator)
+        public Dialog(IDialogCoordinator coordinator)
         {
             this.coordinator = coordinator;
         }
@@ -17,6 +17,12 @@ namespace Deployer.Gui.Common.Services
         public Task ShowAlert(object owner, string title, string text)
         {
             return coordinator.ShowMessageAsync(owner, title, text);
+        }
+
+        public async Task<DialogResult> ShowConfirmation(object owner, string title, string text)
+        {
+            var result = await coordinator.ShowMessageAsync(owner, title, text, MessageDialogStyle.AffirmativeAndNegative);
+            return result == MessageDialogResult.Affirmative ? DialogResult.Yes : DialogResult.No;
         }
 
         public async Task<Option> PickOptions(string markdown, IEnumerable<Option> options)
