@@ -2,11 +2,10 @@
 using System.Threading.Tasks;
 using Deployer.Gui.Common.Views;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui.Common.Services
 {
-    public interface IDialogService
+    public interface IMarkdownDialog
     {
-        Task ShowAlert(object owner, string title, string text);
         Task<Option> PickOptions(string markdown, IEnumerable<Option> options);
     }
 }
