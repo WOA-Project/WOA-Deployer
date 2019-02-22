@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
@@ -70,6 +71,11 @@ namespace Deployer.FileSystem
             return parts
                 .OrderByDescending(x => x.Number)
                 .FirstOrDefault(x => Equals(x.PartitionType, PartitionType.Esp));
+        }
+
+        public Task SetGuid(Guid guid)
+        {
+            return LowLevelApi.ChangeDiskGuid(this, guid);
         }
 
         public override string ToString()

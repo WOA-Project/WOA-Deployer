@@ -61,6 +61,7 @@ namespace Deployer.Filesystem.FullFx
 
             stdOutputSubscription?.Dispose();
             await disk.LowLevelApi.UpdateStorageCache();
+            await disk.SetGuid(new Guid());
         }
 
         private double GetPercentage(string output)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ByteSizeLib;
 
@@ -20,5 +21,6 @@ namespace Deployer.FileSystem
         Task<ICollection<Disk>> GetDisks();
         Task<ICollection<DriverMetadata>> GetDrivers(string path);
         Task UpdateStorageCache();
+        Task ChangeDiskGuid(Disk disk, Guid guid);
     }    
 }

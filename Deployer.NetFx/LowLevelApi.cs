@@ -90,6 +90,22 @@ namespace Deployer.Filesystem.FullFx
             return Task.Factory.FromAsync(ps.BeginInvoke(), x => ps.EndInvoke(x));
         }
 
+        public Task ChangeDiskGuid(Disk disk, Guid guid)
+        {
+            ps.Commands.Clear();
+            var cmd = $@"Set-Disk -Number {disk.Number} -Guid ""{{{guid}}}""";
+            ps.AddScript(cmd);
+
+            var result = Task.Factory.FromAsync(ps.BeginInvoke(), x => ps.EndInvoke(x));
+
+            if (ps.HadErrors)
+            {
+                Throw($"Cannot set the Guid {guid} to the disk {disk}");
+            }
+
+            return result;
+        }
+
         public Task RemovePartition(Partition partition)
         {
             ps.Commands.Clear();

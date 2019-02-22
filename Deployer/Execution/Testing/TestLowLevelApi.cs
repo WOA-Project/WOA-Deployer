@@ -117,5 +117,10 @@ namespace Deployer.Execution.Testing
         {
             throw new NotImplementedException();
         }
+
+        public Task ChangeDiskGuid(Disk disk, Guid guid)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
