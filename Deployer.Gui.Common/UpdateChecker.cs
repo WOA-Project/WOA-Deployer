@@ -57,11 +57,10 @@ namespace Deployer.Gui.Common
 
         private static string GetDownload(HtmlDocument htmlDoc)
         {
-            var fileNameNode = htmlDoc.DocumentNode.Descendants("div").First(d =>
-                d.Attributes.Contains("class") && d.Attributes["class"].Value.Equals("d-flex flex-items-start"));
-            var linkNode = fileNameNode.Descendants("a").First();
+            var fileNameNode = htmlDoc.DocumentNode.Descendants("a").First(d =>
+                d.Attributes.Contains("class") && d.Attributes["class"].Value.Equals("d-flex flex-items-center"));
 
-            var relativeDownloadUrl = linkNode.Attributes["href"].Value;
+            var relativeDownloadUrl = fileNameNode.Attributes["href"].Value;
             var downloadUrl = "https://github.com" + relativeDownloadUrl;
             return downloadUrl;
         }
