@@ -1,6 +1,6 @@
 ﻿using Microsoft.PowerShell.Cim;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public static class PowerShellUtils
     {

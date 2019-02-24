@@ -7,8 +7,8 @@
     <ProjectGuid>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Deployer.Filesystem.FullFx</RootNamespace>
-    <AssemblyName>Deployer.Filesystem.FullFx</AssemblyName>
+    <RootNamespace>Deployer.NetFx</RootNamespace>
+    <AssemblyName>Deployer.NetFx</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

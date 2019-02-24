@@ -1,6 +1,6 @@
 using System;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     internal class InvalidImageException : Exception
     {

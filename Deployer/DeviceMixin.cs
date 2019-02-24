@@ -43,6 +43,17 @@ namespace Deployer
         public static async Task<bool> IsThereEnoughSpace(this IDevice phone, ByteSize requiredSize)
         {
             var disk = await phone.GetDeviceDisk();
+
+            Log.Verbose("Available {Available}. Required {Required}", disk.AvailableSize, requiredSize);
+
+            if (disk.AvailableSize >= requiredSize)
+            {                
+                Log.Verbose("We have enough available space!");
+                return true;
+            }
+
+            Log.Verbose("We don't have enough space. Checking for tolerable threshold of {Threshold}", ValidResizeThreshold);
+
             var diff = disk.AvailableSize - requiredSize;
             var isThereEnoughSpace = Math.Abs(diff.MegaBytes) <= ValidResizeThreshold.MegaBytes;
 

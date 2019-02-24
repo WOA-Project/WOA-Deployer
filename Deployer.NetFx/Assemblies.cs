@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public static class Assemblies
     {

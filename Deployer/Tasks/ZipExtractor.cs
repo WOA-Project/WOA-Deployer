@@ -4,7 +4,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Deployer.Utils;
 
 namespace Deployer.Tasks
 {
@@ -17,48 +16,29 @@ namespace Deployer.Tasks
             this.fileSystemOperations = fileSystemOperations;
         }
 
-        public async Task ExtractFirstChildToFolder(Stream stream, string folderPath)
+        public async Task ExtractFirstChildToFolder(Stream stream, string destination)
         {
-            var tempDir = FileUtils.GetTempDirectoryName();
-            await Extract(stream, folderPath, tempDir);
-            await MoveFirstChildToDestination(tempDir, folderPath);
-        }
-
-        public async Task ExtractToFolder(Stream stream, string folderPath)
-        {
-            var tempDir = FileUtils.GetTempDirectoryName();
-            await Extract(stream, folderPath, tempDir);
-            await MoveToDestination(tempDir, folderPath);
-        }
-
-        private async Task MoveToDestination(string source, string destination)
-        {
-            await fileSystemOperations.CopyDirectory(source, destination);
-            await fileSystemOperations.DeleteDirectory(source);
-        }
-
-        private async Task MoveFirstChildToDestination(string source, string destination)
-        {
-            var folderName = Path.GetFileName(destination);
-            var firstChild = Path.Combine(source, folderName);
-
-            await fileSystemOperations.CopyDirectory(firstChild, destination);
-            await fileSystemOperations.DeleteDirectory(source);
-        }
-
-        private async Task Extract(Stream stream, string folderPath, string temp)
-        {
-            await Observable.Start(() =>
+            var archive = await Observable.Start(() => new ZipArchive(stream, ZipArchiveMode.Read));
+            using (var zipArchive = archive)
             {
-                using (var zip = new ZipArchive(stream, ZipArchiveMode.Read, false))
-                {
-                    zip.ExtractToDirectory(temp);
-                }
-            });
+                var baseEntry = FirstChild(zipArchive.Entries);
+                var contents = zipArchive.Entries.Where(x => x.FullName.StartsWith(baseEntry) && !x.FullName.EndsWith("/"));
+                await ExtractContents(contents, destination, baseEntry);
+            }
+        }
 
-            if (fileSystemOperations.DirectoryExists(folderPath))
+        private string FirstChild(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
+        {
+            return zipArchiveEntries.First(x => x.FullName.EndsWith("/")).FullName;
+        }
+
+        public async Task ExtractToFolder(Stream stream, string destination)
+        {
+            var archive = await Observable.Start(() => new ZipArchive(stream, ZipArchiveMode.Read));
+            using (var zipArchive = archive)
             {
-                await fileSystemOperations.DeleteDirectory(folderPath);
+                var contents = zipArchive.Entries.Where(x => !x.FullName.EndsWith("/"));
+                await ExtractContents(contents, destination);
             }
         }
 

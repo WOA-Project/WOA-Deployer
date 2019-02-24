@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Deployer.FileSystem;
 using ManagedWimLib;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public class WimlibImageService : ImageServiceBase
     {

@@ -9,7 +9,7 @@ using ByteSizeLib;
 using Deployer.FileSystem;
 using Serilog;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public class LowLevelApi : ILowLevelApi
     {

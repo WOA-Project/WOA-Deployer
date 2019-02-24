@@ -11,7 +11,7 @@ using Deployer.Services.Wim;
 using Deployer.Utils;
 using Serilog;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public abstract class ImageServiceBase : IWindowsImageService
     {

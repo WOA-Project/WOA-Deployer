@@ -11,7 +11,7 @@ using Deployer.Services;
 using Deployer.Utils;
 using Serilog;
 
-namespace Deployer.Filesystem.FullFx
+namespace Deployer.NetFx
 {
     public class ImageFlasher : IImageFlasher
     {
