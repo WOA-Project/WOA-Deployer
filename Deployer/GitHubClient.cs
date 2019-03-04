@@ -1,6 +1,9 @@
 ﻿using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Octokit;
 
 namespace Deployer
 {
@@ -10,14 +13,25 @@ namespace Deployer
         {
             using (var client = new System.Net.Http.HttpClient())
             {
-                var matches = Regex.Match(repositoryBaseUrl, "https://github\\.com/([\\w-]*)/([\\w-]*)");
-                var username = matches.Groups[1].Value;
-                var repository = matches.Groups[2].Value;
+                var repoInf = GitHubMixin.GetRepoInfo(repositoryBaseUrl);
 
-                var url = $"https://github.com/{username}/{repository}/archive/{branch}.zip";
+                var url = $"https://github.com/{repoInf.Owner}/{repoInf.Repository}/archive/{branch}.zip";
 
-                var openZipStream = await client.GetStreamAsync(url);
-                return openZipStream;
+                return await client.GetStreamAsync(url);
+            }
+        }
+
+        public async Task<Stream> OpenRelease(string repositoryBaseUrl, string assetName)
+        {
+            var octoclient = new Octokit.GitHubClient(new ProductHeaderValue("WOADeployer"));
+            var repoInf = GitHubMixin.GetRepoInfo(repositoryBaseUrl);
+            var latest = await octoclient.Repository.Release.GetLatest(repoInf.Owner, repoInf.Repository);
+
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                var asset = latest.Assets.First(x => x.Name == assetName);
+
+                return await client.GetStreamAsync(asset.BrowserDownloadUrl);
             }
         }
     }
