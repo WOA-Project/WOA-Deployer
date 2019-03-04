@@ -5,7 +5,7 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching from GitHub subfolder: {0}/{1} to {2}")]
-    public class GitHubFolderUnpack : IDeploymentTask
+    public class FetchGitHubFolder : IDeploymentTask
     {
         private readonly string url;
         private readonly string relativePath;
@@ -14,7 +14,7 @@ namespace Deployer.Tasks
         private readonly IGitHubClient gitHubClient;
         private readonly IFileSystemOperations fileSystemOperations;
 
-        public GitHubFolderUnpack(string url, string relativePath, string destination, IZipExtractor zipExtractor,
+        public FetchGitHubFolder(string url, string relativePath, string destination, IZipExtractor zipExtractor,
             IGitHubClient gitHubClient, IFileSystemOperations fileSystemOperations)
         {
             this.url = url;

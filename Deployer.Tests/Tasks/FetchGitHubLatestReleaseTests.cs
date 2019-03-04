@@ -14,4 +14,14 @@ namespace Deployer.Tests.Tasks
             await task.Execute();
         }
     }
+
+    public class FetchGitHubBranchTests
+    {
+        [Fact]
+        public async Task Test()
+        {
+            var task = new FetchGitHubBranch("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers", "master", new GitHubClient(), new ZipExtractor(new FileSystemOperations()));
+            await task.Execute();
+        }
+    }
 }

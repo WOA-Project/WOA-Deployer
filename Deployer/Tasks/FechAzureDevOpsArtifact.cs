@@ -1,17 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Deployer.DevOpsBuildClient;
 using Deployer.Execution;
-using Deployer.Utils;
 using Serilog;
 
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching from Azure DevOps: {0}")]
-    public class AzureDevOpsUnpack : IDeploymentTask
+    public class FechAzureDevOpsArtifact : IDeploymentTask
     {
         private string org;
         private string project;
@@ -23,7 +21,7 @@ namespace Deployer.Tasks
 
         private const string SubFolder = "Downloaded";
 
-        public AzureDevOpsUnpack(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor)
+        public FechAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor)
         {
             ParseDescriptor(descriptor);
             

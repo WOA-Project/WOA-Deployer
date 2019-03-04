@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Deployer.Execution;
 using Serilog;
@@ -7,32 +6,25 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching from GitHub: {0}")]
-    public class GitHubUnpack : IDeploymentTask
+    public class FetchGitHubBase : IDeploymentTask
     {
-        private readonly string downloadUrl;
+        private readonly string repoBaseUrl;
         private readonly IGitHubClient client;
         private readonly IZipExtractor extractor;
-        private string repository;
-        private string branch;
-        private string folderName;
-        private string folderPath;
+        private readonly string repository;
+        private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public GitHubUnpack(string downloadUrl, IGitHubClient client, IZipExtractor extractor)
+        public FetchGitHubBase(string repoBaseUrl, string branch, IGitHubClient client, IZipExtractor extractor)
         {
-            ParseUrl(downloadUrl);
-            this.downloadUrl = downloadUrl;
+            this.repoBaseUrl = repoBaseUrl;
             this.client = client;
             this.extractor = extractor;
-        }
-
-        private void ParseUrl(string url)
-        {
-            var matches = Regex.Match(url, "https://github\\.com/([\\w-]*)/([\\w-]*)");
-            repository = matches.Groups[2].Value;
-            branch = "master";
-            folderName = repository + "-" + branch;
+            var repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
+            repository = repoInfo.Repository;
+            var folderName = repository + "-" + branch;
             folderPath = Path.Combine(SubFolder, folderName);
+            
         }
 
         public async Task Execute()
@@ -43,7 +35,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            var openZipStream = await client.Open(downloadUrl);
+            var openZipStream = await client.Open(repoBaseUrl);
             using (var stream = openZipStream)
             {
                 await extractor.ExtractFirstChildToFolder(stream, folderPath);

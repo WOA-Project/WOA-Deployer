@@ -4,15 +4,15 @@ using Deployer.Execution;
 
 namespace Deployer.Tasks
 {
-    [TaskDescription("Zip Unpack from {0} to {1}")]
-    public class ZipUnpack : IDeploymentTask
+    [TaskDescription("Fetching zip from {0}")]
+    public class Fetch : IDeploymentTask
     {
         private readonly string url;
         private readonly string destination;
         private readonly IZipExtractor extractor;
         private readonly IFileSystemOperations fileSystemOperations;
 
-        public ZipUnpack(string url, string destination, IZipExtractor extractor, IFileSystemOperations fileSystemOperations)
+        public Fetch(string url, string destination, IZipExtractor extractor, IFileSystemOperations fileSystemOperations)
         {
             this.url = url;
             this.destination = destination;
