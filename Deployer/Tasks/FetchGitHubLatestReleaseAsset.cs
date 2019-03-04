@@ -9,7 +9,7 @@ using Serilog;
 
 namespace Deployer.Tasks
 {
-    [TaskDescription("Fetching latest release of {1} from {0}")]
+    [TaskDescription("Fetching asset {1} from latest release at {0}")]
     public class FetchGitHubLatestReleaseAsset : IDeploymentTask
     {
         private readonly string repoUrl;
