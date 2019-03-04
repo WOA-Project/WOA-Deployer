@@ -10,7 +10,7 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching latest release of {1} from {0}")]
-    public class FetchGitHubLatestRelease : IDeploymentTask
+    public class FetchGitHubLatestReleaseAsset : IDeploymentTask
     {
         private readonly string repoUrl;
         private readonly string assetName;
@@ -18,7 +18,7 @@ namespace Deployer.Tasks
         private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public FetchGitHubLatestRelease(string repoUrl, string assetName, IZipExtractor extractor)
+        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor)
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));
