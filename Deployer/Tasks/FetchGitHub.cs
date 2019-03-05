@@ -1,15 +1,9 @@
-﻿using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Deployer.Execution;
-using Serilog;
-
-namespace Deployer.Tasks
+﻿namespace Deployer.Tasks
 {
-    [TaskDescription("Fetching from GitHub: {0}")]
+    [TaskDescription("Fetching from GitHub: {0} - master")]
     public class FetchGitHub : FetchGitHubBase
     {
-        public FetchGitHub(string repoBaseUrl, IGitHubClient client, IZipExtractor extractor) : base(repoBaseUrl, "master", client, extractor)
+        public FetchGitHub(string repoBaseUrl, IZipExtractor extractor) : base(repoBaseUrl, "master", extractor)
         {
         }      
     }
