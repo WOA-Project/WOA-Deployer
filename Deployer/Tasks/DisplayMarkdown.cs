@@ -1,7 +1,7 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Deployer.Execution;
-using Serilog;
 
 namespace Deployer.Tasks
 {
@@ -9,18 +9,21 @@ namespace Deployer.Tasks
     public class DisplayMarkdown : IDeploymentTask
     {
         private readonly string path;
-        private readonly IMarkdownDisplayer markdownDisplayer;
+        private readonly IMarkdownDialog dialog;
 
-        public DisplayMarkdown(string path, IMarkdownDisplayer markdownDisplayer)
+        public DisplayMarkdown(string path, IMarkdownDialog dialog)
         {
             this.path = path;
-            this.markdownDisplayer = markdownDisplayer;
+            this.dialog = dialog;
         }
 
-        public Task Execute()
+        public async Task Execute()
         {
-            Log.Verbose("Displaying markdown from file {Path}", path);
-            return markdownDisplayer.Display("Info", File.ReadAllText(path));
+            var msg = File.ReadAllText(path);
+            await dialog.PickOptions(msg, new List<Option>()
+            {
+                new Option("Close", DialogValue.OK),
+            });
         }
     }
 }
