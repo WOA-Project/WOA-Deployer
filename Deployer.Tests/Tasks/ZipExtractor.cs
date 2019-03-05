@@ -10,9 +10,8 @@ namespace Deployer.Tests.Tasks
         public async Task RelativeExtract()
         {
             var extractor = new ZipExtractor(new FileSystemOperations());
-            var downloader = new GitHubClient();
 
-            using (var stream = await downloader.Open("https://github.com/driver1998/bsp"))
+            using (var stream = await GitHubMixin.OpenBranchStream("https://github.com/driver1998/bsp"))
             {
                 await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", "Drivers");
             }            
