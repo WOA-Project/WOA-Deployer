@@ -19,15 +19,11 @@ namespace Deployer.DevOpsBuildClient
 
         public static AzureDevOpsClient Create(Uri baseAddress)
         {
-            var httpClient = new HttpClient(new CustomHttpClientHandler()
-            {
-                
-            })
+            var httpClient = new HttpClient(new CustomHttpClientHandler())
             {
                 BaseAddress = baseAddress,                
             };
-
-
+            
             return new AzureDevOpsClient(RestService.For<IBuildApiClient>(httpClient));
         }
 

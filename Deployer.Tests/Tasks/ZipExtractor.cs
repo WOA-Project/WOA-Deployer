@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reactive.Subjects;
+using System.Threading.Tasks;
 using Deployer.Tasks;
 using Xunit;
 
@@ -11,9 +12,10 @@ namespace Deployer.Tests.Tasks
         {
             var extractor = new ZipExtractor(new FileSystemOperations());
 
-            using (var stream = await GitHubMixin.OpenBranchStream("https://github.com/driver1998/bsp"))
+            var subject = new Subject<double>();
+            using (var stream = await GitHubMixin.OpenBranchStream("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git", "master", subject))
             {
-                await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", "Drivers");
+                await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", @"Downloaded\Drivers");
             }            
         }
     }
