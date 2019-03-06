@@ -16,12 +16,12 @@ namespace Deployer
             return new RepoInfo(owner, repository);
         }
 
-        public static async Task<Stream> OpenBranchStream(string repositoryBaseUrl, string branch = "master", IObserver<double> progress = null)
+        public static async Task<Stream> GetBranchZippedStream(string repositoryBaseUrl, string branch = "master", IObserver<double> progressObserver = null)
         {
             var repoInf = GetRepoInfo(repositoryBaseUrl);
             var url = $"https://github.com/{repoInf.Owner}/{repoInf.Repository}/archive/{branch}.zip";
 
-            return await HttpClientExtensions.Download(url, progress);
+            return await Http.GetStream(url, progressObserver);
         }
     }
 }

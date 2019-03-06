@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Deployer.Execution;
 using Serilog;
@@ -11,15 +12,18 @@ namespace Deployer.Tasks
         private readonly string repoBaseUrl;
         private readonly string branch;
         private readonly IZipExtractor extractor;
+        private readonly IObserver<double> progressObserver;
         private readonly string repository;
         private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor)
+        public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor,
+            IObserver<double> progressObserver)
         {
             this.repoBaseUrl = repoBaseUrl;
             this.branch = branch;
             this.extractor = extractor;
+            this.progressObserver = progressObserver;
             var repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
             repository = repoInfo.Repository;
             var folderName = repository;
@@ -35,10 +39,10 @@ namespace Deployer.Tasks
                 return;
             }
 
-            var openZipStream = await GitHubMixin.OpenBranchStream(repoBaseUrl, branch);
+            var openZipStream = await GitHubMixin.GetBranchZippedStream(repoBaseUrl, branch, progressObserver);
             using (var stream = openZipStream)
             {
-                await extractor.ExtractFirstChildToFolder(stream, folderPath);
+                await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
             }
         }
     }

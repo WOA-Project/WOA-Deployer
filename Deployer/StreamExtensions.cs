@@ -7,8 +7,8 @@ namespace Deployer
 {
     public static class StreamExtensions
     {
-        public static async Task CopyToAsync(this Stream source, Stream destination, int bufferSize,
-            long contentLengthValue, IObserver<double> observer = null,
+        public static async Task CopyTo(this Stream source, Stream destination, int bufferSize,
+            long contentLengthValue, IObserver<double> progressObserver = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             if (source == null)
@@ -25,12 +25,13 @@ namespace Deployer
             var buffer = new byte[bufferSize];
             long totalBytesRead = 0;
             int bytesRead;
+
             while ((bytesRead = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false)) != 0)
             {
                 await destination.WriteAsync(buffer, 0, bytesRead, cancellationToken).ConfigureAwait(false);
                 totalBytesRead += bytesRead;
                 var downloadedProportion = (double)totalBytesRead / contentLengthValue;
-                observer?.OnNext(downloadedProportion);
+                progressObserver?.OnNext(downloadedProportion);
             }
         }
     }

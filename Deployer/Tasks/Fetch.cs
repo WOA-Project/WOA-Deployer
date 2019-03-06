@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Deployer.Execution;
 
@@ -14,7 +13,8 @@ namespace Deployer.Tasks
         private readonly IFileSystemOperations fileSystemOperations;
         private readonly IObserver<double> progressObserver;
 
-        public Fetch(string url, string destination, IZipExtractor extractor, IFileSystemOperations fileSystemOperations, IObserver<double> progressObserver)
+        public Fetch(string url, string destination, IZipExtractor extractor,
+            IFileSystemOperations fileSystemOperations, IObserver<double> progressObserver)
         {
             this.url = url;
             this.destination = destination;
@@ -25,13 +25,12 @@ namespace Deployer.Tasks
 
         public async Task Execute()
         {
-
             if (fileSystemOperations.DirectoryExists(destination))
             {
                 return;
             }
 
-            var stream = await HttpClientExtensions.Download(url, progressObserver);
+            var stream = await Http.GetStream(url, progressObserver);
             await extractor.ExtractToFolder(stream, destination);
         }
     }

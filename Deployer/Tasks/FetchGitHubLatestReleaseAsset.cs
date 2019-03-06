@@ -41,9 +41,9 @@ namespace Deployer.Tasks
             var repoInf = GitHubMixin.GetRepoInfo(repoUrl);
             var latest = await gitHubClient.Repository.Release.GetLatest(repoInf.Owner, repoInf.Repository);
             var asset = latest.Assets.First(x => string.Equals(x.Name, assetName, StringComparison.OrdinalIgnoreCase));
-            using (var stream = await HttpClientExtensions.Download(asset.BrowserDownloadUrl, progressObserver))
+            using (var stream = await Http.GetStream(asset.BrowserDownloadUrl, progressObserver))
             {
-                await extractor.ExtractFirstChildToFolder(stream, folderPath);
+                await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
             }
         }
     }

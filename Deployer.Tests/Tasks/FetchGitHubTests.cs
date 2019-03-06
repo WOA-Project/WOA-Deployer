@@ -9,7 +9,7 @@ namespace Deployer.Tests.Tasks
         [Fact(Skip = "Long running")]
         public async Task Test()
         {
-            var task = new FetchGitHub("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers", new ZipExtractor(new FileSystemOperations()));
+            var task = new FetchGitHub("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers", new ZipExtractor(new FileSystemOperations()), null);
             await task.Execute();
         }
     }    

@@ -12,11 +12,12 @@ namespace Deployer.Tests.Tasks
         {
             var extractor = new ZipExtractor(new FileSystemOperations());
 
-            var subject = new Subject<double>();
-            using (var stream = await GitHubMixin.OpenBranchStream("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git", "master", subject))
+            using (var stream =
+                await GitHubMixin.GetBranchZippedStream("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git",
+                    "master", null))
             {
                 await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", @"Downloaded\Drivers");
-            }            
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Deployer.Execution;
 using Serilog;
@@ -13,14 +14,17 @@ namespace Deployer.Tasks
         private readonly string destination;
         private readonly IZipExtractor zipExtractor;
         private readonly IFileSystemOperations fileSystemOperations;
+        private readonly IObserver<double> progressObserver;
 
-        public FetchGitHubFolder(string url, string relativePath, string destination, IZipExtractor zipExtractor, IFileSystemOperations fileSystemOperations)
+        public FetchGitHubFolder(string url, string relativePath, string destination, IZipExtractor zipExtractor,
+            IFileSystemOperations fileSystemOperations, IObserver<double> progressObserver)
         {
             this.url = url;
             this.relativePath = relativePath;
             this.destination = destination;
             this.zipExtractor = zipExtractor;
             this.fileSystemOperations = fileSystemOperations;
+            this.progressObserver = progressObserver;
         }
 
         public async Task Execute()
@@ -31,7 +35,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            using (var stream = await GitHubMixin.OpenBranchStream(url, "master"))
+            using (var stream = await GitHubMixin.GetBranchZippedStream(url, progressObserver: progressObserver))
             {
                 await zipExtractor.ExtractRelativeFolder(stream, relativePath, destination);
             }
