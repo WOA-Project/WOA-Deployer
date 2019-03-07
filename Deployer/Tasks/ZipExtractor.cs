@@ -51,6 +51,17 @@ namespace Deployer.Tasks
                 }, progressObserver: progressObserver);
         }
 
+        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getRelative, string destination, IObserver<double> progressObserver = null)
+        {
+            await ExtractCore(stream, destination,
+                zipArchive =>
+                {
+                    var baseEntry = RootPath(getRelative(zipArchive.Entries).Key);
+                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
+                    return contents;
+                }, progressObserver: progressObserver);
+        }
+
         private async Task ExtractCore(Stream stream, string destination,
             Func<ZipArchive, IEnumerable<ZipArchiveEntry>> selectEntries,
             Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> baseEntry = null, IObserver<double> progressObserver = null)
