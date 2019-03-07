@@ -7,10 +7,10 @@ namespace Deployer.Tasks
     public class DeployWindows : IDeploymentTask
     {
         private readonly IDeviceProvider deviceProvider;
-        private readonly IDisklayoutPreparer preparer;
+        private readonly IDiskLayoutPreparer preparer;
         private readonly IWindowsDeployer windowsDeployer;
 
-        public DeployWindows(IDeviceProvider deviceProvider, IDisklayoutPreparer preparer, IWindowsDeployer windowsDeployer)
+        public DeployWindows(IDeviceProvider deviceProvider, IDiskLayoutPreparer preparer, IWindowsDeployer windowsDeployer)
         {
             this.deviceProvider = deviceProvider;
             this.preparer = preparer;

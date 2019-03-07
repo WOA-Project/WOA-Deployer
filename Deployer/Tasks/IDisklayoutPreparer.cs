@@ -3,7 +3,7 @@ using Deployer.FileSystem;
 
 namespace Deployer.Tasks
 {
-    public interface IDisklayoutPreparer
+    public interface IDiskLayoutPreparer
     {
         Task Prepare(Disk disk);
     }
