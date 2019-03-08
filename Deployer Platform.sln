@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx.Tests", "Dep
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tester", "Tester\Tester.csproj", "{1ABD25AC-52BD-4023-81EA-8D7D20701730}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "..\..\..\Deployer Platform\Deployer.Gui\Deployer.Gui.csproj", "{AD8EA86C-AF60-4CCF-9CAA-07BBF5E039EC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "Deployer.Gui\Deployer.Gui.csproj", "{AD8EA86C-AF60-4CCF-9CAA-07BBF5E039EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
