@@ -45,21 +45,21 @@ namespace Deployer.Tasks
             await ExtractCore(stream, destination,
                 zipArchive =>
                 {
-                    var baseEntry = RootPath(relativeZipPath);
+                    var baseEntry = relativeZipPath;
                     var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
                     return contents;
                 }, progressObserver: progressObserver);
         }
 
-        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getRelative, string destination, IObserver<double> progressObserver = null)
+        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IObserver<double> progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
                 {
-                    var baseEntry = RootPath(getRelative(zipArchive.Entries).Key);
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
+                    var baseEntry = getSourceFolder(zipArchive.Entries);
+                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry.Key) && !x.IsDirectory);
                     return contents;
-                }, progressObserver: progressObserver);
+                }, getSourceFolder, progressObserver);
         }
 
         private async Task ExtractCore(Stream stream, string destination,
@@ -103,12 +103,6 @@ namespace Deployer.Tasks
         private ZipArchiveEntry FirstChild(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
         {
             return zipArchiveEntries.First(x => x.IsDirectory);
-        }
-
-        private static string RootPath(string relativeZipPath)
-        {
-            relativeZipPath = relativeZipPath.Replace('\\', '/');
-            return relativeZipPath.EndsWith("//") ? relativeZipPath : relativeZipPath + "/";
-        }
+        }        
     }
 }
