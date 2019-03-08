@@ -68,5 +68,32 @@ namespace Deployer.Gui.Common {
                 return ResourceManager.GetString("ErrorTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid WIM file.
+        /// </summary>
+        internal static string InvalidWimFile {
+            get {
+                return ResourceManager.GetString("InvalidWimFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The selected .WIM file doesn&apos;t contain any image for ARM64. Please, select a .wim file that targets this architecture..
+        /// </summary>
+        internal static string WimFileNoValidArchitecture {
+            get {
+                return ResourceManager.GetString("WimFileNoValidArchitecture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows Images.
+        /// </summary>
+        internal static string WimFilesFilter {
+            get {
+                return ResourceManager.GetString("WimFilesFilter", resourceCulture);
+            }
+        }
     }
 }

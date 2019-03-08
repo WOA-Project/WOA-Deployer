@@ -101,4 +101,13 @@
   <data name="ErrorTitle" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="InvalidWimFile" xml:space="preserve">
+    <value>Invalid WIM file</value>
+  </data>
+  <data name="WimFilesFilter" xml:space="preserve">
+    <value>Windows Images</value>
+  </data>
+  <data name="WimFileNoValidArchitecture" xml:space="preserve">
+    <value>The selected .WIM file doesn't contain any image for ARM64. Please, select a .wim file that targets this architecture.</value>
+  </data>
 </root>
