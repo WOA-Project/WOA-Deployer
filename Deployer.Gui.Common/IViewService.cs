@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public interface IViewService
     {

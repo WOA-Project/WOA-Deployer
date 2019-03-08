@@ -10,7 +10,7 @@ using Deployer.Services.Wim;
 using ReactiveUI;
 using Serilog;
 
-namespace Deployer.Gui.Common.ViewModels
+namespace Deployer.Gui.ViewModels
 {
     public class WimPickViewModel : ReactiveObject
     {

@@ -67,6 +67,7 @@
     <Compile Include="Services\DialogResult.cs" />
     <Compile Include="Services\Dialog.cs" />
     <Compile Include="Services\FilePicker.cs" />
+    <Compile Include="Services\ViewService.cs" />
     <Compile Include="UIServices.cs" />
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="ViewModels\RenderedLogEvent.cs" />

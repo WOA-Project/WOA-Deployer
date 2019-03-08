@@ -6,7 +6,7 @@ using DynamicData;
 using ReactiveUI;
 using Serilog.Events;
 
-namespace Deployer.Gui.Common.ViewModels
+namespace Deployer.Gui.ViewModels
 {
     public class StatusViewModel : ReactiveObject, IDisposable
     {

@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public class BusyButton : ContentControl
     {
