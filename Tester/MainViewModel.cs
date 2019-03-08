@@ -2,7 +2,7 @@
 using System.Reactive;
 using System.Windows;
 using Deployer;
-using Deployer.Gui.Common.Services;
+using Deployer.Gui.Services;
 using ReactiveUI;
 
 namespace Tester

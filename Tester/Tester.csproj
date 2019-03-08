@@ -105,6 +105,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deployer.Gui\Deployer.Gui.csproj">
+      <Project>{AD8EA86C-AF60-4CCF-9CAA-07BBF5E039EC}</Project>
+      <Name>Deployer.Gui</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer\Deployer.csproj">
       <Project>{20D40DC1-0237-47A0-B169-B420159E341C}</Project>
       <Name>Deployer</Name>
