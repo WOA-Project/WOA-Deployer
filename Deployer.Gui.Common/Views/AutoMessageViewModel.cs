@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using ReactiveUI;
 
-namespace Deployer.Gui.Common.Views
+namespace Deployer.Gui.Views
 {
     public class AutoMessageViewModel : ReactiveObject, IDisposable
     {

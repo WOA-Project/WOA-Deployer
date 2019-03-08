@@ -1,4 +1,4 @@
-﻿namespace Deployer.Gui.Common.Views
+﻿namespace Deployer.Gui.Views
 {
     public interface ICloseable
     {

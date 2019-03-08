@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Deployer.Gui.Common.Services;
-using Deployer.Gui.Common.Views;
+using Deployer.Gui.Services;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public interface IDialog
     {

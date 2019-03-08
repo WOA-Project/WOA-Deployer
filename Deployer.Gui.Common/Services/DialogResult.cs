@@ -1,4 +1,4 @@
-﻿namespace Deployer.Gui.Common.Services
+﻿namespace Deployer.Gui.Services
 {
     public enum DialogResult
     {

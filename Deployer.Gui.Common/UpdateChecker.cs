@@ -5,7 +5,7 @@ using AutoUpdaterDotNET;
 using HtmlAgilityPack;
 using Serilog;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public static class UpdateChecker
     {

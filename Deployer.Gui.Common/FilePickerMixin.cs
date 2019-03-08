@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Serilog;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public static class FilePickerMixin
     {

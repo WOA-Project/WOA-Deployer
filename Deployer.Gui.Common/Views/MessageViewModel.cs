@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Deployer.Gui.Common.Views
+namespace Deployer.Gui.Views
 {
     public class MessageViewModel
     {

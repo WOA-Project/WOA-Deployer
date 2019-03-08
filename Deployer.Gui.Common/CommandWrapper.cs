@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using Serilog;
 
-namespace Deployer.Gui.Common
+namespace Deployer.Gui
 {
     public class CommandWrapper<T1, T2> : ReactiveObject
     {

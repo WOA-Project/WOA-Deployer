@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Deployer.Gui.Common.Views;
+using Deployer.Gui.Views;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace Deployer.Gui.Common.Services
+namespace Deployer.Gui.Services
 {
     public class Dialog : IDialog, IMarkdownDialog
     {
