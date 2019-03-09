@@ -2,7 +2,7 @@
 
 namespace Deployer.Gui
 {
-    public interface IFilePicker
+    public interface IOpenFilePicker
     {
         string InitialDirectory { get; set; }
         List<FileTypeFilter> FileTypeFilter { get; }

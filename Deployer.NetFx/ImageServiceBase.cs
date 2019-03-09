@@ -15,10 +15,17 @@ namespace Deployer.NetFx
 {
     public abstract class ImageServiceBase : IWindowsImageService
     {
+        private readonly IFileSystemOperations fileSystemOperations;
+
+        protected ImageServiceBase(IFileSystemOperations fileSystemOperations)
+        {
+            this.fileSystemOperations = fileSystemOperations;
+        }
+
         public abstract Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false, 
             IObserver<double> progressObserver = null);
 
-        protected static void EnsureValidParameters(Volume volume, string imagePath, int imageIndex)
+        protected void EnsureValidParameters(Volume volume, string imagePath, int imageIndex)
         {
             if (volume == null)
             {
@@ -40,11 +47,11 @@ namespace Deployer.NetFx
             EnsureValidImage(imagePath, imageIndex);
         }
 
-        private static void EnsureValidImage(string imagePath, int imageIndex)
+        private void EnsureValidImage(string imagePath, int imageIndex)
         {
             Log.Verbose("Checking image at {Path}, with index {Index}", imagePath, imagePath);
 
-            if (!File.Exists(imagePath))
+            if (!fileSystemOperations.FileExists(imagePath))
             {
                 throw new FileNotFoundException($"Image not found: {imagePath}. Please, verify that the file exists and it's accessible.");
             }
@@ -89,5 +96,7 @@ namespace Deployer.NetFx
                     $"There has been a problem during removal: DISM exited with code {resultCode}.");
             }
         }
+
+        public abstract Task CaptureImage(Volume windowsVolume, string destination, IObserver<double> progressObserver = null);
     }
 }

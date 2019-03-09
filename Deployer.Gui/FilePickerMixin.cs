@@ -8,16 +8,16 @@ namespace Deployer.Gui
 {
     public static class FilePickerMixin
     {
-        public static string Pick(this IFilePicker openFileService, IEnumerable<(string, IEnumerable<string>)> extensions, Func<string> getCurrentFolder, Action<string> setCurrentFolder)
+        public static string Pick(this IOpenFilePicker openOpenFileService, IEnumerable<(string, IEnumerable<string>)> extensions, Func<string> getCurrentFolder, Action<string> setCurrentFolder)
         {
             var fileTypeFilters = extensions.Select(tuple => new FileTypeFilter(tuple.Item1, tuple.Item2.ToArray()));
 
-            openFileService.FileTypeFilter.Clear();
-            openFileService.FileTypeFilter.AddRange(fileTypeFilters);
+            openOpenFileService.FileTypeFilter.Clear();
+            openOpenFileService.FileTypeFilter.AddRange(fileTypeFilters);
 
-            openFileService.InitialDirectory = getCurrentFolder();
+            openOpenFileService.InitialDirectory = getCurrentFolder();
 
-            var selected = openFileService.PickFile();
+            var selected = openOpenFileService.PickFile();
 
             if (selected != null)
             {

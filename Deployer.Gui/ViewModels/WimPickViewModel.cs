@@ -62,7 +62,7 @@ namespace Deployer.Gui.ViewModels
                     }),
                 };
 
-                var value = uiServices.FilePicker.Pick(filters, () => settingsService.WimFolder, x =>
+                var value = uiServices.OpenFilePicker.Pick(filters, () => settingsService.WimFolder, x =>
                 {
                     settingsService.WimFolder = x;
                     settingsService.Save();

@@ -29,6 +29,11 @@ namespace Deployer.Execution.Testing
             return Directory.Exists(path);
         }
 
+        public bool FileExists(string path)
+        {
+            return File.Exists(path);
+        }
+
         public void CreateDirectory(string path)
         {
         }

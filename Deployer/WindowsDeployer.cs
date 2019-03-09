@@ -8,36 +8,29 @@ namespace Deployer
 {
     public class WindowsDeployer : IWindowsDeployer
     {
-        private readonly IWindowsOptionsProvider optionsProvider;
-        private readonly IDeviceProvider deviceProvider;
         private readonly IWindowsImageService imageService;
         private readonly IBootCreator bootCreator;
-        private readonly IObserver<double> progressObserver;
-        private IDevice device;
 
-        public WindowsDeployer(IWindowsOptionsProvider optionsProvider, IDeviceProvider deviceProvider, IWindowsImageService imageService, IBootCreator bootCreator, IObserver<double> progressObserver)
+        public WindowsDeployer(IWindowsImageService imageService, IBootCreator bootCreator)
         {
-            this.optionsProvider = optionsProvider;
-            this.deviceProvider = deviceProvider;
             this.imageService = imageService;
             this.bootCreator = bootCreator;
-            this.progressObserver = progressObserver;            
         }
 
-        public async Task Deploy()
+        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IObserver<double> progressObserver)
         {
-            Log.Information("Preparing for Windows deployment");
-            device = deviceProvider.Device;
-
-            var options = optionsProvider.Options;
-            var windowsVolume = await device.GetWindowsVolume();
-
             Log.Information("Deploying Windows...");
-            await imageService.ApplyImage(windowsVolume, options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
-            await MakeBootable();
+            await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
+            await MakeBootable(device);
         }
 
-        private async Task MakeBootable()
+        public Task Backup(Volume windowsVolume, string destination, IObserver<double> progressObserver)
+        {
+            Log.Information("Capturing Windows backup...");
+            return imageService.CaptureImage(windowsVolume, destination, progressObserver);
+        }
+
+        private async Task MakeBootable(IDevice device)
         {
             Log.Verbose("Making Windows installation bootable...");
 
@@ -56,7 +49,7 @@ namespace Deployer
                 {
                     Log.Warning("The system partition should be {Esp}, but it's {ActualType}", PartitionType.Esp, updatedBootVolume.Partition.PartitionType);
                 }
-            }            
+            }
         }
     }
 }

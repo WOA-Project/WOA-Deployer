@@ -2,14 +2,16 @@ namespace Deployer.Gui
 {
     public class UIServices
     {
-        public UIServices(IFilePicker filePicker, IViewService viewService, IDialog dialog)
+        public UIServices(IOpenFilePicker openFilePicker, ISaveFilePicker saveFilePicker, IViewService viewService, IDialog dialog)
         {
-            FilePicker = filePicker;
+            OpenFilePicker = openFilePicker;
+            SaveFilePicker = saveFilePicker;
             ViewService = viewService;
             Dialog = dialog;
         }
 
-        public IFilePicker FilePicker { get; }
+        public IOpenFilePicker OpenFilePicker { get; }
+        public ISaveFilePicker SaveFilePicker { get; }
         public IViewService ViewService { get; }
         public IDialog Dialog { get; }
     }

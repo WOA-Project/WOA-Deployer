@@ -56,7 +56,8 @@
     <Compile Include="IBusyObject.cs" />
     <Compile Include="IconButton.cs" />
     <Compile Include="IDialog.cs" />
-    <Compile Include="IFilePicker.cs" />
+    <Compile Include="IOpenFilePicker.cs" />
+    <Compile Include="ISaveFilePicker.cs" />
     <Compile Include="ISettingsService.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="Resources.Designer.cs">
@@ -66,7 +67,8 @@
     </Compile>
     <Compile Include="Services\DialogResult.cs" />
     <Compile Include="Services\Dialog.cs" />
-    <Compile Include="Services\FilePicker.cs" />
+    <Compile Include="Services\OpenFilePicker.cs" />
+    <Compile Include="Services\SaveFilePicker.cs" />
     <Compile Include="Services\ViewService.cs" />
     <Compile Include="UIServices.cs" />
     <Compile Include="UpdateChecker.cs" />

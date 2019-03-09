@@ -27,5 +27,12 @@ namespace Deployer.Execution.Testing
             
             return Task.CompletedTask;
         }
+
+        public Task CaptureImage(Volume windowsVolume, string destination, IObserver<double> progressObserver = null)
+        {
+            Log.Verbose("Capturing image");
+
+            return Task.CompletedTask;
+        }
     }
 }

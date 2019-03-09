@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Deployer.Execution;
 
 namespace Deployer.Tasks
@@ -8,19 +9,21 @@ namespace Deployer.Tasks
     {
         private readonly IDeviceProvider deviceProvider;
         private readonly IDiskLayoutPreparer preparer;
-        private readonly IWindowsDeployer windowsDeployer;
+        private readonly IProviderBasedWindowsDeployer providerBasedWindowsDeployer;
+        private readonly IObserver<double> progressObserver;
 
-        public DeployWindows(IDeviceProvider deviceProvider, IDiskLayoutPreparer preparer, IWindowsDeployer windowsDeployer)
+        public DeployWindows(IDeviceProvider deviceProvider, IDiskLayoutPreparer preparer, IProviderBasedWindowsDeployer providerBasedWindowsDeployer, IObserver<double> progressObserver)
         {
             this.deviceProvider = deviceProvider;
             this.preparer = preparer;
-            this.windowsDeployer = windowsDeployer;
+            this.providerBasedWindowsDeployer = providerBasedWindowsDeployer;
+            this.progressObserver = progressObserver;
         }
 
         public async Task Execute()
         {
             await preparer.Prepare(await deviceProvider.Device.GetDeviceDisk());
-            await windowsDeployer.Deploy();
+            await providerBasedWindowsDeployer.Deploy(progressObserver);
         }
     }
 }

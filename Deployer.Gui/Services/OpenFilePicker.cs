@@ -6,7 +6,7 @@ using Microsoft.Win32;
 
 namespace Deployer.Gui.Services
 {
-    public class FilePicker : IFilePicker
+    public class OpenFilePicker : IOpenFilePicker
     {
         public string InitialDirectory { get; set; }
         public List<FileTypeFilter> FileTypeFilter { get; } = new List<FileTypeFilter>();
@@ -32,9 +32,9 @@ namespace Deployer.Gui.Services
             if (dialog.ShowDialog(Application.Current.MainWindow) == true)
             {
                 return dialog.FileName;
-            };
+            }
 
             return null;
-        }
+        }       
     }
 }
