@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
+using ByteSizeLib;
 using DynamicData;
 using ReactiveUI;
 using Serilog.Events;
@@ -13,6 +14,7 @@ namespace Deployer.Gui.ViewModels
     public class StatusViewModel : ReactiveObject, IDisposable
     {
         private readonly IFileSystemOperations fileSystemOperations;
+        private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
         private ObservableAsPropertyHelper<RenderedLogEvent> statusHelper;
@@ -20,20 +22,25 @@ namespace Deployer.Gui.ViewModels
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
 
-        public StatusViewModel(IFileSystemOperations fileSystemOperations, IObservable<LogEvent> events, IObservable<double> progressSubject)
+        public StatusViewModel(IFileSystemOperations fileSystemOperations, IObservable<LogEvent> events, IDownloadProgress progress)
         {
             this.fileSystemOperations = fileSystemOperations;
-            progressHelper = progressSubject
+            progressHelper = progress.Percentage
                 .Where(d => !double.IsNaN(d))
                 .ToProperty(this, model => model.Progress);
 
-            isProgressVisibleHelper = progressSubject
+            isProgressVisibleHelper = progress.Percentage
                 .Select(d => !double.IsNaN(d))
                 .ToProperty(this, x => x.IsProgressVisible);
 
-            isProgressIndeterminate = progressSubject
+            isProgressIndeterminate = progress.Percentage
                 .Select(double.IsPositiveInfinity)
                 .ToProperty(this, x => x.IsProgressIndeterminate);
+
+            downloaded = progress.BytesDownloaded
+                .Select(x => ByteSize.FromBytes(x))
+                .Sample(TimeSpan.FromSeconds(1))
+                .ToProperty(this, model =>model.Downloaded);
 
             SetupLogging(events);
 
@@ -82,6 +89,11 @@ namespace Deployer.Gui.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> OpenLogFolder { get; }
+
+        public ByteSize Downloaded => downloaded.Value;
+        
+            
+
         private static RenderedLogEvent RenderedLogEvent(LogEvent x)
         {
             return new RenderedLogEvent

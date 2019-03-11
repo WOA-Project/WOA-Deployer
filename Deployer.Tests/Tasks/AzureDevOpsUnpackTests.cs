@@ -13,7 +13,7 @@ namespace Deployer.Tests.Tasks
         {
             var zipExtractor = new ZipExtractor(new FileSystemOperations());
             var azureDevOpsClient = AzureDevOpsClient.Create(new Uri("https://dev.azure.com"));
-            var task = new FechAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, null);
+            var task = new FechAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, null, null);
             await task.Execute();
         }
     }

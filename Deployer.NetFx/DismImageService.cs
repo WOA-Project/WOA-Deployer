@@ -21,7 +21,7 @@ namespace Deployer.NetFx
         }
 
         public override Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
-            IObserver<double> progressObserver = null)
+            IDownloadProgress progressObserver = null)
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
@@ -34,7 +34,7 @@ namespace Deployer.NetFx
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IObserver<double> progressObserver = null)
+            IDownloadProgress progressObserver = null)
         {
             var capturePath = windowsVolume?.RootDir?.FullName;
 
@@ -45,7 +45,7 @@ namespace Deployer.NetFx
             return Run(args, progressObserver);
         }
 
-        private async Task Run(string args, IObserver<double> progressObserver)
+        private async Task Run(string args, IDownloadProgress progressObserver)
         {
             var dismName = WindowsCommandLineUtils.Dism;
             ISubject<string> outputSubject = new Subject<string>();
@@ -54,12 +54,12 @@ namespace Deployer.NetFx
                 stdOutputSubscription = outputSubject
                     .Select(GetPercentage)
                     .Where(d => !double.IsNaN(d))
-                    .Subscribe(progressObserver);
+                    .Subscribe(progressObserver.Percentage);
 
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
             var resultCode = await ProcessUtils.RunProcessAsync(dismName, args, outputSubject);
 
-            progressObserver?.OnNext(double.NaN);
+            progressObserver?.Percentage.OnNext(double.NaN);
 
             if (resultCode != 0)
                 throw new DeploymentException(

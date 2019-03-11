@@ -17,14 +17,14 @@ namespace Deployer
             this.bootCreator = bootCreator;
         }
 
-        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IObserver<double> progressObserver)
+        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver)
         {
             Log.Information("Deploying Windows...");
             await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
             await MakeBootable(device);
         }
 
-        public Task Backup(Volume windowsVolume, string destination, IObserver<double> progressObserver)
+        public Task Backup(Volume windowsVolume, string destination, IDownloadProgress progressObserver)
         {
             Log.Information("Capturing Windows backup...");
             return imageService.CaptureImage(windowsVolume, destination, progressObserver);

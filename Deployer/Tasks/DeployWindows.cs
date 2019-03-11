@@ -10,9 +10,9 @@ namespace Deployer.Tasks
         private readonly IDeviceProvider deviceProvider;
         private readonly IDiskLayoutPreparer preparer;
         private readonly IProviderBasedWindowsDeployer providerBasedWindowsDeployer;
-        private readonly IObserver<double> progressObserver;
+        private readonly IDownloadProgress progressObserver;
 
-        public DeployWindows(IDeviceProvider deviceProvider, IDiskLayoutPreparer preparer, IProviderBasedWindowsDeployer providerBasedWindowsDeployer, IObserver<double> progressObserver)
+        public DeployWindows(IDeviceProvider deviceProvider, IDiskLayoutPreparer preparer, IProviderBasedWindowsDeployer providerBasedWindowsDeployer, IDownloadProgress progressObserver)
         {
             this.deviceProvider = deviceProvider;
             this.preparer = preparer;

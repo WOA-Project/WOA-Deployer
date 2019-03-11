@@ -11,15 +11,17 @@ namespace Deployer.Tasks
         private readonly string destination;
         private readonly IZipExtractor extractor;
         private readonly IFileSystemOperations fileSystemOperations;
-        private readonly IObserver<double> progressObserver;
+        private readonly IDownloader downloader;
+        private readonly IDownloadProgress progressObserver;
 
         public Fetch(string url, string destination, IZipExtractor extractor,
-            IFileSystemOperations fileSystemOperations, IObserver<double> progressObserver)
+            IFileSystemOperations fileSystemOperations, IDownloader downloader, IDownloadProgress progressObserver)
         {
             this.url = url;
             this.destination = destination;
             this.extractor = extractor;
             this.fileSystemOperations = fileSystemOperations;
+            this.downloader = downloader;
             this.progressObserver = progressObserver;
         }
 
@@ -30,7 +32,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            var stream = await Http.GetStream(url, progressObserver);
+            var stream = await downloader.GetStream(url, progressObserver);
             await extractor.ExtractToFolder(stream, destination);
         }
     }

@@ -17,7 +17,7 @@ namespace Deployer
             this.deployer = deployer;
         }
 
-        public async Task Deploy(IObserver<double> progressObserver)
+        public async Task Deploy(IDownloadProgress progressObserver)
         {
             Log.Information("Preparing for Windows deployment...");
             var device = deviceProvider.Device;
@@ -25,7 +25,7 @@ namespace Deployer
             await deployer.Deploy(options, device, progressObserver);
         }
 
-        public async Task Capture(string destination, IObserver<double> progressObserver)
+        public async Task Capture(string destination, IDownloadProgress progressObserver)
         {
             Log.Information("Preparing for Windows backup...");
             var device = deviceProvider.Device;

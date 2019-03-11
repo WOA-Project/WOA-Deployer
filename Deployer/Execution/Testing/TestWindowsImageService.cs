@@ -8,7 +8,7 @@ namespace Deployer.Execution.Testing
 {
     public class TestWindowsImageService : IWindowsImageService
     {
-        public Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false, IObserver<double> progressObserver = null)
+        public Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false, IDownloadProgress progressObserver = null)
         {
             Log.Verbose("Applying Windows Image {Image}{Index} to {Volume}", imagePath, imageIndex, volume.Label);
             return Task.CompletedTask;
@@ -28,7 +28,7 @@ namespace Deployer.Execution.Testing
             return Task.CompletedTask;
         }
 
-        public Task CaptureImage(Volume windowsVolume, string destination, IObserver<double> progressObserver = null)
+        public Task CaptureImage(Volume windowsVolume, string destination, IDownloadProgress progressObserver = null)
         {
             Log.Verbose("Capturing image");
 

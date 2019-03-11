@@ -14,16 +14,18 @@ namespace Deployer.Tasks
         private readonly string destination;
         private readonly IZipExtractor zipExtractor;
         private readonly IFileSystemOperations fileSystemOperations;
-        private readonly IObserver<double> progressObserver;
+        private readonly IDownloader downloader;
+        private readonly IDownloadProgress progressObserver;
 
         public FetchGitHubFolder(string url, string relativePath, string destination, IZipExtractor zipExtractor,
-            IFileSystemOperations fileSystemOperations, IObserver<double> progressObserver)
+            IFileSystemOperations fileSystemOperations, IDownloader downloader, IDownloadProgress progressObserver)
         {
             this.url = url;
             this.relativePath = relativePath;
             this.destination = destination;
             this.zipExtractor = zipExtractor;
             this.fileSystemOperations = fileSystemOperations;
+            this.downloader = downloader;
             this.progressObserver = progressObserver;
         }
 
@@ -35,7 +37,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            using (var stream = await GitHubMixin.GetBranchZippedStream(url, progressObserver: progressObserver))
+            using (var stream = await GitHubMixin.GetBranchZippedStream(downloader, url, progressObserver: progressObserver))
             {
                 await zipExtractor.ExtractRelativeFolder(stream, relativePath, destination);
             }

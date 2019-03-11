@@ -8,9 +8,9 @@ namespace Deployer.Tasks
 {
     public interface IZipExtractor
     {
-        Task ExtractFirstChildToFolder(Stream stream, string destination, IObserver<double> progressObserver = null);
-        Task ExtractToFolder(Stream stream, string folderPath, IObserver<double> progressObserver = null);
-        Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination, IObserver<double> progressObserver = null);
-        Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IObserver<double> progressObserver = null);
+        Task ExtractFirstChildToFolder(Stream stream, string destination, IDownloadProgress progressObserver = null);
+        Task ExtractToFolder(Stream stream, string folderPath, IDownloadProgress progressObserver = null);
+        Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination, IDownloadProgress progressObserver = null);
+        Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IDownloadProgress progressObserver = null);
     }
 }

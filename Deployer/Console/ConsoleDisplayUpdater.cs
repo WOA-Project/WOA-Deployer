@@ -7,9 +7,9 @@ namespace Deployer.Console
     {
         private readonly IDisposable progressUpdater;
 
-        public ConsoleDisplayUpdater(IObservable<double> progress)
+        public ConsoleDisplayUpdater(DownloadProgress progress)
         {
-            progressUpdater = progress.Subscribe(DisplayProgress);
+            progressUpdater = progress.Percentage.Subscribe(DisplayProgress);
         }
 
         public int Width { get; set; } = 50;

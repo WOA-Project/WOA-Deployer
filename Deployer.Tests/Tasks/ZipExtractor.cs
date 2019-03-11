@@ -1,4 +1,5 @@
-﻿using System.Reactive.Subjects;
+﻿using System.Net.Http;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Deployer.Tasks;
 using Xunit;
@@ -11,10 +12,10 @@ namespace Deployer.Tests.Tasks
         public async Task RelativeExtract()
         {
             var extractor = new ZipExtractor(new FileSystemOperations());
+            var downloader = new Downloader(new HttpClient());
 
             using (var stream =
-                await GitHubMixin.GetBranchZippedStream("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git",
-                    "master", null))
+                await GitHubMixin.GetBranchZippedStream(downloader, "https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git"))
             {
                 await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", @"Downloaded\Drivers");
             }

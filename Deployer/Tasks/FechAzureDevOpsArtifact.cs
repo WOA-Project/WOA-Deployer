@@ -17,17 +17,19 @@ namespace Deployer.Tasks
         private string artifactName;
         private readonly IAzureDevOpsBuildClient buildClient;
         private readonly IZipExtractor extractor;
-        private readonly IObserver<double> progressObserver;
+        private readonly IDownloader downloader;
+        private readonly IDownloadProgress progressObserver;
         private string folderPath;
 
         private const string SubFolder = "Downloaded";
 
-        public FechAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IObserver<double> progressObserver)
+        public FechAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IDownloader downloader, IDownloadProgress progressObserver)
         {
             ParseDescriptor(descriptor);
 
             this.buildClient = buildClient;
             this.extractor = extractor;
+            this.downloader = downloader;
             this.progressObserver = progressObserver;
         }
 
@@ -52,7 +54,7 @@ namespace Deployer.Tasks
 
             var artifact = await buildClient.LatestBuildArtifact(org, project, definitionId, artifactName);
 
-            var stream = await Http.GetStream(artifact.Resource.DownloadUrl, progressObserver);
+            var stream = await downloader.GetStream(artifact.Resource.DownloadUrl, progressObserver);
             await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
         }
     }

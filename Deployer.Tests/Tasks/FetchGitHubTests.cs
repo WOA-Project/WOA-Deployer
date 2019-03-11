@@ -14,7 +14,7 @@ namespace Deployer.Tests.Tasks
                 "Reference");
 
             var task = new FetchGitHubBranch("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers",
-                "experimental_keep_out", new ZipExtractor(new FileSystemOperations()), null);
+                "experimental_keep_out", new ZipExtractor(new FileSystemOperations()), null, null);
             await task.Execute();
 
             FileAssertions.AssertEqual("Reference\\MSM8994-8992-NT-ARM64-Drivers-experimental_keep_out",

@@ -15,7 +15,7 @@ namespace Deployer.Tests.Tasks
             var zipExtractor = new ZipExtractor(new FileSystemOperations());
             var task = new FetchGitHubLatestReleaseAsset("https://github.com/WOA-Project/Lumia950XLPkg",
                 "MSM8994.UEFI.Lumia.950.XL.zip", zipExtractor, new GitHubClient(new ProductHeaderValue("WOADeployer")),
-                null);
+                null, null);
 
             await task.Execute();
 

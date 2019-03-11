@@ -22,8 +22,8 @@ namespace Deployer.NetFx
             this.fileSystemOperations = fileSystemOperations;
         }
 
-        public abstract Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false, 
-            IObserver<double> progressObserver = null);
+        public abstract Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
+            IDownloadProgress progressObserver = null);
 
         protected void EnsureValidParameters(Volume volume, string imagePath, int imageIndex)
         {
@@ -97,6 +97,6 @@ namespace Deployer.NetFx
             }
         }
 
-        public abstract Task CaptureImage(Volume windowsVolume, string destination, IObserver<double> progressObserver = null);
+        public abstract Task CaptureImage(Volume windowsVolume, string destination, IDownloadProgress progressObserver = null);
     }
 }

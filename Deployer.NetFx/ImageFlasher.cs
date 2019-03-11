@@ -27,7 +27,7 @@ namespace Deployer.NetFx
             }
         }
 
-        public async Task Flash(Disk disk, string imagePath, IObserver<double> progressObserver = null)
+        public async Task Flash(Disk disk, string imagePath, IDownloadProgress progressObserver = null)
         {
             ISubject<string> outputSubject = new Subject<string>();
             IDisposable stdOutputSubscription = null;
@@ -39,14 +39,14 @@ namespace Deployer.NetFx
                     {
                         if (!isValidating && CultureInfo.CurrentCulture.CompareInfo.IndexOf(s, "validating", 0, CompareOptions.IgnoreCase) != -1)
                         {
-                            progressObserver?.OnNext(double.NaN);
+                            progressObserver?.Percentage.OnNext(double.NaN);
                             Log.Information("Validating flashed image...");                            
                             isValidating = true;
                         }                        
                     })
                     .Select(GetPercentage)
                     .Where(d => !double.IsNaN(d))
-                    .Subscribe(progressObserver);
+                    .Subscribe(progressObserver.Percentage);
             }
             
             var args = $@"-d \\.\PHYSICALDRIVE{disk.Number} ""{imagePath}"" --yes --no-unmount";
@@ -57,7 +57,7 @@ namespace Deployer.NetFx
                 throw new DeploymentException($"There has been a problem during deployment: Etcher exited with code {resultCode}.");
             }
 
-            progressObserver?.OnNext(double.NaN);
+            progressObserver?.Percentage.OnNext(double.NaN);
 
             stdOutputSubscription?.Dispose();
             await disk.LowLevelApi.UpdateStorageCache();

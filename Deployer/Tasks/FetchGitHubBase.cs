@@ -12,17 +12,19 @@ namespace Deployer.Tasks
         private readonly string repoBaseUrl;
         private readonly string branch;
         private readonly IZipExtractor extractor;
-        private readonly IObserver<double> progressObserver;
+        private readonly IDownloader downloader;
+        private readonly IDownloadProgress progressObserver;
         private readonly string repository;
         private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor,
-            IObserver<double> progressObserver)
+        public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor, IDownloader downloader,
+            IDownloadProgress progressObserver)
         {
             this.repoBaseUrl = repoBaseUrl;
             this.branch = branch;
             this.extractor = extractor;
+            this.downloader = downloader;
             this.progressObserver = progressObserver;
             var repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
             repository = repoInfo.Repository;
@@ -39,7 +41,7 @@ namespace Deployer.Tasks
                 return;
             }
 
-            var openZipStream = await GitHubMixin.GetBranchZippedStream(repoBaseUrl, branch, progressObserver);
+            var openZipStream = await GitHubMixin.GetBranchZippedStream(downloader, repoBaseUrl, branch, progressObserver);
             using (var stream = openZipStream)
             {
                 await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
