@@ -1,4 +1,5 @@
 ﻿using Superpower;
+using Superpower.Model;
 using Superpower.Parsers;
 
 namespace Deployer.Execution
@@ -29,9 +30,13 @@ namespace Deployer.Execution
             from args in Arguments.OptionalOrDefault()
             select new Command(name, args ?? new Argument[0]);
         
-        public static TokenListParser<LangToken, Sentence> Sentence => CommandSentence;
+        public static TokenListParser<LangToken, Sentence> Sentence => CommentSentence.Try().Or(CommandSentence);
+
+        private static TokenListParser<LangToken, Sentence> CommentSentence => 
+            from c in Token.EqualTo(LangToken.Comment)
+            select (Sentence)new Comment(c.ToStringValue().Substring(1).Trim());
         
-        private static TokenListParser<LangToken, Sentence> CommandSentence => Command.Select(x => new Sentence(x));
+        private static TokenListParser<LangToken, Sentence> CommandSentence => Command.Select(x => (Sentence)new CommandSentence(x));
 
         public static TokenListParser<LangToken, Script> Script =>
             from cmds in Sentence.ManyDelimitedBy(Token.EqualTo(LangToken.NewLine))

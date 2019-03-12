@@ -10,6 +10,7 @@ namespace Deployer.Execution
         public static Tokenizer<LangToken> Create()
         {
             return new TokenizerBuilder<LangToken>()
+                .Match(Comment, LangToken.Comment)
                 .Match(Span.Regex(@"(?:\r\n|\n)+"), LangToken.NewLine)
                 .Match(Span.Regex(@"\s+"), LangToken.Space)
                 .Match(Numerics.Integer, LangToken.Number)
@@ -24,6 +25,11 @@ namespace Deployer.Execution
             from leading in Span.EqualToIgnoreCase("\"")
             from str in Span.Regex(@"(?:(?!\"").)*").OptionalOrDefault()
             from trailing in Span.EqualToIgnoreCase("\"")
+            select str;
+
+        public static readonly TextParser<TextSpan> Comment =
+            from leading in Span.EqualToIgnoreCase("#")
+            from str in Span.Regex(@"(?:(?!#).)*").OptionalOrDefault()
             select str;
     }    
 }

@@ -15,6 +15,8 @@ namespace Deployer.Execution
 
         public Script Parse(string input)
         {
+            input = input.Replace("\r\n", "\n");
+
             var tokenList = tokenizer.Tokenize(input);
             return Parsers.Script.Parse(tokenList);
         }

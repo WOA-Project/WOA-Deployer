@@ -17,7 +17,7 @@ namespace Deployer.Gui.ViewModels
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
-        private ObservableAsPropertyHelper<RenderedLogEvent> statusHelper;
+        private ObservableAsPropertyHelper<string> currentActionDetail;
         private IDisposable logLoader;
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
@@ -63,9 +63,10 @@ namespace Deployer.Gui.ViewModels
 
         public double Progress => progressHelper.Value;
 
-        public RenderedLogEvent Status => statusHelper.Value;
+        public string CurrentActionDetail => currentActionDetail.Value;
 
         private readonly ObservableAsPropertyHelper<double> progressHelper;
+        private ObservableAsPropertyHelper<string> currentActionTitle;
 
         private void SetupLogging(IObservable<LogEvent> events)
         {
@@ -74,9 +75,17 @@ namespace Deployer.Gui.ViewModels
                 .Where(x => x.Level == LogEventLevel.Information)
                 .Publish();
 
-            statusHelper = conn
+            currentActionTitle = conn
                 .Select(RenderedLogEvent)
-                .ToProperty(this, x => x.Status);
+                .Where(x => x.Message.StartsWith("#"))
+                .Select(x => x.Message.Substring(1))
+                .ToProperty(this, x => x.CurrentActionTitle);
+
+            currentActionDetail = conn
+                .Select(RenderedLogEvent)
+                .Where(x => !x.Message.StartsWith("#"))
+                .Select(x => x.Message)
+                .ToProperty(this, x => x.CurrentActionDetail);
 
             logLoader = conn
                 .ToObservableChangeSet()
@@ -88,12 +97,12 @@ namespace Deployer.Gui.ViewModels
             conn.Connect();
         }
 
+        public string CurrentActionTitle => currentActionTitle.Value;
+
         public ReactiveCommand<Unit, Unit> OpenLogFolder { get; }
 
         public ByteSize Downloaded => downloaded.Value;
         
-            
-
         private static RenderedLogEvent RenderedLogEvent(LogEvent x)
         {
             return new RenderedLogEvent
@@ -106,7 +115,7 @@ namespace Deployer.Gui.ViewModels
         public void Dispose()
         {
             isProgressIndeterminate?.Dispose();
-            statusHelper?.Dispose();
+            currentActionDetail?.Dispose();
             logLoader?.Dispose();
             isProgressVisibleHelper?.Dispose();
             progressHelper?.Dispose();

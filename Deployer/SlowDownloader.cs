@@ -10,11 +10,11 @@ using Deployer.Utils;
 
 namespace Deployer
 {
-    public class Downloader : IDownloader
+    public class SlowDownloader : IDownloader
     {
         private readonly HttpClient client;
 
-        public Downloader(HttpClient client)
+        public SlowDownloader(HttpClient client)
         {
             this.client = client;
         }
@@ -58,6 +58,7 @@ namespace Deployer
                 .Timeout(TimeSpan.FromSeconds(timeout))
                 .Select(bytes => Observable.FromAsync(async () =>
                 {
+                    await Task.Delay(TimeSpan.FromMilliseconds(200));
                     await destination.WriteAsync(bytes, 0, bytes.Length);
                     return Unit.Default;
                 }))

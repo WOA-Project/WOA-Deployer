@@ -9,7 +9,7 @@ namespace Deployer.Tests
     public class RunnerTests
     {
         [Fact]
-        public async Task Test()
+        public async Task Simple()
         {
             var testtask = "TestTask";
             
@@ -28,10 +28,10 @@ namespace Deployer.Tests
             testInstanceBuilder.CreatedInstances.Single().Should().BeOfType<ParameterizedTask>();
         }
 
-        private static async Task<TestInstanceBuilder> TestInstanceBuilder(string testtask)
+        private static async Task<TestInstanceBuilder> TestInstanceBuilder(string testTask)
         {
             var parser = new ScriptParser(Tokenizer.Create());
-            var script = parser.Parse(testtask);
+            var script = parser.Parse(testTask);
             var testInstanceBuilder = new TestInstanceBuilder(new NullLocator());
             var runner = new ScriptRunner(typeof(RunnerTests).Assembly.DefinedTypes, testInstanceBuilder, new TestStringBuilder());
             await runner.Run(script);

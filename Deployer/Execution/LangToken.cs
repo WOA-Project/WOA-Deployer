@@ -10,6 +10,7 @@
         Code,
         String,
         Hex,
-        Number
+        Number,
+        Comment
     }
 }

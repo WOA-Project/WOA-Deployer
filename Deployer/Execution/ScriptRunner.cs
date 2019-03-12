@@ -31,17 +31,28 @@ namespace Deployer.Execution
 
         private async Task Run(Sentence sentence)
         {
-            var transformedSentence = await TransformSentence(sentence);
+            switch (sentence)
+            {
+                case CommandSentence commandSentence:
+                {
+                    var transformedSentence = await TransformSentence(commandSentence);
 
-            var instance = BuildInstance(instanceBuilder, transformedSentence);
-            var operationStr = GetOperationStr(transformedSentence.Command.Name, instance.GetType());
-            var commandArguments = transformedSentence.Command.Arguments;
-            Log.Information(string.Format(operationStr, commandArguments.Cast<object>().ToArray()));
+                    var instance = BuildInstance(instanceBuilder, transformedSentence);
+                    var operationStr = GetOperationStr(transformedSentence.Command.Name, instance.GetType());
+                    var commandArguments = transformedSentence.Command.Arguments;
+                    Log.Information(string.Format(operationStr, commandArguments.Cast<object>().ToArray()));
 
-            await instance.Execute();
+                    await instance.Execute();
+                    break;
+                }
+
+                case Comment comment:
+                    Log.Information($"# {comment.Text}");
+                    break;
+            }
         }
 
-        private async Task<Sentence> TransformSentence(Sentence sentence)
+        private async Task<CommandSentence> TransformSentence(CommandSentence sentence)
         {
             var transformed = sentence.Command.Arguments.ToObservable().Select(x => Observable.FromAsync(async () =>
                     {
@@ -56,7 +67,7 @@ namespace Deployer.Execution
                     .Merge(1);
             
             var positionalArguments = await transformed.ToList();
-            return new Sentence(new Command(sentence.Command.Name, positionalArguments));
+            return new CommandSentence(new Command(sentence.Command.Name, positionalArguments));
         }
 
         private static string GetOperationStr(string commandName, Type type)
@@ -71,7 +82,7 @@ namespace Deployer.Execution
             return "Executing " + commandName;
         }
 
-        private IDeploymentTask BuildInstance(IInstanceBuilder builder, Sentence sentence)
+        private IDeploymentTask BuildInstance(IInstanceBuilder builder, CommandSentence sentence)
         {
             try
             {
