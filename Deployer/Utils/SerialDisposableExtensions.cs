@@ -24,9 +24,6 @@ namespace Deployer.Utils
         /// </seealso>
         public static void SetDisposableIndirectly(this SerialDisposable disposable, Func<IDisposable> factory)
         {
-            Contract.Requires(disposable != null);
-            Contract.Requires(factory != null);
-
             var indirection = new SingleAssignmentDisposable();
 
             disposable.Disposable = indirection;

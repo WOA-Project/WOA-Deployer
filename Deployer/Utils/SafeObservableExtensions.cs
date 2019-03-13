@@ -21,11 +21,6 @@ namespace Deployer.Utils
         public static IDisposable SubscribeSafe<T>(this IObservable<T> source, Action<T> onNext,
             Action<Exception> onError)
         {
-            Contract.Requires(source != null);
-            Contract.Requires(onNext != null);
-            Contract.Requires(onError != null);
-            Contract.Ensures(Contract.Result<IDisposable>() != null);
-
             return source.SubscribeSafe(Observer.Create<T>(onNext, onError));
         }
 

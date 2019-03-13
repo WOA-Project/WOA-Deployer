@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Http;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Utils;
@@ -19,8 +18,7 @@ namespace Deployer
             this.client = client;
         }
 
-        public async Task Download(string url, string path, IDownloadProgress progressObserver = null,
-            Subject<long> written = null, int timeout = 30)
+        public async Task Download(string url, string path, IDownloadProgress progressObserver = null, int timeout = 30)
         {
             using (var fileStream = File.OpenWrite(path))
             {
