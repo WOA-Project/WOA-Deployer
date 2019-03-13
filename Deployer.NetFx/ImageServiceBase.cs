@@ -56,17 +56,7 @@ namespace Deployer.NetFx
                 throw new FileNotFoundException($"Image not found: {imagePath}. Please, verify that the file exists and it's accessible.");
             }
 
-            Log.Verbose("Image file at '{ImagePath}' exists", imagePath);
-
-            using (var stream = File.OpenRead(imagePath))
-            {
-                var metadata = new WindowsImageMetadataReader().Load(stream);
-                var imageMetadata = metadata.Images.Single(x => x.Index == imageIndex);
-                if (imageMetadata.Architecture != Architecture.Arm64)
-                {
-                    throw new InvalidImageException("The selected image isn't for the ARM64 architecture.");
-                }
-            }            
+            Log.Verbose("Image file at '{ImagePath}' exists", imagePath);                    
         }
 
         public async Task InjectDrivers(string path, Volume volume)

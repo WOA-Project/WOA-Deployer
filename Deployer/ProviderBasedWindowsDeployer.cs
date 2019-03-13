@@ -20,6 +20,7 @@ namespace Deployer
         public async Task Deploy(IDownloadProgress progressObserver)
         {
             Log.Information("Preparing for Windows deployment...");
+            
             var device = deviceProvider.Device;
             var options = optionsProvider.Options;
             await deployer.Deploy(options, device, progressObserver);
@@ -28,6 +29,7 @@ namespace Deployer
         public async Task Capture(string destination, IDownloadProgress progressObserver)
         {
             Log.Information("Preparing for Windows backup...");
+            
             var device = deviceProvider.Device;
             await deployer.Backup(await device.GetWindowsVolume(), destination, progressObserver);
         }       

@@ -20,6 +20,7 @@ namespace Deployer
         public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver)
         {
             Log.Information("Deploying Windows...");
+            progressObserver.Percentage.OnNext(double.PositiveInfinity);
             await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
             await MakeBootable(device);
         }
@@ -27,6 +28,7 @@ namespace Deployer
         public Task Backup(Volume windowsVolume, string destination, IDownloadProgress progressObserver)
         {
             Log.Information("Capturing Windows backup...");
+            progressObserver.Percentage.OnNext(double.PositiveInfinity);
             return imageService.CaptureImage(windowsVolume, destination, progressObserver);
         }
 
