@@ -5,7 +5,7 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace Deployer.Gui.Services
 {
-    public class Dialog : IDialog, IMarkdownDialog
+    public class Dialog : IDialog, IPrompt
     {
         private readonly IDialogCoordinator coordinator;
 

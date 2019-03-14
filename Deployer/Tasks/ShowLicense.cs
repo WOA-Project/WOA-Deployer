@@ -9,9 +9,9 @@ namespace Deployer.Tasks
     public class ShowLicense : IDeploymentTask
     {
         private readonly string path;
-        private readonly IMarkdownDialog dialog;
+        private readonly IPrompt dialog;
 
-        public ShowLicense(string path, IMarkdownDialog dialog)
+        public ShowLicense(string path, IPrompt dialog)
         {
             this.path = path;
             this.dialog = dialog;

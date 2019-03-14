@@ -9,9 +9,9 @@ namespace Deployer.Tasks
     public class DisplayMarkdown : IDeploymentTask
     {
         private readonly string path;
-        private readonly IMarkdownDialog dialog;
+        private readonly IPrompt dialog;
 
-        public DisplayMarkdown(string path, IMarkdownDialog dialog)
+        public DisplayMarkdown(string path, IPrompt dialog)
         {
             this.path = path;
             this.dialog = dialog;
