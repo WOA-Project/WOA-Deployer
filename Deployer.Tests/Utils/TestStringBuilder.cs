@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Deployer.Tests
+namespace Deployer.Tests.Utils
 {
     public class TestStringBuilder : IPathBuilder
     {

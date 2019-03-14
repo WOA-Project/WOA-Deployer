@@ -10,7 +10,7 @@ namespace Deployer.Tests
         [InlineData("Task", "Task()")]
         [InlineData("Task \"Hola\"", "Task(Hola)")]
         [InlineData("Task \"Hola\" \"Cómo vas\"", "Task(Hola,Cómo vas)")]
-        [InlineData("# Comment\n", "# Comment")]
+        [InlineData("# Comment", "# Comment")]
         public void Test1(string input, string expected)
         {
             AssertParse(input, expected);

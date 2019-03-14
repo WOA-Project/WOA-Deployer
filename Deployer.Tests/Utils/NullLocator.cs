@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Grace.DependencyInjection;
 
-namespace Deployer.Tests
+namespace Deployer.Tests.Utils
 {
     public class NullLocator : ILocatorService
     {

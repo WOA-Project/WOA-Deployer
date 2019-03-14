@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Deployer.Execution;
 
-namespace Deployer.Tests
+namespace Deployer.Tests.Model
 {
     public class TestTask : IDeploymentTask
     {
@@ -12,5 +12,10 @@ namespace Deployer.Tests
         }
 
         public bool IsExecuted { get; set; }
+
+        public override string ToString()
+        {
+            return "TestTask";
+        }
     }
 }

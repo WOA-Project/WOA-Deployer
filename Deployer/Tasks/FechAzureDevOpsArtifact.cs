@@ -54,7 +54,8 @@ namespace Deployer.Tasks
 
             var artifact = await buildClient.LatestBuildArtifact(org, project, definitionId, artifactName);
 
-            var stream = await downloader.GetStream(artifact.Resource.DownloadUrl, progressObserver);
+            var url = artifact.Resource.DownloadUrl;
+            var stream = await downloader.GetStream(url, progressObserver);
             await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
         }
     }

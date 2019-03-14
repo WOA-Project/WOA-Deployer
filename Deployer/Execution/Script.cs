@@ -14,6 +14,6 @@ namespace Deployer.Execution
         public override string ToString()
         {
             return string.Join("\n", Sentences);
-        }
+        }        
     }
 }

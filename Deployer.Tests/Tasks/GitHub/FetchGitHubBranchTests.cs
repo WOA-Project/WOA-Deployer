@@ -2,11 +2,12 @@
 using Deployer.Tasks;
 using Xunit;
 
-namespace Deployer.Tests.Tasks
+namespace Deployer.Tests.Tasks.GitHub
 {
     public class FetchGitHubBranchTests
     {
-        [Fact(Skip = "Long running")]
+        [Fact]
+        [Trait("Category", "Real")]
         public async Task Test()
         {
             var task = new FetchGitHubBranch("https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers", "master", new ZipExtractor(new FileSystemOperations()), null, null);

@@ -3,11 +3,12 @@ using Deployer.Tasks;
 using Octokit;
 using Xunit;
 
-namespace Deployer.Tests.Tasks
+namespace Deployer.Tests.Tasks.GitHub
 {
     public class FetchGitHubLatestReleaseTests
     {
         [Fact]
+        [Trait("Category", "Real")]
         public async Task Test()
         {
             await DownloadMixin.Download("https://github.com/WOA-Project/Lumia950XLPkg/releases/download/1.20/MSM8994.UEFI.Lumia.950.XL.zip", "Reference\\MSM8994.UEFI.Lumia.950.XL");

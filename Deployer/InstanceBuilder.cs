@@ -15,33 +15,34 @@ namespace Deployer
             this.container = container;
         }
 
-        public object Create(Type type, params object[] arguments)
+        public object Create(Type type, params object[] parameters)
         {
-            var finalArguments = GetArguments(type, arguments);
-
-            var instance = Activator.CreateInstance(type, finalArguments.ToArray());
-            OnInstanceCreated(instance);
+            var injectableParameters = GetParametersToInject(type, parameters);
+            var finalParameters = injectableParameters.ToArray();
+            var instance = Activator.CreateInstance(type, finalParameters);
+            OnInstanceCreated(instance, finalParameters);
             return instance;
         }
 
-        private IEnumerable<object> GetArguments(Type type, IEnumerable<object> arguments)
+        private IEnumerable<object> GetParametersToInject(Type sourceType, IEnumerable<object> parameters)
         {
-            var ctor = type.GetTypeInfo().DeclaredConstructors.First();
-
-            var zipped = ctor.GetParameters().Select(x => x.ParameterType).ZipLongest(arguments.Take(ctor.GetParameters().Length), (pInfo, val) => (info: pInfo, o: val));
+            var ctor = sourceType.GetTypeInfo().DeclaredConstructors.First();
+            var parameterTypes = ctor.GetParameters().Select(x => x.ParameterType);
+            var injectableParameters = parameters.Take(ctor.GetParameters().Length);
+            var zipped = parameterTypes.ZipLongest(injectableParameters, (type, parameterValue) => (Type: type, ParameterValue: parameterValue));
 
             return from tuple in zipped
-                let final = ConvertParam(tuple.o, tuple.info)
+                let final = ConvertParam(tuple.Type, tuple.ParameterValue)
                 select final;
         }
 
-        private object ConvertParam(object value, Type paramType)
+        private object ConvertParam(Type paramType, object value)
         {
             if (paramType == typeof(string))
             {
                 if (value == null)
                 {
-                    throw new InvalidOperationException("Invalid arguments provided");
+                    throw new InvalidOperationException("Invalid parameters provided");
                 }
 
                 return value;
@@ -50,7 +51,7 @@ namespace Deployer
             return container.Locate(paramType);
         }
 
-        protected virtual void OnInstanceCreated(object instance)
+        protected virtual void OnInstanceCreated(object instance, object[] parameters)
         {            
         }
     }

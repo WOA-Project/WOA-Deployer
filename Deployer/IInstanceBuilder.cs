@@ -4,6 +4,6 @@ namespace Deployer
 {
     public interface IInstanceBuilder
     {
-        object Create(Type type, params object[] arguments);
+        object Create(Type type, params object[] parameters);
     }
 }
