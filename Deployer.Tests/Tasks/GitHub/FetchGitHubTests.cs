@@ -7,6 +7,7 @@ namespace Deployer.Tests.Tasks.GitHub
     public class FetchGitHubTests
     {       
         [Fact]
+        [Trait("Category", "Real")]
         public async Task Test()
         {
             await DownloadMixin.Download(
