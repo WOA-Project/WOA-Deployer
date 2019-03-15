@@ -19,10 +19,16 @@ namespace Deployer
 
         public async Task Deploy(IDownloadProgress progressObserver)
         {
-            Log.Information("Preparing for Windows deployment...");
-            
             var device = deviceProvider.Device;
             var options = optionsProvider.Options;
+
+            if (options == null)
+            {
+                throw new ApplicationException("No deployment options can be found. Cannot deploy Windows.");
+            }
+
+            Log.Information("Preparing for Windows deployment...");
+
             await deployer.Deploy(options, device, progressObserver);
         }
 

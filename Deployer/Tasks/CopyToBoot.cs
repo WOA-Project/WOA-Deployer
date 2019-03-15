@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Deployer.Execution;
 using Deployer.FileSystem;
@@ -33,6 +34,11 @@ namespace Deployer.Tasks
             }
 
             var bootVol = await device.GetBootVolume();
+
+            if (bootVol == null)
+            {
+                throw new ApplicationException("Could not find the BOOT partition. Is Windows 10 ARM64 installed?");
+            }
 
             var finalPath = Path.Combine(bootVol.RootDir.Name, destination);
             await fileSystemOperations.Copy(origin, finalPath);
