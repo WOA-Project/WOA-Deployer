@@ -5,8 +5,10 @@
     xmlns:valueConverters="clr-namespace:ValueConverters;assembly=ValueConverters"
     xmlns:local="clr-namespace:Deployer.Gui">
 
-    <valueConverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverterInverted" IsInverted="True" />
-    <valueConverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnTrue" IsInverted="True" />
+    <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnFalse"  />
+    <valueConverters:BoolToVisibilityConverter x:Key="HideOnFalse" FalseValue="Hidden" TrueValue="Visible" />
+    <valueConverters:BoolToVisibilityConverter x:Key="HideOnTrue" TrueValue="Hidden" FalseValue="Visible" />
 
     <Style TargetType="{x:Type local:BusyButton}">
         <Setter Property="Template">
@@ -22,7 +24,7 @@
                                 <mah:ContentControlEx VerticalAlignment="Center"
                                                       HorizontalAlignment="Center" Content="{TemplateBinding Content}" Margin="4" />
                             </Viewbox>
-                            <Image Visibility="{TemplateBinding IsBusy, Converter={StaticResource BooleanToVisibilityConverterInverted}}"
+                            <Image Visibility="{TemplateBinding IsBusy, Converter={StaticResource CollapseOnTrue}}"
                                    RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Source="{TemplateBinding Image}" Margin="2,6,6,6" />
                             <Viewbox VerticalAlignment="Center" Grid.Column="1" Margin="6">
                                 <mah:ProgressRing IsActive="{TemplateBinding IsBusy}" />
@@ -44,13 +46,50 @@
                                 <mah:ContentControlEx VerticalAlignment="Stretch"
                                                       HorizontalAlignment="Stretch" Content="{TemplateBinding Content}" />
                             </Viewbox>
-                            <ContentControl Visibility="{TemplateBinding IsBusy, Converter={StaticResource BooleanToVisibilityConverterInverted}}"
+                            <ContentControl Visibility="{TemplateBinding IsBusy, Converter={StaticResource CollapseOnTrue}}"
                                    RenderOptions.BitmapScalingMode="HighQuality" Content="{TemplateBinding Icon}" />
-                            <Viewbox VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <Viewbox VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsBusy, Converter={StaticResource CollapseOnFalse}}">
                                 <mah:ProgressRing IsActive="{TemplateBinding IsBusy}" />
                             </Viewbox>
                         </StackPanel>
                     </Button>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ProgressButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ProgressButton}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Progress}">
+                        <Button 
+                                Command="{Binding Command}" Padding="10">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Viewbox Margin="0 4 8 4">
+                                        <mah:ContentControlEx VerticalAlignment="Stretch"
+                                                              HorizontalAlignment="Stretch"
+                                                              Content="{TemplateBinding Content}" />
+                                    </Viewbox>
+                                    <ContentControl
+                                        Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Progress.IsExecuting, Converter={StaticResource CollapseOnTrue}}"
+                                        RenderOptions.BitmapScalingMode="HighQuality" Content="{TemplateBinding Icon}" />
+                                    <Viewbox VerticalAlignment="Center"
+                                             Visibility="{Binding IsExecuting, Converter={StaticResource CollapseOnFalse}}">
+                                        <mah:ProgressRing IsActive="{Binding IsExecuting}" />
+                                    </Viewbox>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                        <mah:MetroProgressBar VerticalAlignment="Bottom"
+                                              Maximum="1"
+                                              Value="{Binding Progress, Mode=OneWay}"
+                                              Visibility="{Binding IsProgressVisible, Converter={StaticResource CollapseOnFalse}}"
+                                              Grid.Column="0"
+                                              IsIndeterminate="{Binding IsProgressIndeterminate}">
+                        </mah:MetroProgressBar>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

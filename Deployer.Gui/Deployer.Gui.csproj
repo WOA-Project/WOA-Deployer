@@ -60,6 +60,8 @@
     <Compile Include="ISaveFilePicker.cs" />
     <Compile Include="ISettingsService.cs" />
     <Compile Include="IViewService.cs" />
+    <Compile Include="ProgressButton.cs" />
+    <Compile Include="ProgressViewModel.cs" />
     <Compile Include="Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
