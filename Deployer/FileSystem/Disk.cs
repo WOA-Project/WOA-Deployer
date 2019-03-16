@@ -8,7 +8,7 @@ namespace Deployer.FileSystem
 {
     public class Disk
     {
-        public ILowLevelApi LowLevelApi { get; }
+        public ILowLevelApi LowLevelApi { get; set; }
         public uint Number { get; }
         public ByteSize Size { get; }
         public ByteSize AllocatedSize { get; }

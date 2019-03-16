@@ -131,6 +131,11 @@ namespace Deployer.Execution.Testing
             throw new NotImplementedException();
         }
 
+        public Disk CreateDisk(DiskInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
         public IList<MethodInfo> CalledMethods { get; set; } = new List<MethodInfo>();
     }
 }

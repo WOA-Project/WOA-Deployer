@@ -29,7 +29,7 @@ namespace Deployer.NetFx
 
             var disks = results
                 .Select(x => x.ImmediateBaseObject)
-                .Select(x => ToDisk(this, x));
+                .Select(x => ToDisk(x));
 
             return disks.ToList();
         }
@@ -44,7 +44,7 @@ namespace Deployer.NetFx
 
             var disks = results
                 .Select(x => x.ImmediateBaseObject)
-                .Select(x => ToDisk(this, x));
+                .Select(x => ToDisk(x));
 
             return disks.First();
         }
@@ -130,13 +130,13 @@ namespace Deployer.NetFx
             return Task.Factory.FromAsync(ps.BeginInvoke(), x => ps.EndInvoke(x));
         }
 
-        private static Disk ToDisk(ILowLevelApi lowLevelApi, object disk)
+        private Disk ToDisk(object disk)
         {
             var number = (uint)disk.GetPropertyValue("Number");
             var size = new ByteSize((ulong)disk.GetPropertyValue("Size"));
             var allocatedSize = new ByteSize((ulong)disk.GetPropertyValue("AllocatedSize"));
 
-            var diskProps = new DiskInfo
+            var diskInfo = new DiskInfo
             {
                 Number = number,
                 Size = size,
@@ -148,10 +148,9 @@ namespace Deployer.NetFx
                 IsReadOnly = (bool)disk.GetPropertyValue("IsReadOnly"),
             };
 
-            return new Disk(lowLevelApi, diskProps);
+            return new Disk(this, diskInfo);
         }
-
-
+        
         public async Task ResizePartition(Partition partition, ByteSize size)
         {
             ps.Commands.Clear();
@@ -328,5 +327,5 @@ namespace Deployer.NetFx
 
             return available.First();
         }
-    }
+    }    
 }

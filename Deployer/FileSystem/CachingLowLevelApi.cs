@@ -10,7 +10,7 @@ namespace Deployer.FileSystem
     public class CachingLowLevelApi : ILowLevelApi
     {
         private readonly ILowLevelApi inner;
-        private ISet<Disk> disks = new HashSet<Disk>();
+        private ISet<Disk> disks;
         private readonly IDictionary<Disk, List<Partition>> partitions = new Dictionary<Disk, List<Partition>>();
         private readonly IDictionary<Partition, Volume> volumesForPartition = new Dictionary<Partition, Volume>();
         private readonly IDictionary<Disk, IList<Volume>> volumes = new Dictionary<Disk, IList<Volume>>();
@@ -23,13 +23,13 @@ namespace Deployer.FileSystem
 
         public async Task ResizePartition(Partition partition, ByteSize sizeInBytes)
         {
-            await UpdateDisk(partition.Disk);
             await inner.ResizePartition(partition, sizeInBytes);
+            await UpdateDisk(partition.Disk);
         }
 
         private async Task UpdateDisk(Disk disk)
         {
-            var newDisk = await GetDisk(disk.Number);
+            var newDisk = await inner.GetDisk(disk.Number);
 
             disks.Remove(disk);
             disks.Add(newDisk);
@@ -38,12 +38,12 @@ namespace Deployer.FileSystem
 
         public Task<List<Partition>> GetPartitions(Disk disk)
         {
-            return partitions.GetCreate(disk, () => GetPartitions(disk));
+            return partitions.GetCreate(disk, () => inner.GetPartitions(disk));
         }
 
         public Task<Volume> GetVolume(Partition partition)
         {
-            return volumesForPartition.GetCreate(partition, () => GetVolume(partition));
+            return volumesForPartition.GetCreate(partition, () => inner.GetVolume(partition));
         }
 
         public async Task<Partition> CreateReservedPartition(Disk disk, ulong sizeInBytes)
@@ -98,12 +98,30 @@ namespace Deployer.FileSystem
 
         public async Task<ICollection<Disk>> GetDisks()
         {
-            return disks ?? (disks = new HashSet<Disk>(await inner.GetDisks()));
+            if (disks != null)
+            {
+                return disks;
+            }
+
+            var retrieved = await inner.GetDisks();
+
+            foreach (var retrivedDisk in retrieved)
+            {
+                retrivedDisk.LowLevelApi = this;
+            }
+
+            var collection = disks = new HashSet<Disk>(retrieved);
+            return collection;
         }
 
         public Task<Disk> GetDisk(uint diskNumber)
         {
-            return inner.GetDisk(diskNumber);
+            return diskByNumber.GetCreate(diskNumber, async () =>
+            {
+                var disk = await inner.GetDisk(diskNumber);
+                disk.LowLevelApi = this;
+                return disk;
+            });
         }
 
         public Task<ICollection<DriverMetadata>> GetDrivers(string path)
