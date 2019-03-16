@@ -69,6 +69,6 @@ namespace Deployer.FileSystem
             }
 
             return LowLevelApi.GetDrivers(Partition.Letter + ":\\");
-        }
+        }        
     }
 }

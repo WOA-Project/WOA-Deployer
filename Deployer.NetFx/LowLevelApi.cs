@@ -34,6 +34,21 @@ namespace Deployer.NetFx
             return disks.ToList();
         }
 
+        public async Task<Disk> GetDisk(uint diskNumber)
+        {
+            ps.Commands.Clear();
+            ps.AddCommand("Get-Disk");
+            ps.AddParameter("Number", diskNumber);
+
+            var results = await Task.Factory.FromAsync(ps.BeginInvoke(), r => ps.EndInvoke(r));
+
+            var disks = results
+                .Select(x => x.ImmediateBaseObject)
+                .Select(x => ToDisk(this, x));
+
+            return disks.First();
+        }
+
         public async Task<ICollection<DriverMetadata>> GetDrivers(string path)
         {
             ps.Commands.Clear();

@@ -11,7 +11,7 @@ namespace Deployer.FileSystem
             Disk = disk;
         }
 
-        public Disk Disk { get; private set; }
+        public Disk Disk { get; }
         public uint Number { get; set; }
         public string Id { get; set; }
         public char? Letter { get; set; }

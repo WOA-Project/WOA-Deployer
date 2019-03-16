@@ -82,5 +82,35 @@ namespace Deployer.FileSystem
         {
             return $"{nameof(Number)}: {Number}, {nameof(Size)}: {Size.ToString()}, {nameof(AllocatedSize)}: {AllocatedSize.ToString()}";
         }
+
+        protected bool Equals(Disk other)
+        {
+            return Number == other.Number;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((Disk) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (int) Number;
+        }
     }
 }

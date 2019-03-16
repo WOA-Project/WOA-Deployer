@@ -19,6 +19,7 @@ namespace Deployer.FileSystem
         Task<IList<Volume>> GetVolumes(Disk disk);
         Task RemovePartition(Partition partition);
         Task<ICollection<Disk>> GetDisks();
+        Task<Disk> GetDisk(uint diskNumber);
         Task<ICollection<DriverMetadata>> GetDrivers(string path);
         Task UpdateStorageCache();
         Task ChangeDiskGuid(Disk disk, Guid guid);

@@ -1,3 +1,6 @@
 [submodule "Registry"]
 	path = Registry
 	url = https://github.com/EricZimmerman/Registry.git
+[submodule "Zafiro"]
+	path = Zafiro
+	url = https://github.com/SuperJMN/Zafiro.git

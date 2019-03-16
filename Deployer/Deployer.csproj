@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
+    <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.FileSystem;
@@ -105,7 +106,14 @@ namespace Deployer.Execution.Testing
                 })
             };
 
+            CalledMethods.Add(this.GetType().GetTypeInfo().GetDeclaredMethod(nameof(GetDisks)));
+
             return Task.FromResult(result);
+        }
+
+        public Task<Disk> GetDisk(uint diskNumber)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<ICollection<DriverMetadata>> GetDrivers(string path)
@@ -122,5 +130,7 @@ namespace Deployer.Execution.Testing
         {
             throw new NotImplementedException();
         }
+
+        public IList<MethodInfo> CalledMethods { get; set; } = new List<MethodInfo>();
     }
 }
