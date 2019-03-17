@@ -62,11 +62,15 @@ namespace Deployer.FileSystem
             return partition;
         }
 
-        public Task SetPartitionType(Partition partition, PartitionType partitionType)
+        public async Task SetPartitionType(Partition partition, PartitionType partitionType)
         {
-            partitions[partition.Disk].First(x => Equals(x, partition)).PartitionType = partitionType;
-
-            return inner.SetPartitionType(partition, partitionType);
+            var cachedPartition = partitions[partition.Disk].First(x => Equals(x, partition));
+            if (volumesForPartition.TryGetValue(cachedPartition, out var vol))
+            {
+                vol.Partition = cachedPartition;
+            }
+            await inner.SetPartitionType(cachedPartition, partitionType);
+            cachedPartition.PartitionType = partitionType;
         }
 
         public Task Format(Volume volume, FileSystemFormat ntfs, string fileSystemLabel)
