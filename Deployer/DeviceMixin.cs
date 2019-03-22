@@ -16,7 +16,7 @@ namespace Deployer
             Partition partition = await GetBootPartition(device);
             if (partition == null)
             {
-                partition = (await device.GetBootVolume())?.Partition;
+                partition = (await device.GetSystemVolume())?.Partition;
             }
 
             if (partition == null)
@@ -36,14 +36,17 @@ namespace Deployer
                 return bootPartition;
             }
 
-            var bootVolume = await device.GetBootVolume();
+            var bootVolume = await device.GetSystemVolume();
             return bootVolume?.Partition;
         }
 
-        public static async Task<bool> IsThereEnoughSpace(this IDevice phone, ByteSize requiredSize)
+        public static async Task<bool> HasEnoughSpace(this IDevice device, ByteSize requiredSize)
         {
-            var disk = await phone.GetDeviceDisk();
+            return (await device.GetDeviceDisk()).HasEnoughSpace(requiredSize);
+        }
 
+        public static bool HasEnoughSpace(this Disk disk, ByteSize requiredSize)
+        {
             Log.Verbose("Available {Available}. Required {Required}", disk.AvailableSize, requiredSize);
 
             if (disk.AvailableSize >= requiredSize)

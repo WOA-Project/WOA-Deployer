@@ -60,7 +60,7 @@ namespace Deployer.NetFx
             progressObserver?.Percentage.OnNext(double.NaN);
 
             stdOutputSubscription?.Dispose();
-            await disk.LowLevelApi.UpdateStorageCache();
+            await disk.Refresh();
             await disk.SetGuid(new Guid());
         }
 

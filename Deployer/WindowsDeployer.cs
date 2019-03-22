@@ -20,7 +20,7 @@ namespace Deployer
         public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver)
         {
             Log.Information("Deploying Windows...");
-            progressObserver.Percentage.OnNext(double.PositiveInfinity);
+            progressObserver.Percentage.OnNext(double.NaN);
             await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
             await MakeBootable(device);
         }
@@ -28,7 +28,7 @@ namespace Deployer
         public Task Backup(Volume windowsVolume, string destination, IDownloadProgress progressObserver)
         {
             Log.Information("Capturing Windows backup...");
-            progressObserver.Percentage.OnNext(double.PositiveInfinity);
+            progressObserver.Percentage.OnNext(double.NaN);
             return imageService.CaptureImage(windowsVolume, destination, progressObserver);
         }
 
@@ -36,21 +36,16 @@ namespace Deployer
         {
             Log.Verbose("Making Windows installation bootable...");
 
-            var boot = await device.GetBootVolume();
+            var boot = await device.GetSystemVolume();
             var windows = await device.GetWindowsVolume();
 
             await bootCreator.MakeBootable(boot, windows);
-            await boot.Partition.SetGptType(PartitionType.Esp);
-            var updatedBootVolume = await device.GetBootVolume();
+            
+            var updatedBootVolume = await device.GetSystemVolume();
 
-            if (updatedBootVolume != null)
+            if (!Equals(updatedBootVolume.Partition.PartitionType, PartitionType.Esp))
             {
-                Log.Verbose("We shouldn't be able to get a reference to the Boot volume.");
-                Log.Verbose("Updated Boot Volume: {@Volume}", new { updatedBootVolume.Label, updatedBootVolume.Partition, });
-                if (!Equals(updatedBootVolume.Partition.PartitionType, PartitionType.Esp))
-                {
-                    Log.Warning("The system partition should be {Esp}, but it's {ActualType}", PartitionType.Esp, updatedBootVolume.Partition.PartitionType);
-                }
+                Log.Warning("The system partition should be {Type}, but it's {Type}", PartitionType.Esp, updatedBootVolume.Partition.PartitionType);
             }
         }
     }

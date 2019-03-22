@@ -20,15 +20,16 @@ namespace Deployer
         {
             Log.Verbose("Making Windows installation bootable...");
 
-            var bcdPath = Path.Combine(boot.RootDir.Name, "EFI", "Microsoft", "Boot", "BCD");
-            var bcdInvoker = bcdInvokerFactory.Create(bcdPath);
-            var windowsPath = Path.Combine(windows.RootDir.Name, "Windows");
+            var bcdInvoker = bcdInvokerFactory.Create(boot.Root.CombineRelativeBcdPath());
+            var windowsPath = Path.Combine(windows.Root, "Windows");
             var bootDriveLetter = boot.Letter;
 
             await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {bootDriveLetter}:");
             bcdInvoker.Invoke("/set {default} testsigning on");
             bcdInvoker.Invoke("/set {default} recoveryenabled no");
             bcdInvoker.Invoke("/set {default} nointegritychecks on");
+
+            await boot.Partition.SetGptType(PartitionType.Esp);
         }
     }
 }

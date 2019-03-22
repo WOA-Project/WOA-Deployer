@@ -32,7 +32,7 @@ namespace Deployer.NetFx
                 throw new ArgumentNullException(nameof(volume));
             }
 
-            var applyDir = volume.RootDir.Name;
+            var applyDir = volume.Root;
 
             if (applyDir == null)
             {
@@ -63,7 +63,7 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.RootDir.Name} /Driver:""{path}"" /Recurse /ForceUnsigned", outputSubject, outputSubject);
+            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse /ForceUnsigned", outputSubject, outputSubject);
             subscription.Dispose();
             
             if (resultCode != 0)
@@ -77,7 +77,7 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.RootDir.Name} /Driver:""{path}""", outputSubject, outputSubject);
+            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputSubject, outputSubject);
             subscription.Dispose();
             
             if (resultCode != 0)

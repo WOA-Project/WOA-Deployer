@@ -47,6 +47,7 @@ namespace Deployer.Execution
                 }
 
                 case Comment comment:
+                    Log.Information("");
                     Log.Information($"# {comment.Text}");
                     break;
             }

@@ -21,7 +21,7 @@ namespace Deployer.NetFx
                 using (var wim = Wim.OpenWim(imagePath, OpenFlags.DEFAULT,
                     (msg, info, callback) => UpdatedStatusCallback(msg, info, callback, progressObserver)))
                 {
-                    wim.ExtractImage(imageIndex, volume.RootDir.Name, ExtractFlags.DEFAULT);
+                    wim.ExtractImage(imageIndex, volume.Root, ExtractFlags.DEFAULT);
                 }
             });
         }

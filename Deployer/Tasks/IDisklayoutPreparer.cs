@@ -6,5 +6,5 @@ namespace Deployer.Tasks
     public interface IDiskLayoutPreparer
     {
         Task Prepare(Disk disk);
-    }
+    }    
 }

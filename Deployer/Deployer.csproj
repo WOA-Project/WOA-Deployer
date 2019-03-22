@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Execution\Testing\TestLowLevelApi.cs" />
+    <Compile Remove="FileSystem\CachingLowLevelApi.cs" />
+    <Compile Remove="FileSystem\ILowLevelApi.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ByteSize" Version="1.3.0" />
     <PackageReference Include="Grace" Version="6.4.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />

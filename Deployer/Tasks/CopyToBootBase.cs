@@ -7,14 +7,14 @@ using Deployer.FileSystem;
 namespace Deployer.Tasks
 {
     [TaskDescription("Copying file to BOOT: {0} to {1}")]
-    public class CopyToBoot : IDeploymentTask
+    public abstract class CopyToBootBase : IDeploymentTask
     {
         private readonly string origin;
         private readonly string destination;
         private readonly IFileSystemOperations fileSystemOperations;
         private readonly IDeviceProvider deviceProvider;
 
-        public CopyToBoot(string origin, string destination, IFileSystemOperations fileSystemOperations, IDeviceProvider deviceProvider)
+        public CopyToBootBase(string origin, string destination, IFileSystemOperations fileSystemOperations, IDeviceProvider deviceProvider) 
         {
             this.origin = origin;
             this.destination = destination;
@@ -27,23 +27,27 @@ namespace Deployer.Tasks
             var device = deviceProvider.Device;
 
             var disk = await device.GetDeviceDisk();
-            var espPart = await disk.GetBootEfiEspPartition();
+            var espPart = await disk.GetPartition(SystemPartitionName);
             if (espPart != null)
             {
                 await espPart.SetGptType(PartitionType.Basic);
             }
 
-            var bootVol = await device.GetBootVolume();
+            var bootVol = await device.GetSystemVolume();
 
             if (bootVol == null)
             {
-                throw new ApplicationException("Could not find the BOOT partition. Is Windows 10 ARM64 installed?");
+                throw new ApplicationException("Could not find the System partition. Is Windows 10 ARM64 installed?");
             }
 
-            var finalPath = Path.Combine(bootVol.RootDir.Name, destination);
+            var finalPath = Path.Combine(bootVol.Root, destination);
             await fileSystemOperations.Copy(origin, finalPath);
 
             await bootVol.Partition.SetGptType(PartitionType.Esp);
         }
+
+        public abstract string SystemPartitionName { get; }
     }
+
+    
 }

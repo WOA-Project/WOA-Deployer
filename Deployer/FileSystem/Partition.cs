@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using ByteSizeLib;
-using Serilog;
 
 namespace Deployer.FileSystem
 {
@@ -12,67 +12,37 @@ namespace Deployer.FileSystem
         }
 
         public Disk Disk { get; }
-        public uint Number { get; set; }
-        public string Id { get; set; }
-        public char? Letter { get; set; }
-        public PartitionType PartitionType { get; set; }
-        public ILowLevelApi LowLevelApi => Disk.LowLevelApi;
 
-        public override string ToString()
+        public IDiskApi DiskApi => Disk.DiskApi;
+
+        public Guid Guid { get; set; }
+        public PartitionType PartitionType { get; set; }
+        public uint Number { get; set; }
+        public string Name { get; set; }
+
+        public Task Remove()
         {
-            return $"{nameof(Disk)}: {Disk}, {nameof(Number)}: {Number}";
+            return DiskApi.RemovePartition(this);
         }
 
-        public async Task Resize(ByteSize sizeInBytes)
+        public Task Format(FileSystemFormat fileSystemFormat, string label)
         {
-            await LowLevelApi.ResizePartition(this, sizeInBytes);
+            return DiskApi.Format(this, fileSystemFormat, label);
+        }
+
+        public Task SetGptType(PartitionType basic)
+        {
+            return DiskApi.SetGptType(this, basic);
         }
 
         public Task<Volume> GetVolume()
         {
-            return LowLevelApi.GetVolume(this);
+            return DiskApi.GetVolume(this);
         }
 
-        public async Task SetGptType(PartitionType partitionType)
+        public Task Resize(ByteSize newSize)
         {
-            Log.Verbose("Setting partition type to {Partition} from {OldType} to {NewType}", this, PartitionType, partitionType);
-            await LowLevelApi.SetPartitionType(this, partitionType);
-            Log.Verbose("Partition type set");
-        }
-
-        public Task Remove()
-        {
-            return LowLevelApi.RemovePartition(this);
-        }
-
-        protected bool Equals(Partition other)
-        {
-            return string.Equals(Id, other.Id);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return Equals((Partition) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return (Id != null ? Id.GetHashCode() : 0);
+            return DiskApi.ResizePartition(this, newSize);
         }
     }
 }

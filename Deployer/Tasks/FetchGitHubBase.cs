@@ -29,8 +29,7 @@ namespace Deployer.Tasks
             var repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
             repository = repoInfo.Repository;
             var folderName = repository;
-            folderPath = Path.Combine(SubFolder, folderName);
-            
+            folderPath = Path.Combine(SubFolder, folderName);            
         }
 
         public async Task Execute()

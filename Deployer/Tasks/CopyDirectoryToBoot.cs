@@ -26,15 +26,15 @@ namespace Deployer.Tasks
             var device = deviceProvider.Device;
 
             var disk = await device.GetDeviceDisk();
-            var espPart = await disk.GetBootEfiEspPartition();
+            var espPart = await disk.GetPartition("SYSTEM");
             if (espPart != null)
             {
                 await espPart.SetGptType(PartitionType.Basic);
             }
 
-            var bootVol = await device.GetBootVolume();
+            var bootVol = await device.GetSystemVolume();
 
-            var finalPath = Path.Combine(bootVol.RootDir.Name, destination);
+            var finalPath = Path.Combine(bootVol.Root, destination);
             await fileSystemOperations.CopyDirectory(origin, finalPath);
 
             await bootVol.Partition.SetGptType(PartitionType.Esp);

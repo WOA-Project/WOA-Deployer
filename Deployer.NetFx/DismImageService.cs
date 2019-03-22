@@ -20,23 +20,23 @@ namespace Deployer.NetFx
         {
         }
 
-        public override Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
+        public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
             IDownloadProgress progressObserver = null)
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
             var compact = useCompact ? "/compact" : "";
             var args =
-                $@"/Apply-Image {compact} /ImageFile:""{imagePath}"" /Index:{imageIndex} /ApplyDir:{volume.RootDir.Name}";
+                $@"/Apply-Image {compact} /ImageFile:""{imagePath}"" /Index:{imageIndex} /ApplyDir:{volume.Root}";
 
-            return Run(args, progressObserver);
+            await Run(args, progressObserver);
         }
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
         public override Task CaptureImage(Volume windowsVolume, string destination,
             IDownloadProgress progressObserver = null)
         {
-            var capturePath = windowsVolume?.RootDir?.FullName;
+            var capturePath = windowsVolume?.Root;
 
             if (capturePath == null) throw new ApplicationException("The capture path cannot be null");
 

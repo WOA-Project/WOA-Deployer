@@ -8,8 +8,7 @@ namespace Deployer
     {
         Task<Disk> GetDeviceDisk();
         Task<Volume> GetWindowsVolume();
-        Task<Volume> GetBootVolume();
-        Task RemoveExistingWindowsPartitions();
+        Task<Volume> GetSystemVolume();
         Task<ICollection<DriverMetadata>> GetDrivers();
     }
 }

@@ -11,42 +11,44 @@ namespace Deployer
 {
     public abstract class Device : IDevice
     {
-        protected ILowLevelApi LowLevelApi { get; }
+        protected IDiskApi DiskApi { get; }
 
-        protected Device(ILowLevelApi lowLevelApi)
+        protected Device(IDiskApi diskApi)
         {
-            LowLevelApi = lowLevelApi;
+            DiskApi = diskApi;
         }
 
         public abstract Task<Disk> GetDeviceDisk();
+        public abstract Task<Volume> GetWindowsVolume();
 
-        protected async Task<Volume> GetVolume(string label)
+        protected async Task<Volume> GetVolumeByPartitionName(string partitionName, bool automount = true)
         {
-            Log.Verbose("Getting {Label} volume", label);
+            Log.Verbose("Getting volume by partition name '{Name}'", partitionName);
 
-            var volumes = await (await GetDeviceDisk()).GetVolumes();
+            var disk = await GetDeviceDisk();
+            var vol = await disk.GetVolumeByPartitionName(partitionName);
 
-            var volume = volumes.SingleOrDefault(v => string.Equals(v.Label, label, StringComparison.InvariantCultureIgnoreCase));
-
-            if (volume == null)
+            if (automount)
             {
-                return null;
+                await vol.Mount();
             }
 
-            if (volume.Letter != null)
-            {
-                return volume;
-            }
-
-            Log.Verbose("{Label} volume wasn't mounted.", label);
-            await volume.Mount();
-
-            return volume;
+            return vol;
         }
 
-        public async Task<Volume> GetWindowsVolume()
+        protected async Task<Volume> GetVolumeByLabel(string label, bool automount = true)
         {
-            return await GetVolume("WindowsARM");
+            Log.Verbose("Getting volume labeled as '{Label}'", label);
+
+            var disk = await GetDeviceDisk();
+            var vol = await disk.GetVolumeByLabel(label);
+
+            if (automount)
+            {
+                await vol.Mount();
+            }
+
+            return vol;            
         }
 
         protected async Task<bool> IsWoAPresent()
@@ -67,47 +69,20 @@ namespace Deployer
 
         private async Task<bool> IsBootVolumePresent()
         {
-            var bootPartition = await DeviceMixin.GetBootPartition(this);
+            var bootPartition = await this.GetBootPartition();
 
             if (bootPartition != null)
             {
                 return true;
             }
 
-            var bootVolume = await GetBootVolume();
+            var bootVolume = await GetSystemVolume();
             return bootVolume != null;
         }
 
-        public abstract Task<Volume> GetBootVolume();
+        public abstract Task<Volume> GetSystemVolume();
 
-        protected async Task<bool> IsWindowsPhonePresent()
-        {
-            try
-            {
-                await GetVolume("MainOS");
-                await GetVolume("Data");
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Failed to get Windows Phones's volumes");
-                return false;
-            }
-
-            return true;
-        }
-
-        protected static async Task RemovePartition(string partitionName, Partition partition)
-        {
-            Log.Verbose("Trying to remove previously existing {Partition} partition", partitionName);
-            if (partition != null)
-            {
-                Log.Verbose("{Partition} exists: Removing it...", partition);
-                await partition.Remove();
-                Log.Verbose("{Partition} removed", partition);
-            }
-        }
-
-        public async Task<bool> IsOobeFinished()
+        protected async Task<bool> IsOobeFinished()
         {
             var winVolume = await GetWindowsVolume();
 
@@ -116,7 +91,7 @@ namespace Deployer
                 return false;
             }
 
-            var path = Path.Combine(winVolume.RootDir.Name, "Windows", "System32", "Config", "System");
+            var path = Path.Combine(winVolume.Root, "Windows", "System32", "Config", "System");
             var hive = new RegistryHive(path) { RecoverDeleted = true };
             hive.ParseHive();
 
@@ -126,7 +101,6 @@ namespace Deployer
             return int.Parse(val.ValueData) == 0;
         }
 
-        public abstract Task RemoveExistingWindowsPartitions();
 
         public async Task<ICollection<DriverMetadata>> GetDrivers()
         {

@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
+using Deployer.FileSystem.Gpt;
 
 namespace Deployer.FileSystem
 {
     public class Disk
     {
-        public ILowLevelApi LowLevelApi { get; set; }
-        public uint Number { get; }
-        public ByteSize Size { get; }
-        public ByteSize AllocatedSize { get; }
-        public ByteSize AvailableSize => Size - AllocatedSize;
-
-        public Disk(ILowLevelApi lowLevelApi, DiskInfo diskProps)
+        public Disk(IDiskApi diskApi, DiskInfo diskProps)
         {
-            LowLevelApi = lowLevelApi;
+            DiskApi = diskApi;
             FriendlyName = diskProps.FriendlyName;
             Number = diskProps.Number;
             Size = diskProps.Size;
@@ -24,11 +20,11 @@ namespace Deployer.FileSystem
             FriendlyName = diskProps.FriendlyName;
             IsSystem = diskProps.IsSystem;
             IsBoot = diskProps.IsBoot;
-            IsReadOnly= diskProps.IsReadOnly;
+            IsReadOnly = diskProps.IsReadOnly;
             IsOffline = diskProps.IsOffline;
         }
 
-        public bool IsSystem { get; }
+        public ByteSize Size { get; }
 
         public bool IsBoot { get; }
 
@@ -36,81 +32,42 @@ namespace Deployer.FileSystem
 
         public bool IsOffline { get; }
 
+        public bool IsSystem { get; }
+
+        public ByteSize AllocatedSize { get; }
+
         public string FriendlyName { get; }
 
-        public async Task<IList<Volume>> GetVolumes()
-        {
-            var volumes = await LowLevelApi.GetVolumes(this);
-            return volumes;
-        }
+        public IDiskApi DiskApi { get; }
+
+        public uint Number { get; }
+        public ByteSize AvailableSize => Size - AllocatedSize;
 
         public Task<List<Partition>> GetPartitions()
         {
-            return LowLevelApi.GetPartitions(this);
+            return DiskApi.GetPartitions(this);
         }
 
-        public Task<Partition> CreatePartition(ulong sizeInBytes)
+        public Task<Partition> GetPartition(string name)
         {
-            return LowLevelApi.CreatePartition(this, sizeInBytes);
+            using (var transaction = new GptContext(Number, FileAccess.Read))
+            {
+                var firstOrDefault = transaction.Partitions.FirstOrDefault(x =>
+                    string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+                var asCommon = firstOrDefault?.AsCommon(this);
+                return Task.FromResult(asCommon);
+            }
         }
 
-        public Task<Partition> CreateReservedPartition(ulong sizeInBytes)
-        {
-            return LowLevelApi.CreateReservedPartition(this, sizeInBytes);
-        }
 
-        public async Task<Partition> GetReservedPartition()
+        public Task Refresh()
         {
-            var parts = await LowLevelApi.GetPartitions(this);
-            return parts.FirstOrDefault(x => Equals(x.PartitionType, PartitionType.Reserved));
-        }
-
-        public async Task<Partition> GetBootEfiEspPartition()
-        {
-            var parts = await LowLevelApi.GetPartitions(this);
-            return parts
-                .OrderByDescending(x => x.Number)
-                .FirstOrDefault(x => Equals(x.PartitionType, PartitionType.Esp));
+            return DiskApi.RefreshDisk(this);
         }
 
         public Task SetGuid(Guid guid)
         {
-            return LowLevelApi.ChangeDiskGuid(this, guid);
-        }
-
-        public override string ToString()
-        {
-            return $"{nameof(Number)}: {Number}, {nameof(Size)}: {Size.ToString()}, {nameof(AllocatedSize)}: {AllocatedSize.ToString()}";
-        }
-
-        protected bool Equals(Disk other)
-        {
-            return Number == other.Number;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return Equals((Disk) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return (int) Number;
+            return DiskApi.SetGuid(this, guid);
         }
     }
 }

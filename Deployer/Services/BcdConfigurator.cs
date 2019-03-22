@@ -33,7 +33,7 @@ namespace Deployer.Services
         private void SetupBootShim(Guid guid)
         {
             invoker.Invoke($@"/set {{{guid}}} path \EFI\boot\BootShim.efi");
-            invoker.Invoke($@"/set {{{guid}}} device partition={efiespVolume.RootDir.Name}");
+            invoker.Invoke($@"/set {{{guid}}} device partition={efiespVolume.Root}");
             invoker.Invoke($@"/set {{{guid}}} testsigning on");
             invoker.Invoke($@"/set {{{guid}}} nointegritychecks on");
         }
