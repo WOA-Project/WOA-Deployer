@@ -7,12 +7,12 @@ namespace Deployer.Services
     public class BcdConfigurator
     {
         private readonly IBcdInvoker invoker;
-        private readonly Volume efiespVolume;
+        private readonly Volume mainOsVolume;
 
-        public BcdConfigurator(IBcdInvoker invoker, Volume efiespVolume)
+        public BcdConfigurator(IBcdInvoker invoker, Volume mainOsVolume)
         {
             this.invoker = invoker;
-            this.efiespVolume = efiespVolume;
+            this.mainOsVolume = mainOsVolume;
         }
 
         public void SetupBcd()
@@ -33,7 +33,7 @@ namespace Deployer.Services
         private void SetupBootShim(Guid guid)
         {
             invoker.Invoke($@"/set {{{guid}}} path \EFI\boot\BootShim.efi");
-            invoker.Invoke($@"/set {{{guid}}} device partition={efiespVolume.Root}");
+            invoker.Invoke($@"/set {{{guid}}} device partition={mainOsVolume.Root}\EFIESP");
             invoker.Invoke($@"/set {{{guid}}} testsigning on");
             invoker.Invoke($@"/set {{{guid}}} nointegritychecks on");
         }

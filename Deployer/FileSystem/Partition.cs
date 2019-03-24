@@ -44,5 +44,10 @@ namespace Deployer.FileSystem
         {
             return DiskApi.ResizePartition(this, newSize);
         }
+
+        public override string ToString()
+        {
+            return $"Number {Number} in disk {Disk}. {Name ?? "Unnamed"}";
+        }
     }
 }

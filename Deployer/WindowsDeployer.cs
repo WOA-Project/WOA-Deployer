@@ -36,17 +36,10 @@ namespace Deployer
         {
             Log.Verbose("Making Windows installation bootable...");
 
-            var boot = await device.GetSystemVolume();
-            var windows = await device.GetWindowsVolume();
+            var windowsVolume = await device.GetWindowsVolume();
+            var systemVolume = await device.GetSystemVolume();
 
-            await bootCreator.MakeBootable(boot, windows);
-            
-            var updatedBootVolume = await device.GetSystemVolume();
-
-            if (!Equals(updatedBootVolume.Partition.PartitionType, PartitionType.Esp))
-            {
-                Log.Warning("The system partition should be {Type}, but it's {Type}", PartitionType.Esp, updatedBootVolume.Partition.PartitionType);
-            }
-        }
+            await bootCreator.MakeBootable(systemVolume, windowsVolume);
+        }       
     }
 }

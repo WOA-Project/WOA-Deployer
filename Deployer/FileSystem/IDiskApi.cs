@@ -14,7 +14,7 @@ namespace Deployer.FileSystem
         Task RemovePartition(Partition partition);
         Task RefreshDisk(Disk disk);
         char GetFreeDriveLetter();
-        Task AssignDriveLetter(Volume volume, char driverLetter);
+        Task AssignDriveLetter(Volume volume, char driveLetter);
         Task SetGptType(Partition partition, PartitionType partitionType);
         Task<Volume> GetVolume(Partition partition);
         Task ResizePartition(Partition partition, ByteSize size);

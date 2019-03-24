@@ -30,7 +30,10 @@ namespace Deployer
 
             if (automount)
             {
-                await vol.Mount();
+                if (vol.Root == null)
+                {
+                    await vol.Mount();
+                }
             }
 
             return vol;
@@ -38,14 +41,17 @@ namespace Deployer
 
         protected async Task<Volume> GetVolumeByLabel(string label, bool automount = true)
         {
-            Log.Verbose("Getting volume labeled as '{Label}'", label);
+            Log.Verbose("Getting volume labeled as {Label}", label);
 
             var disk = await GetDeviceDisk();
             var vol = await disk.GetVolumeByLabel(label);
 
             if (automount)
             {
-                await vol.Mount();
+                if (vol.Root == null)
+                {
+                    await vol.Mount();
+                }
             }
 
             return vol;            
@@ -69,7 +75,7 @@ namespace Deployer
 
         private async Task<bool> IsBootVolumePresent()
         {
-            var bootPartition = await this.GetBootPartition();
+            var bootPartition = await GetSystemPartition();
 
             if (bootPartition != null)
             {
@@ -107,5 +113,7 @@ namespace Deployer
             var windows = await GetWindowsVolume();
             return await windows.GetDrivers();
         }
+
+        public abstract Task<Partition> GetSystemPartition();
     }
 }

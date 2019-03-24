@@ -57,5 +57,11 @@ namespace Deployer.FileSystem
         {
             return DiskApi.GetDrivers(this);
         }
+
+        public override string ToString()
+        {
+            var foo = Label ?? "No label";
+            return $"{foo} from partition {Partition}";
+        }
     }
 }

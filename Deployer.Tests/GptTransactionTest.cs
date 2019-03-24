@@ -13,7 +13,6 @@ namespace Deployer.Tests
         {
             using (var gpt = new GptContext(3, FileAccess.ReadWrite))
             {
-                gpt.RemoveExisting("EFIESP64");
                 gpt.RemoveExisting("SYSTEM");
                 gpt.RemoveExisting("MSR");
                 gpt.RemoveExisting("Windows");
@@ -22,10 +21,6 @@ namespace Deployer.Tests
 
             using (var gpt = new GptContext(3, FileAccess.ReadWrite))
             {
-                gpt.Add(new EntryBuilder("EFIESP64", ByteSize.FromMegaBytes(16), PartitionType.Basic)
-                    .NoAutoMount()
-                    .Build());
-
                 gpt.Add(new EntryBuilder("SYSTEM", ByteSize.FromMegaBytes(100), PartitionType.Esp).NoAutoMount().Build());
 
                 gpt.Add(new EntryBuilder("MSR", ByteSize.FromMegaBytes(16), PartitionType.Reserved).NoAutoMount().Build());

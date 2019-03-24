@@ -103,22 +103,27 @@ namespace Deployer.NetFx
         }
 
 
-        public Task AssignDriveLetter(Volume volume, char driverLetter)
+        public Task AssignDriveLetter(Volume volume, char driveLetter)
         {
             var cmd =
-                $@"Set-Partition -DiskNumber {volume.Partition.Disk.Number} -PartitionNumber {volume.Partition.Number} -NewDriveLetter {driverLetter}";
+                $@"Set-Partition -DiskNumber {volume.Partition.Disk.Number} -PartitionNumber {volume.Partition.Number} -NewDriveLetter {driveLetter}";
             return ps.ExecuteScript(cmd);
         }
 
-        public Task SetGptType(Partition partition, PartitionType partitionType)
+        public async Task SetGptType(Partition partition, PartitionType partitionType)
         {
+            if (Equals(partition.PartitionType, partitionType))
+            {
+                return;
+            }
+
             using (var context = new GptContext(partition.Disk.Number, FileAccess.ReadWrite))
             {
                 var part = context.Partitions.Single(x => x.Number == partition.Number);
                 part.PartitionType = partitionType;
             }
 
-            return Task.CompletedTask;
+            await partition.Disk.Refresh();
         }
 
         public async Task<Volume> GetVolume(Partition partition)
@@ -154,7 +159,6 @@ namespace Deployer.NetFx
 
             await ps.ExecuteCommand("Resize-Partition", ("DiskNumber", partition.Disk.Number), ("PartitionNumber", partition.Number), ("Size", sizeBytes));
 
-            await Task.Factory.FromAsync(ps.BeginInvoke(), x => ps.EndInvoke(x));
             if (ps.HadErrors)
             {
                 Throw("The resize operation has failed");

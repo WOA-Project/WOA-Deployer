@@ -36,14 +36,14 @@ namespace Deployer.FileSystem
                            where string.Equals(partition.Name, name, StringComparison.InvariantCultureIgnoreCase)
                            select partition;
 
-            var found = matching.FirstOrDefaultAsync();
+            var found = await matching.FirstOrDefaultAsync();
 
             if (found == null)
             {
                 throw new ApplicationException($"Cannot find partition named '{name}'");
             }
 
-            return await found;
+            return found;
         }
 
         public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name)
