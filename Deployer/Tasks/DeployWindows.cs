@@ -1,6 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Deployer.Execution;
+using Serilog;
 
 namespace Deployer.Tasks
 {
@@ -22,7 +22,10 @@ namespace Deployer.Tasks
 
         public async Task Execute()
         {
+            Log.Information("Preparing disk layout...");
             await preparer.Prepare(await deviceProvider.Device.GetDeviceDisk());
+
+            Log.Information("Applying Windows image...");
             await providerBasedWindowsDeployer.Deploy(progressObserver);
         }
     }

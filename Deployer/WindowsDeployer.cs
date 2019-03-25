@@ -19,7 +19,7 @@ namespace Deployer
 
         public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver)
         {
-            Log.Information("Deploying Windows...");
+            Log.Information("Applying Windows Image");
             progressObserver.Percentage.OnNext(double.NaN);
             await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
             await MakeBootable(device);
