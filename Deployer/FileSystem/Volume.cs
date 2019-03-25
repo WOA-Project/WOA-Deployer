@@ -37,7 +37,7 @@ namespace Deployer.FileSystem
         {
             try
             {
-                if (!Directory.Exists($"{driveLetter}:"))
+                if (!Directory.Exists($@"{driveLetter}:\"))
                 {
                     throw new ApplicationException($"The letter driver letter '{driveLetter}' isn't available yet");
                 }
