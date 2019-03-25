@@ -83,7 +83,6 @@
     <Compile Include="Views\MarkdownViewerWindow.xaml.cs">
       <DependentUpon>MarkdownViewerWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MessageViewModel.cs" />
     <Compile Include="Views\OptionViewModel.cs" />
     <Compile Include="WimMetadataViewModel.cs" />
     <Page Include="Themes\Generic.xaml">
