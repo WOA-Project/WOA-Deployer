@@ -28,7 +28,7 @@ namespace Deployer
             var disk = await GetDeviceDisk();
             var vol = await disk.GetVolumeByPartitionName(partitionName);
 
-            if (automount)
+            if (automount && vol != null)
             {
                 if (vol.Root == null)
                 {
@@ -46,7 +46,7 @@ namespace Deployer
             var disk = await GetDeviceDisk();
             var vol = await disk.GetVolumeByLabel(label);
 
-            if (automount)
+            if (automount && vol != null)
             {
                 if (vol.Root == null)
                 {
@@ -54,7 +54,7 @@ namespace Deployer
                 }
             }
 
-            return vol;            
+            return vol;
         }
 
         protected async Task<bool> IsWoAPresent()
