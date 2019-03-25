@@ -29,5 +29,13 @@ namespace Deployer.NetFx.Tests
             vol.Should().NotBeNull();
             vol.Root.Should().NotBeNull();
         }
+
+        [Fact]
+        public async Task GetDataByLabel()
+        {
+            var diskApi = new DiskApi();
+            var disk = await diskApi.GetDisk(3);
+            var partition = await disk.GetVolumeByLabel("Data");
+        }
     }
 }

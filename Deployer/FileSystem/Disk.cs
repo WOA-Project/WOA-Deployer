@@ -69,5 +69,10 @@ namespace Deployer.FileSystem
         {
             return DiskApi.SetGuid(this, guid);
         }
+
+        public override string ToString()
+        {
+            return $"Disk {Number} ({FriendlyName})";
+        }
     }
 }
