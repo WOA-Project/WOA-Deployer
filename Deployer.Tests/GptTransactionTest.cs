@@ -35,5 +35,15 @@ namespace Deployer.Tests
                 
             }
         }
-    }    
+
+        [Fact]
+        public void CheckRecovery()
+        {
+            using (var gpt = new GptContext(3, FileAccess.ReadWrite))
+            {
+                var part = gpt.Get("Recovery");
+            }
+        }
+
+    }       
 }
