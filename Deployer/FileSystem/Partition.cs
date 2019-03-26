@@ -49,5 +49,38 @@ namespace Deployer.FileSystem
         {
             return $"Number {Number} in disk {Disk}. {Name ?? "Unnamed"}";
         }
+
+        protected bool Equals(Partition other)
+        {
+            return Disk.Equals(other.Disk) && Guid.Equals(other.Guid);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((Partition) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Disk.GetHashCode() * 397) ^ Guid.GetHashCode();
+            }
+        }
     }
 }
