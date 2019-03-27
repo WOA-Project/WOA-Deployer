@@ -5,7 +5,7 @@ using Deployer.DevOpsBuildClient;
 using Deployer.Tasks;
 using Xunit;
 
-namespace Deployer.Tests.Tasks.Azure
+namespace Deployer.Tests.Real.Tasks.Azure
 {
     public class AzureDevOpsUnpackTests
     {

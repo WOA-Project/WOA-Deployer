@@ -17,8 +17,10 @@ namespace Deployer.FileSystem.Gpt
         {
             var size = SmallerDivisible(desired.Length, chunkSize);
 
-            var finalFirst = SmallerDivisible(desired.Start, chunkSize);
-            var finalLast = Math.Min(finalFirst + size, totalSectors - 1 * chunkSize);
+            var rightLimit = totalSectors - 1 * chunkSize;
+
+            var finalFirst = Math.Min(SmallerDivisible(desired.Start, chunkSize), rightLimit);
+            var finalLast = Math.Min(finalFirst + size, rightLimit);
             var finalLength = finalLast - finalFirst;
             return new GptSegment(finalFirst, finalLength);
         }

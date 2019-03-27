@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Deployer.Tasks;
 using Xunit;
 
-namespace Deployer.Tests
+namespace Deployer.Tests.Real
 {
     public class ZipExtractorTests
     {
