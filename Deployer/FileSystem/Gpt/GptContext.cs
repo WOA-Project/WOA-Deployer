@@ -48,7 +48,7 @@ namespace Deployer.FileSystem.Gpt
         public IEnumerable<Partition> Partitions => handler.Partitions
             .ToList().AsReadOnly();
 
-        public ByteSize AllocatedSize => new ByteSize(ToBytes(currentSector == 0 ? 0 : currentSector));
+        public ByteSize AllocatedSize => new ByteSize(ToBytes(currentSector));
         public ByteSize TotalSize => new ByteSize(ToBytes(SizeInSectors));
 
         private ulong SizeInSectors => ToSectors(handler.Length);
@@ -68,6 +68,11 @@ namespace Deployer.FileSystem.Gpt
             var desiredSize = new GptSegment(currentSector, ToSectors(entry.Size.Bytes));
             var size = calculator.Constraint(desiredSize);
 
+            if (size.End > SizeInSectors)
+            {
+                throw new InvalidOperationException("The partition cannot be out of the disk");
+            }
+
             var partition = new Partition(entry.Name, entry.GptType, (uint)handler.Partitions.Count + 1, bytesPerSector)
             {
                 Attributes = entry.Attributes,
@@ -75,7 +80,7 @@ namespace Deployer.FileSystem.Gpt
                 LastSector = size.End,
                 PartitionGuid = Guid.NewGuid(),
             };
-
+            
             handler.Partitions.Add(partition);
 
             availableSectorSize -= size.Length;
@@ -95,6 +100,11 @@ namespace Deployer.FileSystem.Gpt
         public void Delete(Partition partition)
         {
             handler.Partitions.Remove(partition);
+        }
+
+        public Partition Find(Guid partitionGuid)
+        {
+            return Partitions.First(x => x.PartitionGuid == partitionGuid);
         }
     }
 }

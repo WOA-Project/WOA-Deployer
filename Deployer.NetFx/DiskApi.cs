@@ -37,13 +37,23 @@ namespace Deployer.NetFx
             }
         }
 
-        public Task Format(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
+        public async Task Format(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
         {
-            var labelStr = label != null ? $@"-NewFileSystemLabel ""{label}""" : "";
-            var cmd =
-                $@"Format-Volume -Partition (Get-Partition -DiskNumber ""{partition.Disk.Number}"" -PartitionNumber {partition.Number}) -FileSystem {fileSystemFormat.Moniker} {labelStr} -Force -Confirm:$false";
+            var part = await GetPsPartition(partition.Guid, partition.Disk);
+            
+            await ps.ExecuteCommand("Format-Volume",
+                ("Partition", part),
+                ("Force", null),
+                ("Confirm", false),
+                ("FileSystem", fileSystemFormat.Moniker),
+                ("NewFileSystemLabel", label ?? partition.Name ?? "")
+            );
+        }
 
-            return ps.ExecuteScript(cmd);
+        private async Task<PSObject> GetPsPartition(Guid guid, Disk disk)
+        {
+            var psDataCollection = await ps.ExecuteScript($"Get-Partition -DiskNumber {disk.Number} | where -Property Guid -eq '{{{guid}}}'");
+            return psDataCollection.First();
         }
 
         public async Task<IList<Volume>> GetVolumes(Disk disk)
@@ -80,10 +90,15 @@ namespace Deployer.NetFx
             return await volumes;
         }
 
-        public Task RemovePartition(Partition partition)
+        public async Task RemovePartition(Partition partition)
         {
-            return ps.ExecuteScript(
-                $@"Remove-Partition -DiskNumber {partition.Disk.Number} -PartitionNumber {partition.Number} -Confirm:$false");
+            using (var c = new GptContext(partition.Disk.Number, FileAccess.ReadWrite))
+            {
+                var gptPart = c.Find(partition.Guid);
+                c.Delete(gptPart);
+            }
+
+            await partition.Disk.Refresh();
         }
 
         public Task RefreshDisk(Disk disk)

@@ -69,6 +69,10 @@
       <Project>{20d40dc1-0237-47a0-b169-b420159e341c}</Project>
       <Name>Deployer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{0CC92C72-6CC6-4838-B746-59DED72C3E1C}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

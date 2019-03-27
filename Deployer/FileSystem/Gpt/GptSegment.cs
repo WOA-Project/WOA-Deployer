@@ -1,9 +1,16 @@
-﻿namespace Deployer.FileSystem.Gpt
+﻿using System;
+
+namespace Deployer.FileSystem.Gpt
 {
     public struct GptSegment
     {
         public GptSegment(ulong start, ulong length)
         {
+            if (length <= 0)
+            {
+                throw new InvalidOperationException($"Invalid GPT length: {length}");
+            }
+
             Start = start;
             Length = length;
         }

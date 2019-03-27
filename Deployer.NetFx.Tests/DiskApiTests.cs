@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Deployer.FileSystem;
 using FluentAssertions;
 using Xunit;
+using Zafiro.Core;
+using Partition = Deployer.FileSystem.Gpt.Partition;
 
 namespace Deployer.NetFx.Tests
 {
@@ -36,6 +40,6 @@ namespace Deployer.NetFx.Tests
             var diskApi = new DiskApi();
             var disk = await diskApi.GetDisk(3);
             var partition = await disk.GetVolumeByLabel("Data");
-        }
+        }        
     }
 }

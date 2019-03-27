@@ -32,6 +32,6 @@ namespace Deployer.FileSystem.Gpt
             };
 
             return partition;
-        }
+        }       
     }
 }

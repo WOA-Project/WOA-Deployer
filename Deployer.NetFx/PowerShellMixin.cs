@@ -22,6 +22,27 @@ namespace Deployer.NetFx
             
             foreach (var (arg, v) in parameters)
             {
+                if (v == null)
+                {
+                    command.AddParameter(arg);
+                }
+                else
+                {
+                    command.AddParameter(arg, v);
+                }                
+            }
+
+            return await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+        }
+
+        public static async Task<PSDataCollection<PSObject>> ExecuteCommand(this PowerShell ps, string commandText, IEnumerable<object> arguments, params (string, object)[] parameters)
+        {
+            ps.Commands.Clear();
+
+            var command = ps.AddCommand(commandText);
+            
+            foreach (var (arg, v) in parameters)
+            {
                 command.AddParameter(arg, v);
             }
 
