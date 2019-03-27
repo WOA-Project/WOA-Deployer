@@ -25,10 +25,9 @@ namespace Deployer.FileSystem.Gpt
         {
             var partition = new CommonPartition(disk)
             {
-                Guid = self.PartitionGuid,
+                Guid = self.Guid,
                 Name = self.Name,                
                 PartitionType = self.PartitionType,
-                Number = self.Number,                
             };
 
             return partition;

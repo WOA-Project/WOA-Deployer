@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using ByteSizeLib;
+using Serilog;
 
 namespace Deployer.FileSystem.Gpt
 {
@@ -62,6 +63,7 @@ namespace Deployer.FileSystem.Gpt
             }
 
             deviceStream.Dispose();
+            Log.Debug("Device Stream disposed");
         }
 
         public void Add(Entry entry)
@@ -69,14 +71,17 @@ namespace Deployer.FileSystem.Gpt
             var desiredSize = new GptSegment(currentSector, ToSectors(entry.Size.Bytes));
             var size = calculator.Constraint(desiredSize);
 
-            var partition = new Partition(entry.Name, entry.GptType, (uint)handler.Partitions.Count + 1, bytesPerSector)
+            Log.Debug("PartitionEntry to add: {@Entry}, Desired Size={DesiredSize}, Final Size={FinalSize}", desiredSize, size);
+
+            var partition = new Partition(entry.Name, entry.GptType, bytesPerSector)
             {
                 Attributes = entry.Attributes,
                 FirstSector = size.Start,
                 LastSector = size.End,
-                PartitionGuid = Guid.NewGuid(),
+                Guid = Guid.NewGuid(),
             };
             
+            Log.Debug("Adding pending partition to the context: {@Partition}", partition);
             handler.Partitions.Add(partition);
 
             EnsureValidLayout(handler.Partitions, SizeInSectors);
@@ -87,7 +92,10 @@ namespace Deployer.FileSystem.Gpt
 
         private static void EnsureValidLayout(IList<Partition> partitions, ulong sizeInSectors)
         {
-            if (!PartitionLayoutChecker.IsLayoutValid(partitions, sizeInSectors))
+            var isLayoutValid = PartitionLayoutChecker.IsLayoutValid(partitions, sizeInSectors);
+            Log.Debug("Checking [pending] partition layout sanity: Is valid layout? {IsValid}", isLayoutValid);
+
+            if (!isLayoutValid)
             {
                 throw new PartitioningException("The desired partition layout is not valid");
             }
@@ -105,17 +113,24 @@ namespace Deployer.FileSystem.Gpt
 
         public void Delete(Partition partition)
         {
+            Log.Debug("Removing partition {Partition}", partition);
             handler.Partitions.Remove(partition);
         }
 
-        public Partition Find(Guid partitionGuid)
+        public Partition Find(Guid guid)
         {
-            return Partitions.First(x => x.PartitionGuid == partitionGuid);
+            Log.Debug("Looking up partition by Guid {Guid}", guid);
+            var partition = Partitions.First(x => x.Guid == guid);
+            Log.Debug("Obtained partition {Partition}", partition);
+            return partition;
         }
 
         public int IndexOf(Partition partition)
         {
-            return Partitions.IndexOf(partition);
+            Log.Debug("Looking up partition index of partition {Partition}", partition);
+            var index = Partitions.IndexOf(partition);
+            Log.Debug("Partition index={Index}", index);
+            return index;
         }
     }
 }

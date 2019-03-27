@@ -17,7 +17,6 @@ namespace Deployer.FileSystem
 
         public Guid Guid { get; set; }
         public PartitionType PartitionType { get; set; }
-        public uint Number { get; set; }
         public string Name { get; set; }
 
         public Task Remove()
@@ -47,7 +46,7 @@ namespace Deployer.FileSystem
 
         public override string ToString()
         {
-            return $"Number {Number} in disk {Disk}. {Name ?? "Unnamed"}";
+            return $"Partition Guid '{Guid}' in {Disk}. {Name ?? "Unnamed"}";
         }
 
         protected bool Equals(Partition other)

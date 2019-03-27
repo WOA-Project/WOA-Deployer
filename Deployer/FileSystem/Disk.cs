@@ -67,7 +67,7 @@ namespace Deployer.FileSystem
 
         public Task SetGuid(Guid guid)
         {
-            return DiskApi.SetGuid(this, guid);
+            return DiskApi.ChangeDiskId(this, guid);
         }
 
         public override string ToString()

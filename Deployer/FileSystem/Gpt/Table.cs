@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Serilog;
 
 namespace Deployer.FileSystem.Gpt
 {
@@ -72,11 +73,11 @@ namespace Deployer.FileSystem.Gpt
                 var partitionTypeGuid = ByteOperations.ReadGuid(gptBuffer, partitionOffset + 0x00);
                 var partitionType = PartitionType.FromGuid(partitionTypeGuid);
 
-                var currentPartition = new Partition(name, partitionType, number, bytesPerSector)
+                var currentPartition = new Partition(name, partitionType, bytesPerSector)
                 {
                     FirstSector = ByteOperations.ReadUInt64(gptBuffer, partitionOffset + 0x20),
                     LastSector = ByteOperations.ReadUInt64(gptBuffer, partitionOffset + 0x28),
-                    PartitionGuid = ByteOperations.ReadGuid(gptBuffer, partitionOffset + 0x10),
+                    Guid = ByteOperations.ReadGuid(gptBuffer, partitionOffset + 0x10),
                     Attributes = ByteOperations.ReadUInt64(gptBuffer, partitionOffset + 0x30)
                 };
                 Partitions.Add(currentPartition);
@@ -96,6 +97,8 @@ namespace Deployer.FileSystem.Gpt
 
         internal byte[] Rebuild()
         {
+            Log.Debug("Rebuilding GPT...");
+
             if (gptBuffer == null)
             {
                 tableSize = 0x4200;
@@ -111,7 +114,7 @@ namespace Deployer.FileSystem.Gpt
             foreach (var currentPartition in Partitions)
             {
                 ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x00, currentPartition.PartitionType.Guid);
-                ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x10, currentPartition.PartitionGuid);
+                ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x10, currentPartition.Guid);
                 ByteOperations.WriteUInt64(gptBuffer, partitionOffset + 0x20, currentPartition.FirstSector);
                 ByteOperations.WriteUInt64(gptBuffer, partitionOffset + 0x28, currentPartition.LastSector);
                 ByteOperations.WriteUInt64(gptBuffer, partitionOffset + 0x30, currentPartition.Attributes);
@@ -125,6 +128,8 @@ namespace Deployer.FileSystem.Gpt
             ByteOperations.WriteUInt32(gptBuffer, headerOffset + 0x10, 0);
             ByteOperations.WriteUInt32(gptBuffer, headerOffset + 0x10,
                 ByteOperations.Crc32(gptBuffer, headerOffset, headerSize));
+
+            Log.Debug("GPT rebuilt");
 
             return gptBuffer;
         }

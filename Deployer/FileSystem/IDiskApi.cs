@@ -21,7 +21,6 @@ namespace Deployer.FileSystem
         Task<ICollection<DriverMetadata>> GetDrivers(Volume volume);
         Task ChangeDiskId(Disk disk, Guid guid);
         Task UpdateStorageCache();
-        Task<Disk> GetDisk(int i);
-        Task SetGuid(Disk disk, Guid guid);
+        Task<Disk> GetDisk(int n);
     }
 }

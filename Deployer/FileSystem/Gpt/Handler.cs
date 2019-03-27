@@ -25,6 +25,8 @@ SOFTWARE.
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Serilog;
 
 namespace Deployer.FileSystem.Gpt
 {
@@ -58,11 +60,21 @@ namespace Deployer.FileSystem.Gpt
 
         public void Commit()
         {
+            Log.Debug("About to commit this partition layout {@Layout}", Partitions.Select(x => new
+            {
+                x.Name,
+                x.FirstSector,
+                x.LastSector,
+                x.Guid,                
+            }));
+
             table.Rebuild();
 
             // Write back the first chunk of the device
             deviceStream.Seek(0, SeekOrigin.Begin);
             deviceStream.Write(gptBuffer, 0, chunkSize);
+
+            Log.Debug("GPT changes committed successfully");
         }       
     }
 }

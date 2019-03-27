@@ -10,20 +10,16 @@ namespace Deployer.FileSystem.Gpt
         private ulong lastSector;
         private ulong sizeInSectors;
 
-        public Partition(string name, PartitionType partitionType, uint number, uint bytesPerSector)
+        public Partition(string name, PartitionType partitionType, uint bytesPerSector)
         {
             PartitionType = partitionType;
-            Number = number;
             Name = name;
             this.bytesPerSector = bytesPerSector;
         }
 
         public ulong Attributes { get; set; }
-        public Guid PartitionGuid { get; set; }
-
+        public Guid Guid { get; set; }
         public PartitionType PartitionType { get; set; }
-        public uint Number { get; }
-
         public string Name { get; }
 
         private ByteSize Size => new ByteSize(SizeInSectors * bytesPerSector);
@@ -72,11 +68,11 @@ namespace Deployer.FileSystem.Gpt
             }
         }
 
-        public string Volume => @"\\?\Volume" + PartitionGuid.ToString("b") + @"\";
+        public string Volume => @"\\?\Volume" + Guid.ToString("b") + @"\";
 
         protected bool Equals(Partition other)
         {
-            return PartitionGuid.Equals(other.PartitionGuid);
+            return Guid.Equals(other.Guid);
         }
 
         public override bool Equals(object obj)
@@ -101,7 +97,7 @@ namespace Deployer.FileSystem.Gpt
 
         public override int GetHashCode()
         {
-            return PartitionGuid.GetHashCode();
+            return Guid.GetHashCode();
         }
     }
 }

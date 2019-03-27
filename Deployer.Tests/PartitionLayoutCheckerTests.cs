@@ -83,7 +83,7 @@ namespace Deployer.Tests
 
         private static Partition CreatePartition(ulong start, ulong end)
         {
-            return new Partition("", PartitionType.Basic, 0, 512)
+            return new Partition("", PartitionType.Basic, 512)
             {
                 FirstSector = start,
                 LastSector = end,
