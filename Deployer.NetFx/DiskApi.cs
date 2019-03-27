@@ -115,12 +115,12 @@ namespace Deployer.NetFx
 
         public async Task RefreshDisk(Disk disk)
         {
-            Log.Verbose("Refreshing disk {Disk}. Partitions before refresh: {Partitions}", disk, await GetListOfPartitions(disk));
+            Log.Verbose("Refreshing disk {Disk}. Partitions before refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
 
             var script = $"SELECT DISK {disk.Number}\nOFFLINE DISK\nONLINE DISK";
             await ps.ExecuteScript($@"""{script}"" | & diskpart.exe");
 
-            Log.Verbose("Disk {Disk} refreshed. Partitions after refresh: {Partitions}", disk, await GetListOfPartitions(disk));
+            Log.Verbose("Disk {Disk} refreshed. Partitions after refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
         }
 
         private static async Task<string> GetListOfPartitions(Disk disk)

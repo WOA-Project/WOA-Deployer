@@ -61,7 +61,7 @@ namespace Deployer.FileSystem.Gpt
 
         public void Commit()
         {
-            Log.Debug("About to commit this partition layout: {Layout}", Partitions.AsNumberedList());
+            Log.Debug("About to commit this partition layout: \n{Layout}", Partitions.AsNumberedList());
 
             table.Rebuild();
 

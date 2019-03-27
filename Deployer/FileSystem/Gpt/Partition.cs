@@ -99,5 +99,10 @@ namespace Deployer.FileSystem.Gpt
         {
             return Guid.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return $"Partition {Name ?? "Unnamed"}, Guid '{Guid}'. ";
+        }
     }
 }
