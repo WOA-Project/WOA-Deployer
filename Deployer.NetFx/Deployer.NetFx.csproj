@@ -50,6 +50,10 @@
       <Project>{b0709401-1148-43b4-a06c-79173393dd98}</Project>
       <Name>Deployer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{fc32478f-26ea-4774-878c-92b08e468aba}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">

@@ -9,6 +9,7 @@ using ByteSizeLib;
 using Deployer.FileSystem;
 using Deployer.FileSystem.Gpt;
 using Serilog;
+using Zafiro.Core;
 using Partition = Deployer.FileSystem.Partition;
 
 namespace Deployer.NetFx
@@ -124,9 +125,9 @@ namespace Deployer.NetFx
 
         private static async Task<string> GetListOfPartitions(Disk disk)
         {
-            var formatPartitionsList = await disk.GetPartitions();
-            var partitionsList = string.Join("\n", formatPartitionsList.Select((partition, i) => $"{i} - {partition}"));
-             return partitionsList;
+            var partitions = await disk.GetPartitions();
+            var str = partitions.AsNumberedList();
+             return str;
         }
 
         public char GetFreeDriveLetter()
