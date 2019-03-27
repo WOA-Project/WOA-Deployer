@@ -3,7 +3,7 @@ using Deployer.Tasks;
 using Octokit;
 using Xunit;
 
-namespace Deployer.Tests.Tasks.GitHub
+namespace Deployer.Tests.Real.Tasks.GitHub
 {
     public class FetchGitHubLatestReleaseTests
     {

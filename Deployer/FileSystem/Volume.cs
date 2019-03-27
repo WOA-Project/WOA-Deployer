@@ -28,7 +28,7 @@ namespace Deployer.FileSystem
         {
             Log.Verbose("Mounting volume {Volume}", this);
             var driveLetter = DiskApi.GetFreeDriveLetter();
-            await DiskApi.AssignDriveLetter(this, driveLetter);
+            await DiskApi.AssignDriveLetter(Partition, driveLetter);
 
             await Observable.Defer(() => Observable.Return(UpdateLetter(driveLetter))).RetryWithBackoffStrategy();
         }

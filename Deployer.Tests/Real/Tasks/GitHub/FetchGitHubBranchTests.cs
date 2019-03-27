@@ -2,7 +2,7 @@
 using Deployer.Tasks;
 using Xunit;
 
-namespace Deployer.Tests.Tasks.GitHub
+namespace Deployer.Tests.Real.Tasks.GitHub
 {
     public class FetchGitHubBranchTests
     {

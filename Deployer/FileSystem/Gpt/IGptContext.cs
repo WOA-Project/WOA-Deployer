@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using ByteSizeLib;
 
 namespace Deployer.FileSystem.Gpt
@@ -6,7 +6,7 @@ namespace Deployer.FileSystem.Gpt
     public interface IGptContext
     {
         ByteSize AvailableSize { get; }
-        IEnumerable<Partition> Partitions { get; }
+        ReadOnlyCollection<Partition> Partitions { get; }
         ByteSize AllocatedSize { get; }
         ByteSize TotalSize { get; }
         void Add(Entry entry);

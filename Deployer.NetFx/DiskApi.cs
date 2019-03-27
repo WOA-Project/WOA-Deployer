@@ -39,7 +39,7 @@ namespace Deployer.NetFx
 
         public async Task Format(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
         {
-            var part = await GetPsPartition(partition.Guid, partition.Disk);
+            var part = await GetPsPartition(partition);
             
             await ps.ExecuteCommand("Format-Volume",
                 ("Partition", part),
@@ -50,9 +50,9 @@ namespace Deployer.NetFx
             );
         }
 
-        private async Task<PSObject> GetPsPartition(Guid guid, Disk disk)
+        private async Task<PSObject> GetPsPartition(Partition partition)
         {
-            var psDataCollection = await ps.ExecuteScript($"Get-Partition -DiskNumber {disk.Number} | where -Property Guid -eq '{{{guid}}}'");
+            var psDataCollection = await ps.ExecuteScript($"Get-Partition -DiskNumber {partition.Disk.Number} | where -Property Guid -eq '{{{partition.Guid}}}'");
             return psDataCollection.First();
         }
 
@@ -118,11 +118,12 @@ namespace Deployer.NetFx
         }
 
 
-        public Task AssignDriveLetter(Volume volume, char driveLetter)
+        public async Task AssignDriveLetter(Partition partition, char driveLetter)
         {
-            var cmd =
-                $@"Set-Partition -DiskNumber {volume.Partition.Disk.Number} -PartitionNumber {volume.Partition.Number} -NewDriveLetter {driveLetter}";
-            return ps.ExecuteScript(cmd);
+            var psPart = await GetPsPartition(partition);
+            await ps.ExecuteCommand("Set-Partition", 
+                ("InputObject", psPart),
+                ("NewDriveLetter", driveLetter));
         }
 
         public async Task SetGptType(Partition partition, PartitionType partitionType)
@@ -136,16 +137,16 @@ namespace Deployer.NetFx
             {
                 var part = context.Partitions.Single(x => x.Number == partition.Number);
                 part.PartitionType = partitionType;
-            }
+            }            
 
             await partition.Disk.Refresh();
         }
 
         public async Task<Volume> GetVolume(Partition partition)
         {
-            var script = $@"Get-Partition -PartitionNumber {partition.Number} -DiskNumber {partition.Disk.Number} | Get-Volume";
+            var results = await ps.ExecuteCommand("Get-Volume", 
+                ("Partition", await GetPsPartition(partition)));
 
-            var results = await ps.ExecuteScript(script);
             var volume = results.FirstOrDefault()?.ImmediateBaseObject;
 
             if (volume == null)
@@ -172,7 +173,10 @@ namespace Deployer.NetFx
             var sizeBytes = (ulong)size.Bytes;
             Log.Verbose("Resizing partition {Partition} to {Size}", partition, size);
 
-            await ps.ExecuteCommand("Resize-Partition", ("DiskNumber", partition.Disk.Number), ("PartitionNumber", partition.Number), ("Size", sizeBytes));
+            var psPart = await GetPsPartition(partition);
+            await ps.ExecuteCommand("Resize-Partition", 
+                ("InputObject", psPart),
+                ("Size", sizeBytes));
 
             if (ps.HadErrors)
             {

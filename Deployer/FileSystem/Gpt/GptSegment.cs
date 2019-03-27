@@ -17,7 +17,7 @@ namespace Deployer.FileSystem.Gpt
 
         public ulong Start { get; }
         public ulong Length { get; }
-        public ulong End => Start + Length + 1;
+        public ulong End => Start + Length - 1;
 
         public override string ToString()
         {

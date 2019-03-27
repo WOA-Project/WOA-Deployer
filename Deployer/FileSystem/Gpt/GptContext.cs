@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using ByteSizeLib;
@@ -45,7 +46,7 @@ namespace Deployer.FileSystem.Gpt
 
         public ByteSize AvailableSize => new ByteSize(ToBytes(availableSectorSize));
 
-        public IEnumerable<Partition> Partitions => handler.Partitions
+        public ReadOnlyCollection<Partition> Partitions => handler.Partitions
             .ToList().AsReadOnly();
 
         public ByteSize AllocatedSize => new ByteSize(ToBytes(currentSector));
@@ -68,11 +69,6 @@ namespace Deployer.FileSystem.Gpt
             var desiredSize = new GptSegment(currentSector, ToSectors(entry.Size.Bytes));
             var size = calculator.Constraint(desiredSize);
 
-            if (size.End > SizeInSectors)
-            {
-                throw new InvalidOperationException("The partition cannot be out of the disk");
-            }
-
             var partition = new Partition(entry.Name, entry.GptType, (uint)handler.Partitions.Count + 1, bytesPerSector)
             {
                 Attributes = entry.Attributes,
@@ -83,8 +79,18 @@ namespace Deployer.FileSystem.Gpt
             
             handler.Partitions.Add(partition);
 
+            EnsureValidLayout(handler.Partitions, SizeInSectors);
+
             availableSectorSize -= size.Length;
             currentSector += size.Length + chunkSize;
+        }
+
+        private void EnsureValidLayout(IList<Partition> partitions, ulong sizeInSectors)
+        {
+            if (!PartitionLayoutChecker.IsLayoutValid(partitions, sizeInSectors))
+            {
+                throw new PartitioningException("The desired partition layout is not valid");
+            }
         }
 
         private ulong ToSectors(double sizeInBytes)
@@ -105,6 +111,11 @@ namespace Deployer.FileSystem.Gpt
         public Partition Find(Guid partitionGuid)
         {
             return Partitions.First(x => x.PartitionGuid == partitionGuid);
+        }
+
+        public int IndexOf(Partition partition)
+        {
+            return Partitions.IndexOf(partition);
         }
     }
 }

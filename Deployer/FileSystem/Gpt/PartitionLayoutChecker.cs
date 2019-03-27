@@ -14,7 +14,7 @@ namespace Deployer.FileSystem.Gpt
             }
 
             var isOverlapping = partitions.Overlap(x => x.FirstSector, x => x.LastSector);
-            var insideDisk = partitions.Max(x => x.FirstSector <= size);
+            var insideDisk = partitions.Max(x => x.FirstSector) < size && partitions.Max(x => x.LastSector) < size;
 
             return !isOverlapping && insideDisk;
         }

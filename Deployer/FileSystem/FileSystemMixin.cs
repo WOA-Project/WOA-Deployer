@@ -27,6 +27,12 @@ namespace Deployer.FileSystem
             return await query;
         }
 
+        public static async Task<Partition> GetPartitionByVolumeLabel(this Disk disk, string label)
+        {
+            var vol = await disk.GetVolumeByLabel(label);
+            return vol.Partition;
+        }
+
         public static async Task<Partition> GetPartitionByName(this Disk disk, string name)
         {
             var listsOfPartitions = disk.GetPartitions().ToObservable();

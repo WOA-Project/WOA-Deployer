@@ -4,11 +4,12 @@ using Deployer.FileSystem;
 using Deployer.FileSystem.Gpt;
 using Xunit;
 
-namespace Deployer.Tests
+namespace Deployer.Tests.Real
 {
     public class GptTransactionTest
     {
-        [Fact]
+        [Fact(Skip = "Don't run this")]
+        [Trait("Category", "Real")]
         public void CreateLayout()
         {
             using (var gpt = new GptContext(3, FileAccess.ReadWrite))

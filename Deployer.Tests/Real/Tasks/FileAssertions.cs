@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Deployer.Tests.Tasks
+namespace Deployer.Tests.Real.Tasks
 {
     public static class FileAssertions
     {

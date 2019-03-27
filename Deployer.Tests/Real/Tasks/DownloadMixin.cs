@@ -3,7 +3,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Deployer.Tests.Tasks
+namespace Deployer.Tests.Real.Tasks
 {
     public static class DownloadMixin
     {
