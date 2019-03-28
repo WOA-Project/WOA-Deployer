@@ -93,7 +93,7 @@ namespace Deployer.Utils
             var isExistingPath = File.Exists(path) || Directory.Exists(path);
             var status = isExistingPath ? "exists" : "does not exist";
            
-            Log.Verbose($"The '{{Path}}' {status}", path);
+            Log.Verbose($"Checking path: {{Path}} {status}", path);
 
             return isExistingPath;
         }

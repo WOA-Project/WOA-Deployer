@@ -47,7 +47,9 @@ namespace Deployer.FileSystem.Gpt
 
         public ByteSize AvailableSize => new ByteSize(ToBytes(availableSectorSize));
 
-        public ReadOnlyCollection<Partition> Partitions => handler.Partitions
+        public ReadOnlyCollection<Partition> Partitions => handler
+            .Partitions
+            .OrderBy(x => x.FirstSector)
             .ToList().AsReadOnly();
 
         public ByteSize AllocatedSize => new ByteSize(ToBytes(currentSector));

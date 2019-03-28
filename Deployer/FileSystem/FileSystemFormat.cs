@@ -12,5 +12,10 @@
         {
             Moniker = moniker;
         }
+
+        public override string ToString()
+        {
+            return Moniker;
+        }
     }
 }
