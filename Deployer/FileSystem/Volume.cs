@@ -60,8 +60,8 @@ namespace Deployer.FileSystem
 
         public override string ToString()
         {
-            var foo = Label ?? "No label";
-            return $"'{foo}' - Partition {Partition}";
+            var label = Label ?? "No label";
+            return $"Volume '{label}' at {Partition}";
         }
     }
 }

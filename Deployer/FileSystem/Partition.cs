@@ -46,7 +46,7 @@ namespace Deployer.FileSystem
 
         public override string ToString()
         {
-            return $"Partition Guid '{Guid}' in {Disk}. {Name ?? "Unnamed"}";
+            return $@"Partition ""{Name ?? "Unnamed"}"" - Guid: {Guid} in {Disk}. ";
         }
 
         protected bool Equals(Partition other)

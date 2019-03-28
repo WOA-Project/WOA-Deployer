@@ -44,10 +44,9 @@ namespace Deployer.NetFx
         {
             label = label ?? partition.Name ?? "";
 
-            Log.Verbose("Formatting partition {Partition} as {Format} with label {Label}", partition, fileSystemFormat, label);
+            Log.Verbose(@"Formatting {Partition} as {Format} labeled as ""{Label}""", partition, fileSystemFormat, label);
 
             var part = await GetPsPartition(partition);
-
             
             await ps.ExecuteCommand("Format-Volume",
                 ("Partition", part),
@@ -89,7 +88,7 @@ namespace Deployer.NetFx
                     }
                     catch (Exception)
                     {
-                        Log.Warning($"Cannot get volume for partition {x}");
+                        Log.Warning($"Cannot get volume for {x}");
                         return null;
                     }
                 }))
@@ -102,7 +101,7 @@ namespace Deployer.NetFx
 
         public async Task RemovePartition(Partition partition)
         {
-            Log.Verbose("Removing partition {Partition}", partition);
+            Log.Verbose("Removing {Partition}", partition);
 
             using (var c = new GptContext(partition.Disk.Number, FileAccess.ReadWrite))
             {
@@ -115,12 +114,12 @@ namespace Deployer.NetFx
 
         public async Task RefreshDisk(Disk disk)
         {
-            Log.Verbose("Refreshing disk {Disk}. Partitions before refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
+            Log.Verbose("Refreshing {Disk}. Partitions before refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
 
             var script = $"SELECT DISK {disk.Number}\nOFFLINE DISK\nONLINE DISK";
             await ps.ExecuteScript($@"""{script}"" | & diskpart.exe");
 
-            Log.Verbose("Disk {Disk} refreshed. Partitions after refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
+            Log.Verbose("{Disk} refreshed. Partitions after refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
         }
 
         private static async Task<string> GetListOfPartitions(Disk disk)
@@ -133,8 +132,7 @@ namespace Deployer.NetFx
         public char GetFreeDriveLetter()
         {
             Log.Debug("Getting free drive letter");
-
-
+            
             var drives = Enumerable.Range('C', 'Z').Select(i => (char)i);
             var usedDrives = DriveInfo.GetDrives().Select(x => char.ToUpper(x.Name[0]));
 
@@ -146,15 +144,19 @@ namespace Deployer.NetFx
 
         public async Task AssignDriveLetter(Partition partition, char driveLetter)
         {
+            Log.Debug("Assigning drive letter {Letter} to {Partition}", driveLetter, partition);
+
             var psPart = await GetPsPartition(partition);
             await ps.ExecuteCommand("Set-Partition", 
                 ("InputObject", psPart),
                 ("NewDriveLetter", driveLetter));
+
+            Log.Debug("Drive letter assigned");
         }
 
         public async Task SetGptType(Partition partition, PartitionType partitionType)
         {
-            Log.Verbose("Setting new GPT partition type {Type} to partition {Partition}", partitionType, partition);
+            Log.Verbose("Setting new GPT partition type {Type} to {Partition}", partitionType, partition);
 
             if (Equals(partition.PartitionType, partitionType))
             {
@@ -175,7 +177,7 @@ namespace Deployer.NetFx
 
         public async Task<Volume> GetVolume(Partition partition)
         {
-            Log.Debug("Getting volume of partition {Partition}", partition);
+            Log.Debug("Getting volume of {Partition}", partition);
 
             var results = await ps.ExecuteCommand("Get-Volume", 
                 ("Partition", await GetPsPartition(partition)));
@@ -195,7 +197,7 @@ namespace Deployer.NetFx
                 Letter = (char?)result.GetPropertyValue("DriveLetter")
             };
 
-            Log.Debug("Obtained volume {Volume}", vol);
+            Log.Debug("Obtained {Volume}", vol);
             
             return vol;
         }
@@ -256,7 +258,7 @@ namespace Deployer.NetFx
 
         public async Task ChangeDiskId(Disk disk, Guid guid)
         {
-            Log.Verbose("Changing disk Guid {Guid} to disk {Disk}", guid, disk);
+            Log.Verbose("Changing disk Guid {Guid} to {Disk}", guid, disk);
 
             var cmd = $@"Set-Disk -Number {disk.Number} -Guid ""{{{guid}}}""";
             await ps.ExecuteScript(cmd);
