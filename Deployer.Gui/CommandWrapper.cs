@@ -26,6 +26,7 @@ namespace Deployer.Gui
             Log.Error(e, "An error has occurred");
             Log.Information($"Error: {e.Message}");
             await dialog.ShowAlert(parent, Resources.ErrorTitle, $"{e.Message}");   
+            Log.Information("");
         }
 
         public bool IsExecuting => isExecutingHelper.Value;
