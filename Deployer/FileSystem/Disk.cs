@@ -59,7 +59,6 @@ namespace Deployer.FileSystem
             }
         }
 
-
         public Task Refresh()
         {
             return DiskApi.RefreshDisk(this);

@@ -31,6 +31,7 @@ namespace Deployer.FileSystem
             if (Root != null)
             {
                 Log.Verbose("{Volume} already mounted. Skipping.", this);
+                return;
             }
 
             var driveLetter = DiskApi.GetFreeDriveLetter();
