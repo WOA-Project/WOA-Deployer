@@ -48,14 +48,14 @@ namespace Deployer.FileSystem
             return DiskApi.GetPartitions(this);
         }
 
-        public Task<Partition> GetPartition(string name)
+        public async Task<Partition> GetPartition(string name)
         {
-            using (var transaction = new GptContext(Number, FileAccess.Read))
+            using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
             {
                 var firstOrDefault = transaction.Partitions.FirstOrDefault(x =>
                     string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
                 var asCommon = firstOrDefault?.AsCommon(this);
-                return Task.FromResult(asCommon);
+                return asCommon;
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.FileSystem;
 using Deployer.FileSystem.Gpt;
@@ -10,9 +11,9 @@ namespace Deployer.Tests.Real
     {
         [Fact(Skip = "Don't run this")]
         [Trait("Category", "Real")]
-        public void CreateLayout()
+        public async Task CreateLayout()
         {
-            using (var gpt = new GptContext(3, FileAccess.ReadWrite))
+            using (var gpt = await GptContextFactory.Create(3, FileAccess.ReadWrite))
             {
                 gpt.RemoveExisting("SYSTEM");
                 gpt.RemoveExisting("MSR");
@@ -20,7 +21,7 @@ namespace Deployer.Tests.Real
                 gpt.RemoveExisting("Recovery");
             }
 
-            using (var gpt = new GptContext(3, FileAccess.ReadWrite))
+            using (var gpt = await GptContextFactory.Create(3, FileAccess.ReadWrite))
             {
                 gpt.Add(new EntryBuilder("SYSTEM", ByteSize.FromMegaBytes(100), PartitionType.Esp).NoAutoMount().Build());
 
@@ -38,9 +39,9 @@ namespace Deployer.Tests.Real
         }
 
         [Fact]
-        public void CheckRecovery()
+        public async Task CheckRecovery()
         {
-            using (var gpt = new GptContext(3, FileAccess.ReadWrite))
+            using (var gpt = await GptContextFactory.Create(3, FileAccess.ReadWrite))
             {
                 var part = gpt.Get("Recovery");
             }

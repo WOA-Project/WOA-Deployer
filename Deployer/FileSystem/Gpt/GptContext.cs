@@ -10,8 +10,8 @@ namespace Deployer.FileSystem.Gpt
 {
     public class GptContext : IGptContext, IDisposable
     {
-        private const int DefaultBytesPerSector = 512;
-        private const int DefaultChunkSize = 256;
+        public const int DefaultBytesPerSector = 512;
+        public const int DefaultChunkSize = 256;
         private readonly uint bytesPerSector;
         private readonly Stream deviceStream;
         private readonly Handler handler;
@@ -20,7 +20,7 @@ namespace Deployer.FileSystem.Gpt
         private readonly uint chunkSize;
         private readonly PartitionSegmentCalculator calculator;
 
-        public GptContext(uint diskId, FileAccess fileAccess, uint bytesPerSector = DefaultBytesPerSector, int chunkSize = DefaultChunkSize) : this(
+        public GptContext(uint diskId, FileAccess fileAccess, uint bytesPerSector = DefaultBytesPerSector, uint chunkSize = DefaultChunkSize) : this(
             new DeviceStream(diskId, fileAccess), bytesPerSector)
         {
         }

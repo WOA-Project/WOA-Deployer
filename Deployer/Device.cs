@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
+using Deployer.FileSystem.Gpt;
 using Registry;
 using Serilog;
+using Partition = Deployer.FileSystem.Partition;
 
 namespace Deployer
 {
@@ -21,40 +25,14 @@ namespace Deployer
         public abstract Task<Disk> GetDeviceDisk();
         public abstract Task<Volume> GetWindowsVolume();
 
-        protected async Task<Volume> GetVolumeByPartitionName(string partitionName, bool automount = true)
+        protected async Task<Volume> GetVolumeByPartitionName(string partitionName)
         {
-            Log.Verbose("Getting volume by partition name '{Name}'", partitionName);
-
-            var disk = await GetDeviceDisk();
-            var vol = await disk.GetVolumeByPartitionName(partitionName);
-
-            if (automount && vol != null)
-            {
-                if (vol.Root == null)
-                {
-                    await vol.Mount();
-                }
-            }
-
-            return vol;
+            return await (await GetDeviceDisk()).GetVolumeByPartitionName(partitionName);
         }
 
-        protected async Task<Volume> GetVolumeByLabel(string label, bool automount = true)
+        protected async Task<Volume> GetVolumeByLabel(string label)
         {
-            Log.Verbose("Getting volume labeled as {Label}", label);
-
-            var disk = await GetDeviceDisk();
-            var vol = await disk.GetVolumeByLabel(label);
-
-            if (automount && vol != null)
-            {
-                if (vol.Root == null)
-                {
-                    await vol.Mount();
-                }
-            }
-
-            return vol;
+            return await (await GetDeviceDisk()).GetVolumeByLabel(label);
         }
 
         protected async Task<bool> IsWoAPresent()
@@ -115,5 +93,17 @@ namespace Deployer
         }
 
         public abstract Task<Partition> GetSystemPartition();
+    }
+
+    public static class GptContextFactory
+    {
+        public static Task<GptContext> Create(uint diskId, FileAccess fileAccess,
+            uint bytesPerSector = GptContext.DefaultBytesPerSector, uint chuckSize = GptContext.DefaultChunkSize)
+        {
+            return Observable
+                .Defer(() => Observable.Return(new GptContext(diskId, fileAccess, bytesPerSector, chuckSize)))
+                .RetryWithBackoffStrategy()
+                .ToTask();
+        }
     }
 }

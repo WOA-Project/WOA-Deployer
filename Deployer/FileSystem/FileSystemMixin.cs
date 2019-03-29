@@ -13,7 +13,7 @@ namespace Deployer.FileSystem
             return Path.Combine(root, "EFI", "Microsoft", "Boot", "BCD");
         }
 
-        public static async Task<Volume> GetVolumeByLabel(this Disk disk, string label)
+        public static async Task<Volume> GetVolumeByLabel(this Disk disk, string label, bool autoMount = true)
         {
             var parts = await disk.GetPartitions();
 
@@ -24,7 +24,14 @@ namespace Deployer.FileSystem
                 .Where(x => x != null)
                 .FirstOrDefaultAsync(x => string.Equals(x.Label, label, StringComparison.InvariantCultureIgnoreCase));
 
-            return await query;
+            var volumeByLabel = await query;
+
+            if (autoMount && volumeByLabel != null)
+            {
+                await volumeByLabel.Mount();
+            }
+
+            return volumeByLabel;
         }
 
         public static async Task<Partition> GetPartitionByVolumeLabel(this Disk disk, string label)
@@ -52,10 +59,17 @@ namespace Deployer.FileSystem
             return found;
         }
 
-        public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name)
+        public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name, bool autoMount = true)
         {
             var partition = await GetPartitionByName(disk, name);
-            return await partition.GetVolume();
+            var vol = await partition.GetVolume();
+
+            if (autoMount && vol != null)
+            {
+                await vol.Mount();
+            }
+
+            return vol;
         }
     }
 }

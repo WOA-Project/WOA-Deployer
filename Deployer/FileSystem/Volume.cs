@@ -26,7 +26,13 @@ namespace Deployer.FileSystem
 
         public async Task Mount()
         {
-            Log.Verbose("Mounting volume {Volume}", this);
+            Log.Verbose("Mounting {Volume}", this);
+
+            if (Root != null)
+            {
+                Log.Verbose("{Volume} already mounted. Skipping.", this);
+            }
+
             var driveLetter = DiskApi.GetFreeDriveLetter();
             await DiskApi.AssignDriveLetter(Partition, driveLetter);
 

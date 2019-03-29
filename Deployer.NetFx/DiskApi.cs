@@ -29,14 +29,14 @@ namespace Deployer.NetFx
             return disks.ToList();
         }
 
-        public Task<List<Partition>> GetPartitions(Disk disk)
+        public async Task<List<Partition>> GetPartitions(Disk disk)
         {
             Log.Debug("Getting partitions from disk {Disk}", disk);
             
-            using (var transaction = new GptContext(disk.Number, FileAccess.Read))
+            using (var transaction = await GptContextFactory.Create(disk.Number, FileAccess.Read, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
             {
                 var partitions = transaction.Partitions.Select(x => x.AsCommon(disk));
-                return Task.FromResult(partitions.ToList());
+                return partitions.ToList();
             }
         }
 
@@ -103,7 +103,7 @@ namespace Deployer.NetFx
         {
             Log.Verbose("Removing {Partition}", partition);
 
-            using (var c = new GptContext(partition.Disk.Number, FileAccess.ReadWrite))
+            using (var c = await  GptContextFactory.Create(partition.Disk.Number, FileAccess.ReadWrite, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
             {
                 var gptPart = c.Find(partition.Guid);
                 c.Delete(gptPart);
@@ -163,7 +163,7 @@ namespace Deployer.NetFx
                 return;
             }
 
-            using (var context = new GptContext(partition.Disk.Number, FileAccess.ReadWrite))
+            using (var context = await GptContextFactory.Create(partition.Disk.Number, FileAccess.ReadWrite, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
             {
                 var part = context.Find(partition.Guid);
                 part.PartitionType = partitionType;
