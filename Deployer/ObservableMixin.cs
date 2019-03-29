@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Serilog;
 
 namespace Deployer
 {
@@ -42,9 +43,14 @@ namespace Deployer
                         return observable
                             .Select(Notification.CreateOnNext)
                             .Catch(
-                                (Exception e) => retryOnError(e)
-                                    ? Observable.Throw<Notification<T>>(e)
-                                    : Observable.Return(Notification.CreateOnError<T>(e)));
+                                (Exception e) =>
+                                {
+                                    Log.Verbose($"Attempt #{attempt}");
+
+                                    return retryOnError(e)
+                                        ? Observable.Throw<Notification<T>>(e)
+                                        : Observable.Return(Notification.CreateOnError<T>(e));
+                                });
                     })
                 .Retry(retryCount)
                 .Dematerialize();

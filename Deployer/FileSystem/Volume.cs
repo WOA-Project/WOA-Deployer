@@ -30,27 +30,21 @@ namespace Deployer.FileSystem
             var driveLetter = DiskApi.GetFreeDriveLetter();
             await DiskApi.AssignDriveLetter(Partition, driveLetter);
 
-            await Observable.Defer(() => Observable.Return(UpdateLetter(driveLetter))).RetryWithBackoffStrategy();
+            await Observable.Defer(() => Observable.Return(EnsurePathIsReady($@"{driveLetter}:\"))).RetryWithBackoffStrategy(5);
+            Letter = driveLetter;
         }
 
-        private Unit UpdateLetter(char driveLetter)
+        private static Unit EnsurePathIsReady(string path)
         {
-            try
+            Log.Debug("Checking path {Path}", path);
+            if (!Directory.Exists(path))
             {
-                if (!Directory.Exists($@"{driveLetter}:\"))
-                {
-                    throw new ApplicationException($"The letter driver letter '{driveLetter}' isn't available yet");
-                }
+                throw new ApplicationException($"The path '{path}' isn't ready yet");
+            }
 
-                Letter = driveLetter;
-                return Unit.Default;
-            }
-            catch (Exception)
-            {
-                Log.Verbose("Cannot get path for drive letter {DriveLetter} while mounting partition {Partition}",
-                    driveLetter, this);
-                throw;
-            }
+            Log.Debug($"The {path} is ready");
+
+            return Unit.Default;
         }
 
         public Task<ICollection<DriverMetadata>> GetDrivers()
