@@ -9,6 +9,7 @@ using ByteSizeLib;
 using Deployer.FileSystem;
 using Deployer.FileSystem.Gpt;
 using Serilog;
+using Superpower.Model;
 using Zafiro.Core;
 using Partition = Deployer.FileSystem.Partition;
 
@@ -42,6 +43,11 @@ namespace Deployer.NetFx
 
         public async Task Format(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
         {
+            await Observable.FromAsync(() => FormatCore(partition, fileSystemFormat, label));
+        }
+
+        private async Task FormatCore(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
+        {
             label = label ?? partition.Name ?? "";
 
             Log.Verbose(@"Formatting {Partition} as {Format} labeled as ""{Label}""", partition, fileSystemFormat, label);
@@ -55,6 +61,25 @@ namespace Deployer.NetFx
                 ("FileSystem", fileSystemFormat.Moniker),
                 ("NewFileSystemLabel", label)
             );
+
+            await EnsureFormatted(partition, label, fileSystemFormat);
+        }
+
+        private static async Task EnsureFormatted(Partition partition, string label, FileSystemFormat fileSystemFormat)
+        {
+            var volume = await partition.GetVolume();
+            if (volume == null)
+            {
+                throw new ApplicationException($"Couldn't get volume for {partition}");
+            }
+
+            var sameLabel = string.Equals(volume.Label, label);
+            var sameFileSystemFormat = Equals(volume.FileSytemFormat, fileSystemFormat);
+            if (!sameLabel || !sameFileSystemFormat)
+            {
+                Log.Verbose("Same label? {Value}. Same file system format {Value}?", sameLabel, sameFileSystemFormat);
+                throw new ApplicationException("The format operation failed");
+            }
         }
 
         private async Task<PSObject> GetPsPartition(Partition partition)
@@ -144,6 +169,14 @@ namespace Deployer.NetFx
 
         public async Task AssignDriveLetter(Partition partition, char driveLetter)
         {
+            await Observable
+                .Defer(() => Observable
+                    .FromAsync(() => ChangeDriveLetterCore(partition, driveLetter)))
+                .RetryWithBackoffStrategy(5);
+        }
+
+        private async Task ChangeDriveLetterCore(Partition partition, char driveLetter)
+        {
             Log.Debug("Assigning drive letter {Letter} to {Partition}", driveLetter, partition);
 
             var psPart = await GetPsPartition(partition);
@@ -151,9 +184,21 @@ namespace Deployer.NetFx
                 ("InputObject", psPart),
                 ("NewDriveLetter", driveLetter));
 
-            Log.Debug("Drive letter assigned");
+            Log.Debug("Ensuring the volume is mounted...");
+            EnsurePathExists($"{driveLetter}:\\");
         }
 
+        private static void EnsurePathExists(string path)
+        {
+            Log.Debug("Checking path {Path}", path);
+            if (!Directory.Exists(path))
+            {
+                throw new ApplicationException($"The path '{path}' isn't ready yet");
+            }
+
+            Log.Debug("The path {Path} is ready", path);
+        }
+        
         public async Task SetGptType(Partition partition, PartitionType partitionType)
         {
             Log.Verbose("Setting new GPT partition type {Type} to {Partition}", partitionType, partition);
@@ -172,7 +217,6 @@ namespace Deployer.NetFx
             await partition.Disk.Refresh();
 
             Log.Verbose("New GPT type set correctly", partitionType, partition);
-
         }
 
         public async Task<Volume> GetVolume(Partition partition)
@@ -194,7 +238,8 @@ namespace Deployer.NetFx
                 Partition = partition,
                 Size = new ByteSize(Convert.ToUInt64(result.GetPropertyValue("Size"))),
                 Label = (string)result.GetPropertyValue("FileSystemLabel"),
-                Letter = (char?)result.GetPropertyValue("DriveLetter")
+                Letter = (char?)result.GetPropertyValue("DriveLetter"),
+                FileSytemFormat = FileSystemFormat.FromString((string)result.GetPropertyValue("FileSystem")),
             };
 
             Log.Debug("Obtained {Volume}", vol);

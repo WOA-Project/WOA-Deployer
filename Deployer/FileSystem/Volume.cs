@@ -20,6 +20,7 @@ namespace Deployer.FileSystem
         public ByteSize Size { get; set; }
         public string Label { get; set; }
         public char? Letter { get; set; }
+        public FileSystemFormat FileSytemFormat { get; set; }
         public string Root => Letter.HasValue ? $"{Letter}:\\" : null;
 
         public IDiskApi DiskApi => Partition.DiskApi;
@@ -36,22 +37,7 @@ namespace Deployer.FileSystem
 
             var driveLetter = DiskApi.GetFreeDriveLetter();
             await DiskApi.AssignDriveLetter(Partition, driveLetter);
-
-            await Observable.Defer(() => Observable.Return(EnsurePathIsReady($@"{driveLetter}:\"))).RetryWithBackoffStrategy(5);
             Letter = driveLetter;
-        }
-
-        private static Unit EnsurePathIsReady(string path)
-        {
-            Log.Debug("Checking path {Path}", path);
-            if (!Directory.Exists(path))
-            {
-                throw new ApplicationException($"The path '{path}' isn't ready yet");
-            }
-
-            Log.Debug($"The {path} is ready");
-
-            return Unit.Default;
         }
 
         public Task<ICollection<DriverMetadata>> GetDrivers()
@@ -62,7 +48,7 @@ namespace Deployer.FileSystem
         public override string ToString()
         {
             var label = Label ?? "No label";
-            return $"Volume '{label}' at {Partition}";
+            return $"Volume '{label}' at {Partition} {FileSytemFormat.Moniker}";
         }
     }
 }
