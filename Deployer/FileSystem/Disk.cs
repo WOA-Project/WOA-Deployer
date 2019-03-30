@@ -50,7 +50,7 @@ namespace Deployer.FileSystem
 
         public async Task<Partition> GetPartition(string name)
         {
-            using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
+            using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read))
             {
                 var firstOrDefault = transaction.Partitions.FirstOrDefault(x =>
                     string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));

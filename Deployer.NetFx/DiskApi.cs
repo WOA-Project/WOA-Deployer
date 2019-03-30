@@ -34,7 +34,7 @@ namespace Deployer.NetFx
         {
             Log.Debug("Getting partitions from disk {Disk}", disk);
             
-            using (var transaction = await GptContextFactory.Create(disk.Number, FileAccess.Read, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
+            using (var transaction = await GptContextFactory.Create(disk.Number, FileAccess.Read))
             {
                 var partitions = transaction.Partitions.Select(x => x.AsCommon(disk));
                 return partitions.ToList();
@@ -43,7 +43,7 @@ namespace Deployer.NetFx
 
         public async Task Format(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
         {
-            await Observable.FromAsync(() => FormatCore(partition, fileSystemFormat, label));
+            await Observable.FromAsync(() => FormatCore(partition, fileSystemFormat, label)).RetryWithBackoffStrategy(4);
         }
 
         private async Task FormatCore(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
@@ -73,11 +73,18 @@ namespace Deployer.NetFx
                 throw new ApplicationException($"Couldn't get volume for {partition}");
             }
 
+            await volume.Mount();
+
+            //if (Equals(partition.PartitionType, PartitionType.Basic))
+            //{
+                
+            //}
+
             var sameLabel = string.Equals(volume.Label, label);
             var sameFileSystemFormat = Equals(volume.FileSytemFormat, fileSystemFormat);
             if (!sameLabel || !sameFileSystemFormat)
             {
-                Log.Verbose("Same label? {Value}. Same file system format {Value}?", sameLabel, sameFileSystemFormat);
+                Log.Verbose("Same label? {Value}. Same file system format? {Value}", sameLabel, sameFileSystemFormat);
                 throw new ApplicationException("The format operation failed");
             }
         }
