@@ -9,7 +9,7 @@
         xmlns:views="clr-namespace:Deployer.Gui.Views"
         mc:Ignorable="d"
         SizeToContent="Height" Width="800"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
         IsCloseButtonEnabled="False"
         IsMaxRestoreButtonEnabled="False"
         UseNoneWindowStyle="True"
