@@ -75,11 +75,6 @@ namespace Deployer.NetFx
 
             await volume.Mount();
 
-            //if (Equals(partition.PartitionType, PartitionType.Basic))
-            //{
-                
-            //}
-
             var sameLabel = string.Equals(volume.Label, label);
             var sameFileSystemFormat = Equals(volume.FileSytemFormat, fileSystemFormat);
             if (!sameLabel || !sameFileSystemFormat)

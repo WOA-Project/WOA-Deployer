@@ -10,10 +10,11 @@ namespace Deployer.Gui.Views
         {
             if (self == null)
             {
-                throw new ArgumentNullException("self");
+                throw new ArgumentNullException(nameof(self));
             }
 
-            TaskCompletionSource<bool?> completion = new TaskCompletionSource<bool?>();
+            var completion = new TaskCompletionSource<bool?>();
+            self.Owner = Application.Current.MainWindow;
             self.Dispatcher.BeginInvoke(new Action(() => completion.SetResult(self.ShowDialog())));
             return completion.Task;
         }
