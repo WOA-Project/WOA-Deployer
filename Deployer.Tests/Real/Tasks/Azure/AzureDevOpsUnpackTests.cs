@@ -17,7 +17,7 @@ namespace Deployer.Tests.Real.Tasks.Azure
             using (var httpClient = new HttpClient())
             {
                 IDownloader downloader = new Downloader(httpClient);
-                var task = new FechAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, downloader, null);
+                var task = new FetchAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, downloader, null);
                 await task.Execute();
             }
         }

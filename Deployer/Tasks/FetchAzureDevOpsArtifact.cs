@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Deployer.DevOpsBuildClient;
 using Deployer.Execution;
@@ -9,7 +8,7 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching from Azure DevOps: {0}")]
-    public class FechAzureDevOpsArtifact : IDeploymentTask
+    public class FetchAzureDevOpsArtifact : IDeploymentTask
     {
         private string org;
         private string project;
@@ -23,7 +22,7 @@ namespace Deployer.Tasks
 
         private const string SubFolder = "Downloaded";
 
-        public FechAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IDownloader downloader, IDownloadProgress progressObserver)
+        public FetchAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IDownloader downloader, IDownloadProgress progressObserver)
         {
             ParseDescriptor(descriptor);
 
