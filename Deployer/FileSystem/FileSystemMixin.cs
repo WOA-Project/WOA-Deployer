@@ -40,28 +40,34 @@ namespace Deployer.FileSystem
             return vol?.Partition;
         }
 
+        public static async Task<Partition> GetRequiredPartitionByName(this Disk disk, string name)
+        {
+            var partition = await GetPartitionByName(disk, name);
+
+            if (partition == null)
+            {
+                throw new ApplicationException($"Cannot find partition named '{name}'");
+            }
+
+            return partition;
+        }
+
         public static async Task<Partition> GetPartitionByName(this Disk disk, string name)
         {
             var listsOfPartitions = disk.GetPartitions().ToObservable();
 
             var matching = from partitions in listsOfPartitions
-                           from partition in partitions
-                           where string.Equals(partition.Name, name, StringComparison.InvariantCultureIgnoreCase)
-                           select partition;
+                from partition in partitions
+                where string.Equals(partition.Name, name, StringComparison.InvariantCultureIgnoreCase)
+                select partition;
 
             var found = await matching.FirstOrDefaultAsync();
-
-            if (found == null)
-            {
-                throw new ApplicationException($"Cannot find partition named '{name}'");
-            }
-
             return found;
         }
 
         public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name, bool autoMount = true)
         {
-            var partition = await GetPartitionByName(disk, name);
+            var partition = await GetRequiredPartitionByName(disk, name);
             var vol = await partition.GetVolume();
 
             if (autoMount && vol != null)

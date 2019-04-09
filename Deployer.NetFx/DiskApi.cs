@@ -9,7 +9,6 @@ using ByteSizeLib;
 using Deployer.FileSystem;
 using Deployer.FileSystem.Gpt;
 using Serilog;
-using Superpower.Model;
 using Zafiro.Core;
 using Partition = Deployer.FileSystem.Partition;
 
