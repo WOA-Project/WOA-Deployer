@@ -44,18 +44,21 @@ namespace Deployer.FileSystem
         public uint Number { get; }
         public ByteSize AvailableSize => Size - AllocatedSize;
 
-        public Task<List<Partition>> GetPartitions()
+        public async Task<List<Partition>> GetPartitions()
         {
-            return DiskApi.GetPartitions(this);
+            using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
+            {
+                return context.Partitions.Select(x => x.AsCommon(this)).ToList();
+            }
         }
 
         public async Task<Partition> GetPartition(string name)
         {
             return await Observable.FromAsync(async () =>
             {
-                using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read))
+                using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
                 {
-                    var partition = transaction.Partitions.First(x =>
+                    var partition = context.Partitions.First(x =>
                         string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
 
                     if (partition == null)
