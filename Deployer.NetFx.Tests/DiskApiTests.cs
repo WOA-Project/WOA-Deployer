@@ -1,45 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Deployer.FileSystem;
-using FluentAssertions;
 using Xunit;
-using Zafiro.Core;
-using Partition = Deployer.FileSystem.Gpt.Partition;
 
 namespace Deployer.NetFx.Tests
 {
     public class DiskApiTests
     {
         [Fact]
-        public async Task GetVolumeByName()
+        public async Task GetVolumeByPartitionName()
         {
             var sut = new DiskApi();
             var disk = await sut.GetDisk(3);
-            var vols = await disk.GetVolumeByLabel("MainOS");
+            var vols = await disk.GetVolumeByPartitionName("MainOS");
         }
-
-        [Fact]
-        public async Task GetEspVolume()
-        {
-            var diskApi = new DiskApi();
-            var disk = await diskApi.GetDisk(3);
-            var partition = await disk.GetPartition("SYSTEM");
-            await partition.SetGptType(PartitionType.Esp);
-            await partition.Format(FileSystemFormat.Fat32, "System");
-
-            var vol = await disk.GetVolumeByPartitionName("SYSTEM");
-            await vol.Mount();
-            vol.Should().NotBeNull();
-            vol.Root.Should().NotBeNull();
-        }
+        
 
         [Fact]
         public async Task GetDataByLabel()
         {
             var diskApi = new DiskApi();
             var disk = await diskApi.GetDisk(3);
-            var partition = await disk.GetVolumeByLabel("Data");
+            var partition = await disk.GetPartition("Data");
         }        
     }
 }
