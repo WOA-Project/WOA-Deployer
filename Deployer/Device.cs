@@ -30,11 +30,6 @@ namespace Deployer
             return await (await GetDeviceDisk()).GetVolumeByPartitionName(partitionName);
         }
 
-        protected async Task<Volume> GetVolumeByLabel(string label)
-        {
-            return await (await GetDeviceDisk()).GetVolumeByLabel(label);
-        }
-
         protected async Task<bool> IsWoAPresent()
         {
             try

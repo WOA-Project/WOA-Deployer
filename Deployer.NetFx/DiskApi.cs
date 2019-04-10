@@ -231,7 +231,7 @@ namespace Deployer.NetFx
 
             if (result == null)
             {
-                return null;
+                throw new ApplicationException($"Cannot get volume for {partition}");
             }
 
             var vol = new Volume(partition)

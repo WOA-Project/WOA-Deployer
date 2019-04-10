@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.FileSystem.Gpt;
@@ -50,13 +51,21 @@ namespace Deployer.FileSystem
 
         public async Task<Partition> GetPartition(string name)
         {
-            using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read))
+            return await Observable.FromAsync(async () =>
             {
-                var firstOrDefault = transaction.Partitions.FirstOrDefault(x =>
-                    string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
-                var asCommon = firstOrDefault?.AsCommon(this);
-                return asCommon;
-            }
+                using (var transaction = await GptContextFactory.Create(Number, FileAccess.Read))
+                {
+                    var partition = transaction.Partitions.First(x =>
+                        string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+
+                    if (partition == null)
+                    {
+                        throw new ApplicationException($"Cannot find partition named {name} in {this}");
+                    }
+
+                    return partition.AsCommon(this);
+                }
+            }).RetryWithBackoffStrategy();
         }
 
         public Task Refresh()
