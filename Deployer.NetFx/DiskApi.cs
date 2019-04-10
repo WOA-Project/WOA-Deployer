@@ -222,9 +222,14 @@ namespace Deployer.NetFx
 
         public async Task<Volume> GetVolume(Partition partition)
         {
+            return await Observable.FromAsync( () => GetVolumeCore(partition)).RetryWithBackoffStrategy(4);
+        }
+
+        private async Task<Volume> GetVolumeCore(Partition partition)
+        {
             Log.Debug("Getting volume of {Partition}", partition);
 
-            var results = await ps.ExecuteCommand("Get-Volume", 
+            var results = await ps.ExecuteCommand("Get-Volume",
                 ("Partition", await GetPsPartition(partition)));
 
             var result = results.FirstOrDefault()?.ImmediateBaseObject;
@@ -238,13 +243,13 @@ namespace Deployer.NetFx
             {
                 Partition = partition,
                 Size = new ByteSize(Convert.ToUInt64(result.GetPropertyValue("Size"))),
-                Label = (string)result.GetPropertyValue("FileSystemLabel"),
-                Letter = (char?)result.GetPropertyValue("DriveLetter"),
-                FileSytemFormat = FileSystemFormat.FromString((string)result.GetPropertyValue("FileSystem")),
+                Label = (string) result.GetPropertyValue("FileSystemLabel"),
+                Letter = (char?) result.GetPropertyValue("DriveLetter"),
+                FileSytemFormat = FileSystemFormat.FromString((string) result.GetPropertyValue("FileSystem")),
             };
 
             Log.Debug("Obtained {Volume}", vol);
-            
+
             return vol;
         }
 
