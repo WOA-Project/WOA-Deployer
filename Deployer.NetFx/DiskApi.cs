@@ -74,6 +74,11 @@ namespace Deployer.NetFx
 
             await volume.Mount();
 
+            if (Directory.EnumerateFileSystemEntries(volume.Root).Count() > 1)
+            {
+                throw new ApplicationException("The format operation failed. The drive shouldn't contain any file after the format"); 
+            }
+
             var sameLabel = string.Equals(volume.Label, label);
             var sameFileSystemFormat = Equals(volume.FileSytemFormat, fileSystemFormat);
             if (!sameLabel || !sameFileSystemFormat)
@@ -174,6 +179,7 @@ namespace Deployer.NetFx
                 .Defer(() => Observable
                     .FromAsync(() => ChangeDriveLetterCore(partition, driveLetter)))
                 .RetryWithBackoffStrategy(5);
+            Log.Debug("{Partition} mounted successfully as driver letter {Letter}", partition, driveLetter);
         }
 
         private async Task ChangeDriveLetterCore(Partition partition, char driveLetter)

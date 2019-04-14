@@ -30,6 +30,6 @@ namespace Deployer
             bcdInvoker.Invoke("/set {default} nointegritychecks on");
 
             await boot.Partition.SetGptType(PartitionType.Esp);
-        }
+        }              
     }
 }
