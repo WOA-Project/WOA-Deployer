@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Management.Automation;
-using System.Management.Automation.Runspaces;
 using System.Threading.Tasks;
 
 namespace Deployer.NetFx
@@ -12,6 +12,12 @@ namespace Deployer.NetFx
             ps.Commands.Clear();
             ps.AddScript(script, true);
             var results = await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+
+            if (ps.HadErrors)
+            {
+                throw new ApplicationException($"The execution of the script '{script}' failed");
+            }
+
             return results;
         }
 
@@ -33,7 +39,14 @@ namespace Deployer.NetFx
                 }                
             }
 
-            return await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+            var psDataCollection = await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+
+            if (ps.HadErrors)
+            {
+                throw new ApplicationException($"The execution of the command '{commandText}' failed");
+            }
+
+            return psDataCollection;
         }
 
         public static async Task<PSDataCollection<PSObject>> ExecuteCommand(this PowerShell ps, string commandText, IEnumerable<object> arguments, params (string, object)[] parameters)
@@ -47,7 +60,14 @@ namespace Deployer.NetFx
                 command.AddParameter(arg, v);
             }
 
-            return await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+            var psDataCollection = await Task.Factory.FromAsync(ps.BeginInvoke(), ps.EndInvoke);
+
+            if (ps.HadErrors)
+            {
+                throw new ApplicationException($"The execution of the command '{commandText}' failed");
+            }
+
+            return psDataCollection;
         }
     }
 }

@@ -91,7 +91,15 @@ namespace Deployer.NetFx
         private async Task<PSObject> GetPsPartition(Partition partition)
         {
             var psDataCollection = await ps.ExecuteScript($"Get-Partition -DiskNumber {partition.Disk.Number} | where -Property Guid -eq '{{{partition.Guid}}}'");
-            return psDataCollection.First();
+            var psPartition = psDataCollection.FirstOrDefault();
+
+            if (psPartition == null)
+            {
+                await partition.Disk.Refresh();
+                throw new ApplicationException($"Could not get PS Partition for {partition}");
+            }
+
+            return psPartition;
         }
 
         public async Task<IList<Volume>> GetVolumes(Disk disk)
@@ -134,7 +142,7 @@ namespace Deployer.NetFx
         {
             Log.Verbose("Removing {Partition}", partition);
 
-            using (var c = await  GptContextFactory.Create(partition.Disk.Number, FileAccess.ReadWrite, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
+            using (var c = await  GptContextFactory.Create(partition.Disk.Number, FileAccess.ReadWrite))
             {
                 var gptPart = c.Find(partition.Guid);
                 c.Delete(gptPart);
