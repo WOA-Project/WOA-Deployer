@@ -16,11 +16,9 @@ namespace Deployer.NetFx
 {
     public class DiskApi : IDiskApi
     {
-        private readonly PowerShell ps = PowerShell.Create();
-
         public async Task<List<Disk>> GetDisks()
         {
-            var results = await ps.ExecuteScript("Get-Disk");
+            var results = await PowerShellMixin.ExecuteScript("Get-Disk");
 
             var disks = results
                 .Select(x => x.ImmediateBaseObject)
@@ -53,7 +51,7 @@ namespace Deployer.NetFx
 
             var part = await GetPsPartition(partition);
             
-            await ps.ExecuteCommand("Format-Volume",
+            await PowerShellMixin.ExecuteCommand("Format-Volume",
                 ("Partition", part),
                 ("Force", null),
                 ("Confirm", false),
@@ -90,7 +88,7 @@ namespace Deployer.NetFx
 
         private async Task<PSObject> GetPsPartition(Partition partition)
         {
-            var psDataCollection = await ps.ExecuteScript($"Get-Partition -DiskNumber {partition.Disk.Number} | where -Property Guid -eq '{{{partition.Guid}}}'");
+            var psDataCollection = await PowerShellMixin.ExecuteScript($"Get-Partition -DiskNumber {partition.Disk.Number} | where -Property Guid -eq '{{{partition.Guid}}}'");
             var psPartition = psDataCollection.FirstOrDefault();
 
             if (psPartition == null)
@@ -156,7 +154,7 @@ namespace Deployer.NetFx
             Log.Verbose("Refreshing {Disk}. Partitions before refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
 
             var script = $"SELECT DISK {disk.Number}\nOFFLINE DISK\nONLINE DISK";
-            await ps.ExecuteScript($@"""{script}"" | & diskpart.exe");
+            await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
 
             Log.Verbose("{Disk} refreshed. Partitions after refresh:\n{Partitions}", disk, await GetListOfPartitions(disk));
         }
@@ -195,7 +193,7 @@ namespace Deployer.NetFx
             Log.Debug("Assigning drive letter {Letter} to {Partition}", driveLetter, partition);
 
             var psPart = await GetPsPartition(partition);
-            await ps.ExecuteCommand("Set-Partition", 
+            await PowerShellMixin.ExecuteCommand("Set-Partition", 
                 ("InputObject", psPart),
                 ("NewDriveLetter", driveLetter));
 
@@ -243,7 +241,7 @@ namespace Deployer.NetFx
         {
             Log.Debug("Getting volume of {Partition}", partition);
 
-            var results = await ps.ExecuteCommand("Get-Volume",
+            var results = await PowerShellMixin.ExecuteCommand("Get-Volume",
                 ("Partition", await GetPsPartition(partition)));
 
             var result = results.FirstOrDefault()?.ImmediateBaseObject;
@@ -278,29 +276,14 @@ namespace Deployer.NetFx
             Log.Verbose("Resizing partition {Partition} to {Size}", partition, size);
 
             var psPart = await GetPsPartition(partition);
-            await ps.ExecuteCommand("Resize-Partition", 
+            await PowerShellMixin.ExecuteCommand("Resize-Partition", 
                 ("InputObject", psPart),
                 ("Size", sizeBytes));
-
-            if (ps.HadErrors)
-            {
-                Throw("The resize operation has failed");
-            }
-        }
-
-        private void Throw(string message)
-        {
-            var errors = string.Join(",", ps.Streams.Error.ReadAll());
-
-            var invalidOperationException = new InvalidOperationException($@"{message}. Details: {errors}");
-            Log.Error(invalidOperationException, message);
-
-            throw invalidOperationException;
         }
 
         public async Task<ICollection<DriverMetadata>> GetDrivers(Volume volume)
         {
-            var results = await ps.ExecuteScript($"Get-WindowsDriver -Path {volume.Root}");
+            var results = await PowerShellMixin.ExecuteScript($"Get-WindowsDriver -Path {volume.Root}");
 
             var disks = results
                 .Select(ToDriverMetadata);
@@ -326,25 +309,20 @@ namespace Deployer.NetFx
             Log.Verbose("Changing disk Guid {Guid} to {Disk}", guid, disk);
 
             var cmd = $@"Set-Disk -Number {disk.Number} -Guid ""{{{guid}}}""";
-            await ps.ExecuteScript(cmd);
-
-            if (ps.HadErrors)
-            {
-                Throw($"Cannot set the Guid {guid} to the disk {disk}");
-            }
+            await PowerShellMixin.ExecuteScript(cmd);
 
             Log.Verbose("Disk Guid changed", guid, disk);
         }
 
         public Task UpdateStorageCache()
         {
-            return ps.ExecuteScript("Update-HostStorageCache");
+            return PowerShellMixin.ExecuteScript("Update-HostStorageCache");
         }
 
         public async Task<Disk> GetDisk(int n)
         {
             Log.Verbose("Getting disk by index {Id}", n);
-            var results = await ps.ExecuteScript($"Get-Disk -Number {n}");
+            var results = await PowerShellMixin.ExecuteScript($"Get-Disk -Number {n}");
 
             var disks = results
                 .Select(x => x.ImmediateBaseObject)
