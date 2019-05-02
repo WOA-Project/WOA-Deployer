@@ -13,7 +13,7 @@
         IsCloseButtonEnabled="False"
         IsMaxRestoreButtonEnabled="False"
         UseNoneWindowStyle="True"
-        MaxHeight="600"
+        MaxHeight="720"
         d:DataContext="{d:DesignInstance views:AutoMessageViewModel}">
 
     <mah:MetroWindow.Resources>
@@ -66,7 +66,7 @@
         <ItemsControl Grid.Row="1" Margin="16" ItemsSource="{Binding Options}" DockPanel.Dock="Bottom">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Option.Name}" Command="{Binding Command}" CommandParameter="{Binding}" />
+                    <Button Content="{Binding Option.Name}" Command="{Binding Command}" CommandParameter="{Binding}" MaxWidth="320" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ItemsControl.ItemsPanel>
