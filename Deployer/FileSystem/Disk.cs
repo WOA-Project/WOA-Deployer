@@ -23,6 +23,7 @@ namespace Deployer.FileSystem
             IsBoot = diskProps.IsBoot;
             IsReadOnly = diskProps.IsReadOnly;
             IsOffline = diskProps.IsOffline;
+            UniqueId = diskProps.UniqueId;
         }
 
         public ByteSize Size { get; }
@@ -43,6 +44,7 @@ namespace Deployer.FileSystem
 
         public uint Number { get; }
         public ByteSize AvailableSize => Size - AllocatedSize;
+        public string UniqueId { get; }
 
         public async Task<List<Partition>> GetPartitions()
         {
@@ -51,26 +53,7 @@ namespace Deployer.FileSystem
                 return context.Partitions.Select(x => x.AsCommon(this)).ToList();
             }
         }
-
-        public async Task<Partition> GetPartition(string name)
-        {
-            return await Observable.FromAsync(async () =>
-            {
-                using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
-                {
-                    var partition = context.Partitions.First(x =>
-                        string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
-
-                    if (partition == null)
-                    {
-                        throw new ApplicationException($"Cannot find partition named {name} in {this}");
-                    }
-
-                    return partition.AsCommon(this);
-                }
-            }).RetryWithBackoffStrategy();
-        }
-
+        
         public Task Refresh()
         {
             return DiskApi.RefreshDisk(this);
@@ -84,6 +67,35 @@ namespace Deployer.FileSystem
         public override string ToString()
         {
             return $"Disk {Number} ({FriendlyName})";
+        }
+    }
+
+    public static class DiskMixin
+    {
+        public static async Task<Partition> GetRequiredPartition(this Disk self,string name)
+        {
+            return await Observable.FromAsync(async () =>
+            {
+                using (var context = await GptContextFactory.Create(self.Number, FileAccess.Read))
+                {
+                    var partition = context.Partitions.FirstOrDefault(x =>
+                        string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+
+                    if (partition == null)
+                    {
+                        throw new ApplicationException($"Cannot find partition named {name} in {self}");
+                    }
+
+                    return partition.AsCommon(self);
+                }
+            }).RetryWithBackoffStrategy();
+        }
+
+        public static async Task<Partition> GetPartition(this Disk self, string name)
+        {
+            var partitions = await self.GetPartitions();
+            return partitions.FirstOrDefault(x =>
+                string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
         }
     }
 }

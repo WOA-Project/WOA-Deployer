@@ -12,5 +12,6 @@ namespace Deployer.FileSystem
         public bool IsBoot { get; set; }
         public bool IsOffline { get; set; }
         public bool IsReadOnly { get; set; }
+        public string UniqueId { get; set; }
     }
 }

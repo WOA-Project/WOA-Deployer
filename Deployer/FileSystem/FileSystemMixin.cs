@@ -15,7 +15,7 @@ namespace Deployer.FileSystem
 
         public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name)
         {
-            var partition = await disk.GetPartition(name);
+            var partition = await disk.GetRequiredPartition(name);
             var vol = await partition.GetVolume();
 
             if (vol == null)

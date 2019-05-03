@@ -18,7 +18,7 @@ namespace Deployer.Tasks
         }
 
         public async Task ExtractFirstChildToFolder(Stream stream, string destination,
-            IDownloadProgress progressObserver = null)
+            IOperationProgress progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
@@ -29,7 +29,7 @@ namespace Deployer.Tasks
                 }, FirstChild, progressObserver);
         }
 
-        public async Task ExtractToFolder(Stream stream, string destination, IDownloadProgress progressObserver = null)
+        public async Task ExtractToFolder(Stream stream, string destination, IOperationProgress progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
@@ -40,7 +40,7 @@ namespace Deployer.Tasks
         }
 
         public async Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination,
-            IDownloadProgress progressObserver = null)
+            IOperationProgress progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
@@ -51,7 +51,7 @@ namespace Deployer.Tasks
                 }, progressObserver: progressObserver);
         }
 
-        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IDownloadProgress progressObserver = null)
+        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IOperationProgress progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
@@ -64,7 +64,7 @@ namespace Deployer.Tasks
 
         private async Task ExtractCore(Stream stream, string destination,
             Func<ZipArchive, IEnumerable<ZipArchiveEntry>> selectEntries,
-            Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> baseEntry = null, IDownloadProgress progressObserver = null)
+            Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> baseEntry = null, IOperationProgress progressObserver = null)
         {
             var archive = ZipArchive.Open(stream);
             var entries = selectEntries(archive);
@@ -72,7 +72,7 @@ namespace Deployer.Tasks
         }
 
         private async Task ExtractContents(ICollection<ZipArchiveEntry> entries, string destination,
-            IEntry baseEntry = null, IDownloadProgress progressObserver = null)
+            IEntry baseEntry = null, IOperationProgress progressObserver = null)
         {
             var total = entries.Count;
             var copied = 0;

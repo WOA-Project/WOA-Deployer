@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
@@ -35,6 +36,8 @@ namespace Deployer.Gui.ViewModels
 
             hasWimHelper = this.WhenAnyValue(model => model.WimMetadata, (WimMetadataViewModel x) => x != null)
                 .ToProperty(this, x => x.HasWim);
+
+            OpenGetWoaCommand = ReactiveCommand.Create((string url) => { Process.Start(url); });
         }
 
         public ReactiveCommand<Unit, WimMetadataViewModel> PickWimFileCommand { get; set; }
@@ -74,6 +77,8 @@ namespace Deployer.Gui.ViewModels
         }
 
         public bool HasWim => hasWimHelper.Value;
+
+        public IReactiveCommand OpenGetWoaCommand { get; set; }
 
         private static WimMetadataViewModel LoadWimMetadata(string path)
         {

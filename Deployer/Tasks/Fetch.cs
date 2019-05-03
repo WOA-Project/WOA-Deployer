@@ -12,10 +12,10 @@ namespace Deployer.Tasks
         private readonly IZipExtractor extractor;
         private readonly IFileSystemOperations fileSystemOperations;
         private readonly IDownloader downloader;
-        private readonly IDownloadProgress progressObserver;
+        private readonly IOperationProgress progressObserver;
 
         public Fetch(string url, string destination, IZipExtractor extractor,
-            IFileSystemOperations fileSystemOperations, IDownloader downloader, IDownloadProgress progressObserver)
+            IFileSystemOperations fileSystemOperations, IDownloader downloader, IOperationProgress progressObserver)
         {
             this.url = url;
             this.destination = destination;

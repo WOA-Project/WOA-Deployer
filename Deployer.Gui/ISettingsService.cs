@@ -1,3 +1,5 @@
+using Deployer.Tasks;
+
 namespace Deployer.Gui
 {
     public interface ISettingsService
@@ -6,6 +8,7 @@ namespace Deployer.Gui
         double SizeReservedForWindows { get; set; }
         bool UseCompactDeployment { get; set; }
         bool CleanDownloadedBeforeDeployment { get; set; }
+        IDiskLayoutPreparer DiskPreparer { get; set; }
         void Save();
     }
 }

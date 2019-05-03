@@ -21,7 +21,7 @@ namespace Deployer.NetFx
         }
 
         public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
-            IDownloadProgress progressObserver = null)
+            IOperationProgress progressObserver = null)
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
@@ -34,7 +34,7 @@ namespace Deployer.NetFx
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IDownloadProgress progressObserver = null)
+            IOperationProgress progressObserver = null)
         {
             var capturePath = windowsVolume?.Root;
 
@@ -45,7 +45,7 @@ namespace Deployer.NetFx
             return Run(args, progressObserver);
         }
 
-        private async Task Run(string args, IDownloadProgress progressObserver)
+        private async Task Run(string args, IOperationProgress progressObserver)
         {
             var dismName = WindowsCommandLineUtils.Dism;
             ISubject<string> outputSubject = new Subject<string>();

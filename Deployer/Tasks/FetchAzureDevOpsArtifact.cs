@@ -17,12 +17,12 @@ namespace Deployer.Tasks
         private readonly IAzureDevOpsBuildClient buildClient;
         private readonly IZipExtractor extractor;
         private readonly IDownloader downloader;
-        private readonly IDownloadProgress progressObserver;
+        private readonly IOperationProgress progressObserver;
         private string folderPath;
 
         private const string SubFolder = "Downloaded";
 
-        public FetchAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IDownloader downloader, IDownloadProgress progressObserver)
+        public FetchAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor, IDownloader downloader, IOperationProgress progressObserver)
         {
             ParseDescriptor(descriptor);
 

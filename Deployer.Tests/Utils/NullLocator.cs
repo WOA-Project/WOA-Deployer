@@ -80,5 +80,10 @@ namespace Deployer.Tests.Utils
         {
             throw new NotImplementedException();
         }
+
+        public object GetService(Type serviceType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

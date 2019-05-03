@@ -27,7 +27,7 @@ namespace Deployer.NetFx
             }
         }
 
-        public async Task Flash(Disk disk, string imagePath, IDownloadProgress progressObserver = null)
+        public async Task Flash(Disk disk, string imagePath, IOperationProgress progressObserver = null)
         {
             ISubject<string> outputSubject = new Subject<string>();
             IDisposable stdOutputSubscription = null;

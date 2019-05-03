@@ -7,7 +7,7 @@ namespace Deployer.Console
     {
         private readonly IDisposable progressUpdater;
 
-        public ConsoleDisplayUpdater(DownloadProgress progress)
+        public ConsoleDisplayUpdater(OperationProgress progress)
         {
             progressUpdater = progress.Percentage.Subscribe(DisplayProgress);
         }

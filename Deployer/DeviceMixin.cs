@@ -36,5 +36,11 @@ namespace Deployer
 
             return isThereEnoughSpace;
         }
+
+        public static async Task<Volume> GetVolumeByPartitionName(this IDevice device, string partitionName)
+        {
+            var disk = await device.GetDeviceDisk();
+            return await disk.GetVolumeByPartitionName(partitionName);
+        }
     }
 }

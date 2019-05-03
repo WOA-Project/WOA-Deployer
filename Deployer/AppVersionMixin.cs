@@ -8,7 +8,13 @@ namespace Deployer
         {
             get
             {
-                var version = Assembly.GetEntryAssembly().GetName().Version;
+                var entryAssembly = Assembly.GetEntryAssembly();
+                if (entryAssembly == null)
+                {
+                    return "{None}";
+                }
+
+                var version = entryAssembly.GetName().Version;
                 return $"{version.Major}.{version.Minor}.{version.Build}";
             }
         }

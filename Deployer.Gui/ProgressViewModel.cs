@@ -16,7 +16,7 @@ namespace Deployer.Gui
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isExecuting;
 
-        public ProgressViewModel(object owner, IReactiveCommand command, IDialog dialog, IDownloadProgress operationProgress)
+        public ProgressViewModel(object owner, IReactiveCommand command, IDialog dialog, IOperationProgress operationProgress)
         {
             Command = command;
             progress = operationProgress.Percentage
@@ -32,7 +32,7 @@ namespace Deployer.Gui
                 .Select(double.IsPositiveInfinity)
                 .ToProperty(this, x => x.IsProgressIndeterminate);
 
-            downloaded = operationProgress.BytesDownloaded
+            downloaded = operationProgress.Value
                 .Select(x => ByteSize.FromBytes(x))
                 .Sample(TimeSpan.FromSeconds(1))
                 .ToProperty(this, model => model.Downloaded);

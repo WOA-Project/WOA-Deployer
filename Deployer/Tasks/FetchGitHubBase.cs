@@ -13,13 +13,13 @@ namespace Deployer.Tasks
         private readonly string branch;
         private readonly IZipExtractor extractor;
         private readonly IDownloader downloader;
-        private readonly IDownloadProgress progressObserver;
+        private readonly IOperationProgress progressObserver;
         private readonly string repository;
         private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
         public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor, IDownloader downloader,
-            IDownloadProgress progressObserver)
+            IOperationProgress progressObserver)
         {
             this.repoBaseUrl = repoBaseUrl;
             this.branch = branch;

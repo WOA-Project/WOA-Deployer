@@ -6,7 +6,7 @@ namespace Deployer.Services
     {
         public static void SafeCreate(this IBcdInvoker invoker, Guid guid, string args)
         {
-            if (invoker.Invoke($"/enum {{guid}}").Contains(guid.ToString()))
+            if (invoker.Invoke($"/enum {{{guid}}}").Contains("description"))
             {
                 return;
             }

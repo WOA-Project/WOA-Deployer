@@ -350,7 +350,8 @@ namespace Deployer.NetFx
                 IsSystem = (bool)disk.GetPropertyValue("IsSystem"),
                 IsBoot = (bool)disk.GetPropertyValue("IsBoot"),
                 IsOffline = (bool)disk.GetPropertyValue("IsOffline"),
-                IsReadOnly = (bool)disk.GetPropertyValue("IsReadOnly")
+                IsReadOnly = (bool)disk.GetPropertyValue("IsReadOnly"),
+                UniqueId = (string)disk.GetPropertyValue("UniqueId"),
             };
 
             return new Disk(this, diskInfo);

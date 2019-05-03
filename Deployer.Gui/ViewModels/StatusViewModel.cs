@@ -22,7 +22,7 @@ namespace Deployer.Gui.ViewModels
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
 
-        public StatusViewModel(IFileSystemOperations fileSystemOperations, IObservable<LogEvent> events, IDownloadProgress progress)
+        public StatusViewModel(IFileSystemOperations fileSystemOperations, IObservable<LogEvent> events, IOperationProgress progress)
         {
             this.fileSystemOperations = fileSystemOperations;
             progressHelper = progress.Percentage
@@ -37,7 +37,7 @@ namespace Deployer.Gui.ViewModels
                 .Select(double.IsPositiveInfinity)
                 .ToProperty(this, x => x.IsProgressIndeterminate);
 
-            downloaded = progress.BytesDownloaded
+            downloaded = progress.Value
                 .Select(x => ByteSize.FromBytes(x))
                 .Sample(TimeSpan.FromSeconds(1))
                 .ToProperty(this, model =>model.Downloaded);

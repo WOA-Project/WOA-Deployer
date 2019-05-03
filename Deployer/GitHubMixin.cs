@@ -16,7 +16,7 @@ namespace Deployer
             return new RepoInfo(owner, repository);
         }
 
-        public static async Task<Stream> GetBranchZippedStream(IDownloader downloader, string repositoryBaseUrl, string branch = "master", IDownloadProgress progressObserver = null)
+        public static async Task<Stream> GetBranchZippedStream(IDownloader downloader, string repositoryBaseUrl, string branch = "master", IOperationProgress progressObserver = null)
         {
             var repoInf = GetRepoInfo(repositoryBaseUrl);
             var url = $"https://github.com/{repoInf.Owner}/{repoInf.Repository}/archive/{branch}.zip";

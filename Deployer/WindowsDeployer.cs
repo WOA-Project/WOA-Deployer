@@ -17,7 +17,7 @@ namespace Deployer
             this.bootCreator = bootCreator;
         }
 
-        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver)
+        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IOperationProgress progressObserver)
         {
             Log.Information("Applying Windows Image");
             progressObserver.Percentage.OnNext(double.NaN);
@@ -25,7 +25,7 @@ namespace Deployer
             await MakeBootable(device);
         }
 
-        public Task Backup(Volume windowsVolume, string destination, IDownloadProgress progressObserver)
+        public Task Backup(Volume windowsVolume, string destination, IOperationProgress progressObserver)
         {
             Log.Information("Capturing Windows backup...");
             progressObserver.Percentage.OnNext(double.NaN);

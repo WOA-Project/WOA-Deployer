@@ -6,6 +6,6 @@ namespace Deployer.Services
 {
     public interface IImageFlasher
     {
-        Task Flash(Disk disk, string imagePath, IDownloadProgress progressObserver = null);
+        Task Flash(Disk disk, string imagePath, IOperationProgress progressObserver = null);
     }
 }

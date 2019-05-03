@@ -18,7 +18,7 @@ namespace Deployer
             this.client = client;
         }
 
-        public async Task Download(string url, string path, IDownloadProgress progressObserver = null, int timeout = 30)
+        public async Task Download(string url, string path, IOperationProgress progressObserver = null, int timeout = 30)
         {
             using (var fileStream = File.OpenWrite(path))
             {
@@ -26,7 +26,7 @@ namespace Deployer
             }
         }
 
-        private async Task Download(string url, Stream destination, IDownloadProgress progressObserver = null,
+        private async Task Download(string url, Stream destination, IOperationProgress progressObserver = null,
             int timeout = 30)
         {
             long? totalBytes = 0;
@@ -51,7 +51,7 @@ namespace Deployer
                         progressObserver?.Percentage.OnNext((double)bytesWritten / totalBytes.Value);                        
                     }
 
-                    progressObserver?.BytesDownloaded?.OnNext(bytesWritten);
+                    progressObserver?.Value?.OnNext(bytesWritten);
                 })
                 .Timeout(TimeSpan.FromSeconds(timeout))
                 .Select(bytes => Observable.FromAsync(async () =>
@@ -64,7 +64,7 @@ namespace Deployer
 
         private static readonly int BufferSize = (int)ByteSize.FromKiloBytes(8).Bytes;
 
-        public async Task<Stream> GetStream(string url, IDownloadProgress progress = null, int timeout = 30)
+        public async Task<Stream> GetStream(string url, IOperationProgress progress = null, int timeout = 30)
         {
             var tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
             var stream = File.Create(tmpFile, BufferSize, FileOptions.DeleteOnClose);

@@ -5,7 +5,7 @@ namespace Deployer.Services
 {
     public interface IPackageImporter
     {
-        Task Extract(string packagePath, IDownloadProgress progressObserver = null);
+        Task Extract(string packagePath, IOperationProgress progressObserver = null);
         Task<string> GetReadmeText(string fileName);
     }
 }

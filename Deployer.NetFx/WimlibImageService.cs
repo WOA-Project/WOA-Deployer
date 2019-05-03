@@ -12,7 +12,7 @@ namespace Deployer.NetFx
         }
 
         public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1,
-            bool useCompact = false, IDownloadProgress progressObserver = null)
+            bool useCompact = false, IOperationProgress progressObserver = null)
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
@@ -27,13 +27,13 @@ namespace Deployer.NetFx
         }
 
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IDownloadProgress progressObserver = null)
+            IOperationProgress progressObserver = null)
         {
             throw new NotImplementedException();
         }
 
         private static CallbackStatus UpdatedStatusCallback(ProgressMsg msg, object info, object progctx,
-            IDownloadProgress progressObserver)
+            IOperationProgress progressObserver)
         {
             if (info is ProgressInfo_Extract m)
             {

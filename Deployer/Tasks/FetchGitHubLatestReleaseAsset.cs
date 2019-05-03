@@ -17,11 +17,11 @@ namespace Deployer.Tasks
         private readonly IZipExtractor extractor;
         private readonly IGitHubClient gitHubClient;
         private readonly IDownloader downloader;
-        private readonly IDownloadProgress progressObserver;
+        private readonly IOperationProgress progressObserver;
         private readonly string folderPath;
         private const string SubFolder = "Downloaded";
 
-        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor, IGitHubClient gitHubClient, IDownloader downloader, IDownloadProgress progressObserver)
+        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor, IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver)
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));

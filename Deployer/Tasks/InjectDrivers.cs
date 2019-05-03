@@ -8,19 +8,19 @@ namespace Deployer.Tasks
     public class InjectDrivers : IDeploymentTask
     {
         private readonly string origin;
-        private readonly IDeviceProvider deviceProvider;
+        private readonly IDeploymentContext context;
         private readonly IWindowsImageService imageService;
 
-        public InjectDrivers(string origin, IDeviceProvider deviceProvider, IWindowsImageService imageService)
+        public InjectDrivers(string origin, IDeploymentContext context, IWindowsImageService imageService)
         {
             this.origin = origin;
-            this.deviceProvider = deviceProvider;
+            this.context = context;
             this.imageService = imageService;
         }
 
         public async Task Execute()
         {
-            var windowsPartition = await deviceProvider.Device.GetWindowsVolume();
+            var windowsPartition = await context.Device.GetWindowsVolume();
             await imageService.InjectDrivers(origin, windowsPartition);
         }
     }

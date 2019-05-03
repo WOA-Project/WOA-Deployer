@@ -6,7 +6,7 @@ namespace Deployer
 {
     public interface IWindowsDeployer
     {
-        Task Deploy(WindowsDeploymentOptions options, IDevice device, IDownloadProgress progressObserver = null);
-        Task Backup(Volume windowsVolume, string destination, IDownloadProgress progressObserver = null);        
+        Task Deploy(WindowsDeploymentOptions options, IDevice device, IOperationProgress progressObserver = null);
+        Task Backup(Volume windowsVolume, string destination, IOperationProgress progressObserver = null);        
     }
 }

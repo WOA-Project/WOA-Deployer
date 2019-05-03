@@ -15,10 +15,10 @@ namespace Deployer.Tasks
         private readonly IZipExtractor zipExtractor;
         private readonly IFileSystemOperations fileSystemOperations;
         private readonly IDownloader downloader;
-        private readonly IDownloadProgress progressObserver;
+        private readonly IOperationProgress progressObserver;
 
         public FetchGitHubFolder(string url, string relativePath, string destination, IZipExtractor zipExtractor,
-            IFileSystemOperations fileSystemOperations, IDownloader downloader, IDownloadProgress progressObserver)
+            IFileSystemOperations fileSystemOperations, IDownloader downloader, IOperationProgress progressObserver)
         {
             this.url = url;
             this.relativePath = relativePath;

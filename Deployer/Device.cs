@@ -25,39 +25,7 @@ namespace Deployer
         public abstract Task<Disk> GetDeviceDisk();
         public abstract Task<Volume> GetWindowsVolume();
 
-        protected async Task<Volume> GetVolumeByPartitionName(string partitionName)
-        {
-            return await (await GetDeviceDisk()).GetVolumeByPartitionName(partitionName);
-        }
-
-        protected async Task<bool> IsWoAPresent()
-        {
-            try
-            {
-                await IsBootVolumePresent();
-                await GetWindowsVolume();
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Failed to get WoA's volumes");
-                return false;
-            }
-
-            return true;
-        }
-
-        private async Task<bool> IsBootVolumePresent()
-        {
-            var bootPartition = await GetSystemPartition();
-
-            if (bootPartition != null)
-            {
-                return true;
-            }
-
-            var bootVolume = await GetSystemVolume();
-            return bootVolume != null;
-        }
+        protected abstract Task<bool> IsWoAPresent();
 
         public abstract Task<Volume> GetSystemVolume();
 
