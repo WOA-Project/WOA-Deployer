@@ -8,7 +8,6 @@ using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using Deployer.Exceptions;
 using Deployer.Gui.Properties;
-using Deployer.Lumia;
 using Deployer.Services.Wim;
 using ReactiveUI;
 using Serilog;
@@ -79,7 +78,7 @@ namespace Deployer.Gui.ViewModels
 
         public bool HasWim => hasWimHelper.Value;
 
-        public IReactiveCommand OpenGetWoaCommand { get; set; }
+        public IReactiveCommand OpenGetWoaCommand { get; }
 
         private static WimMetadataViewModel LoadWimMetadata(string path)
         {
