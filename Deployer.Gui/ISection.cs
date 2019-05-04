@@ -1,9 +1,6 @@
-using System;
-
 namespace Deployer.Gui
 {
-    public interface ISection
+    public interface ISection : IBusy
     {
-        IObservable<bool> IsBusyObservable { get; }
     }
 }

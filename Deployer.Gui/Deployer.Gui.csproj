@@ -53,6 +53,7 @@
     <Compile Include="ConsoleEmbedder.cs" />
     <Compile Include="FilePickerMixin.cs" />
     <Compile Include="FileTypeFilter.cs" />
+    <Compile Include="IBusy.cs" />
     <Compile Include="ISection.cs" />
     <Compile Include="IconButton.cs" />
     <Compile Include="IDialog.cs" />
