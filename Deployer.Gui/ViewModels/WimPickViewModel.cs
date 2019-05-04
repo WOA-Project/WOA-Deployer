@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using Deployer.Exceptions;
+using Deployer.Gui.Properties;
 using Deployer.Lumia;
 using Deployer.Services.Wim;
 using ReactiveUI;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using ByteSizeLib;
+using Deployer.Gui.Properties;
 using ReactiveUI;
 using Serilog;
 

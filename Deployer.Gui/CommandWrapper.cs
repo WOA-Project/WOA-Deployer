@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Deployer.Gui.Properties;
 using ReactiveUI;
 using Serilog;
 
