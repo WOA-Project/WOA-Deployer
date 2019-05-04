@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using Deployer.Exceptions;
+using Deployer.Lumia;
 using Deployer.Services.Wim;
 using ReactiveUI;
 using Serilog;
@@ -68,7 +69,6 @@ namespace Deployer.Gui.ViewModels
                 var value = uiServices.OpenFilePicker.Pick(filters, () => settingsService.WimFolder, x =>
                 {
                     settingsService.WimFolder = x;
-                    settingsService.Save();
                 });
 
                 return Observable.Return(value).Where(x => x != null)

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using ByteSizeLib;
@@ -11,9 +9,8 @@ using Serilog.Events;
 
 namespace Deployer.Gui.ViewModels
 {
-    public class StatusViewModel : ReactiveObject, IDisposable
+    public class OngoingOperationViewModel : ReactiveObject, IDisposable
     {
-        private readonly IFileSystemOperations fileSystemOperations;
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
@@ -22,9 +19,8 @@ namespace Deployer.Gui.ViewModels
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
 
-        public StatusViewModel(IFileSystemOperations fileSystemOperations, IObservable<LogEvent> events, IOperationProgress progress)
+        public OngoingOperationViewModel(IObservable<LogEvent> events, IOperationProgress progress)
         {
-            this.fileSystemOperations = fileSystemOperations;
             progressHelper = progress.Percentage
                 .Where(d => !double.IsNaN(d))
                 .ToProperty(this, model => model.Progress);
@@ -43,14 +39,6 @@ namespace Deployer.Gui.ViewModels
                 .ToProperty(this, model =>model.Downloaded);
 
             SetupLogging(events);
-
-            OpenLogFolder = ReactiveCommand.Create(OpenLogs);
-        }
-
-        private void OpenLogs()
-        {
-            fileSystemOperations.EnsureDirectoryExists("Logs");
-            Process.Start("Logs");
         }
 
         public bool IsProgressIndeterminate => isProgressIndeterminate.Value;
@@ -98,8 +86,6 @@ namespace Deployer.Gui.ViewModels
         }
 
         public string CurrentActionTitle => currentActionTitle.Value;
-
-        public ReactiveCommand<Unit, Unit> OpenLogFolder { get; }
 
         public ByteSize Downloaded => downloaded.Value;
         

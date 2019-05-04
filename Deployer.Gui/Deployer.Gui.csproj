@@ -58,7 +58,6 @@
     <Compile Include="IDialog.cs" />
     <Compile Include="IOpenFilePicker.cs" />
     <Compile Include="ISaveFilePicker.cs" />
-    <Compile Include="ISettingsService.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="ProgressButton.cs" />
     <Compile Include="ProgressViewModel.cs" />
@@ -75,7 +74,7 @@
     <Compile Include="UIServices.cs" />
     <Compile Include="UpdateChecker.cs" />
     <Compile Include="ViewModels\RenderedLogEvent.cs" />
-    <Compile Include="ViewModels\StatusViewModel.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\WimPickViewModel.cs" />
     <Compile Include="Views\AsyncWindowExtension.cs" />
     <Compile Include="Views\AutoMessageViewModel.cs" />
@@ -150,6 +149,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Deployer.Lumia\Deployer.Lumia.csproj">
+      <Project>{20501832-13F5-4673-9D86-9E7E0C562027}</Project>
+      <Name>Deployer.Lumia</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer\Deployer.csproj">
       <Project>{b0709401-1148-43b4-a06c-79173393dd98}</Project>
       <Name>Deployer</Name>
