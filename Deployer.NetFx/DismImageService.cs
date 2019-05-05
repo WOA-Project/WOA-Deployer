@@ -40,7 +40,7 @@ namespace Deployer.NetFx
 
             if (capturePath == null) throw new ApplicationException("The capture path cannot be null");
 
-            var args = $@"/Capture-Image /ImageFile:{destination} /CaptureDir:{capturePath} /Name:WOA /compress:fast";
+            var args = $@"/Capture-Image /ImageFile:""{destination}"" /CaptureDir:{capturePath} /Name:WOA /compress:fast";
 
             return Run(args, progressObserver);
         }
