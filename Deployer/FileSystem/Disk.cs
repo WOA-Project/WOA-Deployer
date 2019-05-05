@@ -72,7 +72,7 @@ namespace Deployer.FileSystem
 
     public static class DiskMixin
     {
-        public static async Task<Partition> GetRequiredPartition(this Disk self,string name)
+        public static async Task<Partition> GetPartition(this Disk self,string name)
         {
             return await Observable.FromAsync(async () =>
             {
@@ -91,7 +91,7 @@ namespace Deployer.FileSystem
             }).RetryWithBackoffStrategy();
         }
 
-        public static async Task<Partition> GetPartition(this Disk self, string name)
+        public static async Task<Partition> GetOptionalPartition(this Disk self, string name)
         {
             var partitions = await self.GetPartitions();
             return partitions.FirstOrDefault(x =>

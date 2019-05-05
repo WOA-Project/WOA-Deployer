@@ -16,5 +16,11 @@ namespace Deployer
             var disk = await device.GetDeviceDisk();
             return await disk.GetVolumeByPartitionName(partitionName);
         }
+
+        public static async Task<Volume> GetOptionalVolumeByPartitionName(this IDevice device, string partitionName)
+        {
+            var disk = await device.GetDeviceDisk();
+            return await disk.GetOptionalVolumeByPartitionName(partitionName);
+        }
     }
 }

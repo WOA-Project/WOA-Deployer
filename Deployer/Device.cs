@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
-using Deployer.FileSystem.Gpt;
 using Registry;
-using Serilog;
 using Partition = Deployer.FileSystem.Partition;
 
 namespace Deployer
@@ -39,6 +34,11 @@ namespace Deployer
             }
 
             var path = Path.Combine(winVolume.Root, "Windows", "System32", "Config", "System");
+            if (!File.Exists(path))
+            {
+                return false;
+            }
+
             var hive = new RegistryHive(path) { RecoverDeleted = true };
             hive.ParseHive();
 
@@ -47,8 +47,7 @@ namespace Deployer
 
             return int.Parse(val.ValueData) == 0;
         }
-
-
+        
         public async Task<ICollection<DriverMetadata>> GetDrivers()
         {
             var windows = await GetWindowsVolume();
@@ -56,17 +55,5 @@ namespace Deployer
         }
 
         public abstract Task<Partition> GetSystemPartition();
-    }
-
-    public static class GptContextFactory
-    {
-        public static Task<GptContext> Create(uint diskId, FileAccess fileAccess,
-            uint bytesPerSector = GptContext.DefaultBytesPerSector, uint chuckSize = GptContext.DefaultChunkSize)
-        {
-            return Observable
-                .Defer(() => Observable.Return(new GptContext(diskId, fileAccess, bytesPerSector, chuckSize)))
-                .RetryWithBackoffStrategy()
-                .ToTask();
-        }
     }
 }
