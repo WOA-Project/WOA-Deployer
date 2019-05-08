@@ -8,23 +8,23 @@ using Refit;
 
 namespace Deployer.DevOpsBuildClient
 {
-    public class AzureDevOpsClient : IAzureDevOpsBuildClient
+    public class AzureDevOpsBuildClient : IAzureDevOpsBuildClient
     {
         private readonly IBuildApiClient inner;
 
-        public AzureDevOpsClient(IBuildApiClient inner)
+        public AzureDevOpsBuildClient(IBuildApiClient inner)
         {
             this.inner = inner;
         }
 
-        public static AzureDevOpsClient Create(Uri baseAddress)
+        public static AzureDevOpsBuildClient Create(Uri baseAddress)
         {
             var httpClient = new HttpClient(new CustomHttpClientHandler())
             {
                 BaseAddress = baseAddress,                
             };
             
-            return new AzureDevOpsClient(RestService.For<IBuildApiClient>(httpClient));
+            return new AzureDevOpsBuildClient(RestService.For<IBuildApiClient>(httpClient));
         }
 
         public Task<Artifact> GetArtifact(string org, string project, int buildId, string artifactsName)

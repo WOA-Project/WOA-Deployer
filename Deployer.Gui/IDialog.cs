@@ -9,5 +9,6 @@ namespace Deployer.Gui
         Task ShowAlert(object owner, string title, string text);
         Task<DialogResult> ShowConfirmation(object owner, string title, string text);
         Task<Option> PickOptions(string markdown, IEnumerable<Option> options);
+        Task<DialogResult> Show(string key, object context);
     }
 }

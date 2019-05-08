@@ -74,11 +74,19 @@
     <Compile Include="Services\ViewService.cs" />
     <Compile Include="UIServices.cs" />
     <Compile Include="UpdateChecker.cs" />
+    <Compile Include="ViewMapping.cs" />
     <Compile Include="ViewModels\RenderedLogEvent.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ViewModels\WimPickViewModel.cs" />
     <Compile Include="Views\AsyncWindowExtension.cs" />
     <Compile Include="Views\AutoMessageViewModel.cs" />
+    <Compile Include="Views\Dependencies\DeploymentContextPart.xaml.cs">
+      <DependentUpon>DeploymentContextPart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DialogViewModel.cs" />
+    <Compile Include="Views\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ICloseable.cs" />
     <Compile Include="Views\MarkdownViewerWindow.xaml.cs">
       <DependentUpon>MarkdownViewerWindow.xaml</DependentUpon>
@@ -88,6 +96,14 @@
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Dependencies\DeploymentContextPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Markdown.Styles.Default.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -150,5 +166,6 @@
       <Name>Deployer</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

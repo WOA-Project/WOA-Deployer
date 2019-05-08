@@ -5,6 +5,7 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Deploying Windows")]
+    [Requires(Dependency.DeploymentOptions)]
     public class DeployWindows : IDeploymentTask
     {
         private readonly IDeploymentContext context;

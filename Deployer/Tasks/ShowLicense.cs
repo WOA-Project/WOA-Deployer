@@ -22,11 +22,11 @@ namespace Deployer.Tasks
             var msg = File.ReadAllText(path);
             var result = await dialog.PickOptions(msg, new List<Option>()
             {
-                new Option("Accept", DialogValue.OK),
-                new Option("Decline", DialogValue.Cancel),
+                new Option("Accept", OptionValue.OK),
+                new Option("Decline", OptionValue.Cancel),
             });
 
-            if (result.DialogValue == DialogValue.Cancel)
+            if (result.OptionValue == OptionValue.Cancel)
             {
                 throw new LicenseAgreementDeclinedException("The license has been declined. Deployment canceled.");
             }

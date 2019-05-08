@@ -22,7 +22,7 @@ namespace Deployer.Tasks
             var msg = File.ReadAllText(path);
             await dialog.PickOptions(msg, new List<Option>()
             {
-                new Option("Close", DialogValue.OK),
+                new Option("Close", OptionValue.OK),
             });
         }
     }

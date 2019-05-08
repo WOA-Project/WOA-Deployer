@@ -13,7 +13,7 @@ namespace Deployer.Tests.Real.Tasks.Azure
         public async Task Test()
         {
             var zipExtractor = new ZipExtractor(new FileSystemOperations());
-            var azureDevOpsClient = AzureDevOpsClient.Create(new Uri("https://dev.azure.com"));
+            var azureDevOpsClient = AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com"));
             using (var httpClient = new HttpClient())
             {
                 IDownloader downloader = new Downloader(httpClient);

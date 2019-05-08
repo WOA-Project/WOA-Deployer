@@ -11,7 +11,7 @@ namespace Deployer.Console
 @"By continuing you are accepting the following license below.
 If you decline it, press Control+C anytime during the deployment process.
 " + markdown);
-            return Task.FromResult(new Option("Accept", DialogValue.OK));
+            return Task.FromResult(new Option("Accept", OptionValue.OK));
         }
     }
 }
