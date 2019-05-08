@@ -63,7 +63,7 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse /ForceUnsigned", outputSubject, outputSubject);
+            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse, outputSubject, outputSubject);
             subscription.Dispose();
             
             if (resultCode != 0)
