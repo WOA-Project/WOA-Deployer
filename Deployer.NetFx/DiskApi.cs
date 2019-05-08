@@ -50,7 +50,34 @@ namespace Deployer.NetFx
             Log.Verbose(@"Formatting {Partition} as {Format} labeled as ""{Label}""", partition, fileSystemFormat, label);
 
             var part = await GetPsPartition(partition);
-            
+
+            try
+            {
+                await Format(fileSystemFormat, label, part);
+            }
+            catch
+            {
+                Log.Debug("Format failed. Attempting alternate method.");
+                await AssignNewDriveLetter(part);
+                await Format(fileSystemFormat, label, part);
+            }
+
+            Log.Debug("Format operation executed");
+
+            await EnsureFormatted(partition, label, fileSystemFormat);
+        }
+
+        private  async Task AssignNewDriveLetter(PSObject part)
+        {
+            var letter = GetFreeDriveLetter();
+            await PowerShellMixin.ExecuteCommand("Set-Partition",
+                ("InputObject", part),
+                ("NewDriveLetter", letter)
+            );
+        }
+
+        private static async Task Format(FileSystemFormat fileSystemFormat, string label, PSObject part)
+        {
             await PowerShellMixin.ExecuteCommand("Format-Volume",
                 ("Partition", part),
                 ("Force", null),
@@ -58,12 +85,12 @@ namespace Deployer.NetFx
                 ("FileSystem", fileSystemFormat.Moniker),
                 ("NewFileSystemLabel", label)
             );
-
-            await EnsureFormatted(partition, label, fileSystemFormat);
         }
 
         private static async Task EnsureFormatted(Partition partition, string label, FileSystemFormat fileSystemFormat)
         {
+            Log.Debug("Ensuring drive is formatted correctly");
+
             var volume = await partition.GetVolume();
             if (volume == null)
             {
@@ -84,9 +111,11 @@ namespace Deployer.NetFx
                 Log.Verbose("Same label? {Value}. Same file system format? {Value}", sameLabel, sameFileSystemFormat);
                 throw new ApplicationException("The format operation failed");
             }
+
+            Log.Debug("The drive is correctly formatted");
         }
 
-        private async Task<PSObject> GetPsPartition(Partition partition)
+        private static async Task<PSObject> GetPsPartition(Partition partition)
         {
             var psDataCollection = await PowerShellMixin.ExecuteScript($"Get-Partition -DiskNumber {partition.Disk.Number} | where -Property Guid -eq '{{{partition.Guid}}}'");
             var psPartition = psDataCollection.FirstOrDefault();
