@@ -11,15 +11,15 @@ namespace Tester
     {
         public MainViewModel()
         {
-            var dialogService = new Dialog(null);
+            var dialogService = new Dialog(null, null);
             
 
             OpenCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 var options = new List<Option>()
                 {
-                    new Option("OK", DialogValue.OK),
-                    new Option("Cancel", DialogValue.Cancel),
+                    new Option("OK", OptionValue.OK),
+                    new Option("Cancel", OptionValue.Cancel),
                 };
 
                 var option = await dialogService.PickOptions(@"# **Super easy to use. No-hassle.**
@@ -57,7 +57,7 @@ Then, I hope you [👉 support my work](Docs/Donations.md)
 - Abdel [ADeltaX](https://twitter.com/ADeltaXForce?s=17) for testing and for his work.
 ", options);
 
-                if (option.DialogValue == DialogValue.OK)
+                if (option.OptionValue == OptionValue.OK)
                 {
                     MessageBox.Show("Yes was selected!");
                 }
