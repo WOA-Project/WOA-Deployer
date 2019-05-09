@@ -45,26 +45,32 @@ namespace Deployer.NetFx
 
         private async Task FormatCore(Partition partition, FileSystemFormat fileSystemFormat, string label = null)
         {
+            
             label = label ?? partition.Name ?? "";
 
             Log.Verbose(@"Formatting {Partition} as {Format} labeled as ""{Label}""", partition, fileSystemFormat, label);
 
-            var part = await GetPsPartition(partition);
+            var psPartition = await GetPsPartition(partition);
+            var psVolume = await GetPsVolume(psPartition);
 
-            try
+            if (psVolume == null)
             {
-                await Format(fileSystemFormat, label, part);
+                Log.Verbose("Cannot get volume. Assigning a driver letter so Windows creates a volume for the partition");
+                await AssignNewDriveLetter(psPartition);
             }
-            catch
-            {
-                Log.Debug("Format failed. Attempting alternate method.");
-                await AssignNewDriveLetter(part);
-                await Format(fileSystemFormat, label, part);
-            }
+
+            await Format(fileSystemFormat, label, psVolume);
 
             Log.Debug("Format operation executed");
 
             await EnsureFormatted(partition, label, fileSystemFormat);
+        }
+
+        private static async Task<PSObject> GetPsVolume(PSObject partition)
+        {
+            var result = await PowerShellMixin.ExecuteCommand("Get-Volume",
+                ("Partition", partition));
+            return result.FirstOrDefault();
         }
 
         private  async Task AssignNewDriveLetter(PSObject part)
@@ -74,12 +80,14 @@ namespace Deployer.NetFx
                 ("InputObject", part),
                 ("NewDriveLetter", letter)
             );
+
+            Log.Verbose("Assigned drive letter {Letter} to the partition", letter);
         }
 
-        private static async Task Format(FileSystemFormat fileSystemFormat, string label, PSObject part)
+        private static async Task Format(FileSystemFormat fileSystemFormat, string label, PSObject volume)
         {
             await PowerShellMixin.ExecuteCommand("Format-Volume",
-                ("Partition", part),
+                ("InputObject", volume),
                 ("Force", null),
                 ("Confirm", false),
                 ("FileSystem", fileSystemFormat.Moniker),
