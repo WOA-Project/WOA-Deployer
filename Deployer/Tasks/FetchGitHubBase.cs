@@ -1,50 +1,64 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Deployer.Execution;
+using Octokit;
 using Serilog;
 
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching from GitHub: {0}")]
-    public class FetchGitHubBase : IDeploymentTask
+    public class FetchGitHubBase : DownloaderTask
     {
         private readonly string repoBaseUrl;
-        private readonly string branch;
+        private readonly string branchName;
         private readonly IZipExtractor extractor;
         private readonly IDownloader downloader;
         private readonly IOperationProgress progressObserver;
+        private readonly IGitHubClient gitHubClient;
         private readonly string repository;
-        private readonly string folderPath;
+        private readonly RepoInfo repoInfo;
         private const string SubFolder = "Downloaded";
 
-        public FetchGitHubBase(string repoBaseUrl, string branch, IZipExtractor extractor, IDownloader downloader,
-            IOperationProgress progressObserver)
+        protected FetchGitHubBase(string repoBaseUrl, string branchName, IZipExtractor extractor, IDownloader downloader,
+            IGitHubClient gitHubClient, IOperationProgress progressObserver)
         {
             this.repoBaseUrl = repoBaseUrl;
-            this.branch = branch;
+            this.branchName = branchName;
             this.extractor = extractor;
             this.downloader = downloader;
             this.progressObserver = progressObserver;
-            var repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
+            this.gitHubClient = gitHubClient;
+            repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
             repository = repoInfo.Repository;
-            var folderName = repository;
-            folderPath = Path.Combine(SubFolder, folderName);            
         }
 
-        public async Task Execute()
+        public override async Task Execute()
         {
-            if (Directory.Exists(folderPath))
+            if (Directory.Exists(ArtifactPath))
             {
                 Log.Warning("{Pack} was already downloaded. Skipping download.", repository);
                 return;
             }
 
-            var openZipStream = await GitHubMixin.GetBranchZippedStream(downloader, repoBaseUrl, branch, progressObserver);
-            using (var stream = openZipStream)
+            var branch = await gitHubClient.Repository.Branch.Get(repoInfo.Owner, repoInfo.Repository, branchName);
+            var commit = branch.Commit;
+            var downloadUrl = GitHubMixin.GetCommitDownloadUrl(repoBaseUrl, commit.Sha);
+
+            var downloadeOn = DateTimeOffset.Now;
+
+            using (var stream = await downloader.GetStream(downloadUrl, progressObserver))
             {
-                await extractor.ExtractFirstChildToFolder(stream, folderPath, progressObserver);
+                await extractor.ExtractFirstChildToFolder(stream, ArtifactPath, progressObserver);
             }
+
+            SaveMetadata(new
+            {
+                Commit = commit.Sha,
+                Branch = branch.Name,
+                DownloadedOn = downloadeOn,
+            });
         }
+
+        public override string ArtifactPath => Path.Combine(SubFolder, repoInfo.Repository);
     }
 }

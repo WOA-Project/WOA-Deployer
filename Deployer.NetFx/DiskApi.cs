@@ -204,7 +204,11 @@ namespace Deployer.NetFx
 
             var available = drives.Except(usedDrives);
 
-            return available.First();
+            var driveLetter = available.First();
+
+            Log.Verbose("Free drive letter={Letter}", driveLetter);
+
+            return driveLetter;
         }
 
 

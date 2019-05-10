@@ -23,5 +23,11 @@ namespace Deployer
 
             return await downloader.GetStream(url, progressObserver);
         }
+
+        public static string GetCommitDownloadUrl(string repositoryBaseUrl, string sha)
+        {
+            var repoInf = GetRepoInfo(repositoryBaseUrl);
+            return $"https://github.com/{repoInf.Owner}/{repoInf.Repository}/archive/{sha}.zip";
+        }
     }
 }
