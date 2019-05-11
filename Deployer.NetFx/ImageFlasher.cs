@@ -51,10 +51,10 @@ namespace Deployer.NetFx
             
             var args = $@"-d \\.\PHYSICALDRIVE{disk.Number} ""{imagePath}"" --yes --no-unmount";
             Log.Verbose("We are about to run Etcher: {ExecName} {Parameters}", EtcherPath, args);
-            var resultCode = await ProcessUtils.RunProcessAsync(EtcherPath, args, outputObserver: outputSubject);
-            if (resultCode != 0)
+            var processResults = await ProcessUtils.RunProcessAsync(EtcherPath, args, outputObserver: outputSubject);
+            if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException($"There has been a problem during deployment: Etcher exited with code {resultCode}.");
+                throw new DeploymentException($"There has been a problem during deployment: Etcher exited with code {processResults.ExitCode}.");
             }
 
             progressObserver?.Percentage.OnNext(double.NaN);

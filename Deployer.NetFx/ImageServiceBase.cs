@@ -63,13 +63,13 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse", outputSubject, outputSubject);
+            var processResults = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
-            if (resultCode != 0)
+            if (processResults.ExitCode != 0)
             {
                 throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {resultCode}.");
+                    $"There has been a problem during deployment: DISM exited with code {processResults}.");
             }
         }
 
@@ -77,13 +77,13 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var resultCode = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputSubject, outputSubject);
+            var processResults = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
-            if (resultCode != 0)
+            if (processResults.ExitCode != 0)
             {
                 throw new DeploymentException(
-                    $"There has been a problem during removal: DISM exited with code {resultCode}.");
+                    $"There has been a problem during removal: DISM exited with code {processResults}.");
             }
         }
 

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "Deployer.Gu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Core", "Zafiro\Zafiro.Core\Zafiro.Core.csproj", "{0CC92C72-6CC6-4838-B746-59DED72C3E1C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunProcessAsTask", "RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj", "{7D41E67C-EE04-4E33-B5C5-B2AE32D71064}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{0CC92C72-6CC6-4838-B746-59DED72C3E1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CC92C72-6CC6-4838-B746-59DED72C3E1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CC92C72-6CC6-4838-B746-59DED72C3E1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D41E67C-EE04-4E33-B5C5-B2AE32D71064}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D41E67C-EE04-4E33-B5C5-B2AE32D71064}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D41E67C-EE04-4E33-B5C5-B2AE32D71064}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D41E67C-EE04-4E33-B5C5-B2AE32D71064}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

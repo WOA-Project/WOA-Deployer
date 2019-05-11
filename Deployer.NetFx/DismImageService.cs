@@ -57,13 +57,13 @@ namespace Deployer.NetFx
                     .Subscribe(progressObserver.Percentage);
 
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
-            var resultCode = await ProcessUtils.RunProcessAsync(dismName, args, outputSubject);
+            var processResults = await ProcessUtils.RunProcessAsync(dismName, args, outputObserver: outputSubject);
 
             progressObserver?.Percentage.OnNext(double.NaN);
 
-            if (resultCode != 0)
+            if (processResults.ExitCode != 0)
                 throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {resultCode}.");
+                    $"There has been a problem during deployment: DISM exited with code {processResults}.");
 
             stdOutputSubscription?.Dispose();
         }

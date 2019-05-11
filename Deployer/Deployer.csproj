@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
+    <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
     <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 

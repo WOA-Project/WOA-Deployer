@@ -15,7 +15,10 @@ namespace Deployer.Services
 
         public string Invoke(string command)
         {
-            return ProcessUtils.Run(bcdEdit, $@"{commonArgs} {command}");
+            var processResults = ProcessUtils.Run(bcdEdit, $@"{commonArgs} {command}");
+            var output = string.Join("\n", processResults.StandardOutput);
+            var errors = string.Join("\n", processResults.StandardError);
+            return string.Join(";", output, errors);
         }
     }
 }
