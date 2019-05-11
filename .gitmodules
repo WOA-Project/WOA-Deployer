@@ -4,3 +4,6 @@
 [submodule "Zafiro"]
 	path = Zafiro
 	url = https://github.com/SuperJMN/Zafiro.git
+[submodule "RunProcessAsTask"]
+	path = RunProcessAsTask
+	url = https://github.com/SuperJMN/RunProcessAsTask.git
