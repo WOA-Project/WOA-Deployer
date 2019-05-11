@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Deployer.Execution;
 using Newtonsoft.Json;
+using Serilog;
 
 namespace Deployer.Tasks
 {
@@ -11,6 +12,7 @@ namespace Deployer.Tasks
 
         public void SaveMetadata(object metadata)
         {
+            Log.Debug("Saving metadata {@Metadata}", metadata);
             File.WriteAllText(Path.Combine(ArtifactPath, "Info.json"), JsonConvert.SerializeObject(metadata, Formatting.Indented));
         }
 

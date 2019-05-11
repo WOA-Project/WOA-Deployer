@@ -9,26 +9,25 @@ namespace Deployer.Tasks
     [TaskDescription("Fetching from GitHub: {0}")]
     public class FetchGitHubBase : DownloaderTask
     {
-        private readonly string repoBaseUrl;
+        private readonly string repositoryUrl;
         private readonly string branchName;
-        private readonly IZipExtractor extractor;
+        private readonly IZipExtractor zipExtractor;
         private readonly IDownloader downloader;
         private readonly IOperationProgress progressObserver;
         private readonly IGitHubClient gitHubClient;
         private readonly string repository;
         private readonly RepoInfo repoInfo;
-        private const string SubFolder = "Downloaded";
 
-        protected FetchGitHubBase(string repoBaseUrl, string branchName, IZipExtractor extractor, IDownloader downloader,
+        protected FetchGitHubBase(string repositoryUrl, string branchName, IZipExtractor zipExtractor, IDownloader downloader,
             IGitHubClient gitHubClient, IOperationProgress progressObserver)
         {
-            this.repoBaseUrl = repoBaseUrl;
+            this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;
-            this.extractor = extractor;
+            this.zipExtractor = zipExtractor;
             this.downloader = downloader;
             this.progressObserver = progressObserver;
             this.gitHubClient = gitHubClient;
-            repoInfo = GitHubMixin.GetRepoInfo(repoBaseUrl);
+            repoInfo = GitHubMixin.GetRepoInfo(repositoryUrl);
             repository = repoInfo.Repository;
         }
 
@@ -42,23 +41,24 @@ namespace Deployer.Tasks
 
             var branch = await gitHubClient.Repository.Branch.Get(repoInfo.Owner, repoInfo.Repository, branchName);
             var commit = branch.Commit;
-            var downloadUrl = GitHubMixin.GetCommitDownloadUrl(repoBaseUrl, commit.Sha);
+            var downloadUrl = GitHubMixin.GetCommitDownloadUrl(repositoryUrl, commit.Sha);
 
             var downloadeOn = DateTimeOffset.Now;
 
             using (var stream = await downloader.GetStream(downloadUrl, progressObserver))
             {
-                await extractor.ExtractFirstChildToFolder(stream, ArtifactPath, progressObserver);
+                await zipExtractor.ExtractFirstChildToFolder(stream, ArtifactPath, progressObserver);
             }
 
             SaveMetadata(new
             {
+                Repository = repoInfo,
                 Commit = commit.Sha,
                 Branch = branch.Name,
                 DownloadedOn = downloadeOn,
             });
         }
 
-        public override string ArtifactPath => Path.Combine(SubFolder, repoInfo.Repository);
+        public override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, repoInfo.Repository);
     }
 }
