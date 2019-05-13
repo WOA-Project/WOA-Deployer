@@ -67,7 +67,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="DialogResult.cs" />
     <Compile Include="Dialog.cs" />
     <Compile Include="OpenFilePicker.cs" />
     <Compile Include="ContextDialog.cs" />

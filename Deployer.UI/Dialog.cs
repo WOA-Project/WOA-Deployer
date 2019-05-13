@@ -22,7 +22,7 @@ namespace Deployer.UI
             return option;
         }
 
-        public async Task<DialogResult> ShowOkCancel(object context)
+        public async Task<DialogResult> Show(string key, object context)
         {
             var dialogWindow = new DialogWindow();
             var options = new List<Option>
