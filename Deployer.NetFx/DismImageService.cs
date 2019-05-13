@@ -59,7 +59,7 @@ namespace Deployer.NetFx
                     .Subscribe(progressObserver.Percentage);
 
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
-            var processResults = await ProcessUtils.RunProcessAsync(dismName, args, outputObserver: outputSubject, cancellationToken: token);
+            var processResults = await ProcessMixin.RunProcess(dismName, args, outputObserver: outputSubject, cancellationToken: token);
 
             progressObserver?.Percentage.OnNext(double.NaN);
 

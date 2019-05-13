@@ -16,7 +16,7 @@ namespace Deployer.Services
 
         public async Task<string> Invoke(string command)
         {
-            var processResults = await ProcessUtils.RunProcessAsync(bcdEdit, $@"{commonArgs} {command}");
+            var processResults = await ProcessMixin.RunProcess(bcdEdit, $@"{commonArgs} {command}");
             var output = string.Join("\n", processResults.StandardOutput);
             var errors = string.Join("\n", processResults.StandardError);
             return string.Join(";", output, errors);

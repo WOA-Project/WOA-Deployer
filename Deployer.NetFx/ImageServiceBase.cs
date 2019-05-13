@@ -64,7 +64,7 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var processResults = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
+            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
             if (processResults.ExitCode != 0)
@@ -78,7 +78,7 @@ namespace Deployer.NetFx
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var processResults = await ProcessUtils.RunProcessAsync(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputObserver: outputSubject, errorObserver: outputSubject);
+            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
             if (processResults.ExitCode != 0)
