@@ -2,7 +2,7 @@
 using System.Reactive;
 using System.Windows;
 using Deployer;
-using Deployer.Gui.Services;
+using Deployer.UI;
 using ReactiveUI;
 
 namespace Tester
@@ -11,7 +11,7 @@ namespace Tester
     {
         public MainViewModel()
         {
-            var dialogService = new Dialog(null, null);
+            var dialogService = new Dialog();
             
 
             OpenCommand = ReactiveCommand.CreateFromTask(async () =>
