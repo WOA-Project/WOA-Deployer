@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public class IconButton : ContentControl
     {

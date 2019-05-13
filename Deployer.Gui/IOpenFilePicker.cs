@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public interface IOpenFilePicker
     {

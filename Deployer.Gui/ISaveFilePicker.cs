@@ -1,4 +1,4 @@
-﻿namespace Deployer.Gui
+﻿namespace Deployer.UI
 {
     public interface ISaveFilePicker
     {

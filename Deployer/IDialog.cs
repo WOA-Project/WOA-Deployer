@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Deployer
+namespace Deployer.UI
 {
-    public interface IPrompt
+    public interface IDialog
     {
         Task<Option> PickOptions(string markdown, IEnumerable<Option> options);
     }

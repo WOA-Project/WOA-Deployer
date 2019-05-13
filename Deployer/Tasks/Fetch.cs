@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.Execution;
 
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching zip from {0}")]
-    public class Fetch : IDeploymentTask
+    public class Fetch : DeploymentTask
     {
         private readonly string url;
         private readonly string destination;
@@ -15,7 +16,7 @@ namespace Deployer.Tasks
         private readonly IOperationProgress progressObserver;
 
         public Fetch(string url, string destination, IZipExtractor extractor,
-            IFileSystemOperations fileSystemOperations, IDownloader downloader, IOperationProgress progressObserver)
+            IFileSystemOperations fileSystemOperations, IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
         {
             this.url = url;
             this.destination = destination;
@@ -25,7 +26,7 @@ namespace Deployer.Tasks
             this.progressObserver = progressObserver;
         }
 
-        public async Task Execute()
+        protected override async Task ExecuteCore()
         {
             if (fileSystemOperations.DirectoryExists(destination))
             {

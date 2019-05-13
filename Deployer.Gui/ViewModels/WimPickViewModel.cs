@@ -7,12 +7,12 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.InteropServices;
 using Deployer.Exceptions;
-using Deployer.Gui.Properties;
 using Deployer.Services.Wim;
+using Deployer.UI.Properties;
 using ReactiveUI;
 using Serilog;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.UI.ViewModels
 {
     public class WimPickViewModel : ReactiveObject
     {
@@ -32,7 +32,7 @@ namespace Deployer.Gui.ViewModels
             PickWimFileCommand.ThrownExceptions.Subscribe(e =>
             {
                 Log.Error(e, "WIM file error");
-                this.uiServices.Dialog.ShowAlert(this, Resources.InvalidWimFile, e.Message);
+                this.uiServices.ContextDialog.ShowAlert(this, Resources.InvalidWimFile, e.Message);
             });
 
             hasWimHelper = this.WhenAnyValue(model => model.WimMetadata, (WimMetadataViewModel x) => x != null)

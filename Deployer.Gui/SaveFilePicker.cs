@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Microsoft.Win32;
 
-namespace Deployer.Gui.Services
+namespace Deployer.UI
 {
     public class SaveFilePicker : ISaveFilePicker
     {

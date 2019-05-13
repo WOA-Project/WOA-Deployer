@@ -1,4 +1,4 @@
-﻿namespace Deployer.Gui.Views.Dependencies
+﻿namespace Deployer.UI.Views.Dependencies
 {
     /// <summary>
     /// Interaction logic for DeploymentContextPart.xaml

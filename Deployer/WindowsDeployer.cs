@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
 using Deployer.Services;
@@ -17,19 +18,20 @@ namespace Deployer
             this.bootCreator = bootCreator;
         }
 
-        public async Task Deploy(WindowsDeploymentOptions options, IDevice device, IOperationProgress progressObserver)
+        public async Task Deploy(WindowsDeploymentOptions options, IDevice device,
+            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Log.Information("Applying Windows Image");
-            progressObserver.Percentage.OnNext(double.NaN);
-            await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver);
+            progressObserver?.Percentage.OnNext(double.NaN);
+            await imageService.ApplyImage(await device.GetWindowsVolume(), options.ImagePath, options.ImageIndex, options.UseCompact, progressObserver, cancellationToken);
             await MakeBootable(device);
         }
 
-        public Task Backup(Volume windowsVolume, string destination, IOperationProgress progressObserver)
+        public Task Backup(Volume windowsVolume, string destination, IOperationProgress progressObserver, CancellationToken cancellationToken = default(CancellationToken))
         {
             Log.Information("Capturing Windows backup...");
             progressObserver.Percentage.OnNext(double.NaN);
-            return imageService.CaptureImage(windowsVolume, destination, progressObserver);
+            return imageService.CaptureImage(windowsVolume, destination, progressObserver, cancellationToken);
         }
 
         private async Task MakeBootable(IDevice device)

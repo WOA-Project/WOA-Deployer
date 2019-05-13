@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Deployer.Services
 {
     public static class InvokerMixin
     {
-        public static void SafeCreate(this IBcdInvoker invoker, Guid guid, string args)
+        public static async Task SafeCreate(this IBcdInvoker invoker, Guid guid, string args)
         {
-            var output = invoker.Invoke($"/enum {{{guid}}}");
+            var output = await invoker.Invoke($"/enum {{{guid}}}");
             var alreadyExists = output.Contains("{") && output.Contains("}");
 
             if (alreadyExists)
@@ -14,7 +15,7 @@ namespace Deployer.Services
                 return;
             }
 
-            invoker.Invoke($"/create {{{guid}}} {args}");
+            await invoker.Invoke($"/create {{{guid}}} {args}");
         }
     }
 }

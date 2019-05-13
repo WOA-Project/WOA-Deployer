@@ -1,12 +1,12 @@
-﻿<mah:MetroWindow x:Class="Deployer.Gui.Views.DialogWindow"
+﻿<mah:MetroWindow x:Class="Deployer.UI.Views.DialogWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Deployer.Gui.Views"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:views="clr-namespace:Deployer.UI.Views"
         mc:Ignorable="d"
-        Title="{Binding Title}" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" d:DataContext="{d:DesignInstance local:DialogViewModel}">
+        Title="{Binding Title}" WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" d:DataContext="{d:DesignInstance views:DialogViewModel}">
     <Grid>
 
         <Grid.RowDefinitions>

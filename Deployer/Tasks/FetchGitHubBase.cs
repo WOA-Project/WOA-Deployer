@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using Serilog;
@@ -19,7 +20,7 @@ namespace Deployer.Tasks
         private readonly RepoInfo repoInfo;
 
         protected FetchGitHubBase(string repositoryUrl, string branchName, IZipExtractor zipExtractor, IDownloader downloader,
-            IGitHubClient gitHubClient, IOperationProgress progressObserver)
+            IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;
@@ -31,7 +32,7 @@ namespace Deployer.Tasks
             repository = repoInfo.Repository;
         }
 
-        public override async Task Execute()
+        protected override async Task ExecuteCore()
         {
             if (Directory.Exists(ArtifactPath))
             {

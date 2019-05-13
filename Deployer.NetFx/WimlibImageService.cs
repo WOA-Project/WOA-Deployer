@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
 using ManagedWimLib;
@@ -12,7 +13,7 @@ namespace Deployer.NetFx
         }
 
         public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1,
-            bool useCompact = false, IOperationProgress progressObserver = null)
+            bool useCompact = false, IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
@@ -27,7 +28,7 @@ namespace Deployer.NetFx
         }
 
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IOperationProgress progressObserver = null)
+            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();
         }

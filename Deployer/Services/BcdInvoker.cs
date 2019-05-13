@@ -1,4 +1,5 @@
-﻿using Deployer.Utils;
+﻿using System.Threading.Tasks;
+using Deployer.Utils;
 
 namespace Deployer.Services
 {
@@ -13,9 +14,9 @@ namespace Deployer.Services
             commonArgs = $@"/STORE ""{store}""";
         }
 
-        public string Invoke(string command)
+        public async Task<string> Invoke(string command)
         {
-            var processResults = ProcessUtils.Run(bcdEdit, $@"{commonArgs} {command}");
+            var processResults = await ProcessUtils.RunProcessAsync(bcdEdit, $@"{commonArgs} {command}");
             var output = string.Join("\n", processResults.StandardOutput);
             var errors = string.Join("\n", processResults.StandardError);
             return string.Join(";", output, errors);

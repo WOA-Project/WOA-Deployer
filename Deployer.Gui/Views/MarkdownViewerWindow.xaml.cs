@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows.Input;
 
-namespace Deployer.Gui.Views
+namespace Deployer.UI.Views
 {
     
     public partial class MarkdownViewerWindow : ICloseable

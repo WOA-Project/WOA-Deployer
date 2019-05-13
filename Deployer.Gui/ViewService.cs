@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 
-namespace Deployer.Gui.Services
+namespace Deployer.UI
 {
     public class ViewService : IViewService
     {

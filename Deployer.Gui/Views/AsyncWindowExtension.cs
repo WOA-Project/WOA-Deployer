@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Deployer.Gui.Views
+namespace Deployer.UI.Views
 {
     public static class AsyncWindowExtension
     {

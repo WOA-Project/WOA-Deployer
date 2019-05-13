@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using Serilog;
@@ -17,7 +18,9 @@ namespace Deployer.Tasks
         private readonly IDownloader downloader;
         private readonly IOperationProgress progressObserver;
 
-        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor, IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver)
+        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor,
+            IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver,
+            IDeploymentContext deploymentContext) : base(deploymentContext)
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));
@@ -27,7 +30,7 @@ namespace Deployer.Tasks
             this.progressObserver = progressObserver ?? throw new ArgumentNullException(nameof(progressObserver));
         }
 
-        public override async Task Execute()
+        protected override async Task ExecuteCore()
         {
             if (Directory.Exists(ArtifactPath))
             {
@@ -38,7 +41,7 @@ namespace Deployer.Tasks
             var repoInf = GitHubMixin.GetRepoInfo(repoUrl);
             var latest = await gitHubClient.Repository.Release.GetLatest(repoInf.Owner, repoInf.Repository);
             var asset = latest.Assets.First(x => string.Equals(x.Name, assetName, StringComparison.OrdinalIgnoreCase));
-            
+
             using (var stream = await downloader.GetStream(asset.BrowserDownloadUrl, progressObserver))
             {
                 await extractor.ExtractFirstChildToFolder(stream, ArtifactPath, progressObserver);
@@ -56,6 +59,7 @@ namespace Deployer.Tasks
         }
 
         public override string ArtifactPath =>
-            Path.Combine(AppPaths.ArtifactDownload, Path.GetFileNameWithoutExtension(assetName) ?? throw new InvalidOperationException());
+            Path.Combine(AppPaths.ArtifactDownload,
+                Path.GetFileNameWithoutExtension(assetName) ?? throw new InvalidOperationException());
     }
 }

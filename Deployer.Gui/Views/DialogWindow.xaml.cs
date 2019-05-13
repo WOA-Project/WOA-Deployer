@@ -1,4 +1,4 @@
-﻿namespace Deployer.Gui.Views
+﻿namespace Deployer.UI.Views
 {
     /// <summary>
     /// Interaction logic for DialogWindow.xaml

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
 using Deployer.Services;
@@ -8,7 +9,8 @@ namespace Deployer.Execution.Testing
 {
     public class TestWindowsImageService : IWindowsImageService
     {
-        public Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false, IOperationProgress progressObserver = null)
+        public Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
+            IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
             Log.Verbose("Applying Windows Image {Image}{Index} to {Volume}", imagePath, imageIndex, volume.Label);
             return Task.CompletedTask;
@@ -28,7 +30,8 @@ namespace Deployer.Execution.Testing
             return Task.CompletedTask;
         }
 
-        public Task CaptureImage(Volume windowsVolume, string destination, IOperationProgress progressObserver = null)
+        public Task CaptureImage(Volume windowsVolume, string destination,
+            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Log.Verbose("Capturing image");
 

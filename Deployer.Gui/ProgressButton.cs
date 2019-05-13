@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public class ProgressButton : ContentControl
     {

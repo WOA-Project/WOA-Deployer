@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.Exceptions;
 using Deployer.FileSystem;
@@ -20,8 +21,9 @@ namespace Deployer.NetFx
         {
         }
 
-        public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
-            IOperationProgress progressObserver = null)
+        public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1,
+            bool useCompact = false,
+            IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
             EnsureValidParameters(volume, imagePath, imageIndex);
 
@@ -29,12 +31,12 @@ namespace Deployer.NetFx
             var args =
                 $@"/Apply-Image {compact} /ImageFile:""{imagePath}"" /Index:{imageIndex} /ApplyDir:{volume.Root}";
 
-            await Run(args, progressObserver);
+            await Run(args, progressObserver, token);
         }
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IOperationProgress progressObserver = null)
+            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var capturePath = windowsVolume?.Root;
 
@@ -42,10 +44,10 @@ namespace Deployer.NetFx
 
             var args = $@"/Capture-Image /ImageFile:{destination} /CaptureDir:{capturePath} /Name:WOA /compress:fast";
 
-            return Run(args, progressObserver);
+            return Run(args, progressObserver, cancellationToken);
         }
 
-        private async Task Run(string args, IOperationProgress progressObserver)
+        private async Task Run(string args, IOperationProgress progressObserver, CancellationToken token)
         {
             var dismName = WindowsCommandLineUtils.Dism;
             ISubject<string> outputSubject = new Subject<string>();
@@ -57,7 +59,7 @@ namespace Deployer.NetFx
                     .Subscribe(progressObserver.Percentage);
 
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
-            var processResults = await ProcessUtils.RunProcessAsync(dismName, args, outputObserver: outputSubject);
+            var processResults = await ProcessUtils.RunProcessAsync(dismName, args, outputObserver: outputSubject, cancellationToken: token);
 
             progressObserver?.Percentage.OnNext(double.NaN);
 

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Deployer.Console
 {
-    public class ConsolePrompt : IPrompt
+    public class ConsolePrompt
     {
         public Task<Option> PickOptions(string markdown, IEnumerable<Option> options)
         {

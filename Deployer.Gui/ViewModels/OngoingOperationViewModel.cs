@@ -1,16 +1,19 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading;
 using ByteSizeLib;
+using Deployer.Tasks;
 using DynamicData;
 using ReactiveUI;
 using Serilog.Events;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.UI.ViewModels
 {
     public class OngoingOperationViewModel : ReactiveObject, IDisposable
     {
+        private readonly IDeploymentContext context;
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
@@ -19,8 +22,9 @@ namespace Deployer.Gui.ViewModels
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
 
-        public OngoingOperationViewModel(IObservable<LogEvent> events, IOperationProgress progress)
+        public OngoingOperationViewModel(IDeploymentContext context, IObservable<LogEvent> events, IOperationProgress progress)
         {
+            this.context = context;
             progressHelper = progress.Percentage
                 .Where(d => !double.IsNaN(d))
                 .ToProperty(this, model => model.Progress);
@@ -39,8 +43,29 @@ namespace Deployer.Gui.ViewModels
                 .ToProperty(this, model =>model.Downloaded);
 
             SetupLogging(events);
+
+            CancelCommand = ReactiveCommand.Create(context.Cancel);
+            CancelCommand.Subscribe(_ =>
+            {
+                IsCancelling = true;
+                CancelButtonText = "Cancelling...";
+            });
+
+            context.Cancelled.ObserveOnDispatcher().Subscribe(_ =>
+            {
+                IsCancelling = false;
+                CancelButtonText = "Cancel";
+            });
         }
 
+        public string CancelButtonText
+        {
+            get => cancelButtonText;
+            set => this.RaiseAndSetIfChanged(ref cancelButtonText, value);
+        }
+
+        public ReactiveCommand<Unit, Unit> CancelCommand { get; set; }
+        
         public bool IsProgressIndeterminate => isProgressIndeterminate.Value;
 
         private readonly ObservableAsPropertyHelper<bool> isProgressVisibleHelper;
@@ -55,6 +80,8 @@ namespace Deployer.Gui.ViewModels
 
         private readonly ObservableAsPropertyHelper<double> progressHelper;
         private ObservableAsPropertyHelper<string> currentActionTitle;
+        private string cancelButtonText = "Cancel";
+        private bool isCancelling;
 
         private void SetupLogging(IObservable<LogEvent> events)
         {
@@ -88,7 +115,13 @@ namespace Deployer.Gui.ViewModels
         public string CurrentActionTitle => currentActionTitle.Value;
 
         public ByteSize Downloaded => downloaded.Value;
-        
+
+        public bool IsCancelling
+        {
+            get => isCancelling;
+            set => this.RaiseAndSetIfChanged(ref isCancelling, value);
+        }
+
         private static RenderedLogEvent RenderedLogEvent(LogEvent x)
         {
             return new RenderedLogEvent

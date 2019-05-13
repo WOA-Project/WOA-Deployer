@@ -1,7 +1,9 @@
-﻿namespace Deployer.Services
+﻿using System.Threading.Tasks;
+
+namespace Deployer.Services
 {
     public interface IBcdInvoker
     {
-        string Invoke(string command = "");
+        Task<string> Invoke(string command = "");
     }
 }

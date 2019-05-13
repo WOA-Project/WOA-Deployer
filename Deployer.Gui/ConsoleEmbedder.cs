@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public static class ConsoleEmbedder
     {

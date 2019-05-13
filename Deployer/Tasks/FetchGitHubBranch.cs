@@ -1,4 +1,5 @@
-﻿using Octokit;
+﻿using System.Threading;
+using Octokit;
 
 namespace Deployer.Tasks
 {
@@ -7,8 +8,8 @@ namespace Deployer.Tasks
     {
         public FetchGitHubBranch(string repositoryUrl, string branchName,
             IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient,
-            IOperationProgress progressObserver) :
-            base(repositoryUrl, branchName, zipExtractor, downloader, gitHubClient, progressObserver)
+            IOperationProgress progressObserver, IDeploymentContext deploymentContext) :
+            base(repositoryUrl, branchName, zipExtractor, downloader, gitHubClient, progressObserver, deploymentContext)
         {
         }
     }

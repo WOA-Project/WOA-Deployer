@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reactive.Linq;
 using ByteSizeLib;
-using Deployer.Gui.Properties;
+using Deployer.UI.Properties;
 using ReactiveUI;
 using Serilog;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public class ProgressViewModel : ReactiveObject
     {
@@ -17,7 +17,7 @@ namespace Deployer.Gui
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isExecuting;
 
-        public ProgressViewModel(object owner, IReactiveCommand command, IDialog dialog, IOperationProgress operationProgress)
+        public ProgressViewModel(object owner, IReactiveCommand command, IContextDialog dialog, IOperationProgress operationProgress)
         {
             Command = command;
             progress = operationProgress.Percentage

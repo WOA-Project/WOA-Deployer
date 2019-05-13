@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace Deployer.Gui.Views
+namespace Deployer.UI.Views
 {
     public class OptionViewModel
     {

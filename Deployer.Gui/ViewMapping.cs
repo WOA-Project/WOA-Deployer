@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Deployer.Gui
+namespace Deployer.UI
 {
     public class ViewMappings : Dictionary<object, Type>
     {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Deployer.Exceptions;
 using Deployer.FileSystem;
@@ -23,7 +24,7 @@ namespace Deployer.NetFx
         }
 
         public abstract Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
-            IOperationProgress progressObserver = null);
+            IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken));
 
         protected void EnsureValidParameters(Volume volume, string imagePath, int imageIndex)
         {
@@ -87,6 +88,7 @@ namespace Deployer.NetFx
             }
         }
 
-        public abstract Task CaptureImage(Volume windowsVolume, string destination, IOperationProgress progressObserver = null);
+        public abstract Task CaptureImage(Volume windowsVolume, string destination,
+            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

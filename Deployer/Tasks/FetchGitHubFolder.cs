@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using Serilog;
@@ -11,6 +12,7 @@ namespace Deployer.Tasks
     {
         private readonly string repositoryUrl;
         private readonly string relativePath;
+        private readonly string destination;
         private readonly IZipExtractor zipExtractor;
         private readonly IDownloader downloader;
         private readonly IGitHubClient gitHubClient;
@@ -18,11 +20,12 @@ namespace Deployer.Tasks
         private readonly RepoInfo repoInfo;
         private readonly string branchName;
 
-        public FetchGitHubFolder(string repositoryUrl, string branchName, string relativePath, string destination, IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient, IOperationProgress progressObserver)
+        public FetchGitHubFolder(string repositoryUrl, string branchName, string relativePath, string destination, IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;
             this.relativePath = relativePath;
+            this.destination = destination;
             this.zipExtractor = zipExtractor;
             this.downloader = downloader;
             this.gitHubClient = gitHubClient;
@@ -30,7 +33,7 @@ namespace Deployer.Tasks
             repoInfo = GitHubMixin.GetRepoInfo(repositoryUrl);
         }
 
-        public override async Task Execute()
+        protected override async Task ExecuteCore()
         {
             if (Directory.Exists(ArtifactPath))
             {
@@ -59,6 +62,6 @@ namespace Deployer.Tasks
 
         }
 
-        public override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, relativePath);
+        public override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, destination);
     }
 }

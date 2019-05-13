@@ -1,6 +1,6 @@
 using Serilog.Events;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.UI.ViewModels
 {
     public class RenderedLogEvent
     {
