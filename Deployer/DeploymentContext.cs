@@ -24,6 +24,6 @@ namespace Deployer
             cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public CancellationToken CancellationToken => cancellationTokenSource.Token;
+        public CancellationToken CancellationToken => cancellationTokenSource?.Token ?? default(CancellationToken);
     }
 }
