@@ -73,7 +73,7 @@ namespace Deployer.NetFx
             if (processResults.ExitCode != 0)
             {
                 throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {processResults}.");
+                    $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput}");
             }
 
             return StringExtensions.ExtractFileNames(string.Concat(processResults.StandardOutput)).ToList();

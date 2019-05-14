@@ -19,8 +19,8 @@ namespace Deployer.Tasks
         private string project;
 
         public FetchAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor,
-            IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : 
-            base(deploymentContext)
+            IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : 
+            base(deploymentContext, fileSystemOperations)
         {
             ParseDescriptor(descriptor);
 
@@ -30,7 +30,7 @@ namespace Deployer.Tasks
             this.progressObserver = progressObserver;
         }
 
-        protected override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, artifactName);
+        protected override string ArtifactName => artifactName;
 
         private void ParseDescriptor(string descriptor)
         {

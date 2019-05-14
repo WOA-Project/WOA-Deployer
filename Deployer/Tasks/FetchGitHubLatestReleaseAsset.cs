@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Octokit;
 using Serilog;
@@ -20,7 +19,8 @@ namespace Deployer.Tasks
 
         public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor,
             IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver,
-            IDeploymentContext deploymentContext) : base(deploymentContext)
+            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext,
+            fileSystemOperations)
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));
@@ -29,6 +29,8 @@ namespace Deployer.Tasks
             this.downloader = downloader ?? throw new ArgumentNullException(nameof(downloader));
             this.progressObserver = progressObserver ?? throw new ArgumentNullException(nameof(progressObserver));
         }
+
+        protected override string ArtifactName => Path.GetFileNameWithoutExtension(assetName);
 
         protected override async Task ExecuteCore()
         {
@@ -57,9 +59,5 @@ namespace Deployer.Tasks
                 asset.Url,
             });
         }
-
-        protected override string ArtifactPath =>
-            Path.Combine(AppPaths.ArtifactDownload,
-                Path.GetFileNameWithoutExtension(assetName) ?? throw new InvalidOperationException());
     }
 }

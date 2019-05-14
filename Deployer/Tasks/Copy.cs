@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Deployer.Execution;
+﻿using System.Threading.Tasks;
 
 namespace Deployer.Tasks
 {
@@ -11,7 +9,8 @@ namespace Deployer.Tasks
         private readonly string destination;
         private readonly IFileSystemOperations fileSystemOperations;
 
-        public Copy(string origin, string destination, IFileSystemOperations fileSystemOperations, IDeploymentContext deploymentContext) : base(deploymentContext)
+        public Copy(string origin, string destination, IFileSystemOperations fileSystemOperations,
+            IDeploymentContext deploymentContext) : base(deploymentContext, fileSystemOperations)
         {
             this.origin = origin;
             this.destination = destination;

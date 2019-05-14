@@ -19,8 +19,10 @@ namespace Deployer.Tasks
         private readonly string repository;
         private readonly RepoInfo repoInfo;
 
-        protected FetchGitHubBase(string repositoryUrl, string branchName, IZipExtractor zipExtractor, IDownloader downloader,
-            IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
+        protected FetchGitHubBase(string repositoryUrl, string branchName, IZipExtractor zipExtractor,
+            IDownloader downloader,
+            IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext,
+            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;
@@ -31,6 +33,8 @@ namespace Deployer.Tasks
             repoInfo = GitHubMixin.GetRepoInfo(repositoryUrl);
             repository = repoInfo.Repository;
         }
+
+        protected override string ArtifactName => repoInfo.Repository;
 
         protected override async Task ExecuteCore()
         {
@@ -59,7 +63,5 @@ namespace Deployer.Tasks
                 DownloadedOn = downloadeOn,
             });
         }
-
-        protected override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, repoInfo.Repository);
     }
 }

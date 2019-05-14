@@ -16,7 +16,8 @@ namespace Deployer.Tasks
         private readonly IOperationProgress progressObserver;
 
         public Fetch(string url, string destination, IZipExtractor extractor,
-            IFileSystemOperations fileSystemOperations, IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
+            IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext,
+            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
         {
             this.url = url;
             this.destination = destination;

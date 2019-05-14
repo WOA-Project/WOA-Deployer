@@ -13,7 +13,8 @@ namespace Deployer.Tasks
         private readonly IWindowsDeployer deployer;
         private readonly IOperationProgress progressObserver;
 
-        public DeployWindows(IDeploymentContext context, IWindowsDeployer deployer, IOperationProgress progressObserver) : base(context)
+        public DeployWindows(IDeploymentContext context, IWindowsDeployer deployer, IOperationProgress progressObserver,
+            IFileSystemOperations fileSystemOperations) : base(context, fileSystemOperations)
         {
             this.context = context;
             this.deployer = deployer;

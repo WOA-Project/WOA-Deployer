@@ -13,7 +13,7 @@ namespace Deployer.Tasks
         private readonly IFileSystemOperations fileSystemOperations;
 
         public InjectDrivers(string origin, IDeploymentContext context, IWindowsImageService imageService,
-            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext)
+            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
         {
             this.origin = origin;
             this.context = context;
@@ -28,7 +28,7 @@ namespace Deployer.Tasks
 
             var metadataPath = GetMetadataFilename();
 
-            SaveMetadata(injectedDrivers, Path.Combine("Injected Drivers", metadataPath));
+            SaveMetadata(injectedDrivers, Path.Combine(AppPaths.ArtifactDownload, "Injected Drivers", metadataPath));
         }
 
         private string GetMetadataFilename()
@@ -37,7 +37,7 @@ namespace Deployer.Tasks
             do
             {
                 var fileName = Path.GetFileNameWithoutExtension(origin);
-                finalFilename = fileName + "_" + Path.GetRandomFileName() + ".json";
+                finalFilename = fileName + "_" + Path.GetRandomFileName() + "Info.json";
             } while (fileSystemOperations.FileExists(finalFilename));
 
             return finalFilename;

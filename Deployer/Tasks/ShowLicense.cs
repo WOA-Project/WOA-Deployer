@@ -10,7 +10,8 @@ namespace Deployer.Tasks
         private readonly string path;
         private readonly IDialog dialog;
 
-        public ShowLicense(string path, IDialog dialog, IDeploymentContext deploymentContext) : base(deploymentContext)
+        public ShowLicense(string path, IDialog dialog, IDeploymentContext deploymentContext,
+            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
         {
             this.path = path;
             this.dialog = dialog;

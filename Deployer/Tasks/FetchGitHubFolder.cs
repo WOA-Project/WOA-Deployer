@@ -20,7 +20,9 @@ namespace Deployer.Tasks
         private readonly RepoInfo repoInfo;
         private readonly string branchName;
 
-        public FetchGitHubFolder(string repositoryUrl, string branchName, string relativePath, string destination, IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext) : base(deploymentContext)
+        public FetchGitHubFolder(string repositoryUrl, string branchName, string relativePath, string destination,
+            IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient,
+            IOperationProgress progressObserver, IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;
@@ -32,6 +34,8 @@ namespace Deployer.Tasks
             this.progressObserver = progressObserver;
             repoInfo = GitHubMixin.GetRepoInfo(repositoryUrl);
         }
+
+        protected override string ArtifactName => destination;
 
         protected override async Task ExecuteCore()
         {
@@ -61,7 +65,5 @@ namespace Deployer.Tasks
             });
 
         }
-
-        protected override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, destination);
     }
 }
