@@ -48,5 +48,11 @@ namespace Deployer
                 CreateDirectory(directoryPath);
             }
         }
+
+        public Task DeleteFile(string filePath)
+        {
+            File.Delete(filePath);
+            return Task.CompletedTask;
+        }
     }
 }

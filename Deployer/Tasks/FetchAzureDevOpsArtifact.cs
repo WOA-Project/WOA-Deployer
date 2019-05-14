@@ -30,7 +30,7 @@ namespace Deployer.Tasks
             this.progressObserver = progressObserver;
         }
 
-        public override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, artifactName);
+        protected override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, artifactName);
 
         private void ParseDescriptor(string descriptor)
         {

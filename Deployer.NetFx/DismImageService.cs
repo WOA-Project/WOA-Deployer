@@ -36,11 +36,15 @@ namespace Deployer.NetFx
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
         public override Task CaptureImage(Volume windowsVolume, string destination,
-            IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
+            IOperationProgress progressObserver = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var capturePath = windowsVolume?.Root;
 
-            if (capturePath == null) throw new ApplicationException("The capture path cannot be null");
+            if (capturePath == null)
+            {
+                throw new ApplicationException("The capture path cannot be null");
+            }
 
             var args = $@"/Capture-Image /ImageFile:{destination} /CaptureDir:{capturePath} /Name:WOA /compress:fast";
 
@@ -53,26 +57,32 @@ namespace Deployer.NetFx
             ISubject<string> outputSubject = new Subject<string>();
             IDisposable stdOutputSubscription = null;
             if (progressObserver != null)
+            {
                 stdOutputSubscription = outputSubject
                     .Select(GetPercentage)
                     .Where(d => !double.IsNaN(d))
                     .Subscribe(progressObserver.Percentage);
+            }
 
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
-            var processResults = await ProcessMixin.RunProcess(dismName, args, outputObserver: outputSubject, cancellationToken: token);
+            var processResults = await ProcessMixin.RunProcess(dismName, args, outputSubject, cancellationToken: token);
 
             progressObserver?.Percentage.OnNext(double.NaN);
 
             if (processResults.ExitCode != 0)
-                throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {processResults}.");
+            {
+                throw new DeploymentException($"There has been a problem during deployment: DISM exited with code {processResults}.");
+            }
 
             stdOutputSubscription?.Dispose();
         }
 
         private double GetPercentage(string dismOutput)
         {
-            if (dismOutput == null) return double.NaN;
+            if (dismOutput == null)
+            {
+                return double.NaN;
+            }
 
             var matches = percentRegex.Match(dismOutput);
 

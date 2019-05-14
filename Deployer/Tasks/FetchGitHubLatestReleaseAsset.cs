@@ -58,7 +58,7 @@ namespace Deployer.Tasks
             });
         }
 
-        public override string ArtifactPath =>
+        protected override string ArtifactPath =>
             Path.Combine(AppPaths.ArtifactDownload,
                 Path.GetFileNameWithoutExtension(assetName) ?? throw new InvalidOperationException());
     }

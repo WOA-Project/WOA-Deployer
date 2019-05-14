@@ -11,5 +11,6 @@ namespace Deployer
         bool FileExists(string path);
         void CreateDirectory(string path);
         void EnsureDirectoryExists(string directoryPath);
+        Task DeleteFile(string filePath);
     }
 }

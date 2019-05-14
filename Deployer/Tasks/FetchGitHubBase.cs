@@ -60,6 +60,6 @@ namespace Deployer.Tasks
             });
         }
 
-        public override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, repoInfo.Repository);
+        protected override string ArtifactPath => Path.Combine(AppPaths.ArtifactDownload, repoInfo.Repository);
     }
 }

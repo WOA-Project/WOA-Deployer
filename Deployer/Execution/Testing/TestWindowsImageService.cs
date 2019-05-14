@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
@@ -16,11 +17,11 @@ namespace Deployer.Execution.Testing
             return Task.CompletedTask;
         }
 
-        public Task InjectDrivers(string path, Volume volume)
+        public Task<IList<string>> InjectDrivers(string path, Volume volume)
         {
             Log.Verbose("Injecting drivers from {Path} into {Volume}", path, volume.Label);
 
-            return Task.CompletedTask;
+            return Task.FromResult((IList<string>)new List<string>());
         }
 
         public Task RemoveDriver(string path, Volume volume)

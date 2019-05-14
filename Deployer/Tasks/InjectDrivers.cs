@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Deployer.Services;
 
@@ -10,19 +10,37 @@ namespace Deployer.Tasks
         private readonly string origin;
         private readonly IDeploymentContext context;
         private readonly IWindowsImageService imageService;
+        private readonly IFileSystemOperations fileSystemOperations;
 
         public InjectDrivers(string origin, IDeploymentContext context, IWindowsImageService imageService,
-            IDeploymentContext deploymentContext) : base(deploymentContext)
+            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext)
         {
             this.origin = origin;
             this.context = context;
             this.imageService = imageService;
+            this.fileSystemOperations = fileSystemOperations;
         }
 
         protected override async Task ExecuteCore()
         {
             var windowsPartition = await context.Device.GetWindowsVolume();
-            await imageService.InjectDrivers(origin, windowsPartition);
+            var injectedDrivers = await imageService.InjectDrivers(origin, windowsPartition);
+
+            var metadataPath = GetMetadataFilename();
+
+            SaveMetadata(injectedDrivers, Path.Combine("Injected Drivers", metadataPath));
+        }
+
+        private string GetMetadataFilename()
+        {
+            string finalFilename;
+            do
+            {
+                var fileName = Path.GetFileNameWithoutExtension(origin);
+                finalFilename = fileName + "_" + Path.GetRandomFileName() + ".json";
+            } while (fileSystemOperations.FileExists(finalFilename));
+
+            return finalFilename;
         }
     }
 }

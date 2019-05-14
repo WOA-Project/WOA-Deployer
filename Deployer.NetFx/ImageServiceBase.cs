@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Deployer.Exceptions;
@@ -11,6 +13,7 @@ using Deployer.Services;
 using Deployer.Services.Wim;
 using Deployer.Utils;
 using Serilog;
+using Zafiro.Core;
 
 namespace Deployer.NetFx
 {
@@ -60,7 +63,7 @@ namespace Deployer.NetFx
             Log.Verbose("Image file at '{ImagePath}' exists", imagePath);                    
         }
 
-        public async Task InjectDrivers(string path, Volume volume)
+        public async Task<IList<string>> InjectDrivers(string path, Volume volume)
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
@@ -72,7 +75,10 @@ namespace Deployer.NetFx
                 throw new DeploymentException(
                     $"There has been a problem during deployment: DISM exited with code {processResults}.");
             }
+
+            return StringExtensions.ExtractFileNames(string.Concat(processResults.StandardOutput)).ToList();
         }
+
 
         public async Task RemoveDriver(string path, Volume volume)
         {

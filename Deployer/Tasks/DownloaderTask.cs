@@ -1,8 +1,5 @@
 ﻿using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Serilog;
 
 namespace Deployer.Tasks
 {
@@ -12,14 +9,13 @@ namespace Deployer.Tasks
         {
         }
 
-        public abstract string ArtifactPath { get; }
+        protected abstract string ArtifactPath { get; }
+
         protected abstract override Task ExecuteCore();
 
-        public void SaveMetadata(object metadata)
+        protected void SaveMetadata(object metadata)
         {
-            Log.Debug("Saving metadata {@Metadata}", metadata);
-            File.WriteAllText(Path.Combine(ArtifactPath, "Info.json"),
-                JsonConvert.SerializeObject(metadata, Formatting.Indented));
+            SaveMetadata(metadata, Path.Combine(ArtifactPath, "DownloadInfo.json"));
         }
     }
 }

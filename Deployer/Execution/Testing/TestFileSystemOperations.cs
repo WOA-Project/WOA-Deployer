@@ -41,5 +41,10 @@ namespace Deployer.Execution.Testing
         public void EnsureDirectoryExists(string directoryPath)
         {            
         }
+
+        public Task DeleteFile(string filePath)
+        {
+            return Task.CompletedTask;
+        }
     }
 }
