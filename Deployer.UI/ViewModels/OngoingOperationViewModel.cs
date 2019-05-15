@@ -13,7 +13,6 @@ namespace Deployer.UI.ViewModels
 {
     public class OngoingOperationViewModel : ReactiveObject, IDisposable
     {
-        private readonly IDeploymentContext context;
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
@@ -22,9 +21,8 @@ namespace Deployer.UI.ViewModels
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
 
-        public OngoingOperationViewModel(IDeploymentContext context, IObservable<LogEvent> events, IOperationProgress progress)
+        public OngoingOperationViewModel(IOperationContext context, IObservable<LogEvent> events, IOperationProgress progress)
         {
-            this.context = context;
             progressHelper = progress.Percentage
                 .Where(d => !double.IsNaN(d))
                 .ToProperty(this, model => model.Progress);
@@ -45,13 +43,14 @@ namespace Deployer.UI.ViewModels
             SetupLogging(events);
 
             CancelCommand = ReactiveCommand.Create(context.Cancel);
-            CancelCommand.Subscribe(_ =>
+
+            context.Cancelling.Subscribe(unit =>
             {
                 IsCancelling = true;
                 CancelButtonText = "Cancelling...";
             });
-
-            context.Cancelled.ObserveOnDispatcher().Subscribe(_ =>
+            
+            context.Cancelled.Subscribe(_ =>
             {
                 IsCancelling = false;
                 CancelButtonText = "Cancel";

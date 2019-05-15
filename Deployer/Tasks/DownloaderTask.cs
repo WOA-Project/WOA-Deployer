@@ -5,7 +5,8 @@ namespace Deployer.Tasks
 {
     public abstract class DownloaderTask : DeploymentTask
     {
-        protected DownloaderTask(IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+        protected DownloaderTask(IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations,
+            IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
         }
 

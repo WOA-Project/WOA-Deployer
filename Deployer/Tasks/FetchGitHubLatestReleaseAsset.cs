@@ -19,8 +19,9 @@ namespace Deployer.Tasks
 
         public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor,
             IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver,
-            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext,
-            fileSystemOperations)
+            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations,
+            IOperationContext operationContext) : base(deploymentContext,
+            fileSystemOperations, operationContext)
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));

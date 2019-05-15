@@ -10,7 +10,7 @@ namespace Deployer.Tasks
         private readonly IFileSystemOperations fileSystemOperations;
 
         public CopyDirectory(string origin, string destination, IFileSystemOperations fileSystemOperations,
-            IDeploymentContext deploymentContext) : base(deploymentContext, fileSystemOperations)
+            IDeploymentContext deploymentContext, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.origin = origin;
             this.destination = destination;

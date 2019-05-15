@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Deployer.Execution.Testing;
 using Deployer.Tasks;
+using Deployer.Tests.Real.Tasks.Azure;
 using Octokit;
 using Xunit;
 
@@ -18,7 +19,7 @@ namespace Deployer.Tests.Real.Tasks.GitHub
             var zipExtractor = new ZipExtractor(new FileSystemOperations());
             var task = new FetchGitHubLatestReleaseAsset("https://github.com/WOA-Project/Lumia950XLPkg",
                 "MSM8994.UEFI.Lumia.950.XL.zip", zipExtractor, new GitHubClient(new ProductHeaderValue("WOADeployer")),
-                null, null, new TestDeploymentContext(), new TestFileSystemOperations());
+                null, null, new TestDeploymentContext(), new TestFileSystemOperations(), new TestOperationContext());
 
             await task.Execute();
 

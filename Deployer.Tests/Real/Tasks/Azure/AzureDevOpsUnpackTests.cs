@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using Deployer.DevOpsBuildClient;
 using Deployer.Execution.Testing;
@@ -19,7 +18,7 @@ namespace Deployer.Tests.Real.Tasks.Azure
             using (var httpClient = new HttpClient())
             {
                 IDownloader downloader = new Downloader(httpClient);
-                var task = new FetchAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, downloader, null, new TestDeploymentContext(), new TestFileSystemOperations());
+                var task = new FetchAzureDevOpsArtifact("LumiaWOA;Lumia950XLPkg;1;MSM8994 UEFI (Lumia 950 XL)", azureDevOpsClient, zipExtractor, downloader, null, new TestDeploymentContext(), new TestFileSystemOperations(), new TestOperationContext());
                 await task.Execute();
             }
         }

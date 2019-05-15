@@ -46,7 +46,7 @@ namespace Deployer.NetFx
                 throw new ApplicationException("The capture path cannot be null");
             }
 
-            var args = $@"/Capture-Image /ImageFile:{destination} /CaptureDir:{capturePath} /Name:WOA /compress:fast";
+            var args = $@"/Capture-Image /ImageFile:""{destination}"" /CaptureDir:{capturePath} /Name:WOA /compress:fast";
 
             return Run(args, progressObserver, cancellationToken);
         }
@@ -71,7 +71,8 @@ namespace Deployer.NetFx
 
             if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException($"There has been a problem during deployment: DISM exited with code {processResults}.");
+                throw new DeploymentException(
+                    $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput}");
             }
 
             stdOutputSubscription?.Dispose();

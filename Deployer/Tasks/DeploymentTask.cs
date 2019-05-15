@@ -11,16 +11,19 @@ namespace Deployer.Tasks
     {
         private readonly IDeploymentContext context;
         private readonly IFileSystemOperations fileSystemOperations;
+        public IOperationContext OperationContext { get; }
 
-        protected DeploymentTask(IDeploymentContext context, IFileSystemOperations fileSystemOperations)
+        protected DeploymentTask(IDeploymentContext context, IFileSystemOperations fileSystemOperations,
+            IOperationContext operationContext)
         {
             this.context = context;
             this.fileSystemOperations = fileSystemOperations;
+            this.OperationContext = operationContext;
         }
 
         public Task Execute()
         {
-            context.CancellationToken.ThrowIfCancellationRequested();
+            OperationContext.CancellationToken.ThrowIfCancellationRequested();
             return ExecuteCore();
         }
 

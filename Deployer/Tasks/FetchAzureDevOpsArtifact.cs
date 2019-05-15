@@ -19,8 +19,9 @@ namespace Deployer.Tasks
         private string project;
 
         public FetchAzureDevOpsArtifact(string descriptor, IAzureDevOpsBuildClient buildClient, IZipExtractor extractor,
-            IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : 
-            base(deploymentContext, fileSystemOperations)
+            IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext,
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : 
+            base(deploymentContext, fileSystemOperations, operationContext)
         {
             ParseDescriptor(descriptor);
 

@@ -14,7 +14,7 @@ namespace Deployer.Tasks
         private readonly IOperationProgress progressObserver;
 
         public DeployWindows(IDeploymentContext context, IWindowsDeployer deployer, IOperationProgress progressObserver,
-            IFileSystemOperations fileSystemOperations) : base(context, fileSystemOperations)
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(context, fileSystemOperations, operationContext)
         {
             this.context = context;
             this.deployer = deployer;
@@ -25,7 +25,7 @@ namespace Deployer.Tasks
         {
             Log.Information("Deploying Windows...");
             await context.DiskLayoutPreparer.Prepare(await context.Device.GetDeviceDisk());
-            await deployer.Deploy(context.DeploymentOptions, context.Device, progressObserver, context.CancellationToken);
+            await deployer.Deploy(context.DeploymentOptions, context.Device, progressObserver, OperationContext.CancellationToken);
         }
     }
 }

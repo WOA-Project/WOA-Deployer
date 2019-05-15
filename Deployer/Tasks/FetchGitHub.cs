@@ -8,8 +8,8 @@ namespace Deployer.Tasks
     {
         public FetchGitHub(string repositoryUrl, IZipExtractor zipExtractor,
             IDownloader downloader, IGitHubClient gitHubClient, IOperationProgress progressObserver,
-            IDeploymentContext context, IFileSystemOperations fileSystemOperations) : base(repositoryUrl,
-            "master", zipExtractor, downloader, gitHubClient, progressObserver, context, fileSystemOperations)
+            IDeploymentContext context, IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(repositoryUrl,
+            "master", zipExtractor, downloader, gitHubClient, progressObserver, context, fileSystemOperations, operationContext)
         {
         }
     }

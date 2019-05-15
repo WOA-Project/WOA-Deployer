@@ -17,7 +17,7 @@ namespace Deployer.Tasks
 
         public Fetch(string url, string destination, IZipExtractor extractor,
             IDownloader downloader, IOperationProgress progressObserver, IDeploymentContext deploymentContext,
-            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.url = url;
             this.destination = destination;

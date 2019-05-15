@@ -13,7 +13,8 @@ namespace Deployer.Tasks
         private readonly IFileSystemOperations fileSystemOperations;
 
         public InjectDrivers(string origin, IDeploymentContext context, IWindowsImageService imageService,
-            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations,
+            IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.origin = origin;
             this.context = context;

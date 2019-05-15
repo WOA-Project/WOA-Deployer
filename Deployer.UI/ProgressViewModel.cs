@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Reactive.Linq;
 using ByteSizeLib;
-using Deployer.UI.Properties;
 using ReactiveUI;
-using Serilog;
 
 namespace Deployer.UI
 {
@@ -17,7 +15,7 @@ namespace Deployer.UI
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isExecuting;
 
-        public ProgressViewModel(object owner, IReactiveCommand command, IContextDialog dialog, IOperationProgress operationProgress)
+        public ProgressViewModel(IReactiveCommand command, IOperationProgress operationProgress)
         {
             Command = command;
             progress = operationProgress.Percentage
@@ -38,15 +36,7 @@ namespace Deployer.UI
                 .Sample(TimeSpan.FromSeconds(1))
                 .ToProperty(this, model => model.Downloaded);
 
-            command.ThrownExceptions.Subscribe(async e =>
-            {
-                Log.Error(e, "An error has occurred");
-                Log.Information($"Error: {e.Message}");
-                await dialog.ShowAlert(owner, Resources.ErrorTitle, $"{e.Message}");
-            });
-
             isExecuting = command.IsExecuting
-                //.StartWith(false)
                 .ToProperty(this, x => x.IsExecuting);
         }
 

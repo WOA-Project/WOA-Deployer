@@ -10,7 +10,7 @@ namespace Deployer.Tasks
         private readonly string message;
 
         public DisplayMarkdownMessage(string message, IDeploymentContext deploymentContext,
-            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.message = message;
         }

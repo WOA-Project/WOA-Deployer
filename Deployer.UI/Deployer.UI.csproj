@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD8EA86C-AF60-4CCF-9CAA-07BBF5E039EC}</ProjectGuid>
+    <ProjectGuid>{FD4462AC-5EB1-4923-A5D6-83DE6C102817}</ProjectGuid>
     <OutputType>library</OutputType>
     <RootNamespace>Deployer.UI</RootNamespace>
     <AssemblyName>Deployer.UI</AssemblyName>
@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusyButton.cs" />
+    <Compile Include="CloseMessage.cs" />
     <Compile Include="CommandWrapper.cs" />
     <Compile Include="ConsoleEmbedder.cs" />
     <Compile Include="FilePickerMixin.cs" />

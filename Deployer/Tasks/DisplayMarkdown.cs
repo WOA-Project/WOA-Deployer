@@ -12,7 +12,7 @@ namespace Deployer.Tasks
         private readonly IDialog dialog;
 
         public DisplayMarkdown(string path, IDialog dialog, IDeploymentContext deploymentContext,
-            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.path = path;
             this.dialog = dialog;

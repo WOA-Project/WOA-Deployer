@@ -22,7 +22,8 @@ namespace Deployer.Tasks
 
         public FetchGitHubFolder(string repositoryUrl, string branchName, string relativePath, string destination,
             IZipExtractor zipExtractor, IDownloader downloader, IGitHubClient gitHubClient,
-            IOperationProgress progressObserver, IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IOperationProgress progressObserver, IDeploymentContext deploymentContext,
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;

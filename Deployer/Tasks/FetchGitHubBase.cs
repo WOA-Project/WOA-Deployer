@@ -22,7 +22,7 @@ namespace Deployer.Tasks
         protected FetchGitHubBase(string repositoryUrl, string branchName, IZipExtractor zipExtractor,
             IDownloader downloader,
             IGitHubClient gitHubClient, IOperationProgress progressObserver, IDeploymentContext deploymentContext,
-            IFileSystemOperations fileSystemOperations) : base(deploymentContext, fileSystemOperations)
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
             this.repositoryUrl = repositoryUrl;
             this.branchName = branchName;

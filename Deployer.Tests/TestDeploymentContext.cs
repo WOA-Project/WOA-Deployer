@@ -17,9 +17,5 @@ namespace Deployer.Tests
         public void Cancel()
         {
         }
-
-        public void Start()
-        {
-        }
     }
 }
