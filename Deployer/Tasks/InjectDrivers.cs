@@ -29,7 +29,7 @@ namespace Deployer.Tasks
 
             var metadataPath = GetMetadataFilename();
 
-            SaveMetadata(injectedDrivers, Path.Combine(AppPaths.ArtifactDownload, "Injected Drivers", metadataPath));
+            SaveMetadata(injectedDrivers, Path.Combine(AppPaths.Metadata, "Injected Drivers", metadataPath));
         }
 
         private string GetMetadataFilename()

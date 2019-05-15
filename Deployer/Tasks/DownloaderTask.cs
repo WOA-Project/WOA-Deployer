@@ -18,7 +18,7 @@ namespace Deployer.Tasks
 
         protected void SaveMetadata(object metadata)
         {
-            SaveMetadata(metadata, Path.Combine(AppPaths.Metadata, ArtifactName, "DownloadInfo.json"));
+            SaveMetadata(metadata, Path.Combine(AppPaths.Metadata, $"{ArtifactName}.json"));
         }
     }
 }

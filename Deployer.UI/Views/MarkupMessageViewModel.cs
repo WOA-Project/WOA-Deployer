@@ -6,15 +6,16 @@ using ReactiveUI;
 
 namespace Deployer.UI.Views
 {
-    public class AutoMessageViewModel : ReactiveObject, IDisposable
+    public class MarkupMessageViewModel : ReactiveObject, IDisposable
     {
         private Option selectedOption;
         private readonly IDisposable closer;
         public string Text { get; }
 
-        public AutoMessageViewModel(string text, IEnumerable<Option> options, ICloseable closeable)
+        public MarkupMessageViewModel(string text, IEnumerable<Option> options, ICloseable closeable, string assetsFolder = "")
         {
             Text = text;
+            AssetsFolder = assetsFolder;
             Options = options.Select(x =>
             {
                 return new OptionViewModel(x)
@@ -35,6 +36,8 @@ namespace Deployer.UI.Views
         }
 
         public List<OptionViewModel> Options { get; set; }
+
+        public string AssetsFolder { get; set; }
 
         public void Dispose()
         {

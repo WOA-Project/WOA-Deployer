@@ -22,7 +22,9 @@ namespace Tester
                     new Option("Cancel", OptionValue.Cancel),
                 };
 
-                var option = await dialogService.PickOptions(@"# **Super easy to use. No-hassle.**
+                var markdown = @"# **Super easy to use. No-hassle.**
+
+![Image](Image.jpg)
 
 Please keep reading carefully. All you need is here.
 
@@ -55,13 +57,13 @@ Then, I hope you [👉 support my work](Docs/Donations.md)
 - [Googulator](https://github.com/Googulator). For his work on the USB-C and for the great support. 
 - Swift (AppleCyclone) for suggestions and his work with the rest of team.
 - Abdel [ADeltaX](https://twitter.com/ADeltaXForce?s=17) for testing and for his work.
-", options);
+";
+                var option = await dialogService.PickOptions(markdown, options, "Images");
 
                 if (option.OptionValue == OptionValue.OK)
                 {
                     MessageBox.Show("Yes was selected!");
                 }
-                
             });
         }
 

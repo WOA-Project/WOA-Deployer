@@ -24,7 +24,7 @@ namespace Deployer.Tasks
             await dialog.PickOptions(msg, new List<Option>()
             {
                 new Option("Close", OptionValue.OK),
-            });
+            }, Path.GetDirectoryName(path));
         }
     }
 }

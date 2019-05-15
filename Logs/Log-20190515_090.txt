@@ -1,0 +1,1 @@
+2019-05-15 11:46:04.916 +02:00 [Verbose] Started WOA Deployer for Lumia v15.0.0

@@ -71,8 +71,8 @@ namespace Deployer.NetFx
 
             if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput}");
+                Log.Error("There has been a problem during deployment: DISM failed {Results}", processResults);
+                throw new DeploymentException($"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}");
             }
 
             stdOutputSubscription?.Dispose();

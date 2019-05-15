@@ -6,14 +6,13 @@ namespace Deployer.UI
 {
     public class Dialog : IDialog
     {
-        public async Task<Option> PickOptions(string markdown, IEnumerable<Option> options)
+        public async Task<Option> PickOptions(string markdown, IEnumerable<Option> options, string assetBasePath = "")
         {
             var markdownViewerWindow = new MarkdownViewerWindow();
             Option option;
-            using (var viewModel = new AutoMessageViewModel(markdown, options, markdownViewerWindow))
+            using (var viewModel = new MarkupMessageViewModel(markdown, options, markdownViewerWindow, assetBasePath))
             {
                 markdownViewerWindow.DataContext = viewModel;
-
                 var wnd = markdownViewerWindow;
                 await wnd.ShowDialogAsync();
                 option = viewModel.SelectedOption;

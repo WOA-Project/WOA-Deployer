@@ -113,6 +113,15 @@
       <Project>{20D40DC1-0237-47A0-B169-B420159E341C}</Project>
       <Name>Deployer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
+      <Project>{34186c3b-c308-4cae-b462-db7b5f5e378c}</Project>
+      <Name>Markdown.Xaml</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Image.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

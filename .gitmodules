@@ -7,3 +7,6 @@
 [submodule "RunProcessAsTask"]
 	path = RunProcessAsTask
 	url = https://github.com/SuperJMN/RunProcessAsTask.git
+[submodule "Markdown.XAML"]
+	path = Markdown.XAML
+	url = https://github.com/SuperJMN/Markdown.XAML.git
