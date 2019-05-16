@@ -61,6 +61,7 @@
     <Compile Include="IOpenFilePicker.cs" />
     <Compile Include="ISaveFilePicker.cs" />
     <Compile Include="IViewService.cs" />
+    <Compile Include="ViewModels\LogViewModel.cs" />
     <Compile Include="ProgressButton.cs" />
     <Compile Include="ProgressViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -72,6 +73,7 @@
     <Compile Include="OpenFilePicker.cs" />
     <Compile Include="ContextDialog.cs" />
     <Compile Include="SaveFilePicker.cs" />
+    <Compile Include="ViewModels\MainViewModelBase.cs" />
     <Compile Include="ViewService.cs" />
     <Compile Include="UIServices.cs" />
     <Compile Include="UpdateChecker.cs" />
@@ -94,6 +96,8 @@
       <DependentUpon>MarkdownViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OptionViewModel.cs" />
+    <Compile Include="Views\Transformation\GbsToByteSizeConverter.cs" />
+    <Compile Include="Views\Transformation\MetadataConverter.cs" />
     <Compile Include="WimMetadataViewModel.cs" />
     <Page Include="Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -126,7 +130,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -146,7 +150,7 @@
       <Version>2.0.0-alpha0212</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI">
-      <Version>9.11.1</Version>
+      <Version>9.15.1</Version>
     </PackageReference>
     <PackageReference Include="Serilog">
       <Version>2.8.0</Version>

@@ -110,4 +110,16 @@
   <data name="WimFileNoValidArchitecture" xml:space="preserve">
     <value>The selected .WIM file doesn't contain any image for ARM64. Please, select a .wim file that targets this architecture.</value>
   </data>
+  <data name="WindowsDeployedSuccessfullyTitle" xml:space="preserve">
+    <value>Deployment successful</value>
+  </data>
+  <data name="DownloadedFolderDeleted" xml:space="preserve">
+    <value>The downloaded files have been deleted successfully</value>
+  </data>
+  <data name="DownloadedFolderNotFound" xml:space="preserve">
+    <value>The 'Downloaded' folder hasn't been found.</value>
+  </data>
+  <data name="DownloadedFolderNotFoundTitle" xml:space="preserve">
+    <value>Nothing to delete</value>
+  </data>
 </root>

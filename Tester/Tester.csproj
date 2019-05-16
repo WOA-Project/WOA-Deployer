@@ -101,7 +101,7 @@
       <Version>2.0.0-alpha0212</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI.WPF">
-      <Version>9.10.7</Version>
+      <Version>9.15.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

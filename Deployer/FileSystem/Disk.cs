@@ -67,5 +67,10 @@ namespace Deployer.FileSystem
         {
             return $"Disk {Number} ({FriendlyName})";
         }
+
+        public async Task<Partition> AddPartition(ByteSize size)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
