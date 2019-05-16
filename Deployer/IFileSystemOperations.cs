@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Deployer
 {
     public interface IFileSystemOperations
     {
         Task Copy(string source, string destination);
-        Task CopyDirectory(string source, string destination);
+        Task CopyDirectory(string source, string destination, string fileSearchPattern = null);
         Task DeleteDirectory(string path);
         bool DirectoryExists(string path);
         bool FileExists(string path);

@@ -69,22 +69,38 @@ namespace Deployer.Utils
                 await sourceStream.CopyToAsync(destinationStream, bufferSize).ConfigureAwait(false);
         }
 
-        public static Task CopyDirectory(string source, string destination)
+        public static Task CopyDirectory(string source, string destination, string fileSearchPattern = null, bool skipEmptyDirectories = true)
         {
-            return CopyDirectory(new DirectoryInfo(source), new DirectoryInfo(destination));
+            return CopyDirectory(new DirectoryInfo(source), new DirectoryInfo(destination), fileSearchPattern, skipEmptyDirectories);
         }
 
-        private static async Task CopyDirectory(DirectoryInfo source, DirectoryInfo destination)
+        private static async Task CopyDirectory(DirectoryInfo source, DirectoryInfo destination, string fileSearchPattern, bool skipEmptyDirectories)
         {
-            foreach (var dir in source.GetDirectories())
+            try
             {
-                await CopyDirectory(dir, destination.CreateSubdirectory(dir.Name));
-            }
+                var files = fileSearchPattern == null? source.GetFiles() : source.GetFiles(fileSearchPattern);
 
-            foreach (var file in source.GetFiles())
+                foreach (var dir in source.GetDirectories())
+                {
+                    var subdirFiles = fileSearchPattern == null ? dir.GetFiles() : dir.GetFiles(fileSearchPattern);
+                    if (!subdirFiles.Any() && skipEmptyDirectories)
+                    {
+                        continue;
+                    }
+
+                    var subdirectory = destination.CreateSubdirectory(dir.Name);
+                    await CopyDirectory(dir, subdirectory, fileSearchPattern, skipEmptyDirectories);
+                }
+
+                foreach (var file in files)
+                {
+                    var destFileName = Path.Combine(destination.FullName, file.Name);
+                    await Copy(file.FullName, destFileName);
+                }
+            }
+            catch (UnauthorizedAccessException e)
             {
-                var destFileName = Path.Combine(destination.FullName, file.Name);
-                await Copy(file.FullName, destFileName);
+                Log.Warning(e, "Unauthorized folder {Folder}", source);
             }
         }
 

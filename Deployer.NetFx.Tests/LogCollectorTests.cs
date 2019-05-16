@@ -1,0 +1,16 @@
+﻿using System.Threading.Tasks;
+using Xunit;
+
+namespace Deployer.NetFx.Tests
+{
+    public class LogCollectorTests
+    {
+        [Fact]
+        public async Task Collect()
+        {
+            var collector = new LogCollector(new FileSystemOperations());
+            var testDevice = new TestDevice(new DiskApi());
+            await collector.Collect(testDevice, "logs.zip");
+        }
+    }
+}

@@ -14,10 +14,10 @@ namespace Deployer
             return FileUtils.Copy(source, destination);
         }
 
-        public Task CopyDirectory(string source, string destination)
+        public Task CopyDirectory(string source, string destination, string fileSearchPattern = null)
         {
             Log.Verbose("Copying directory {Source} to {Destination}", source, destination);
-            return FileUtils.CopyDirectory(source, destination);
+            return FileUtils.CopyDirectory(source, destination, fileSearchPattern);
         }
 
         public Task DeleteDirectory(string path)

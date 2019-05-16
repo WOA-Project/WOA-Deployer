@@ -44,7 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DiskApiTests.cs" />
+    <Compile Include="LogCollectorTests.cs" />
+    <Compile Include="PartitionName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDevice.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FluentAssertions">

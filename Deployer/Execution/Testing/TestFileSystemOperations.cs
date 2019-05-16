@@ -12,7 +12,7 @@ namespace Deployer.Execution.Testing
             return Task.CompletedTask;
         }
 
-        public Task CopyDirectory(string source, string destination)
+        public Task CopyDirectory(string source, string destination, string fileSearchPattern = null)
         {
             Log.Verbose("Copied folder {Source} to {Destination}", source, destination);
             return Task.CompletedTask;

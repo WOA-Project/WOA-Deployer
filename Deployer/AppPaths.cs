@@ -6,5 +6,6 @@ namespace Deployer
     {
         public const string ArtifactDownload = "Downloaded";
         public static readonly string Metadata = Path.Combine(ArtifactDownload, "Metadata");
+        public static readonly string LogDump = "LogDump";
     }
 }
