@@ -31,6 +31,12 @@ namespace Deployer.UI
 
         private async Task HandleException(Exception e)
         {
+            if (e is FlashException)
+            {
+                Log.Error(e, "Error while flashing the drive");
+                await dialog.ShowAlert(parent, "Error", "Unable to flash the SD Card");
+            }
+
             if (e is TaskCanceledException)
             {
                 operationContext.SetOperationAsCancelled();

@@ -11,28 +11,16 @@ namespace Deployer
             return (await device.GetDeviceDisk()).HasEnoughSpace(requiredSize);
         }
 
-        public static async Task<Partition> GetOptionalPartition(this IDevice device, string partitionName)
+        public static async Task<IPartition> GetPartitionByName(this IDevice device, string partitionName)
         {
             var disk = await device.GetDeviceDisk();
-            return await disk.GetOptionalPartition(partitionName);
+            return await disk.GetPartitionByName(partitionName);
         }
 
-        public static async Task<Partition> GetPartition(this IDevice device, string partitionName)
+        public static async Task<IPartition> GetPartitionByVolumeLabel(this IDevice device, string partitionName)
         {
             var disk = await device.GetDeviceDisk();
-            return await disk.GetPartition(partitionName);
-        }
-        
-        public static async Task<Volume> GetVolumeByPartitionName(this IDevice device, string partitionName)
-        {
-            var disk = await device.GetDeviceDisk();
-            return await disk.GetVolumeByPartitionName(partitionName);
-        }
-
-        public static async Task<Volume> GetOptionalVolumeByPartitionName(this IDevice device, string partitionName)
-        {
-            var disk = await device.GetDeviceDisk();
-            return await disk.GetOptionalVolumeByPartitionName(partitionName);
+            return await disk.GetPartitionByVolumeLabel(partitionName);
         }
     }
 }

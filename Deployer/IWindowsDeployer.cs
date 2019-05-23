@@ -8,6 +8,6 @@ namespace Deployer
     {
         Task Deploy(WindowsDeploymentOptions options, IDevice device, IOperationProgress progressObserver = null,
             CancellationToken cancellationToken = default(CancellationToken));
-        Task Backup(Volume windowsVolume, string destination, IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken));        
+        Task Backup(IPartition partition, string destination, IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken));        
     }
 }

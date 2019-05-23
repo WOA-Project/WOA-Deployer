@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reactive.Subjects;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Deployer.Exceptions;
 using Deployer.FileSystem;
 using Deployer.Services;
-using Deployer.Services.Wim;
 using Deployer.Utils;
 using Serilog;
 using Zafiro.Core;
@@ -26,19 +23,17 @@ namespace Deployer.NetFx
             this.fileSystemOperations = fileSystemOperations;
         }
 
-        public abstract Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
+        public abstract Task ApplyImage(IPartition target, string imagePath, int imageIndex = 1, bool useCompact = false,
             IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken));
 
-        protected void EnsureValidParameters(Volume volume, string imagePath, int imageIndex)
+        protected void EnsureValidParameters(IPartition applyPath, string imagePath, int imageIndex)
         {
-            if (volume == null)
+            if (applyPath == null)
             {
-                throw new ArgumentNullException(nameof(volume));
+                throw new ArgumentNullException(nameof(applyPath));
             }
 
-            var applyDir = volume.Root;
-
-            if (applyDir == null)
+            if (applyPath.Root == null)
             {
                 throw new ArgumentException("The volume to apply the image is invalid");
             }
@@ -63,11 +58,11 @@ namespace Deployer.NetFx
             Log.Verbose("Image file at '{ImagePath}' exists", imagePath);                    
         }
 
-        public async Task<IList<string>> InjectDrivers(string path, Volume volume)
+        public async Task<IList<string>> InjectDrivers(string path, string windowsRootPath)
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{volume.Root} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
+            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{windowsRootPath} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
             if (processResults.ExitCode != 0)
@@ -80,11 +75,11 @@ namespace Deployer.NetFx
         }
 
 
-        public async Task RemoveDriver(string path, Volume volume)
+        public async Task RemoveDriver(string path, string windowsRootPath)
         {
             var outputSubject = new Subject<string>();
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{volume.Root} /Driver:""{path}""", outputObserver: outputSubject, errorObserver: outputSubject);
+            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Remove-Driver /Image:{windowsRootPath} /Driver:""{path}""", outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
             if (processResults.ExitCode != 0)
@@ -94,7 +89,7 @@ namespace Deployer.NetFx
             }
         }
 
-        public abstract Task CaptureImage(Volume windowsVolume, string destination,
+        public abstract Task CaptureImage(IPartition source, string destination,
             IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken));
     }
 }

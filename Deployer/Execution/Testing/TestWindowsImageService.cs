@@ -10,28 +10,28 @@ namespace Deployer.Execution.Testing
 {
     public class TestWindowsImageService : IWindowsImageService
     {
-        public Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1, bool useCompact = false,
+        public Task ApplyImage(IPartition applyPath, string imagePath, int imageIndex = 1, bool useCompact = false,
             IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
-            Log.Verbose("Applying Windows Image {Image}{Index} to {Volume}", imagePath, imageIndex, volume.Label);
+            Log.Verbose("Applying Windows Image {Image}{Index} to {Volume}", imagePath, imageIndex, applyPath);
             return Task.CompletedTask;
         }
 
-        public Task<IList<string>> InjectDrivers(string path, Volume volume)
+        public Task<IList<string>> InjectDrivers(string path, string windowsRootPath)
         {
-            Log.Verbose("Injecting drivers from {Path} into {Volume}", path, volume.Label);
+            Log.Verbose("Injecting drivers from {Path} into {Volume}", path, windowsRootPath);
 
             return Task.FromResult((IList<string>)new List<string>());
         }
 
-        public Task RemoveDriver(string path, Volume volume)
+        public Task RemoveDriver(string path, string windowsRootPath)
         {
-            Log.Verbose("Removing driver {Path} from {Volume}", path, volume);
+            Log.Verbose("Removing driver {Path} from {Volume}", path, windowsRootPath);
             
             return Task.CompletedTask;
         }
 
-        public Task CaptureImage(Volume windowsVolume, string destination,
+        public Task CaptureImage(IPartition windowsVolume, string destination,
             IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             Log.Verbose("Capturing image");

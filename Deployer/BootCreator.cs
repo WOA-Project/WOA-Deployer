@@ -16,20 +16,19 @@ namespace Deployer
             this.bcdInvokerFactory = bcdInvokerFactory;
         }
 
-        public async Task MakeBootable(Volume boot, Volume windows)
+        public async Task MakeBootable(IPartition systemPartition, IPartition windowsPartition)
         {
             Log.Verbose("Making Windows installation bootable...");
 
-            var bcdInvoker = bcdInvokerFactory.Create(boot.Root.CombineRelativeBcdPath());
-            var windowsPath = Path.Combine(windows.Root, "Windows");
-            var bootDriveLetter = boot.Letter;
+            var bcdInvoker = bcdInvokerFactory.Create(systemPartition.Root.CombineRelativeBcdPath());
+            var windowsPath = Path.Combine(windowsPartition.Root, "Windows");
 
-            await ProcessMixin.RunProcess(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {bootDriveLetter}:");
+            await ProcessMixin.RunProcess(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {systemPartition.Root}");
             await bcdInvoker.Invoke("/set {default} testsigning on");
             await bcdInvoker.Invoke("/set {default} recoveryenabled no");
             await bcdInvoker.Invoke("/set {default} nointegritychecks on");
 
-            await boot.Partition.SetGptType(PartitionType.Esp);
+            await systemPartition.SetGptType(PartitionType.Esp);
         }              
     }
 }

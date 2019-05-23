@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Serilog;
-using CommonPartition =  Deployer.FileSystem.Partition;
 
 namespace Deployer.FileSystem.Gpt
 {
@@ -20,17 +19,5 @@ namespace Deployer.FileSystem.Gpt
         {
             return self.Partitions.FirstOrDefault(x => x.Name == name);            
         }
-        
-        public static CommonPartition AsCommon(this Partition self, Disk disk)
-        {
-            var partition = new CommonPartition(disk)
-            {
-                Guid = self.Guid,
-                Name = self.Name,                
-                PartitionType = self.PartitionType,
-            };
-
-            return partition;
-        }       
     }
 }

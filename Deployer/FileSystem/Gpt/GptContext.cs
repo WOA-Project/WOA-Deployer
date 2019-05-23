@@ -68,12 +68,12 @@ namespace Deployer.FileSystem.Gpt
             Log.Debug("Device Stream disposed");
         }
 
-        public void Add(Entry entry)
+        public Partition Add(Entry entry)
         {
             var desiredSize = new GptSegment(currentSector, ToSectors(entry.Size.Bytes));
             var size = calculator.Constraint(desiredSize);
 
-            Log.Debug("PartitionEntry to add: {@Entry}, Desired Size={DesiredSize}, Final Size={FinalSize}", desiredSize, size);
+            Log.Verbose("PartitionEntry to add: {@Entry}, Desired Size={DesiredSize}, Final Size={FinalSize}", desiredSize, size);
 
             var partition = new Partition(entry.Name, entry.GptType, bytesPerSector)
             {
@@ -83,19 +83,21 @@ namespace Deployer.FileSystem.Gpt
                 Guid = Guid.NewGuid(),
             };
             
-            Log.Debug("Adding pending partition to the context: {@Partition}", partition);
+            Log.Verbose("Adding pending partition to the context: {@Partition}", partition);
             handler.Partitions.Add(partition);
 
             EnsureValidLayout(handler.Partitions, SizeInSectors);
 
             availableSectorSize -= size.Length;
             currentSector += size.Length + chunkSize;
+
+            return partition;
         }
 
         private static void EnsureValidLayout(IList<Partition> partitions, ulong sizeInSectors)
         {
             var isLayoutValid = PartitionLayoutChecker.IsLayoutValid(partitions, sizeInSectors);
-            Log.Debug("Checking [pending] partition layout sanity: Is valid layout? {IsValid}", isLayoutValid);
+            Log.Verbose("Checking [pending] partition layout sanity: Is valid layout? {IsValid}", isLayoutValid);
 
             if (!isLayoutValid)
             {
@@ -115,23 +117,23 @@ namespace Deployer.FileSystem.Gpt
 
         public void Delete(Partition partition)
         {
-            Log.Debug("Removing partition {Partition}", partition);
+            Log.Verbose("Removing partition {Partition}", partition);
             handler.Partitions.Remove(partition);
         }
 
         public Partition Find(Guid guid)
         {
-            Log.Debug("Looking up partition by Guid {Guid}", guid);
+            Log.Verbose("Looking up partition by Guid {Guid}", guid);
             var partition = Partitions.First(x => x.Guid == guid);
-            Log.Debug("Obtained partition {Partition}", partition);
+            Log.Verbose("Obtained partition {Partition}", partition);
             return partition;
         }
 
         public int IndexOf(Partition partition)
         {
-            Log.Debug("Looking up partition index of partition {Partition}", partition);
+            Log.Verbose("Looking up partition index of partition {Partition}", partition);
             var index = Partitions.IndexOf(partition);
-            Log.Debug("Partition index={Index}", index);
+            Log.Verbose("IPartition index={Index}", index);
             return index;
         }
     }

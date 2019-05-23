@@ -9,14 +9,14 @@ namespace Deployer.Tasks
     [Requires(Dependency.DeploymentOptions)]
     public class DeployWindows : DeploymentTask
     {
-        private readonly IDeploymentContext context;
+        private readonly IDeploymentContext deploymentContext;
         private readonly IWindowsDeployer deployer;
         private readonly IOperationProgress progressObserver;
 
-        public DeployWindows(IDeploymentContext context, IWindowsDeployer deployer, IOperationProgress progressObserver,
-            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(context, fileSystemOperations, operationContext)
+        public DeployWindows(IDeploymentContext deploymentContext, IWindowsDeployer deployer, IOperationProgress progressObserver,
+            IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(deploymentContext, fileSystemOperations, operationContext)
         {
-            this.context = context;
+            this.deploymentContext = deploymentContext;
             this.deployer = deployer;
             this.progressObserver = progressObserver;
         }
@@ -24,8 +24,8 @@ namespace Deployer.Tasks
         protected override async Task ExecuteCore()
         {
             Log.Information("Deploying Windows...");
-            await context.DiskLayoutPreparer.Prepare(await context.Device.GetDeviceDisk());
-            await deployer.Deploy(context.DeploymentOptions, context.Device, progressObserver, OperationContext.CancellationToken);
+            await deploymentContext.DiskLayoutPreparer.Prepare(await deploymentContext.Device.GetDeviceDisk());
+            await deployer.Deploy(deploymentContext.DeploymentOptions, deploymentContext.Device, progressObserver, OperationContext.CancellationToken);
         }
     }
 }

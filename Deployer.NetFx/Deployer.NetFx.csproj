@@ -35,14 +35,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assemblies.cs" />
-    <Compile Include="DiskApi.cs" />
+    <Compile Include="Disk.cs" />
+    <Compile Include="DiskRoot.cs" />
     <Compile Include="DismImageService.cs" />
     <Compile Include="ImageFlasher.cs" />
     <Compile Include="ImageServiceBase.cs" />
     <Compile Include="InvalidImageException.cs" />
+    <Compile Include="Partition.cs" />
+    <Compile Include="PartitionMixin.cs" />
     <Compile Include="PowerShellMixin.cs" />
     <Compile Include="PowerShellUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Volume.cs" />
     <Compile Include="WimlibImageService.cs" />
   </ItemGroup>
   <ItemGroup>

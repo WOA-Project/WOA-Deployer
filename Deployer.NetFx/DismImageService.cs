@@ -21,25 +21,25 @@ namespace Deployer.NetFx
         {
         }
 
-        public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1,
+        public override async Task ApplyImage(IPartition target, string imagePath, int imageIndex = 1,
             bool useCompact = false,
             IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
-            EnsureValidParameters(volume, imagePath, imageIndex);
+            EnsureValidParameters(target, imagePath, imageIndex);
 
             var compact = useCompact ? "/compact" : "";
             var args =
-                $@"/Apply-Image {compact} /ImageFile:""{imagePath}"" /Index:{imageIndex} /ApplyDir:{volume.Root}";
+                $@"/Apply-Image {compact} /ImageFile:""{imagePath}"" /Index:{imageIndex} /ApplyDir:{target.Root}";
 
             await Run(args, progressObserver, token);
         }
 
         //dism.exe /Capture-Image /ImageFile:D:\Image_of_Windows_10.wim /CaptureDir:C:\ /Name:Windows_10 /compress:fast
-        public override Task CaptureImage(Volume windowsVolume, string destination,
+        public override Task CaptureImage(IPartition source, string destination,
             IOperationProgress progressObserver = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var capturePath = windowsVolume?.Root;
+            var capturePath = source?.Root;
 
             if (capturePath == null)
             {

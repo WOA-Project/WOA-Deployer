@@ -34,13 +34,14 @@ namespace Deployer.Tasks
             this.gitHubClient = gitHubClient;
             this.progressObserver = progressObserver;
             repoInfo = GitHubMixin.GetRepoInfo(repositoryUrl);
+            ArtifactName = $"{repoInfo.Owner}-{repoInfo.Repository}";
         }
 
-        protected override string ArtifactName => destination;
+        protected override string ArtifactName { get; }
 
         protected override async Task ExecuteCore()
         {
-            if (Directory.Exists(ArtifactPath))
+            if (Directory.Exists(destination))
             {
                 Log.Warning("{Url}{Folder} was already downloaded. Skipping download.", repositoryUrl, relativePath);
                 return;
@@ -54,7 +55,8 @@ namespace Deployer.Tasks
 
             using (var stream = await downloader.GetStream(downloadUrl, progressObserver))
             {
-                await zipExtractor.ExtractRelativeFolder(stream, relativePath, ArtifactPath);
+                var relative = repoInfo.Repository + "-" + commit.Sha + "/" + relativePath;
+                await zipExtractor.ExtractRelativeFolder(stream, relative, destination);
             }
 
             SaveMetadata(new

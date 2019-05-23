@@ -12,22 +12,23 @@ namespace Deployer.NetFx
         {
         }
 
-        public override async Task ApplyImage(Volume volume, string imagePath, int imageIndex = 1,
-            bool useCompact = false, IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
+        public override async Task ApplyImage(IPartition target, string imagePath, int imageIndex = 1,
+            bool useCompact = false, IOperationProgress progressObserver = null,
+            CancellationToken token = default(CancellationToken))
         {
-            EnsureValidParameters(volume, imagePath, imageIndex);
+            EnsureValidParameters(target, imagePath, imageIndex);
 
             await Task.Run(() =>
             {
                 using (var wim = Wim.OpenWim(imagePath, OpenFlags.DEFAULT,
                     (msg, info, callback) => UpdatedStatusCallback(msg, info, callback, progressObserver)))
                 {
-                    wim.ExtractImage(imageIndex, volume.Root, ExtractFlags.DEFAULT);
+                    wim.ExtractImage(imageIndex, target.Root, ExtractFlags.DEFAULT);
                 }
             });
         }
 
-        public override Task CaptureImage(Volume windowsVolume, string destination,
+        public override Task CaptureImage(IPartition source, string destination,
             IOperationProgress progressObserver = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             throw new NotImplementedException();

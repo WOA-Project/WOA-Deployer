@@ -9,7 +9,7 @@ namespace Deployer.NetFx.Tests
         public async Task Collect()
         {
             var collector = new LogCollector(new FileSystemOperations());
-            var testDevice = new TestDevice(new DiskApi());
+            var testDevice = new TestDevice();
             await collector.Collect(testDevice, "logs.zip");
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Deployer.Tasks;
 using Xunit;
@@ -16,10 +17,10 @@ namespace Deployer.Tests.Real
             using (var httpClient = new HttpClient())
             {                
                 var downloader = new Downloader(httpClient);
-                var stream = await GitHubMixin.GetBranchZippedStream(downloader, "https://github.com/gus33000/MSM8994-8992-NT-ARM64-Drivers.git");
-                using (stream)
+                using (var stream = await downloader.GetStream(GitHubMixin.GetCommitDownloadUrl("https://github.com/driver1998/bsp", "56f3b82d97ab9629689bfe8dad9fbf09fdbd0499")))
                 {
-                    await extractor.ExtractRelativeFolder(stream, "bsp-master/prebuilt", @"Downloaded\Drivers");
+                    var relPath = "bsp-56f3b82d97ab9629689bfe8dad9fbf09fdbd0499/prebuilt";
+                    await extractor.ExtractRelativeFolder(stream, relPath, "Downloaded\\BSP");
                 }
             }
         }

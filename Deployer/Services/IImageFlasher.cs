@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
 
@@ -6,6 +5,6 @@ namespace Deployer.Services
 {
     public interface IImageFlasher
     {
-        Task Flash(Disk disk, string imagePath, IOperationProgress progressObserver = null);
+        Task Flash(IDisk disk, string imagePath, IOperationProgress progressObserver = null);
     }
 }

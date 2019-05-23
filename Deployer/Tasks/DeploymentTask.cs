@@ -9,17 +9,17 @@ namespace Deployer.Tasks
 {
     public abstract class DeploymentTask : IDeploymentTask
     {
-        private readonly IDeploymentContext context;
-        private readonly IFileSystemOperations fileSystemOperations;
-        public IOperationContext OperationContext { get; }
-
-        protected DeploymentTask(IDeploymentContext context, IFileSystemOperations fileSystemOperations,
+        protected DeploymentTask(IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations,
             IOperationContext operationContext)
         {
-            this.context = context;
-            this.fileSystemOperations = fileSystemOperations;
-            this.OperationContext = operationContext;
+            DeploymentContext = deploymentContext;
+            FileSystemOperations = fileSystemOperations;
+            OperationContext = operationContext;
         }
+
+        protected IDeploymentContext DeploymentContext { get; }
+        protected IFileSystemOperations FileSystemOperations { get; }
+        protected IOperationContext OperationContext { get; }
 
         public Task Execute()
         {
@@ -35,7 +35,7 @@ namespace Deployer.Tasks
             {
                 Log.Debug("Saving metadata {@Metadata}", metadata);
                 var dirName = Path.GetDirectoryName(path);
-                fileSystemOperations.EnsureDirectoryExists(dirName);
+                FileSystemOperations.EnsureDirectoryExists(dirName);
                 File.WriteAllText(path, JsonConvert.SerializeObject(metadata, Formatting.Indented));
             }
             catch (Exception e)

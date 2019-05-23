@@ -18,7 +18,7 @@ namespace Deployer
 
         public async Task Collect(IDevice device, string savePath)
         {
-            var winVol = await device.GetWindowsVolume();
+            var winVol = await device.GetWindowsPartition();
             winPath = Path.Combine(winVol.Root, "Windows");
 
             DeleteExistingDump();

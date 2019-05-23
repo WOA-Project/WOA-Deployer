@@ -5,7 +5,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Deployer.Exceptions;
 using Deployer.FileSystem;
 using Deployer.Services;
 using Deployer.Utils;
@@ -27,8 +26,10 @@ namespace Deployer.NetFx
             }
         }
 
-        public async Task Flash(Disk disk, string imagePath, IOperationProgress progressObserver = null)
+        public async Task Flash(IDisk disk, string imagePath, IOperationProgress progressObserver = null)
         {
+            Log.Information("Flashing GPT image...");
+            
             ISubject<string> outputSubject = new Subject<string>();
             IDisposable stdOutputSubscription = null;
             bool isValidating = false;
@@ -54,14 +55,23 @@ namespace Deployer.NetFx
             var processResults = await ProcessMixin.RunProcess(EtcherPath, args, outputObserver: outputSubject);
             if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException($"There has been a problem during deployment: Etcher exited with code {processResults.ExitCode}.");
+                throw new FlashException($"Etcher could not flash the SD Card: {processResults}");
             }
 
             progressObserver?.Percentage.OnNext(double.NaN);
 
             stdOutputSubscription?.Dispose();
+
             await disk.Refresh();
-            await disk.SetGuid(new Guid());
+
+            await EnsureDiskHasNewGuid(disk);
+
+            Log.Information("GPT image flashed");
+        }
+
+        private static async Task EnsureDiskHasNewGuid(IDisk disk)
+        {
+            await disk.SetGuid(Guid.NewGuid());
         }
 
         private double GetPercentage(string output)

@@ -6,7 +6,7 @@ namespace Deployer
 {
     public class NullDiskPreparer : IDiskLayoutPreparer
     {
-        public Task Prepare(Disk disk)
+        public Task Prepare(IDisk disk)
         {
             throw new System.NotImplementedException();
         }

@@ -6,29 +6,24 @@ namespace Deployer
 {
     public class NullDevice : IDevice
     {
-        public Task<Disk> GetDeviceDisk()
+        public Task<IDisk> GetDeviceDisk()
         {
-            return Task.FromResult(new Disk(null, new DiskInfo()));
+            return Task.FromResult((IDisk)new TestDisk());
         }
 
-        public Task<Volume> GetWindowsVolume()
+        public Task<IPartition> GetWindowsPartition()
         {
-            return Task.FromResult(new Volume(new Partition(GetNullDisk())));
+            throw new System.NotImplementedException();
         }
 
-        public Task<Volume> GetSystemVolume()
+        public Task<IPartition> GetSystemPartition()
         {
-            return Task.FromResult(new Volume(new Partition(GetNullDisk())));
+            throw new System.NotImplementedException();
         }
 
         public Task<ICollection<DriverMetadata>> GetDrivers()
         {
             return Task.FromResult((ICollection<DriverMetadata>)new List<DriverMetadata>());
-        }
-
-        private static Disk GetNullDisk()
-        {
-            return new Disk(new NullDiskApi(), new DiskInfo());
         }
     }
 }

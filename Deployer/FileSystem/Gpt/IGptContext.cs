@@ -9,7 +9,7 @@ namespace Deployer.FileSystem.Gpt
         ReadOnlyCollection<Partition> Partitions { get; }
         ByteSize AllocatedSize { get; }
         ByteSize TotalSize { get; }
-        void Add(Entry entry);
+        Partition Add(Entry entry);
         void Delete(Partition partition);
     }
 }

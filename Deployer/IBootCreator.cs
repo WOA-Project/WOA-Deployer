@@ -5,6 +5,6 @@ namespace Deployer
 {
     public interface IBootCreator
     {
-        Task MakeBootable(Volume boot, Volume windows);
+        Task MakeBootable(IPartition systemPartition, IPartition windowsPartition);
     }
 }

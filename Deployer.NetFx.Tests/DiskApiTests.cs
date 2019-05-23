@@ -9,18 +9,18 @@ namespace Deployer.NetFx.Tests
         [Fact]
         public async Task GetVolumeByPartitionName()
         {
-            var sut = new DiskApi();
-            var disk = await sut.GetDisk(3);
-            var vols = await disk.GetVolumeByPartitionName("MainOS");
+            var root = new DiskRoot();
+            var disk = await root.GetDisk(3);
+            //var vols = await disk.GetVolumeByPartitionName("MainOS");
         }
         
 
         [Fact]
         public async Task GetDataByLabel()
         {
-            var diskApi = new DiskApi();
-            var disk = await diskApi.GetDisk(3);
-            var partition = await disk.GetPartition("Data");
+            var root = new DiskRoot();
+            var disk = await root.GetDisk(3);
+            //var partition = await disk.GetPartition("Data");
         }        
     }
 }

@@ -4,29 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Deployer.FileSystem;
 using Registry;
-using Partition = Deployer.FileSystem.Partition;
 
 namespace Deployer
 {
     public abstract class Device : IDevice
     {
-        protected IDiskApi DiskApi { get; }
-
-        protected Device(IDiskApi diskApi)
-        {
-            DiskApi = diskApi;
-        }
-
-        public abstract Task<Disk> GetDeviceDisk();
-        public abstract Task<Volume> GetWindowsVolume();
+        public abstract Task<IDisk> GetDeviceDisk();
+        public abstract Task<IPartition> GetWindowsPartition();
 
         protected abstract Task<bool> IsWoAPresent();
 
-        public abstract Task<Volume> GetSystemVolume();
+        public abstract Task<IPartition> GetSystemPartition();
 
         protected async Task<bool> IsOobeFinished()
         {
-            var winVolume = await GetWindowsVolume();
+            var winVolume = await GetWindowsPartition();
 
             if (winVolume == null)
             {
@@ -50,10 +42,9 @@ namespace Deployer
         
         public async Task<ICollection<DriverMetadata>> GetDrivers()
         {
-            var windows = await GetWindowsVolume();
-            return await windows.GetDrivers();
+            var winPart = await GetWindowsPartition();
+            var vol = await winPart.GetVolume();
+            return await vol.GetDrivers();
         }
-
-        public abstract Task<Partition> GetSystemPartition();
     }
 }

@@ -1,38 +1,55 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Deployer.FileSystem.Gpt;
+using ByteSizeLib;
 
 namespace Deployer.FileSystem
 {
     public static class DiskMixin
     {
-        public static async Task<Partition> GetPartition(this Disk self,string name)
+        public static Task<IPartition> CreatePartition(this IDisk self, PartitionType partitionType, string label = "")
         {
-            return await Observable.FromAsync(async () =>
-            {
-                using (var context = await GptContextFactory.Create(self.Number, FileAccess.Read))
-                {
-                    var partition = context.Partitions.FirstOrDefault(x =>
-                        string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
-
-                    if (partition == null)
-                    {
-                        throw new ApplicationException($"Cannot find partition named {name} in {self}");
-                    }
-
-                    return partition.AsCommon(self);
-                }
-            }).RetryWithBackoffStrategy();
+            return self.CreatePartition(ByteSize.MaxValue, partitionType, label);
         }
 
-        public static async Task<Partition> GetOptionalPartition(this Disk self, string name)
+        public static async Task<IList<IVolume>> GetVolumes(this IDisk self)
         {
             var partitions = await self.GetPartitions();
-            return partitions.FirstOrDefault(x =>
-                string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+
+            return await partitions
+                .ToObservable()
+                .Select(x => Observable.FromAsync(x.GetVolume))
+                .Merge(1)
+                .Where(x => x != null)
+                .ToList();
+        }
+
+        public static async Task<IVolume> GetVolume(this IDisk self, string label)
+        {
+            var volumes = await self.GetVolumes();
+            return volumes.FirstOrDefault(x => string.Equals(x.Label, label));
+        }
+
+        public static async Task<IPartition> GetPartitionByVolumeLabel(this IDisk disk, string label)
+        {
+            var volumes = await disk.GetVolumes();
+            var matching = from v in volumes
+                where string.Equals(v.Label, label, StringComparison.InvariantCultureIgnoreCase)
+                select v.Partition;
+
+            return matching.FirstOrDefault();
+        }
+
+        public static async Task<IPartition> GetPartitionByName(this IDisk disk, string name)
+        {
+            var partitions = await disk.GetPartitions();
+            var matching = from p in partitions
+                where string.Equals(p.Name, name, StringComparison.InvariantCultureIgnoreCase)
+                select p;
+
+            return matching.FirstOrDefault();
         }
     }
 }

@@ -4,13 +4,13 @@ namespace Deployer.Services
 {
     public class WindowsVolumes
     {
-        public WindowsVolumes(Volume bootVolume, Volume windowsVolume)
+        public WindowsVolumes(IVolume bootVolume, IVolume windowsVolume)
         {
             Boot = bootVolume;
             Windows = windowsVolume;
         }
 
-        public Volume Boot { get; }
-        public Volume Windows { get; }
+        public IVolume Boot { get; }
+        public IVolume Windows { get; }
     }
 }

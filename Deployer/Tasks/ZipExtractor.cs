@@ -45,10 +45,10 @@ namespace Deployer.Tasks
             await ExtractCore(stream, destination,
                 zipArchive =>
                 {
-                    var baseEntry = relativeZipPath;
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
+                    relativeZipPath = relativeZipPath.EndsWith("/") ? relativeZipPath : relativeZipPath + "/" ;
+                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(relativeZipPath) && !x.IsDirectory);
                     return contents;
-                }, progressObserver: progressObserver);
+                }, progressObserver: progressObserver, baseEntry: entries => entries.First(x => x.IsDirectory && x.Key.Equals(relativeZipPath)));
         }
 
         public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IOperationProgress progressObserver = null)

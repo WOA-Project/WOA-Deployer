@@ -16,42 +16,42 @@ namespace Deployer.FileSystem
             return Path.Combine(root, "EFI", "Microsoft", "Boot", "BCD");
         }
 
-        public static async Task<Volume> GetVolumeByPartitionName(this Disk disk, string name)
-        {
-            var partition = await disk.GetPartition(name);
-            var vol = await partition.GetVolume();
+        //public static async Task<IVolume> GetVolumeByPartitionName(this IDisk disk, string name)
+        //{
+        //    var partition = await disk.GetPartition(name);
+        //    var vol = await partition.GetVolume();
 
-            if (vol == null)
-            {
-                throw new ApplicationException("Cannot get the required volume");
-            }
+        //    if (vol == null)
+        //    {
+        //        throw new ApplicationException("Cannot get the required IVolume");
+        //    }
 
-            await vol.Mount();
+        //    await vol.Mount();
 
-            return vol;
-        }
+        //    return vol;
+        //}
 
-        public static async Task<Volume> GetOptionalVolumeByPartitionName(this Disk disk, string name)
-        {
-            var partition = await disk.GetOptionalPartition(name);
+        //public static async Task<IVolume> GetOptionalVolumeByPartitionName(this IDisk disk, string name)
+        //{
+        //    var partition = await disk.GetOptionalPartition(name);
 
-            if (partition == null)
-            {
-                return null;
-            }
+        //    if (partition == null)
+        //    {
+        //        return null;
+        //    }
 
-            var vol = await partition.GetVolume();
+        //    var vol = await partition.GetVolume();
 
-            if (vol != null)
-            {
-                await vol.Mount();
+        //    if (vol != null)
+        //    {
+        //        await vol.Mount();
 
-            }
+        //    }
             
-            return vol;
-        }
+        //    return vol;
+        //}
 
-        public static bool HasEnoughSpace(this Disk disk, ByteSize requiredSize)
+        public static bool HasEnoughSpace(this IDisk disk, ByteSize requiredSize)
         {
             Log.Verbose("Available {Available}. Required {Required}", disk.AvailableSize, requiredSize);
 

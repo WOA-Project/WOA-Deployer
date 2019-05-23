@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Deployer.FileSystem;
 using Deployer.Services;
 
 namespace Deployer.Tasks
@@ -24,8 +25,9 @@ namespace Deployer.Tasks
 
         protected override async Task ExecuteCore()
         {
-            var windowsPartition = await context.Device.GetWindowsVolume();
-            var injectedDrivers = await imageService.InjectDrivers(origin, windowsPartition);
+            var windowsPartition = await context.Device.GetWindowsPartition();
+            await windowsPartition.EnsureWritable();
+            var injectedDrivers = await imageService.InjectDrivers(origin, windowsPartition.Root);
 
             var metadataPath = GetMetadataFilename();
 

@@ -14,7 +14,7 @@ namespace Deployer.FileSystem
         public Guid Guid { get; }
 
         public static readonly PartitionType Reserved = new PartitionType("Reserved", ReservedGuid);
-        public static readonly PartitionType Esp = new PartitionType("EFI System Partition", EspGuid);
+        public static readonly PartitionType Esp = new PartitionType("EFI System IPartition", EspGuid);
         public static readonly PartitionType Basic = new PartitionType("Basic", BasicGuid);
         public static readonly PartitionType Recovery = new PartitionType("Recovery", RecoveryGuid);
 
