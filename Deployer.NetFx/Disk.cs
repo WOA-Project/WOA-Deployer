@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.FileSystem;
 using Serilog;
-using Zafiro.Core;
 
 namespace Deployer.NetFx
 {
@@ -51,7 +50,7 @@ namespace Deployer.NetFx
 
             var wmiPartitions = results
                 .Select(x => x.ImmediateBaseObject)
-                .Select(x => ToWmiPartition(x));
+                .Select(ToWmiPartition);
 
             ReadOnlyCollection<FileSystem.Gpt.Partition> gptPartitions;
             using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
@@ -80,7 +79,7 @@ namespace Deployer.NetFx
 
             var driveLetter = (char)partition.GetPropertyValue("DriveLetter");
 
-            return new WmiPartition()
+            return new WmiPartition
             {
                 Number = (uint)partition.GetPropertyValue("PartitionNumber"),
                 UniqueId = (string)partition.GetPropertyValue("UniqueId"),
@@ -94,13 +93,6 @@ namespace Deployer.NetFx
         public async Task Refresh()
         {
             await PowerShellMixin.ExecuteScript($@"Update-HostStorageCache");
-        }
-
-        private static async Task<string> GetListOfPartitions(Disk disk)
-        {
-            var partitions = await disk.GetPartitions();
-            var str = partitions.AsNumberedList();
-            return str;
         }
 
         public async Task SetGuid(Guid guid)
@@ -117,6 +109,12 @@ namespace Deployer.NetFx
             await PowerShellMixin.ExecuteCommand("Set-Disk",
                 ("Number", Number),
                 ("IsOffline", !isOnline));
+        }
+
+        public async Task PrepareForRemoval()
+        {
+            var script = $"SELECT DISK {Number}\nOFFLINE DISK\nONLINE DISK";
+            await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
         }
 
         public override string ToString()
@@ -138,15 +136,5 @@ namespace Deployer.NetFx
             var partitions = await GetPartitions();
             return partitions.Last();
         }
-    }
-
-    internal class WmiPartition
-    {
-        public uint Number { get; set; }
-        public string UniqueId { get; set; }
-        public Guid Guid { get; set; }
-        public string Root { get; set; }
-        public PartitionType PartitionType { get; set; }
-        public ByteSize Size { get; set; }
     }
 }

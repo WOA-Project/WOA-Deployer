@@ -62,12 +62,16 @@ namespace Deployer.NetFx
         {
             Log.Verbose("Setting new GPT partition type {Type} to {Partition}", partitionType, this);
 
-            var part = await this.GetPsPartition();
-            var letter = GetFreeDriveLetter();
-            await PowerShellMixin.ExecuteCommand("Set-Partition",
-                ("InputObject", part),
-                ("GptType", $"{{{partitionType.Guid}}}")
-            );
+            if (Equals(PartitionType, partitionType))
+            {
+                return;
+            }
+
+            using (var context = await GptContextFactory.Create(Disk.Number, FileAccess.ReadWrite, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
+            {
+                var part = context.Find(Guid);
+                part.PartitionType = partitionType;
+            }
 
             await Disk.Refresh();
 

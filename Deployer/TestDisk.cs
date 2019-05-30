@@ -40,5 +40,10 @@ namespace Deployer
         {
             throw new NotImplementedException();
         }
+
+        public Task PrepareForRemoval()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

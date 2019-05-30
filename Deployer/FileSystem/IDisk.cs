@@ -19,5 +19,6 @@ namespace Deployer.FileSystem
         Task<IList<IPartition>> GetPartitions();
         Task SetGuid(Guid guid);
         Task ToggleOnline(bool b);
+        Task PrepareForRemoval();
     }
 }
