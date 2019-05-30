@@ -34,9 +34,14 @@ namespace Deployer
             }
         }
 
-        private static void ZipDumpedDirectories(string savePath)
+        private void ZipDumpedDirectories(string savePath)
         {
             var zipArchive = ZipArchive.Create();
+            if (!fileSystemOperations.DirectoryExists(AppPaths.LogDump))
+            {
+                throw new NothingToSaveException();
+            }
+
             zipArchive.AddAllFromDirectory(AppPaths.LogDump);
             using (var stream = File.OpenWrite(savePath))
             {
