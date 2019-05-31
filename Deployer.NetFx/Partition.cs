@@ -106,9 +106,18 @@ namespace Deployer.NetFx
             return vol;
         }
 
-        public Task Resize(ByteSize newSize)
+        public async Task Resize(ByteSize size)
         {
-            throw new NotImplementedException();
+            if (size.MegaBytes < 0)
+            {
+                throw new InvalidOperationException($"The partition size cannot be negative: {size}");
+            }
+
+            var sizeBytes = (ulong)size.Bytes;
+            Log.Verbose("Resizing partition {Partition} to {Size}", this, size);
+
+            var psPart = await this.GetPsPartition();
+            await PowerShellMixin.ExecuteCommand("Resize-Partition", ("InputObject", psPart), ("Size", sizeBytes));
         }
 
         public override string ToString()
