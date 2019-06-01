@@ -58,7 +58,7 @@ Then, I hope you [👉 support my work](Docs/Donations.md)
 - Swift (AppleCyclone) for suggestions and his work with the rest of team.
 - Abdel [ADeltaX](https://twitter.com/ADeltaXForce?s=17) for testing and for his work.
 ";
-                var option = await dialogService.PickOptions(markdown, options, "Images");
+                var option = await dialogService.Pick(markdown, options, "Images");
 
                 if (option.OptionValue == OptionValue.OK)
                 {
