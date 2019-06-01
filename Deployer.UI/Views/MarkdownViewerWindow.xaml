@@ -6,6 +6,8 @@
                  xmlns:xaml="clr-namespace:Markdown.Xaml;assembly=Markdown.Xaml"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:views="clr-namespace:Deployer.UI.Views"
+                 xmlns:valueConverters="clr-namespace:ValueConverters;assembly=ValueConverters"
+                 xmlns:ui="clr-namespace:Deployer.UI"
                  mc:Ignorable="d"
                  SizeToContent="Height" Width="800"
                  WindowStartupLocation="CenterOwner"
@@ -13,6 +15,7 @@
                  IsMaxRestoreButtonEnabled="False"
                  UseNoneWindowStyle="True"
                  MaxHeight="720"
+                 Title="{Binding Title}"
                  x:Name="Self"
                  d:DataContext="{d:DesignInstance views:MarkupMessageViewModel}">
 
@@ -42,6 +45,7 @@
             <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="Margin" Value="4" />
             </Style>
+            <ui:CollapseOnNullOrEmpty x:Key="HideOnNullOrEmpty" />
 
         </ResourceDictionary>
 
@@ -49,11 +53,14 @@
     </mah:MetroWindow.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <FlowDocumentScrollViewer Grid.Row="0" x:Name="DocumentScrollViewer"
+        <TextBlock Margin="0 15 0 5" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center" Visibility="{Binding Text, Converter={StaticResource HideOnNullOrEmpty}}" Text="{Binding Title}" />
+
+        <FlowDocumentScrollViewer Grid.Row="1" x:Name="DocumentScrollViewer"
                                   Margin="10"
                                   VerticalScrollBarVisibility="Auto"
                                   Document="{Binding Text, Converter={StaticResource TextToFlowDocumentConverter}}">
@@ -62,7 +69,7 @@
             </FlowDocumentScrollViewer.CommandBindings>
         </FlowDocumentScrollViewer>
 
-        <ItemsControl Grid.Row="1" Margin="16" ItemsSource="{Binding Options}" DockPanel.Dock="Bottom">
+        <ItemsControl Grid.Row="2" Margin="16" ItemsSource="{Binding Options}" DockPanel.Dock="Bottom">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Content="{Binding Option.Name}" Command="{Binding Command}" CommandParameter="{Binding}"

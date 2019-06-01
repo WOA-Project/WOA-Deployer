@@ -12,8 +12,9 @@ namespace Deployer.UI.Views
         private readonly IDisposable closer;
         public string Text { get; }
 
-        public MarkupMessageViewModel(string text, IEnumerable<Option> options, ICloseable closeable, string assetsFolder = "")
+        public MarkupMessageViewModel(string title, string text, IEnumerable<Option> options, ICloseable closeable, string assetsFolder = "")
         {
+            Title = title;
             Text = text;
             AssetsFolder = assetsFolder;
             Options = options.Select(x =>
@@ -28,6 +29,8 @@ namespace Deployer.UI.Views
                 .Where(s => s != null)
                 .Subscribe(_ => closeable.Close());
         }
+
+        public string Title { get; set; }
 
         public Option SelectedOption
         {

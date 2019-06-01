@@ -21,7 +21,7 @@ namespace Deployer.Tasks
         protected override async Task ExecuteCore()
         {
             var msg = File.ReadAllText(path);
-            await dialog.PickOptions(msg, new List<Option>()
+            await dialog.Pick(msg, new List<Option>()
             {
                 new Option("Close", OptionValue.OK),
             }, Path.GetDirectoryName(path));

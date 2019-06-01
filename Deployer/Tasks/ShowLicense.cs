@@ -20,7 +20,7 @@ namespace Deployer.Tasks
         protected override async Task ExecuteCore()
         {
             var msg = File.ReadAllText(path);
-            var result = await dialog.PickOptions(msg, new List<Option>()
+            var result = await dialog.Pick(msg, new List<Option>()
             {
                 new Option("Accept", OptionValue.OK),
                 new Option("Decline", OptionValue.Cancel),
