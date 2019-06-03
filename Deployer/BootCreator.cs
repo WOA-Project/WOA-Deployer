@@ -23,9 +23,8 @@ namespace Deployer
             var bcdInvoker = bcdInvokerFactory.Create(systemPartition.Root.CombineRelativeBcdPath());
             var windowsPath = Path.Combine(windowsPartition.Root, "Windows");
 
-            await ProcessMixin.RunProcess(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {systemPartition.Root}");
+            await ProcessMixin.RunProcess(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {systemPartition.Root} /l en-us");
             await bcdInvoker.Invoke("/set {default} testsigning on");
-            await bcdInvoker.Invoke("/set {default} recoveryenabled no");
             await bcdInvoker.Invoke("/set {default} nointegritychecks on");
 
             await systemPartition.SetGptType(PartitionType.Esp);

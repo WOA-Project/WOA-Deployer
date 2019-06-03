@@ -9,7 +9,7 @@ namespace Deployer.Utils
     public static class ProcessMixin
     {
         public static async Task<ProcessResults> RunProcess(string fileName,
-            string args = "", IObserver<string> outputObserver = null, IObserver<string> errorObserver = null,
+            string args = "", IObserver<string> outputObserver = null, IObserver<string> errorObserver = null, string workingDirectory = "",
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var processStartInfo = new ProcessStartInfo
@@ -19,7 +19,8 @@ namespace Deployer.Utils
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
-                RedirectStandardError = true
+                RedirectStandardError = true,
+                WorkingDirectory = workingDirectory,
             };
 
             return await processStartInfo.RunAsync(outputObserver, errorObserver, cancellationToken);
