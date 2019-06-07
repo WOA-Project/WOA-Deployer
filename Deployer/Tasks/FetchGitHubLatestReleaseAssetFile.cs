@@ -8,16 +8,15 @@ using Serilog;
 namespace Deployer.Tasks
 {
     [TaskDescription("Fetching asset {1} from latest release at {0}")]
-    public class FetchGitHubLatestReleaseAsset : DownloaderTask
+    public class FetchGitHubLatestReleaseAssetFile : DownloaderTask
     {
         private readonly string repoUrl;
         private readonly string assetName;
-        private readonly IZipExtractor extractor;
         private readonly IGitHubClient gitHubClient;
         private readonly IDownloader downloader;
         private readonly IOperationProgress progressObserver;
 
-        public FetchGitHubLatestReleaseAsset(string repoUrl, string assetName, IZipExtractor extractor,
+        public FetchGitHubLatestReleaseAssetFile(string repoUrl, string assetName,
             IGitHubClient gitHubClient, IDownloader downloader, IOperationProgress progressObserver,
             IDeploymentContext deploymentContext, IFileSystemOperations fileSystemOperations,
             IOperationContext operationContext) : base(deploymentContext,
@@ -25,7 +24,6 @@ namespace Deployer.Tasks
         {
             this.repoUrl = repoUrl ?? throw new ArgumentNullException(nameof(repoUrl));
             this.assetName = assetName ?? throw new ArgumentNullException(nameof(assetName));
-            this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
             this.gitHubClient = gitHubClient ?? throw new ArgumentNullException(nameof(gitHubClient));
             this.downloader = downloader ?? throw new ArgumentNullException(nameof(downloader));
             this.progressObserver = progressObserver ?? throw new ArgumentNullException(nameof(progressObserver));
@@ -46,10 +44,7 @@ namespace Deployer.Tasks
             var latestRelease = releases.OrderByDescending(x => x.CreatedAt).First();
             var asset = latestRelease.Assets.First(x => string.Equals(x.Name, assetName, StringComparison.OrdinalIgnoreCase));
 
-            using (var stream = await downloader.GetStream(asset.BrowserDownloadUrl, progressObserver))
-            {
-                await extractor.ExtractFirstChildToFolder(stream, ArtifactPath, progressObserver);
-            }
+            await downloader.Download(asset.BrowserDownloadUrl, ArtifactPath, progressObserver);
 
             SaveMetadata(new
             {
