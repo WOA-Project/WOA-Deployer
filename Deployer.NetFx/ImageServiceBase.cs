@@ -60,18 +60,44 @@ namespace Deployer.NetFx
 
         public async Task<IList<string>> InjectDrivers(string path, string windowsRootPath)
         {
+            if (path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
             var outputSubject = new Subject<string>();
+
             var subscription = outputSubject.Subscribe(Log.Verbose);
-            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, $@"/Add-Driver /Image:{windowsRootPath} /Driver:""{path}"" /Recurse", outputObserver: outputSubject, errorObserver: outputSubject);
+
+            var args = new[]
+            {
+                "/Add-Driver",
+                $"/Image:{windowsRootPath}",
+                $@"/Driver:""{path}""",
+                IsUniqueFile(path) ? "" : "/Recurse",
+            };
+
+            var processResults = await ProcessMixin.RunProcess(WindowsCommandLineUtils.Dism, args.Join(" "), outputObserver: outputSubject, errorObserver: outputSubject);
             subscription.Dispose();
             
             if (processResults.ExitCode != 0)
             {
                 throw new DeploymentException(
-                    $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput}");
+                    $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput.Join()}");
             }
 
             return StringExtensions.ExtractFileNames(string.Concat(processResults.StandardOutput)).ToList();
+        }
+
+        private bool IsUniqueFile(string path)
+        {
+            if (path == null)
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+
+            var hasInfExt = Path.GetExtension(path).Equals(".inf", StringComparison.InvariantCultureIgnoreCase);
+            return hasInfExt && fileSystemOperations.FileExists(path);
         }
 
 

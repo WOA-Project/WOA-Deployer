@@ -5,7 +5,7 @@ using Deployer.Services;
 
 namespace Deployer.Tasks
 {
-    [TaskDescription("Injecting drivers")]
+    [TaskDescription("Injecting drivers from {0}")]
     public class InjectDrivers : DeploymentTask
     {
         private readonly string origin;
