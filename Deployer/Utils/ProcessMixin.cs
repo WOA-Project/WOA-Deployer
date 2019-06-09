@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using RunProcessAsTask;
+using Serilog;
+using Zafiro.Core;
 
 namespace Deployer.Utils
 {
@@ -23,7 +25,25 @@ namespace Deployer.Utils
                 WorkingDirectory = workingDirectory,
             };
 
-            return await processStartInfo.RunAsync(outputObserver, errorObserver, cancellationToken);
+            var logInfo = new
+            {
+                Command = fileName,
+                Arguments = args,
+                workingDirectory,
+            };
+
+            Log.Debug("Running process: {@Info}", logInfo);
+            var processResults = await processStartInfo.RunAsync(outputObserver, errorObserver, cancellationToken);
+            var resultInfo = new
+            {
+                processResults.ExitCode,
+                OutputOutput = processResults.StandardError.Join(),
+                ErrorOutput = processResults.StandardError.Join(),
+            };
+
+            Log.Debug("End of process. Execution summary: {@Results}", resultInfo);
+
+            return processResults;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Deployer.Utils;
 
 namespace Deployer.Services
 {
@@ -7,8 +8,8 @@ namespace Deployer.Services
     {
         public static string BcdEdit { get; } = Path.Combine(GetSystemFolder, "bcdedit.exe");
         public static string BcdBoot { get; } = Path.Combine(GetSystemFolder, "bcdboot.exe");
-        public static string Dism { get; } = Path.Combine(GetSystemFolder, "dism.exe");
-
+        public static string Dism { get; } = Path.Combine("Core", "Tools", OsMetadata.Architecture.ToString(), "DISM", "DISM.exe");
+       
         private static string GetSystemFolder
         {
             get
