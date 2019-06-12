@@ -8,8 +8,19 @@ namespace Deployer.Services
     {
         public static string BcdEdit { get; } = Path.Combine(GetSystemFolder, "bcdedit.exe");
         public static string BcdBoot { get; } = Path.Combine(GetSystemFolder, "bcdboot.exe");
-        public static string Dism { get; } = Path.Combine("Core", "Tools", OsMetadata.Architecture.ToString(), "DISM", "DISM.exe");
-       
+        public static string Dism { get; } = GetDismPath();
+
+        private static string GetDismPath()
+        {
+            var bundledDism = Path.Combine("Core", "Tools", OsMetadata.Architecture.ToString(), "DISM", "DISM.exe");
+            if (File.Exists(bundledDism))
+            {
+                return bundledDism;
+            }
+
+            return Path.Combine(GetSystemFolder, "dism.exe");
+        }
+
         private static string GetSystemFolder
         {
             get
