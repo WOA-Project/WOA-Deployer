@@ -41,6 +41,7 @@
     <Compile Include="ImageFlasher.cs" />
     <Compile Include="ImageServiceBase.cs" />
     <Compile Include="InvalidImageException.cs" />
+    <Compile Include="OS.cs" />
     <Compile Include="Partition.cs" />
     <Compile Include="PartitionMixin.cs" />
     <Compile Include="PowerShellMixin.cs" />

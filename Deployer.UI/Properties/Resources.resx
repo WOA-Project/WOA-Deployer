@@ -122,4 +122,14 @@
   <data name="DownloadedFolderNotFoundTitle" xml:space="preserve">
     <value>Nothing to delete</value>
   </data>
+  <data name="IncompatibleWindows10Build" xml:space="preserve">
+    <value>Sorry, but your Windows 10 installation is too old to run WOA Deployer. 
+
+This application needs at least Windows 10 Creators Update (15063).
+
+Please, update your system using Windows Update before using it.</value>
+  </data>
+  <data name="IncompatibleWindows10BuildTitle" xml:space="preserve">
+    <value>Incompatible Windows 10 build</value>
+  </data>
 </root>

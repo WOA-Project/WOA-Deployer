@@ -19,7 +19,7 @@ namespace Deployer.UI.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -93,6 +93,28 @@ namespace Deployer.UI.Properties {
         public static string ErrorTitle {
             get {
                 return ResourceManager.GetString("ErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorry, but your Windows 10 installation is too old to run WOA Deployer. 
+        ///
+        ///This application needs at least Windows 10 Creators Update (15063).
+        ///
+        ///Please, update your system using Windows Update before using it..
+        /// </summary>
+        public static string IncompatibleWindows10Build {
+            get {
+                return ResourceManager.GetString("IncompatibleWindows10Build", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incompatible Windows 10 build.
+        /// </summary>
+        public static string IncompatibleWindows10BuildTitle {
+            get {
+                return ResourceManager.GetString("IncompatibleWindows10BuildTitle", resourceCulture);
             }
         }
         
