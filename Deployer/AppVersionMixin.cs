@@ -15,8 +15,18 @@ namespace Deployer
                 }
 
                 var version = entryAssembly.GetName().Version;
-                return $"{version.Major}.{version.Minor}.{version.Build}";
+                return $"{version.Major}{Format(version.Minor)}{Format(version.Build)}{Format(version.Revision)}";
             }
+        }
+
+        private static string Format(int versionBuild)
+        {
+            if (versionBuild == 0)
+            {
+                return "";
+            }
+
+            return "." + versionBuild;
         }
     }
 }
