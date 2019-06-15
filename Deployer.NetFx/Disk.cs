@@ -113,8 +113,8 @@ namespace Deployer.NetFx
 
         public async Task PrepareForRemoval()
         {
-            var script = $"SELECT DISK {Number}\nOFFLINE DISK\nONLINE DISK";
-            await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
+            //var script = $"SELECT DISK {Number}\nOFFLINE DISK\nONLINE DISK";
+            //await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
         }
 
         public override string ToString()
