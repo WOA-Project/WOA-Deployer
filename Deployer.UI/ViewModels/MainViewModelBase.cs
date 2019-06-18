@@ -29,7 +29,9 @@ namespace Deployer.UI.ViewModels
             DonateCommand = ReactiveCommand.Create(() => { Process.Start(DonationLink); });
             HelpCommand = ReactiveCommand.Create(() => { Process.Start(HelpLink); });
             isBusyHelper = isBusyObs.ToProperty(this, model => model.IsBusy);
-            Sections = sections.OrderBy(meta => (int)meta.Metadata["Order"]).ToList();
+            Sections = sections
+                .Where(x => x.Metadata.ContainsKey("Name"))
+                .OrderBy(meta => (int)meta.Metadata["Order"]).ToList();
             isBigProgressVisible = this.WhenAnyValue(x => x.SelectedItem)
                 .CombineLatest(isBusyObs, (section, busy) => section != null && (int)section.Metadata["Order"] == 0 && busy)
                 .ToProperty(this, x => x.IsBigProgressVisible);

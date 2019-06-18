@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Octokit;
+﻿using Octokit;
 
 namespace Deployer.Tasks
 {
