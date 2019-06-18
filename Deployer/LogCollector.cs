@@ -58,7 +58,8 @@ namespace Deployer
                 ("CrashDump", "*"),
                 ("", "MEMORY*.dmp"),
                 ("INF", "*log*"),
-                ("Logs", "*")
+                ("Logs", "*"),
+                (Path.Combine("System32", "Winevt", "Logs"), "*")
             };
             
             foreach (var (dir, fileSearchPattern) in copyTuples)
