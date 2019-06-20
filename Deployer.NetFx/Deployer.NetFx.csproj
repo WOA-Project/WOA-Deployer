@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+     <RuntimeIdentifier>win</RuntimeIdentifier>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assemblies.cs" />
     <Compile Include="Disk.cs" />
