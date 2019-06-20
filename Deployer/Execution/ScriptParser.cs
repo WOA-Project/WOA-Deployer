@@ -7,7 +7,7 @@ namespace Deployer.Execution
 {
     public class ScriptParser : IScriptParser
     {
-        private static Regex _emptyLinesRegex = new Regex(@"((\s*\r?\n)+\s*){2,}");
+        private static Regex emptyLinesRegex = new Regex(@"((\s*\r?\n)+\s*){2,}");
         private readonly Tokenizer<LangToken> tokenizer;
 
         public ScriptParser(Tokenizer<LangToken> tokenizer)
@@ -17,7 +17,7 @@ namespace Deployer.Execution
 
         public Script Parse(string input)
         {
-            input = _emptyLinesRegex.Replace(input.Trim(), "\n");
+            input = emptyLinesRegex.Replace(input.Trim(), "\n");
 
             var tokenList = tokenizer.Tokenize(input);
             return Parsers.Script.Parse(tokenList);
