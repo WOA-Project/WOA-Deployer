@@ -9,8 +9,8 @@ namespace Deployer.Tests
         [Theory]
         // Base tests
         [InlineData("Task", "Task()")]
-        [InlineData("Task \"Hola\"", "Task(Hola)")]
-        [InlineData("Task \"Hola\" \"Cómo vas\"", "Task(Hola,Cómo vas)")]
+        [InlineData("Task \"Bonjour\"", "Task(\"Bonjour\")")]
+        [InlineData("Task \"Hola\" \"Cï¿½mo vas\"", "Task(\"Hola\",\"Cï¿½mo vas\")")]
         [InlineData("# Comment", "# Comment")]
         // New lines related tests
         [InlineData("\nTask", "Task()")]

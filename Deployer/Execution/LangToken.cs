@@ -8,6 +8,7 @@
         NewLine,
         Colon,
         Code,
+        Special,
         String,
         Hex,
         Number,

@@ -11,6 +11,19 @@
 
         public override string ToString()
         {
+            if (Value == null)
+            {
+                return "{null}";
+            }
+            else if (Value is string str)
+            {
+                 return $"\"{str}\"";
+            }
+            else if (Value.GetType().IsValueType)
+            {
+                return $"{{{Value}}}".ToLowerInvariant();
+            }
+            
             return Value.ToString();
         }
     }

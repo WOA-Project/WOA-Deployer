@@ -17,6 +17,9 @@ namespace Deployer.Execution
                 .Match(QuotedTextParser, LangToken.String)
                 .Match(Character.EqualTo('='), LangToken.Equal)
                 .Match(Character.EqualTo(':'), LangToken.Colon)
+                .Match(Span.EqualToIgnoreCase("null"), LangToken.Special)
+                .Match(Span.EqualToIgnoreCase("true"), LangToken.Special)
+                .Match(Span.EqualToIgnoreCase("false"), LangToken.Special)
                 .Match(Span.Regex(@"\w+[\d\w_]*"), LangToken.Identifier)
                 .Build();
         }

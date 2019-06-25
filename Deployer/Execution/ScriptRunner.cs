@@ -91,9 +91,9 @@ namespace Deployer.Execution
                 var parameters = sentence.Command.Arguments.Select(x => x.Value);
                 return (IDeploymentTask) builder.Create(type, parameters.ToArray());
             }
-            catch (InvalidOperationException)
+            catch (Exception inner)
             {
-                throw new ScriptException($"Task '{sentence.Command.Name}' not found");
+                throw new ScriptException($"Task '{sentence.Command.Name}' not found", inner);
             }
         }
     }

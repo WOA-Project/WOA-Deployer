@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer", "Deployer\Deploy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx", "Deployer.NetFx\Deployer.NetFx.csproj", "{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registry", "Registry\Registry\Registry.csproj", "{199EC816-6C41-4252-85FA-1C91865FC9AE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Tests", "Deployer.Tests\Deployer.Tests.csproj", "{81376FF8-929F-4339-95BD-2681D7C1944A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx.Tests", "Deployer.NetFx.Tests\Deployer.NetFx.Tests.csproj", "{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}"
@@ -42,12 +40,6 @@ Global
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Analysis|Any CPU.Build.0 = Release|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{199EC816-6C41-4252-85FA-1C91865FC9AE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81376FF8-929F-4339-95BD-2681D7C1944A}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
 		{81376FF8-929F-4339-95BD-2681D7C1944A}.Analysis|Any CPU.Build.0 = Release|Any CPU
 		{81376FF8-929F-4339-95BD-2681D7C1944A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

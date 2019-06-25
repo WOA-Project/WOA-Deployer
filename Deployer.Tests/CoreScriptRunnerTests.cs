@@ -23,7 +23,14 @@ namespace Deployer.Tests
         public async Task TestTaskWithParameter()
         {
             var createdTasks = await Run("TaskWithParameter \"hola\"");
-            createdTasks.Should().Be("TaskWithParameter(hola)");
+            createdTasks.Should().Be("TaskWithParameter(\"hola\", {null})");
+        }
+
+        [Fact]
+        public async Task TestTaskWithSpecialParameters()
+        {
+            var createdTasks = await Run("TaskWithParameter null true false");
+            createdTasks.Should().Be("TaskWithParameter({null},{true},{false})");
         }
 
         private static async Task<string> Run(string script)
@@ -31,6 +38,7 @@ namespace Deployer.Tests
             var testInstanceBuilder = new TestInstanceBuilder(new NullLocator());
             var runner = new ScriptRunner(typeof(CoreScriptRunnerTests).Assembly.DefinedTypes, testInstanceBuilder,
                 new TestStringBuilder());
+            
             await runner.Run(new ScriptParser(Tokenizer.Create()).Parse(script));
             return testInstanceBuilder.CreatedInstances;
         }

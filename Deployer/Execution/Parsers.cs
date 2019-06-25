@@ -6,15 +6,26 @@ namespace Deployer.Execution
 {
     public static class Parsers
     {
-        public static TokenListParser<LangToken, string> String => Token.EqualTo(LangToken.String).Select(x =>
+        public static TokenListParser<LangToken, object> Special => Token.EqualTo(LangToken.Special).Select(x => 
+        {
+            switch (x.ToStringValue().ToLowerInvariant())
+            {
+                case "true":
+                    return true;
+                case "false":
+                    return false;
+            }
+            return (object)null;
+        });
+        public static TokenListParser<LangToken, object> String => Token.EqualTo(LangToken.String).Select(x =>
         {
             var stringValue = x.ToStringValue();
-            return stringValue.Substring(1, stringValue.Length-2);
+            return (object)stringValue.Substring(1, stringValue.Length-2);
         });
-        public static TokenListParser<LangToken, string> Identifier => Token.EqualTo(LangToken.Identifier).Select(x => x.ToStringValue());
-        public static TokenListParser<LangToken, string> Number => Token.EqualTo(LangToken.Number).Select(x => x.ToStringValue());
+        public static TokenListParser<LangToken, object> Identifier => Token.EqualTo(LangToken.Identifier).Select(x => (object)x.ToStringValue());
+        public static TokenListParser<LangToken, object> Number => Token.EqualTo(LangToken.Number).Select(x => (object)x.ToStringValue());
 
-        public static TokenListParser<LangToken, string> Value => String.Or(Number).Or(Identifier);
+        public static TokenListParser<LangToken, object> Value => String.Or(Number).Or(Special).Or(Identifier);
 
         public static TokenListParser<LangToken, Argument> Argument =>
             from t in Value
@@ -28,7 +39,7 @@ namespace Deployer.Execution
         public static TokenListParser<LangToken, Command> Command =>
             from name in Identifier
             from args in Arguments.OptionalOrDefault()
-            select new Command(name, args ?? new Argument[0]);
+            select new Command(name.ToString(), args ?? new Argument[0]);
         
         public static TokenListParser<LangToken, Sentence> Sentence => CommentSentence.Try().Or(CommandSentence);
 

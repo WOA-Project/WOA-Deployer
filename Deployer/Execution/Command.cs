@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Deployer.Execution
 {
@@ -15,7 +16,7 @@ namespace Deployer.Execution
 
         public override string ToString()
         {
-            return $"{Name}({string.Join(",", Arguments)})";
+            return $"{Name}({string.Join(",", Arguments.Select(a => a.ToString()))})";
         }
     }
 }
