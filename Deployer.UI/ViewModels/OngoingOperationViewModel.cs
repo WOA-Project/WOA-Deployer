@@ -16,12 +16,23 @@ namespace Deployer.UI.ViewModels
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
 
+        private readonly ObservableAsPropertyHelper<bool> isProgressVisibleHelper;
+
+        private readonly ObservableAsPropertyHelper<double> progressHelper;
+        private string cancelButtonText;
+        private readonly string cancellingText = "Cancelling...";
+        private readonly string cancelText = "Cancel";
+
         private ObservableAsPropertyHelper<string> currentActionDetail;
-        private IDisposable logLoader;
+        private ObservableAsPropertyHelper<string> currentActionTitle;
+
+        private bool isCancelling;
 
         private ReadOnlyObservableCollection<RenderedLogEvent> logEvents;
+        private IDisposable logLoader;
 
-        public OngoingOperationViewModel(IOperationContext context, IObservable<LogEvent> events, IOperationProgress progress)
+        public OngoingOperationViewModel(IOperationContext context, IObservable<LogEvent> events,
+            IOperationProgress progress)
         {
             progressHelper = progress.Percentage
                 .Where(d => !double.IsNaN(d))
@@ -38,7 +49,7 @@ namespace Deployer.UI.ViewModels
             downloaded = progress.Value
                 .Select(x => ByteSize.FromBytes(x))
                 .Sample(TimeSpan.FromSeconds(1))
-                .ToProperty(this, model =>model.Downloaded);
+                .ToProperty(this, model => model.Downloaded);
 
             SetupLogging(events);
 
@@ -47,13 +58,14 @@ namespace Deployer.UI.ViewModels
             context.Cancelling.Subscribe(unit =>
             {
                 IsCancelling = true;
-                CancelButtonText = "Cancelling...";
+                CancelButtonText = cancellingText;
             });
-            
+
+            CancelButtonText = cancelText;
             context.Cancelled.Subscribe(_ =>
             {
                 IsCancelling = false;
-                CancelButtonText = "Cancel";
+                CancelButtonText = cancelText;
             });
         }
 
@@ -64,10 +76,8 @@ namespace Deployer.UI.ViewModels
         }
 
         public ReactiveCommand<Unit, Unit> CancelCommand { get; set; }
-        
-        public bool IsProgressIndeterminate => isProgressIndeterminate.Value;
 
-        private readonly ObservableAsPropertyHelper<bool> isProgressVisibleHelper;
+        public bool IsProgressIndeterminate => isProgressIndeterminate.Value;
 
         public bool IsProgressVisible => isProgressVisibleHelper.Value;
 
@@ -77,10 +87,24 @@ namespace Deployer.UI.ViewModels
 
         public string CurrentActionDetail => currentActionDetail.Value;
 
-        private readonly ObservableAsPropertyHelper<double> progressHelper;
-        private ObservableAsPropertyHelper<string> currentActionTitle;
-        private string cancelButtonText = "Cancel";
-        private bool isCancelling;
+        public string CurrentActionTitle => currentActionTitle.Value;
+
+        public ByteSize Downloaded => downloaded.Value;
+
+        public bool IsCancelling
+        {
+            get => isCancelling;
+            set => this.RaiseAndSetIfChanged(ref isCancelling, value);
+        }
+
+        public void Dispose()
+        {
+            isProgressIndeterminate?.Dispose();
+            currentActionDetail?.Dispose();
+            logLoader?.Dispose();
+            isProgressVisibleHelper?.Dispose();
+            progressHelper?.Dispose();
+        }
 
         private void SetupLogging(IObservable<LogEvent> events)
         {
@@ -111,16 +135,6 @@ namespace Deployer.UI.ViewModels
             conn.Connect();
         }
 
-        public string CurrentActionTitle => currentActionTitle.Value;
-
-        public ByteSize Downloaded => downloaded.Value;
-
-        public bool IsCancelling
-        {
-            get => isCancelling;
-            set => this.RaiseAndSetIfChanged(ref isCancelling, value);
-        }
-
         private static RenderedLogEvent RenderedLogEvent(LogEvent x)
         {
             return new RenderedLogEvent
@@ -128,15 +142,6 @@ namespace Deployer.UI.ViewModels
                 Message = x.RenderMessage(),
                 Level = x.Level
             };
-        }
-
-        public void Dispose()
-        {
-            isProgressIndeterminate?.Dispose();
-            currentActionDetail?.Dispose();
-            logLoader?.Dispose();
-            isProgressVisibleHelper?.Dispose();
-            progressHelper?.Dispose();
         }
     }
 }

@@ -34,6 +34,7 @@ namespace Deployer.UI
             dialogWindow.DataContext = dialogViewModel;
 
             var confirmed = (await dialogWindow.ShowDialogAsync()).HasValue && dialogViewModel.SelectedOption?.OptionValue == OptionValue.OK;
+            dialogWindow.Close();
 
             return confirmed ? DialogResult.Yes : DialogResult.No;
         }

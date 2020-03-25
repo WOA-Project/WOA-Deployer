@@ -18,7 +18,7 @@ namespace Deployer
         {
             if (cancellationTokenSource == null)
             {
-                throw new InvalidOperationException("No operation has been start. Please, use the Start method before cancelling.");
+                throw new InvalidOperationException("No operation has been started. Please, use the Start method before cancelling.");
             }
 
             cancellationTokenSource.Cancel();
