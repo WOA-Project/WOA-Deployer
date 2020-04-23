@@ -1,0 +1,36 @@
+﻿<Window x:Class="Deployer.Gui.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:parts="clr-namespace:Deployer.Lumia.Gui.Views.Parts"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid IsEnabled="{Binding IsDeploying, Converter={StaticResource InvertBoolConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Margin="8">
+                <TextBlock Margin="7">Selected Device:</TextBlock>
+                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}" SelectedItem="{Binding Device, Mode=TwoWay}" />
+            </DockPanel>
+            <UniformGrid Grid.Row="1" Margin="4" Columns="1">
+                <Button Margin="4" Command="{Binding Detect}">Detect</Button>
+                <Button Margin="4" Command="{Binding Deploy}">Deploy</Button>
+            </UniformGrid>
+            <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding Message}" />
+        </Grid>
+        <Grid Grid.Row="1" Visibility="{Binding IsDeploying, Converter={StaticResource CollapseOnFalse}}" >
+            <parts:ProgressPart DataContext="{Binding OperationProgress}"/>
+        </Grid>
+    </Grid>
+</Window>
