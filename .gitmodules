@@ -13,3 +13,6 @@
 [submodule "Source/Zafiro"]
 	path = Source/Zafiro
 	url = https://github.com/SuperJMN-Zafiro/Zafiro.git
+[submodule "Source/Markdown.XAML"]
+	path = Source/Markdown.XAML
+	url = https://github.com/SuperJMN/Markdown.XAML.git
