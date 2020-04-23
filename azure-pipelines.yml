@@ -47,10 +47,17 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
  
 - task: PublishBuildArtifacts@1
-  displayName: Publish artifacts
+  displayName: Publish GUI
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'WOA Deployer'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/WOA Deployer GUI.zip'
+    ArtifactName: 'WOA Deployer GUI'
+    publishLocation: 'Container'
+  
+- task: PublishBuildArtifacts@1
+  displayName: Publish CLI
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
+    ArtifactName: 'WOA Deployer CLI'
     publishLocation: 'Container'
 
 - task: GitHubRelease@1
