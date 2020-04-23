@@ -33,26 +33,28 @@ steps:
     configuration: '$(buildConfiguration)'
 
 - task: ArchiveFiles@2
-  displayName: Archive
+  displayName: ZIP GUI
   inputs:
     rootFolderOrFile: 'Source\Deployer.Gui\bin\$(buildConfiguration)'
     includeRootFolder: false    
-    archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer GUI.zip'
 
 - task: ArchiveFiles@2
-  displayName: Archive
+  displayName: ZIP CLI
   inputs:
     rootFolderOrFile: 'Source\Deployer.Cli\bin\$(buildConfiguration)'
     includeRootFolder: false    
     archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
  
 - task: PublishBuildArtifacts@1
+  displayName: Publish artifacts
   inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/WOA Deployer.zip
+    PathtoPublish: $(Build.ArtifactStagingDirectory)/*.zip
     ArtifactName: 'WOA Deployer'
     publishLocation: 'Container'
 
 - task: GitHubRelease@1
+  displayName: Create GitHub Release
   inputs:    
     gitHubConnection: 'github.com_SuperJMN'
     repositoryName: 'WOA-Project/WOA-Deployer'
