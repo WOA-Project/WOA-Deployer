@@ -4,7 +4,6 @@ using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Scripting;
 using Grace.DependencyInjection;
 using Octokit;
-using Octokit.Internal;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Registrations
@@ -17,7 +16,7 @@ namespace Deployer.Core.Registrations
             block.Export<FileSystemOperations>().As<IFileSystemOperations>().Lifestyle.Singleton();
             block.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
             block.ExportFactory(() => new HttpClient { Timeout = TimeSpan.FromMinutes(30) }).Lifestyle.Singleton();
-            block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"), new InMemoryCredentialStore(new Credentials("3aeb9225109bd0a77c690196ebb5759ecde5469e", AuthenticationType.Bearer)))).As<IGitHubClient>().Lifestyle.Singleton();
+            block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"))).As<IGitHubClient>().Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com"))).As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
         }
     }
