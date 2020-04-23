@@ -49,7 +49,7 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: Publish artifacts
   inputs:
-    PathtoPublish: $(Build.ArtifactStagingDirectory)/*.zip
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'WOA Deployer'
     publishLocation: 'Container'
 
