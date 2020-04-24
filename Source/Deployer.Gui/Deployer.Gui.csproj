@@ -179,6 +179,10 @@
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.NetFx</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
+      <Project>{34186c3b-c308-4cae-b462-db7b5f5e378c}</Project>
+      <Name>Markdown.Xaml</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\drive.png" />
