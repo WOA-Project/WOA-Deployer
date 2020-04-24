@@ -7,6 +7,7 @@ using Deployer.Core;
 using Deployer.Gui.ViewModels;
 using Deployer.Gui.ViewModels.Disk;
 using Zafiro.Core;
+using Zafiro.Core.UI;
 using Zafiro.Wpf.Services;
 
 namespace Deployer.Gui.Services
