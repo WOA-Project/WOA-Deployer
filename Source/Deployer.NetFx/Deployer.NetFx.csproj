@@ -62,10 +62,6 @@
       <Project>{CCFD0C3E-EE16-4B41-A77D-250C7017E8B5}</Project>
       <Name>RunProcessAsTask</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{C6DCC8A4-734E-4FA0-B20E-4B5FDA02862D}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">

@@ -79,10 +79,6 @@
       <Project>{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}</Project>
       <Name>SimpleScript</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{C6DCC8A4-734E-4FA0-B20E-4B5FDA02862D}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grace">

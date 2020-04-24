@@ -21,11 +21,11 @@
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0" Margin="8">
                 <TextBlock Margin="7">Selected Device:</TextBlock>
+                <Button DockPanel.Dock="Right" Margin="4" Command="{Binding Detect}">Detect</Button>
                 <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}" SelectedItem="{Binding Device, Mode=TwoWay}" />
             </DockPanel>
-            <UniformGrid Grid.Row="1" Margin="4" Columns="1">
-                <Button Margin="4" Command="{Binding Detect}">Detect</Button>
-                <Button Margin="4" Command="{Binding Deploy}">Deploy</Button>
+            <UniformGrid Grid.Row="1" Margin="4" Columns="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Margin="4" Padding="5" Command="{Binding Deploy}">Deploy</Button>
             </UniformGrid>
             <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding Message}" />
         </Grid>

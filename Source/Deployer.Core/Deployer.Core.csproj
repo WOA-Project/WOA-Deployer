@@ -32,7 +32,6 @@
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
     <ProjectReference Include="..\SimpleScript\SimpleScript\SimpleScript.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
