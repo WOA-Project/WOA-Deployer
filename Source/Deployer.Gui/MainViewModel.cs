@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Deployer.Gui
         private readonly ObservableAsPropertyHelper<string> message;
         private readonly ISubject<string> messages = new Subject<string>();
         private readonly ObservableAsPropertyHelper<bool> isDeploying;
+        private CompositeDisposable disposables = new CompositeDisposable();
 
         public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService, OperationProgressViewModel operationProgress)
         {
@@ -32,7 +34,22 @@ namespace Deployer.Gui
             });
 
             var hasDevice = this.WhenAnyValue(model => model.Device).Select(d => d != null);
-            Detect.Subscribe(detected => Device = detected);
+            Detect.Subscribe(detected =>
+            {
+                Device = detected;
+            }).DisposeWith(disposables);
+
+            Detect.SelectMany(async d =>
+                {
+                    if (d == null)
+                        await dialogService.Notice("Cannot autodetect any device",
+                            "Cannot detect any device. Please, select your device manually");
+
+                    return Unit.Default;
+                })
+                .Subscribe()
+                .DisposeWith(disposables);
+
             GetRequirements = ReactiveCommand.CreateFromTask(() => deployer.GetRequirements(Device), hasDevice);
             requirements = GetRequirements.ToProperty(this, model => model.Requirements);
             Deploy = ReactiveCommand.CreateFromTask(async () =>

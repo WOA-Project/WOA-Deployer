@@ -61,8 +61,7 @@ namespace Deployer.Lumia
                 return disk;
             }
 
-            throw new PhoneDiskNotFoundException(
-                "Cannot get the Phone Disk. Please, verify that the Phone is in Mass Storage Mode.");
+            return null;
         }
     }
 }
