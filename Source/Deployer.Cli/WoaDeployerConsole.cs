@@ -152,7 +152,7 @@ namespace Deployer.Cli
 
         private static void DisplayInfo()
         {
-            Log.Information("WOA Deployer v{AppVersionMixin.VersionString}");
+            Log.Information($"WOA Deployer v{AppVersionMixin.VersionString}");
         }
     }
 }
