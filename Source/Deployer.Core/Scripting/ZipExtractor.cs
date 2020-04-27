@@ -18,58 +18,34 @@ namespace Deployer.Core.Scripting
             this.fileSystemOperations = fileSystemOperations;
         }
 
-        public async Task ExtractFirstChildToFolder(Stream stream, string destination,
+        public Task Extract(Stream stream, string destination,
             IOperationProgress progressObserver = null)
         {
-            await ExtractCore(stream, destination,
-                zipArchive =>
-                {
-                    var baseEntry = FirstChild(zipArchive.Entries);
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry.Key) && !x.IsDirectory);
-                    return contents;
-                }, FirstChild, progressObserver);
+            return ExtractCore(stream, destination, GetContents, GetTopFolderEntry, progressObserver);
         }
 
-        public async Task ExtractToFolder(Stream stream, string destination, IOperationProgress progressObserver = null)
+        private IEnumerable<ZipArchiveEntry> GetContents(ZipArchive zipArchive)
         {
-            await ExtractCore(stream, destination,
-                zipArchive =>
-                {
-                    var contents = zipArchive.Entries.Where(x => !x.IsDirectory);
-                    return contents;
-                }, progressObserver: progressObserver);
-        }
+            var topFolderEntry = GetTopFolderEntry(zipArchive.Entries);
+            IEnumerable<ZipArchiveEntry> contents = zipArchive.Entries.Where(x => !x.IsDirectory);
 
-        public async Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination,
-            IOperationProgress progressObserver = null)
-        {
-            await ExtractCore(stream, destination,
-                zipArchive =>
-                {
-                    relativeZipPath = relativeZipPath.EndsWith("/") ? relativeZipPath : relativeZipPath + "/" ;
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(relativeZipPath) && !x.IsDirectory);
-                    return contents;
-                }, progressObserver: progressObserver, baseEntry: entries => entries.First(x => x.IsDirectory && x.Key.Equals(relativeZipPath)));
-        }
+            if (topFolderEntry != null)
+            {
+                contents = contents.Where(x => x.Key.StartsWith(topFolderEntry.Key));
+            }
 
-        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IOperationProgress progressObserver = null)
-        {
-            await ExtractCore(stream, destination,
-                zipArchive =>
-                {
-                    var baseEntry = getSourceFolder(zipArchive.Entries);
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry.Key) && !x.IsDirectory);
-                    return contents;
-                }, getSourceFolder, progressObserver);
+            return contents;
         }
 
         private async Task ExtractCore(Stream stream, string destination,
             Func<ZipArchive, IEnumerable<ZipArchiveEntry>> selectEntries,
-            Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> baseEntry = null, IOperationProgress progressObserver = null)
+            Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> sourceFolderSelector = null, IOperationProgress progressObserver = null)
         {
-            var archive = ZipArchive.Open(stream);
-            var entries = selectEntries(archive);
-            await ExtractContents(entries.ToList(), destination, baseEntry?.Invoke(archive.Entries), progressObserver);
+            using (var archive = ZipArchive.Open(stream))
+            {
+                var entries = selectEntries(archive);
+                await ExtractContents(entries.ToList(), destination, sourceFolderSelector?.Invoke(archive.Entries), progressObserver);
+            }
         }
 
         private async Task ExtractContents(ICollection<ZipArchiveEntry> entries, string destination,
@@ -101,9 +77,21 @@ namespace Deployer.Core.Scripting
             progressObserver?.Percentage.OnNext(double.NaN);
         }
 
-        private ZipArchiveEntry FirstChild(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
+        private ZipArchiveEntry GetTopFolderEntry(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
         {
-            return zipArchiveEntries.First(x => x.IsDirectory);
-        }        
+            var entries = zipArchiveEntries.Where(IsTopLevelEntry).ToList();
+
+            if (entries.Count == 1)
+            {
+                return entries.First();
+            }
+
+            return null;
+        }
+
+        private static bool IsTopLevelEntry(ZipArchiveEntry entry)
+        {
+            return entry.IsDirectory && entry.Key.Split('/').Length == 2;
+        }
     }
 }
