@@ -32,7 +32,7 @@ namespace Deployer.Core.Scripting.Functions
 
             using (var stream = await downloader.GetStream(url, progress))
             {
-                await extractor.ExtractFirstChildToFolder(stream, finalDir, progress);
+                await extractor.Extract(stream, finalDir, progress);
             }
         }
 

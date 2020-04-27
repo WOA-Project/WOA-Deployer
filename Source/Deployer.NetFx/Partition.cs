@@ -67,12 +67,11 @@ namespace Deployer.NetFx
                 return;
             }
 
-            using (var context = await GptContextFactory.Create(Disk.Number, FileAccess.ReadWrite, GptContext.DefaultBytesPerSector, GptContext.DefaultChunkSize))
-            {
-                var part = context.Find(Guid);
-                part.PartitionType = partitionType;
-            }
-
+            var part = await this.GetPsPartition();
+            await PowerShellMixin.ExecuteCommand("Set-Partition",
+                ("InputObject", part),
+                ("GptType", $"{{{partitionType.Guid}}}")
+            );
             await Disk.Refresh();
 
             Log.Verbose("New GPT type set correctly", partitionType, this);

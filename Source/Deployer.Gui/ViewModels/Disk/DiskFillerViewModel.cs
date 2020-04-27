@@ -27,7 +27,7 @@ namespace Deployer.Gui.ViewModels.Disk
             {
                 if (x != null)
                 {
-                    Requirements[Requirement.Disk] = x.Number;
+                    Requirements[Requirement.Disk] = x.Number - 1;
                 }
             });
         }

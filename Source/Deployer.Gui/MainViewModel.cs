@@ -10,6 +10,7 @@ using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Gui.Properties;
 using ReactiveUI;
+using Serilog;
 using Zafiro.Core.UI;
 
 namespace Deployer.Gui
@@ -62,6 +63,12 @@ namespace Deployer.Gui
                 catch (DeploymentCancelledException)
                 {
                     messages.OnNext("Deployment cancelled");
+                    Log.Information("Deployment cancelled");
+                }
+                catch (Exception e)
+                {
+                    messages.OnNext("Deployment failed");
+                    Log.Error(e, "Deployment failed");
                 }
             }, hasDevice);
 
