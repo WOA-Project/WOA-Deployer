@@ -1,5 +1,5 @@
 ﻿<Fetching Deployment Scripts>
-Unzip(GitHub("WOA-Project", "Deployment-Feed"), "..", "Feed");
+//Unzip(GitHub("WOA-Project", "Deployment-Feed"), "..", "Feed");
 
 // The line below is for testing purposes
-// CopyDirectory("D:\Repos\WOA-Project\Deployment-Feed", "..\Feed");
+CopyDirectory("D:\Repos\WOA-Project\Deployment-Feed", "..\Feed");
