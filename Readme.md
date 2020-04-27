@@ -1,8 +1,8 @@
 # WOA Deployer
 The application to install the Full Windows 10 Experience into your favorite device!
 
-![Deployer](Docs/Deployer.png)!
-*(Pardon the looks, the look & feel will be improved as the stable version gets ready)*
+![Deployer](Docs/Deployer.png)
+*(Pardon the ugly GUI, the look & feel will be improved as the stable version gets ready)*
  
 Supported devices:
 - Microsoft Lumia 950/XL
