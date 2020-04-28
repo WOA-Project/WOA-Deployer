@@ -37,6 +37,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -58,7 +61,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Registrations\MarkdownService.cs" />
+    <Compile Include="AppProperties.cs" />
+    <Compile Include="Services\MarkdownService.cs" />
     <Compile Include="ViewModels\OperationProgressViewModel.cs" />
     <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="ViewModels\Disk\DiskViewModel.cs" />
@@ -66,7 +70,7 @@
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
     <Compile Include="Registrations\Services.cs" />
-    <Compile Include="Registrations\SettingsService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\DependenciesModel.cs" />
     <Compile Include="ViewModels\Disk\DiskFillerViewModel.cs" />
     <Compile Include="Services\GuiRequirementSatisfier.cs" />
@@ -186,6 +190,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

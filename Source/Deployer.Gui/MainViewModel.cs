@@ -7,8 +7,6 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.Exceptions;
-using Deployer.Gui.Properties;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.UI;
@@ -20,12 +18,11 @@ namespace Deployer.Gui
         public OperationProgressViewModel OperationProgress { get; }
         private Device device;
         private readonly ObservableAsPropertyHelper<IEnumerable<string>> requirements;
-        private readonly ObservableAsPropertyHelper<string> message;
         private readonly ISubject<string> messages = new Subject<string>();
         private readonly ObservableAsPropertyHelper<bool> isDeploying;
         private CompositeDisposable disposables = new CompositeDisposable();
 
-        public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService, OperationProgressViewModel operationProgress)
+        public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService, IFilePicker filePicker, OperationProgressViewModel operationProgress)
         {
             OperationProgress = operationProgress;
             Detect = ReactiveCommand.CreateFromTask(async () =>
@@ -72,14 +69,23 @@ namespace Deployer.Gui
                 }
             }, hasDevice);
 
+            RunScript = ReactiveCommand.CreateFromObservable(() =>
+            {
+                var filter = new FileTypeFilter("Deployer Script", new[] {"*.ds", "*.txt"});
+                return filePicker
+                    .Open("Select a script", new[] {filter})
+                    .Where(x => x != null)
+                    .SelectMany(file => Observable.FromAsync(() => deployer.RunScript(file.Source.LocalPath)));
+            });
+
+            dialogService.HandleExceptionsFromCommand(RunScript);
             dialogService.HandleExceptionsFromCommand(Deploy);
-            message = deployer.Messages.Merge(messages).ToProperty(this, x => x.Message);
-            isDeploying = Deploy.IsExecuting.ToProperty(this, x => x.IsDeploying);
+            isDeploying = Deploy.IsExecuting.Merge(RunScript.IsExecuting).ToProperty(this, x => x.IsBusy);
         }
 
-        public bool IsDeploying => isDeploying.Value;
+        public ReactiveCommand<Unit, Unit> RunScript { get; }
 
-        public string Message => message.Value;
+        public bool IsBusy => isDeploying.Value;
 
         public IEnumerable<string> Requirements => requirements.Value;
 
@@ -98,11 +104,5 @@ namespace Deployer.Gui
         public ReactiveCommand<Unit, Device> Detect { get; set; }
 
         public string Title => AppProperties.AppTitle;
-    }
-
-    public class AppProperties
-    {
-        public const string GitHubBaseUrl = "https://github.com/WOA-Project/WOA-Deployer";
-        public static string AppTitle => string.Format(Resources.AppTitle, AppVersionMixin.VersionString);
     }
 }

@@ -56,7 +56,8 @@ namespace Deployer.NetFx
             var processResults = await ProcessMixin.RunProcess(EtcherPath, args, outputObserver: outputSubject);
             if (processResults.ExitCode != 0)
             {
-                throw new FlashException($"Etcher could not flash the SD Card: {processResults}");
+                Log.Error("Cannot flash the image with Etcher. Execution results: {Results}", processResults);
+                throw new FlashException($"Cannot flash the image: {imagePath} to {disk}");
             }
 
             progressObserver?.Percentage.OnNext(double.NaN);

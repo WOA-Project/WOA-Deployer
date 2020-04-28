@@ -11,14 +11,10 @@
     <UserControl.Resources>
 
     </UserControl.Resources>
-    <StackPanel>
+    <StackPanel VerticalAlignment="Center">
         <Image gif:ImageBehavior.AnimationSpeedRatio="0.5" gif:ImageBehavior.AnimatedSource="/Assets/gears_motor.gif" Height="50" />
-        <TextBlock Text="{Binding CurrentActionTitle}" TextAlignment="Center" FontWeight="Bold" FontSize="26" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
-        <StackPanel Margin="14">
-            <TextBlock  Text="{Binding CurrentActionDetail}" TextAlignment="Center" Margin="0 12 0 0" FontSize="18"
-                        FontWeight="Light" VerticalAlignment="Center" TextWrapping="Wrap"  />
-            <local:ProgressControl Margin="8" HorizontalAlignment="Center"
-                                   Visibility="{Binding IsProgressVisible, Converter={StaticResource HideOnFalse}}" />
-        </StackPanel>
+        <TextBlock Text="{Binding Message}" TextAlignment="Center" FontWeight="Bold" FontSize="14" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
+        <local:ProgressControl Margin="8" HorizontalAlignment="Center"
+                               Visibility="{Binding IsProgressVisible, Converter={StaticResource HideOnFalse}}" />
     </StackPanel>
 </UserControl>

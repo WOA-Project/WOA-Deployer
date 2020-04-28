@@ -6,30 +6,39 @@
         xmlns:parts="clr-namespace:Deployer.Lumia.Gui.Views.Parts"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Icon="Assets/appicon.png"
         Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid IsEnabled="{Binding IsDeploying, Converter={StaticResource InvertBoolConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0" Margin="8">
-                <TextBlock Margin="7">Selected Device:</TextBlock>
-                <Button DockPanel.Dock="Right" Margin="4" Command="{Binding Detect}">Detect</Button>
-                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}" SelectedItem="{Binding Device, Mode=TwoWay}" />
-            </DockPanel>
-            <UniformGrid Grid.Row="1" Margin="4" Columns="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button Margin="4" Padding="5" Command="{Binding Deploy}">Deploy</Button>
-            </UniformGrid>
-            <TextBlock Grid.Row="2" TextAlignment="Center" VerticalAlignment="Center" Text="{Binding Message}" />
-        </Grid>
-        <Grid Grid.Row="1" Visibility="{Binding IsDeploying, Converter={StaticResource CollapseOnFalse}}" >
+        <TabControl IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
+            <TabItem Header="Main">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Margin="8">
+                        <TextBlock Margin="7">Selected Device:</TextBlock>
+                        <Button DockPanel.Dock="Right" Margin="4" Command="{Binding Detect}">Detect</Button>
+
+                        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}"
+                                  SelectedItem="{Binding Device, Mode=TwoWay}" />
+                    </DockPanel>
+                    <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="5" Command="{Binding Deploy}">Deploy</Button>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Advanced">
+                <DockPanel Margin="8">
+                    <TextBlock DockPanel.Dock="Top">You can run an arbitrary script. Use with caution!</TextBlock>
+                    <Button Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Command="{Binding RunScript}">Run script…</Button>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
+        <Grid Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
             <parts:ProgressPart DataContext="{Binding OperationProgress}"/>
         </Grid>
     </Grid>

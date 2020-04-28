@@ -8,13 +8,19 @@ namespace Deployer.Gui
 {
     public class OperationProgressViewModel : ReactiveObject
     {
+        private readonly WoaDeployer deployer;
         private readonly ObservableAsPropertyHelper<bool> isProgressVisible;
         private readonly ObservableAsPropertyHelper<double> progress;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
+        private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(IOperationProgress progress)
+        public OperationProgressViewModel(WoaDeployer deployer, IOperationProgress progress)
         {
+            this.deployer = deployer;
+
+            message = deployer.Messages.ToProperty(this, x => x.Message);
+
             this.progress = progress.Percentage
                 .Where(d => !double.IsNaN(d))
                 .ToProperty(this, model => model.Progress);
@@ -32,6 +38,8 @@ namespace Deployer.Gui
                 .Sample(TimeSpan.FromSeconds(1))
                 .ToProperty(this, model =>model.Downloaded);
         }
+
+        public string Message => message.Value;
 
         public ByteSize Downloaded => downloaded.Value;
 
