@@ -19,7 +19,7 @@ namespace Deployer.NetFx
 
         public IDisk Disk { get; }
 
-        public Guid Guid { get; set; }
+        public Guid? Guid { get; set; }
         public PartitionType PartitionType { get; set; }
         public string Root { get; set; }
         public string Name { get; set; }

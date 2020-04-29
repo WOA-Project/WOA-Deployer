@@ -21,7 +21,7 @@ namespace Deployer.Core
         public PartitionType PartitionType { get; set; }
         public char? Letter { get; }
         public string Root { get; set; }
-        public Guid Guid { get; set; }
+        public Guid? Guid { get; set; }
         public uint Number { get; set; }
 
         public Task Remove()

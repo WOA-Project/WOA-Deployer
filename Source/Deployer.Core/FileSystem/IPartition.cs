@@ -10,7 +10,7 @@ namespace Deployer.Core.FileSystem
         string Name { get; set; }
         PartitionType PartitionType { get; set; }
         string Root { get; set; }
-        Guid Guid { get; set; }
+        Guid? Guid { get; set; }
         uint Number { get; set; }
         Task<IVolume> GetVolume();
         Task SetGptType(PartitionType partitionType);

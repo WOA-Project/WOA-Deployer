@@ -50,24 +50,7 @@ namespace Deployer.Gui
 
             GetRequirements = ReactiveCommand.CreateFromTask(() => deployer.GetRequirements(Device), hasDevice);
             requirements = GetRequirements.ToProperty(this, model => model.Requirements);
-            Deploy = ReactiveCommand.CreateFromTask(async () =>
-            {
-                try
-                {
-                    await deployer.Deploy(Device);
-                    messages.OnNext("Deployment finished!");
-                }
-                catch (DeploymentCancelledException)
-                {
-                    messages.OnNext("Deployment cancelled");
-                    Log.Information("Deployment cancelled");
-                }
-                catch (Exception e)
-                {
-                    messages.OnNext("Deployment failed");
-                    Log.Error(e, "Deployment failed");
-                }
-            }, hasDevice);
+            Deploy = ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
 
             RunScript = ReactiveCommand.CreateFromObservable(() =>
             {
@@ -79,7 +62,18 @@ namespace Deployer.Gui
             });
 
             dialogService.HandleExceptionsFromCommand(RunScript);
-            dialogService.HandleExceptionsFromCommand(Deploy);
+            dialogService.HandleExceptionsFromCommand(Deploy, exception =>
+            {
+                Log.Error(exception, exception.Message);
+
+                if (exception is DeploymentCancelledException)
+                {
+                    return ("Deployment cancelled", "Deployment cancelled");
+                }
+
+                return ("Deployment failed", exception.Message);
+            });
+
             isDeploying = Deploy.IsExecuting.Merge(RunScript.IsExecuting).ToProperty(this, x => x.IsBusy);
         }
 

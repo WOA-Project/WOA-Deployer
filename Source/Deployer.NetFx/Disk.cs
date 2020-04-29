@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using ByteSizeLib;
 using Deployer.Core;
 using Deployer.Core.FileSystem;
@@ -51,7 +52,16 @@ namespace Deployer.NetFx
 
             var wmiPartitions = results
                 .Select(x => x.ImmediateBaseObject)
-                .Select(ToWmiPartition);
+                .Select(ToWmiPartition)
+                .Select(wmi => new PartitionData
+                {
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    PartitionType = wmi.PartitionType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                });
 
             ReadOnlyCollection<Core.FileSystem.Gpt.Partition> gptPartitions;
             using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
@@ -59,32 +69,54 @@ namespace Deployer.NetFx
                 gptPartitions = context.Partitions;
             }
 
-            var partitions = wmiPartitions
-                .Join(gptPartitions, x => x.Guid, x => x.Guid, (wmi, gpt) => (IPartition)new Partition(this)
-            {
-                Name = gpt.Name,
-                Root = wmi.Root,
-                Number = wmi.Number,
-                Guid = wmi.Guid,
-                PartitionType = wmi.PartitionType,
-                UniqueId = wmi.UniqueId,
-                Size = wmi.Size,
-            });
+            var gptParts = gptPartitions.Select(gpt => new PartitionData
+                {
+                    Name = gpt.Name,
+                    Guid = gpt.Guid,
+                }
+            );
+
+            IPartition FirstSelector(PartitionData wmi) =>
+                new Partition(this)
+                {
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    PartitionType = wmi.PartitionType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                };
+
+            IPartition BothSelector(PartitionData wmi, PartitionData gpt) =>
+                new Partition(this)
+                {
+                    Name = gpt.Name,
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    PartitionType = wmi.PartitionType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                };
+
+            var partitions = MoreLinq.MoreEnumerable.LeftJoin(wmiPartitions, gptParts,
+                wmi => wmi.Guid, FirstSelector, BothSelector);
+
             return partitions.ToList();
         }
 
         private static WmiPartition ToWmiPartition(object partition)
         {
-            var guid = (string)partition.GetPropertyValue("GptType");
-            var partitionType = guid != null ? PartitionType.FromGuid(Guid.Parse(guid)) : null;
+            var gptType = (string)partition.GetPropertyValue("GptType");
+            var partitionType = gptType != null ? PartitionType.FromGuid(Guid.Parse(gptType)) : null;
 
             var driveLetter = (char)partition.GetPropertyValue("DriveLetter");
 
             return new WmiPartition
             {
-                Number = (uint)partition.GetPropertyValue("PartitionNumber"),
-                UniqueId = (string)partition.GetPropertyValue("UniqueId"),
-                Guid = Guid.Parse((string)partition.GetPropertyValue("Guid")),
+                Number = (uint) partition.GetPropertyValue("PartitionNumber"),
+                UniqueId = (string) partition.GetPropertyValue("UniqueId"),
+                Guid = Guid.TryParse((string) partition.GetPropertyValue("Guid"), out var guid) ? guid : (Guid?) null,
                 Root = driveLetter != 0 ? PathExtensions.GetRootPath(driveLetter) : null,
                 PartitionType = partitionType,
                 Size = new ByteSize(Convert.ToUInt64(partition.GetPropertyValue("Size"))),
@@ -137,5 +169,16 @@ namespace Deployer.NetFx
             var partitions = await GetPartitions();
             return partitions.Last();
         }
+    }
+
+    public class PartitionData
+    {
+        public string Root { get; set; }
+        public uint Number { get; set; }
+        public Guid? Guid { get; set; }
+        public PartitionType PartitionType { get; set; }
+        public string UniqueId { get; set; }
+        public ByteSize Size { get; set; }
+        public string Name { get; set; }
     }
 }
