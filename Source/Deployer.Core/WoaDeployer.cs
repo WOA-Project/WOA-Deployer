@@ -41,6 +41,7 @@ namespace Deployer.Core
 
         public async Task RunScript(string path)
         {
+            await DeleteExistingFolder();
             var runContext = Load(path);
             await Run(runContext, new Dictionary<string, object>());
             Message("Script execution finished");
@@ -48,11 +49,20 @@ namespace Deployer.Core
 
         public async Task Deploy(Device device)
         {
+            await DeleteExistingFolder();
             var variables = new Dictionary<string, object>();
             await ContextualizeFor(device, variables);
             var context = await Load(device);
             await Run(context, variables);
             Message("Deployment successful");
+        }
+
+        private async Task DeleteExistingFolder()
+        {
+            if (fileSystemOperations.DirectoryExists(AppPaths.Feed))
+            {
+                await fileSystemOperations.DeleteDirectory(AppPaths.Feed);
+            }
         }
 
         private void Message(string message)
@@ -66,18 +76,9 @@ namespace Deployer.Core
             return GetRequirements(runContext.Script);
         }
 
-        private async Task DownloadDeploymentScripts()
+        private Task DownloadFeed()
         {
-            if (fileSystemOperations.DirectoryExists(AppPaths.Feed))
-            {
-                await fileSystemOperations.DeleteDirectory(AppPaths.Feed);
-            }
-
-            var script = compiler.Compile(BootstrapPath);
-            var workingDir = Path.GetDirectoryName(BootstrapPath);
-            var scriptContext = new RunContext(script, workingDir);
-
-            await Run(scriptContext, new Dictionary<string, object>());
+            return Run(Load(BootstrapPath), new Dictionary<string, object>());
         }
 
         private async Task Run(RunContext runContext, IDictionary<string, object> variables)
@@ -143,7 +144,7 @@ namespace Deployer.Core
 
         private async Task<RunContext> Load(Device device)
         {
-            await DownloadDeploymentScripts();
+            await DownloadFeed();
             var paths = new[] {ScriptsDownloadPath}.Concat(device.Identifier).Concat(new[] {MainScriptName});
             var scriptPath = Path.Combine(paths.ToArray());
 
