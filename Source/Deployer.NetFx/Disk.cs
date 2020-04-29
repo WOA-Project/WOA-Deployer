@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using ByteSizeLib;
 using Deployer.Core;
 using Deployer.Core.FileSystem;
+using Deployer.Core.Scripting.Functions.Partitions;
 using Serilog;
 
 namespace Deployer.NetFx
@@ -148,6 +149,21 @@ namespace Deployer.NetFx
         {
             var script = $"SELECT DISK {Number}\nOFFLINE DISK\nONLINE DISK";
             await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
+        }
+
+        public async Task ClearAs(DiskType mbr)
+        {
+            await PowerShellMixin
+                .ExecuteCommand("Clear-Disk",
+                    ("RemoveData", null),
+                    ("Confirm", false),
+                    ("Number", Number));
+
+            await PowerShellMixin
+                .ExecuteCommand("Initialize-Disk",
+                    ("PartitionStyle", mbr.ToString().ToUpper()),
+                    ("Number", Number));
+
         }
 
         public override string ToString()

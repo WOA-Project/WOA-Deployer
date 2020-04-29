@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ByteSizeLib;
+using Deployer.Core.Scripting.Functions.Partitions;
 
 namespace Deployer.Core.FileSystem
 {
@@ -20,5 +21,6 @@ namespace Deployer.Core.FileSystem
         Task SetGuid(Guid guid);
         Task ToggleOnline(bool b);
         Task PrepareForRemoval();
+        Task ClearAs(DiskType mbr);
     }
 }
