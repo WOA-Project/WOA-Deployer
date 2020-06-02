@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
@@ -53,31 +54,9 @@ namespace Deployer.NetFx
         {
             var results = await PowerShellMixin.ExecuteScript($"Get-Partition -DiskNumber {Number}");
 
-            var wmiPartitions = results
-                .Select(x => x.ImmediateBaseObject)
-                .Select(ToWmiPartition)
-                .Select(wmi => new PartitionData
-                {
-                    Root = wmi.Root,
-                    Number = wmi.Number,
-                    Guid = wmi.Guid,
-                    GptType = wmi.GptType,
-                    UniqueId = wmi.UniqueId,
-                    Size = wmi.Size,
-                });
+            var fromWmi = GetWmiPartitions(results);
 
-            ReadOnlyCollection<Core.FileSystem.Gpt.Partition> gptPartitions;
-            using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
-            {
-                gptPartitions = context.Partitions;
-            }
-
-            var gptParts = gptPartitions.Select(gpt => new PartitionData
-                {
-                    Name = gpt.Name,
-                    Guid = gpt.Guid,
-                }
-            );
+            var fromGpt = await GetGptPartitions();
 
             IPartition FirstSelector(PartitionData wmi) =>
                 new Partition(this)
@@ -102,10 +81,44 @@ namespace Deployer.NetFx
                     Size = wmi.Size,
                 };
 
-            var partitions = MoreLinq.MoreEnumerable.LeftJoin(wmiPartitions, gptParts,
-                wmi => wmi.Guid, FirstSelector, BothSelector);
+            var partitions = MoreLinq.MoreEnumerable.LeftJoin(fromWmi, fromGpt,
+                pd => pd.Guid, FirstSelector, BothSelector);
 
             return partitions.ToList();
+        }
+
+        private static IEnumerable<PartitionData> GetWmiPartitions(PSDataCollection<PSObject> results)
+        {
+            var fromWmi = results
+                .Select(x => x.ImmediateBaseObject)
+                .Select(ToWmiPartition)
+                .Select(wmi => new PartitionData
+                {
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    GptType = wmi.GptType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                });
+            return fromWmi;
+        }
+
+        private async Task<IEnumerable<PartitionData>> GetGptPartitions()
+        {
+            ReadOnlyCollection<Core.FileSystem.Gpt.Partition> gptPartitions;
+            using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
+            {
+                gptPartitions = context.Partitions;
+            }
+
+            var fromGpt = gptPartitions.Select(gpt => new PartitionData
+                {
+                    Name = gpt.Name,
+                    Guid = gpt.Guid,
+                }
+            );
+            return fromGpt;
         }
 
         private static WmiPartition ToWmiPartition(object partition)
