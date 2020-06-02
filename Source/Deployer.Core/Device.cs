@@ -21,8 +21,9 @@ namespace Deployer.Core
         public static readonly Device TalkmanSs = new Device(nameof(TalkmanSs), "Lumia 950 - Single SIM", "Lumia", "Talkman", "SingleSIM");
         public static readonly Device TalkmanDs = new Device(nameof(TalkmanDs), "Lumia 950 - Dual SIM", "Lumia", "Talkman", "DualSIM");
         public static readonly Device RaspberryPi3 = new Device(nameof(RaspberryPi3), "Raspberry Pi 3", "Raspberry Pi", "3");
+        public static readonly Device RaspberryPi4 = new Device(nameof(RaspberryPi4), "Raspberry Pi 4", "Raspberry Pi", "4");
 
-        public static readonly Device[] KnownDevices = {CitymanDs, CitymanSs, TalkmanDs, TalkmanSs, RaspberryPi3};
+        public static readonly Device[] KnownDevices = {CitymanDs, CitymanSs, TalkmanDs, TalkmanSs, RaspberryPi3, RaspberryPi4};
 
         protected bool Equals(Device other)
         {
