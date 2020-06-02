@@ -22,7 +22,7 @@ namespace Deployer.Core
         public ByteSize AvailableSize { get; }
         public ByteSize AllocatedSize { get; }
 
-        public Task<IPartition> CreatePartition(ByteSize desiredSize, PartitionType partitionType, string name)
+        public Task<IPartition> CreatePartition(ByteSize desiredSize, GptType gptType, string name)
         {
             throw new NotImplementedException();
         }

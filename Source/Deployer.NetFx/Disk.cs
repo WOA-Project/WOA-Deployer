@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using ByteSizeLib;
 using Deployer.Core;
 using Deployer.Core.FileSystem;
@@ -31,12 +30,15 @@ namespace Deployer.NetFx
 
         public ByteSize Size { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsBoot { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsReadOnly { get; }
 
         public bool IsOffline { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsSystem { get; }
 
         public ByteSize AllocatedSize { get; }
@@ -59,7 +61,7 @@ namespace Deployer.NetFx
                     Root = wmi.Root,
                     Number = wmi.Number,
                     Guid = wmi.Guid,
-                    PartitionType = wmi.PartitionType,
+                    GptType = wmi.GptType,
                     UniqueId = wmi.UniqueId,
                     Size = wmi.Size,
                 });
@@ -83,7 +85,7 @@ namespace Deployer.NetFx
                     Root = wmi.Root,
                     Number = wmi.Number,
                     Guid = wmi.Guid,
-                    PartitionType = wmi.PartitionType,
+                    GptType = wmi.GptType,
                     UniqueId = wmi.UniqueId,
                     Size = wmi.Size,
                 };
@@ -95,7 +97,7 @@ namespace Deployer.NetFx
                     Root = wmi.Root,
                     Number = wmi.Number,
                     Guid = wmi.Guid,
-                    PartitionType = wmi.PartitionType,
+                    GptType = wmi.GptType,
                     UniqueId = wmi.UniqueId,
                     Size = wmi.Size,
                 };
@@ -109,7 +111,7 @@ namespace Deployer.NetFx
         private static WmiPartition ToWmiPartition(object partition)
         {
             var gptType = (string)partition.GetPropertyValue("GptType");
-            var partitionType = gptType != null ? PartitionType.FromGuid(Guid.Parse(gptType)) : null;
+            var partitionType = gptType != null ? GptType.FromGuid(Guid.Parse(gptType)) : null;
 
             var driveLetter = (char)partition.GetPropertyValue("DriveLetter");
 
@@ -119,7 +121,7 @@ namespace Deployer.NetFx
                 UniqueId = (string) partition.GetPropertyValue("UniqueId"),
                 Guid = Guid.TryParse((string) partition.GetPropertyValue("Guid"), out var guid) ? guid : (Guid?) null,
                 Root = driveLetter != 0 ? PathExtensions.GetRootPath(driveLetter) : null,
-                PartitionType = partitionType,
+                GptType = partitionType,
                 Size = new ByteSize(Convert.ToUInt64(partition.GetPropertyValue("Size"))),
             };
         }
@@ -171,7 +173,7 @@ namespace Deployer.NetFx
             return $"Disk {Number} ({FriendlyName})";
         }
 
-        public async Task<IPartition> CreatePartition(ByteSize size, PartitionType partitionType, string name = "")
+        public async Task<IPartition> CreatePartition(ByteSize size, GptType gptType, string name = "")
         {
             if (size.Equals(ByteSize.MaxValue))
             {
@@ -185,16 +187,5 @@ namespace Deployer.NetFx
             var partitions = await GetPartitions();
             return partitions.Last();
         }
-    }
-
-    public class PartitionData
-    {
-        public string Root { get; set; }
-        public uint Number { get; set; }
-        public Guid? Guid { get; set; }
-        public PartitionType PartitionType { get; set; }
-        public string UniqueId { get; set; }
-        public ByteSize Size { get; set; }
-        public string Name { get; set; }
     }
 }

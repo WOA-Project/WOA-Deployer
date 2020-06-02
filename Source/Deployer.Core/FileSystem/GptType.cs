@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Deployer.Core.FileSystem
 {
-    public class PartitionType
+    public class GptType
     {
         private static readonly Guid EspGuid = Guid.Parse("C12A7328-F81F-11D2-BA4B-00A0C93EC93B");
         private static readonly Guid BasicGuid = Guid.Parse("EBD0A0A2-B9E5-4433-87C0-68B6B72699C7");
@@ -15,12 +15,12 @@ namespace Deployer.Core.FileSystem
         public string Name { get; }
         public Guid Guid { get; }
 
-        public static readonly PartitionType Reserved = new PartitionType(nameof(Reserved), "Reserved", ReservedGuid);
-        public static readonly PartitionType Esp = new PartitionType(nameof(Esp), "EFI System Partition", EspGuid);
-        public static readonly PartitionType Basic = new PartitionType(nameof(Basic), "Basic", BasicGuid);
-        public static readonly PartitionType Recovery = new PartitionType(nameof(Recovery) , "Recovery", RecoveryGuid);
+        public static readonly GptType Reserved = new GptType(nameof(Reserved), "Reserved", ReservedGuid);
+        public static readonly GptType Esp = new GptType(nameof(Esp), "EFI System Partition", EspGuid);
+        public static readonly GptType Basic = new GptType(nameof(Basic), "Basic", BasicGuid);
+        public static readonly GptType Recovery = new GptType(nameof(Recovery) , "Recovery", RecoveryGuid);
 
-        private static readonly IDictionary<Guid, PartitionType> GuidToTypeDictionary = new Dictionary<Guid, PartitionType>()
+        private static readonly IDictionary<Guid, GptType> GuidToTypeDictionary = new Dictionary<Guid, GptType>()
         {
             { EspGuid, Esp},
             { BasicGuid, Basic },
@@ -28,24 +28,24 @@ namespace Deployer.Core.FileSystem
             { RecoveryGuid, Recovery },
         };
 
-        private PartitionType(string code, string name, Guid guid)
+        private GptType(string code, string name, Guid guid)
         {
             Code = code;
             Name = name;
             Guid = guid;
         }
 
-        public static PartitionType FromGuid(Guid guid)
+        public static GptType FromGuid(Guid guid)
         {
             if (GuidToTypeDictionary.TryGetValue(guid, out var type))
             {
                 return type;
             }
 
-            return new PartitionType("Unknown", "Unknown type", guid);
+            return new GptType("Unknown", "Unknown type", guid);
         }
 
-        public static PartitionType FromString(string str)
+        public static GptType FromString(string str)
         {
             var partType = GuidToTypeDictionary.Values.FirstOrDefault(pair =>
                 string.Equals(pair.Code, str, StringComparison.InvariantCultureIgnoreCase));
@@ -53,7 +53,7 @@ namespace Deployer.Core.FileSystem
             return partType;
         }
 
-        protected bool Equals(PartitionType other)
+        protected bool Equals(GptType other)
         {
             return Guid.Equals(other.Guid);
         }
@@ -75,7 +75,7 @@ namespace Deployer.Core.FileSystem
                 return false;
             }
 
-            return Equals((PartitionType) obj);
+            return Equals((GptType) obj);
         }
 
         public override int GetHashCode()

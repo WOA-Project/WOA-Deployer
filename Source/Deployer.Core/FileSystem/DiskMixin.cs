@@ -9,9 +9,9 @@ namespace Deployer.Core.FileSystem
 {
     public static class DiskMixin
     {
-        public static Task<IPartition> CreatePartition(this IDisk self, PartitionType partitionType, string label = "")
+        public static Task<IPartition> CreatePartition(this IDisk self, GptType gptType, string label = "")
         {
-            return self.CreatePartition(ByteSize.MaxValue, partitionType, label);
+            return self.CreatePartition(ByteSize.MaxValue, gptType, label);
         }
 
         public static async Task<IList<IVolume>> GetVolumes(this IDisk self)

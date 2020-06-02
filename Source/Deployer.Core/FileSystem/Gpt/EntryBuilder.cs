@@ -7,9 +7,9 @@ namespace Deployer.Core.FileSystem.Gpt
     {
         private readonly string name;
         private readonly ByteSize size;
-        private readonly PartitionType gptType;
+        private readonly GptType gptType;
 
-        public EntryBuilder(string name, ByteSize size, PartitionType gptType)
+        public EntryBuilder(string name, ByteSize size, GptType gptType)
         {
             this.name = name ?? throw new ArgumentNullException(nameof(name));
             this.size = size;

@@ -44,6 +44,7 @@
     <Compile Include="InvalidImageException.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Partition.cs" />
+    <Compile Include="PartitionData.cs" />
     <Compile Include="PartitionMixin.cs" />
     <Compile Include="PowerShellMixin.cs" />
     <Compile Include="PowerShellUtils.cs" />

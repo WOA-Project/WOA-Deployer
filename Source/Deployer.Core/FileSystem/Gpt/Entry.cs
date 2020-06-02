@@ -4,7 +4,7 @@ namespace Deployer.Core.FileSystem.Gpt
 {
     public class Entry
     {
-        public Entry(string name, ByteSize size, PartitionType gptType)
+        public Entry(string name, ByteSize size, GptType gptType)
         {
             Name = name;
             Size = size;
@@ -13,7 +13,7 @@ namespace Deployer.Core.FileSystem.Gpt
 
         public string Name { get; }
         public ByteSize Size { get; }
-        public PartitionType GptType { get; }
+        public GptType GptType { get; }
         public ulong Attributes { get; set; }
     }
 }

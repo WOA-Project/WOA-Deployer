@@ -16,7 +16,7 @@ namespace Deployer.Core.FileSystem
         string UniqueId { get; }
         ByteSize AvailableSize { get; }
         ByteSize AllocatedSize { get; }
-        Task<IPartition> CreatePartition(ByteSize desiredSize, PartitionType partitionType, string name);
+        Task<IPartition> CreatePartition(ByteSize desiredSize, GptType gptType, string name);
         Task<IList<IPartition>> GetPartitions();
         Task SetGuid(Guid guid);
         Task ToggleOnline(bool b);
