@@ -128,6 +128,12 @@ namespace Deployer.NetFx
             );
         }
 
+        public async Task Remove()
+        {
+            var part = await this.GetPsPartition();
+            await PowerShellMixin.ExecuteCommand("Remove-Partition", ("InputObject", part), ("Confirm", false));
+        }
+
         public override string ToString()
         {
             return $@"Partition '{Name ?? "Unnamed"}' - Guid: {Guid} in {Disk}. ";

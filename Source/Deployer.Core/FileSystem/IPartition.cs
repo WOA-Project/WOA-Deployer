@@ -18,5 +18,6 @@ namespace Deployer.Core.FileSystem
         ByteSize Size { get; set; }
         Task Resize(ByteSize size);
         Task RemoveDriveLetter();
+        Task Remove();
     }
 }

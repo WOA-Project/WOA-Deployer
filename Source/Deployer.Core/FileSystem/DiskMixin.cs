@@ -45,7 +45,7 @@ namespace Deployer.Core.FileSystem
         public static async Task<IPartition> GetPartitionByNumber(this IDisk disk, int number)
         {
             var partitions = await disk.GetPartitions();
-            return partitions.OrderBy(x => x.Number).ToList()[number - 1];
+            return partitions.FirstOrDefault(x => x.Number == number);
         }
 
         public static async Task<IPartition> GetPartitionByName(this IDisk disk, string name)
