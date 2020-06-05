@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
 using Deployer.Core.FileSystem;
+using Deployer.Core.Scripting.Functions.Partitions;
 using Serilog;
 
 namespace Deployer.NetFx
@@ -29,12 +31,15 @@ namespace Deployer.NetFx
 
         public ByteSize Size { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsBoot { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsReadOnly { get; }
 
         public bool IsOffline { get; }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public bool IsSystem { get; }
 
         public ByteSize AllocatedSize { get; }
@@ -49,44 +54,87 @@ namespace Deployer.NetFx
         {
             var results = await PowerShellMixin.ExecuteScript($"Get-Partition -DiskNumber {Number}");
 
-            var wmiPartitions = results
-                .Select(x => x.ImmediateBaseObject)
-                .Select(ToWmiPartition);
+            var fromWmi = GetWmiPartitions(results);
 
+            var fromGpt = await GetGptPartitions();
+
+            IPartition FirstSelector(PartitionData wmi) =>
+                new Partition(this)
+                {
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    GptType = wmi.GptType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                };
+
+            IPartition BothSelector(PartitionData wmi, PartitionData gpt) =>
+                new Partition(this)
+                {
+                    Name = gpt.Name,
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    GptType = wmi.GptType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                };
+
+            var partitions = MoreLinq.MoreEnumerable.LeftJoin(fromWmi, fromGpt,
+                pd => pd.Guid, FirstSelector, BothSelector);
+
+            return partitions.ToList();
+        }
+
+        private static IEnumerable<PartitionData> GetWmiPartitions(PSDataCollection<PSObject> results)
+        {
+            var fromWmi = results
+                .Select(x => x.ImmediateBaseObject)
+                .Select(ToWmiPartition)
+                .Select(wmi => new PartitionData
+                {
+                    Root = wmi.Root,
+                    Number = wmi.Number,
+                    Guid = wmi.Guid,
+                    GptType = wmi.GptType,
+                    UniqueId = wmi.UniqueId,
+                    Size = wmi.Size,
+                });
+            return fromWmi;
+        }
+
+        private async Task<IEnumerable<PartitionData>> GetGptPartitions()
+        {
             ReadOnlyCollection<Core.FileSystem.Gpt.Partition> gptPartitions;
             using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
             {
                 gptPartitions = context.Partitions;
             }
 
-            var partitions = wmiPartitions
-                .Join(gptPartitions, x => x.Guid, x => x.Guid, (wmi, gpt) => (IPartition)new Partition(this)
-            {
-                Name = gpt.Name,
-                Root = wmi.Root,
-                Number = wmi.Number,
-                Guid = wmi.Guid,
-                PartitionType = wmi.PartitionType,
-                UniqueId = wmi.UniqueId,
-                Size = wmi.Size,
-            });
-            return partitions.ToList();
+            var fromGpt = gptPartitions.Select(gpt => new PartitionData
+                {
+                    Name = gpt.Name,
+                    Guid = gpt.Guid,
+                }
+            );
+            return fromGpt;
         }
 
         private static WmiPartition ToWmiPartition(object partition)
         {
-            var guid = (string)partition.GetPropertyValue("GptType");
-            var partitionType = guid != null ? PartitionType.FromGuid(Guid.Parse(guid)) : null;
+            var gptType = (string)partition.GetPropertyValue("GptType");
+            var partitionType = gptType != null ? GptType.FromGuid(Guid.Parse(gptType)) : null;
 
             var driveLetter = (char)partition.GetPropertyValue("DriveLetter");
 
             return new WmiPartition
             {
-                Number = (uint)partition.GetPropertyValue("PartitionNumber"),
-                UniqueId = (string)partition.GetPropertyValue("UniqueId"),
-                Guid = Guid.Parse((string)partition.GetPropertyValue("Guid")),
+                Number = (uint) partition.GetPropertyValue("PartitionNumber"),
+                UniqueId = (string) partition.GetPropertyValue("UniqueId"),
+                Guid = Guid.TryParse((string) partition.GetPropertyValue("Guid"), out var guid) ? guid : (Guid?) null,
                 Root = driveLetter != 0 ? PathExtensions.GetRootPath(driveLetter) : null,
-                PartitionType = partitionType,
+                GptType = partitionType,
                 Size = new ByteSize(Convert.ToUInt64(partition.GetPropertyValue("Size"))),
             };
         }
@@ -118,12 +166,27 @@ namespace Deployer.NetFx
             await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
         }
 
+        public async Task ClearAs(DiskType mbr)
+        {
+            await PowerShellMixin
+                .ExecuteCommand("Clear-Disk",
+                    ("RemoveData", null),
+                    ("Confirm", false),
+                    ("Number", Number));
+
+            await PowerShellMixin
+                .ExecuteCommand("Initialize-Disk",
+                    ("PartitionStyle", mbr.ToString().ToUpper()),
+                    ("Number", Number));
+
+        }
+
         public override string ToString()
         {
             return $"Disk {Number} ({FriendlyName})";
         }
 
-        public async Task<IPartition> CreatePartition(ByteSize size, PartitionType partitionType, string name = "")
+        public async Task<IPartition> CreatePartition(ByteSize size, GptType gptType, string name = "")
         {
             if (size.Equals(ByteSize.MaxValue))
             {

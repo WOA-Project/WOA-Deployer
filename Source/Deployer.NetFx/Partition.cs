@@ -19,8 +19,8 @@ namespace Deployer.NetFx
 
         public IDisk Disk { get; }
 
-        public Guid Guid { get; set; }
-        public PartitionType PartitionType { get; set; }
+        public Guid? Guid { get; set; }
+        public GptType GptType { get; set; }
         public string Root { get; set; }
         public string Name { get; set; }
         public uint Number { get; set; }
@@ -58,11 +58,11 @@ namespace Deployer.NetFx
             return driveLetter;
         }
 
-        public async Task SetGptType(PartitionType partitionType)
+        public async Task SetGptType(GptType gptType)
         {
-            Log.Verbose("Setting new GPT partition type {Type} to {Partition}", partitionType, this);
+            Log.Verbose("Setting new GPT partition type {Type} to {Partition}", gptType, this);
 
-            if (Equals(PartitionType, partitionType))
+            if (Equals(GptType, gptType))
             {
                 return;
             }
@@ -70,11 +70,11 @@ namespace Deployer.NetFx
             var part = await this.GetPsPartition();
             await PowerShellMixin.ExecuteCommand("Set-Partition",
                 ("InputObject", part),
-                ("GptType", $"{{{partitionType.Guid}}}")
+                ("GptType", $"{{{gptType.Guid}}}")
             );
             await Disk.Refresh();
 
-            Log.Verbose("New GPT type set correctly", partitionType, this);
+            Log.Verbose("New GPT type set correctly", gptType, this);
         }
 
         public async Task<IVolume> GetVolume()
@@ -126,6 +126,12 @@ namespace Deployer.NetFx
                 ("InputObject", part),
                 ("AccessPath", Root)
             );
+        }
+
+        public async Task Remove()
+        {
+            var part = await this.GetPsPartition();
+            await PowerShellMixin.ExecuteCommand("Remove-Partition", ("InputObject", part), ("Confirm", false));
         }
 
         public override string ToString()

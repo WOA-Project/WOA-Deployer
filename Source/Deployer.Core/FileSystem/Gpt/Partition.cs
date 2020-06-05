@@ -10,16 +10,16 @@ namespace Deployer.Core.FileSystem.Gpt
         private ulong lastSector;
         private ulong sizeInSectors;
 
-        public Partition(string name, PartitionType partitionType, uint bytesPerSector)
+        public Partition(string name, GptType gptType, uint bytesPerSector)
         {
-            PartitionType = partitionType;
+            GptType = gptType;
             Name = name;
             this.bytesPerSector = bytesPerSector;
         }
 
         public ulong Attributes { get; set; }
         public Guid Guid { get; set; }
-        public PartitionType PartitionType { get; set; }
+        public GptType GptType { get; set; }
         public string Name { get; }
 
         private ByteSize Size => new ByteSize(SizeInSectors * bytesPerSector);

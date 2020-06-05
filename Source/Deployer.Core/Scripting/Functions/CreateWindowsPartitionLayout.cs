@@ -30,16 +30,16 @@ namespace Deployer.Core.Scripting.Functions
 
             using (var t = await GptContextFactory.Create((uint) diskNumber, FileAccess.ReadWrite))
             {
-                t.Add(new EntryBuilder("SYSTEM", systemSize, PartitionType.Esp)
+                t.Add(new EntryBuilder("SYSTEM", systemSize, GptType.Esp)
                     .NoAutoMount()
                     .Build());
 
-                t.Add(new EntryBuilder("MSR", reservedSize, PartitionType.Reserved)
+                t.Add(new EntryBuilder("MSR", reservedSize, GptType.Reserved)
                     .NoAutoMount()
                     .Build());
 
                 var windowsSize = t.AvailableSize;
-                t.Add(new EntryBuilder("Windows", windowsSize, PartitionType.Basic)
+                t.Add(new EntryBuilder("Windows", windowsSize, GptType.Basic)
                     .NoAutoMount()
                     .Build());
             }

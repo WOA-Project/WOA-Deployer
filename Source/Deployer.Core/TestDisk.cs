@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core.FileSystem;
+using Deployer.Core.Scripting.Functions.Partitions;
 
 namespace Deployer.Core
 {
@@ -21,7 +22,7 @@ namespace Deployer.Core
         public ByteSize AvailableSize { get; }
         public ByteSize AllocatedSize { get; }
 
-        public Task<IPartition> CreatePartition(ByteSize desiredSize, PartitionType partitionType, string name)
+        public Task<IPartition> CreatePartition(ByteSize desiredSize, GptType gptType, string name)
         {
             throw new NotImplementedException();
         }
@@ -42,6 +43,11 @@ namespace Deployer.Core
         }
 
         public Task PrepareForRemoval()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ClearAs(DiskType mbr)
         {
             throw new NotImplementedException();
         }

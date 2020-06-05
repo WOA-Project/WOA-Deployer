@@ -18,10 +18,10 @@ namespace Deployer.Core
 
         public IDisk Disk { get; }
         public string Name { get; set; }
-        public PartitionType PartitionType { get; set; }
+        public GptType GptType { get; set; }
         public char? Letter { get; }
         public string Root { get; set; }
-        public Guid Guid { get; set; }
+        public Guid? Guid { get; set; }
         public uint Number { get; set; }
 
         public Task Remove()
@@ -34,7 +34,7 @@ namespace Deployer.Core
             throw new NotImplementedException();
         }
 
-        public Task SetGptType(PartitionType partitionType)
+        public Task SetGptType(GptType gptType)
         {
             throw new NotImplementedException();
         }

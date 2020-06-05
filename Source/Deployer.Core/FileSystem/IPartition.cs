@@ -8,15 +8,16 @@ namespace Deployer.Core.FileSystem
     {
         IDisk Disk { get; }
         string Name { get; set; }
-        PartitionType PartitionType { get; set; }
+        GptType GptType { get; set; }
         string Root { get; set; }
-        Guid Guid { get; set; }
+        Guid? Guid { get; set; }
         uint Number { get; set; }
         Task<IVolume> GetVolume();
-        Task SetGptType(PartitionType partitionType);
+        Task SetGptType(GptType gptType);
         Task<char> AssignDriveLetter();
         ByteSize Size { get; set; }
         Task Resize(ByteSize size);
         Task RemoveDriveLetter();
+        Task Remove();
     }
 }

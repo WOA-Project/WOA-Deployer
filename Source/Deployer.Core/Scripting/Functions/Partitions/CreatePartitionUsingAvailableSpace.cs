@@ -18,7 +18,7 @@ namespace Deployer.Core.Scripting.Functions.Partitions
         public async Task<string> Execute(int diskNumber, string partitionType, string label = "")
         {
             var disk = await fileSystem.GetDisk(diskNumber);
-            var partition = await disk.CreatePartition(PartitionType.FromString(partitionType), label);
+            var partition = await disk.CreatePartition(GptType.FromString(partitionType), label);
 
             var descriptor = FileSystemMixin.GetDescriptor(partition);
             return await descriptor;

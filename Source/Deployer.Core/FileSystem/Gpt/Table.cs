@@ -71,7 +71,7 @@ namespace Deployer.Core.FileSystem.Gpt
                 }
 
                 var partitionTypeGuid = ByteOperations.ReadGuid(gptBuffer, partitionOffset + 0x00);
-                var partitionType = PartitionType.FromGuid(partitionTypeGuid);
+                var partitionType = GptType.FromGuid(partitionTypeGuid);
 
                 var currentPartition = new Partition(name, partitionType, bytesPerSector)
                 {
@@ -113,7 +113,7 @@ namespace Deployer.Core.FileSystem.Gpt
             var partitionOffset = tableOffset;
             foreach (var currentPartition in Partitions)
             {
-                ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x00, currentPartition.PartitionType.Guid);
+                ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x00, currentPartition.GptType.Guid);
                 ByteOperations.WriteGuid(gptBuffer, partitionOffset + 0x10, currentPartition.Guid);
                 ByteOperations.WriteUInt64(gptBuffer, partitionOffset + 0x20, currentPartition.FirstSector);
                 ByteOperations.WriteUInt64(gptBuffer, partitionOffset + 0x28, currentPartition.LastSector);

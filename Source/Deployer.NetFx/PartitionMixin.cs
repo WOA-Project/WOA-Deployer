@@ -25,7 +25,7 @@ namespace Deployer.NetFx
             {
                 Guid = self.Guid,
                 Name = self.Name,
-                PartitionType = self.PartitionType,
+                GptType = self.GptType,
             };
 
             return partition;
