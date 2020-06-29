@@ -22,7 +22,12 @@ namespace Deployer.Core
         public ByteSize AvailableSize { get; }
         public ByteSize AllocatedSize { get; }
 
-        public Task<IPartition> CreatePartition(ByteSize desiredSize, GptType gptType, string name)
+        public Task<IPartition> CreateMbrPartition(MbrType mbrType, ByteSize size = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IPartition> CreateGptPartition(GptType gptType, ByteSize desiredSize)
         {
             throw new NotImplementedException();
         }
@@ -47,7 +52,7 @@ namespace Deployer.Core
             throw new NotImplementedException();
         }
 
-        public Task ClearAs(DiskType mbr)
+        public Task ClearAs(DiskType diskType)
         {
             throw new NotImplementedException();
         }

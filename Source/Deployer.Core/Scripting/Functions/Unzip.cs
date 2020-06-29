@@ -30,17 +30,36 @@ namespace Deployer.Core.Scripting.Functions
                 return;
             }
 
-            using (var stream = await downloader.GetStream(url, progress))
+            using (var stream = await GetStream(url))
             {
                 await extractor.Extract(stream, finalDir, progress);
             }
         }
 
+        private Task<Stream> GetStream(string url)
+        {
+            if (Uri.TryCreate(url, UriKind.Absolute, out _))
+            {
+                return downloader.GetStream(url, progress);
+            }
+
+            return Task.FromResult<Stream>(File.OpenRead(url));
+        }
+
         private static string GetFileName(string urlString)
         {
-            var uri = new Uri(urlString);
-            var filename = Path.GetFileName(uri.LocalPath);
-            return filename;
+            if (Uri.TryCreate(urlString, UriKind.Absolute, out var uri))
+            {
+                var filename = Path.GetFileName(uri.LocalPath);
+                return filename;
+            }
+
+            if (File.Exists(urlString))
+            {
+                return Path.GetFileName(urlString);
+            }
+
+            throw new InvalidOperationException($"Unsupported URL: {urlString}");
         }
     }
 }

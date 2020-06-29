@@ -11,7 +11,7 @@ namespace Deployer.Core.FileSystem
     {
         public static Task<IPartition> CreatePartition(this IDisk self, GptType gptType, string label = "")
         {
-            return self.CreatePartition(ByteSize.MaxValue, gptType, label);
+            return self.CreateGptPartition(gptType, ByteSize.MaxValue);
         }
 
         public static async Task<IList<IVolume>> GetVolumes(this IDisk self)

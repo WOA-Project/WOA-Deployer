@@ -97,7 +97,7 @@ namespace Deployer.Core
 
             var defined = variables.Select(pair => pair.Key);
             var unsatisfied = requirements.Except(defined).ToList();
-            var pending = unsatisfied.ToDictionary(s => s, s => (object) null);
+            var pending = unsatisfied.ToDictionary(s => s, s => (object) null, StringComparer.InvariantCultureIgnoreCase);
 
             if (pending.Values.All(o => o != null))
             {

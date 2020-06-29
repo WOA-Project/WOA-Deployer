@@ -24,6 +24,11 @@ namespace Deployer.Gui
             {
                 return DiskTemplate;
             }
+            
+            if (item is SdCardFillerViewModel)
+            {
+                return DiskTemplate;
+            }
 
             return base.SelectTemplate(item, container);
         }

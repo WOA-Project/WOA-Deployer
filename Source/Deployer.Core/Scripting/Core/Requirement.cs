@@ -5,5 +5,6 @@
         public const string WimFile = nameof(WimFile);
         public const string WimImageIndex= nameof(WimImageIndex);
         public const string Disk = nameof(Disk);
+        public const string SdCard = nameof(SdCard);
     }
 }

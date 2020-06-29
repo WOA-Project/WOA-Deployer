@@ -16,12 +16,14 @@ namespace Deployer.Gui.Services
     {
         private readonly Func<WimPickViewModel> wimPickVmFactory;
         private readonly Func<DiskFillerViewModel> diskFillerVmFactory;
+        private readonly Func<SdCardFillerViewModel> sdCardFillerVmFactory;
         private readonly ISimpleInteraction simpleInteraction;
 
-        public GuiRequirementSatisfier(Func<WimPickViewModel> wimPickVmFactory, Func<DiskFillerViewModel> diskFillerVmFactory, ISimpleInteraction simpleInteraction)
+        public GuiRequirementSatisfier(Func<WimPickViewModel> wimPickVmFactory, Func<DiskFillerViewModel> diskFillerVmFactory, Func<SdCardFillerViewModel> sdCardFillerVmFactory, ISimpleInteraction simpleInteraction)
         {
             this.wimPickVmFactory = wimPickVmFactory;
             this.diskFillerVmFactory = diskFillerVmFactory;
+            this.sdCardFillerVmFactory = sdCardFillerVmFactory;
             this.simpleInteraction = simpleInteraction;
         }
 
@@ -29,7 +31,7 @@ namespace Deployer.Gui.Services
         {
             var dependenciesModel = new DependenciesModel()
             {
-                Children = await GetChildren(unsatisfied.Keys, unsatisfied),
+                Children = await GetChildren(unsatisfied.Keys),
             };
             var cont = false;
 
@@ -64,21 +66,22 @@ namespace Deployer.Gui.Services
             return cont;
         }
 
-        private Task<IEnumerable<RequirementFiller>> GetChildren(IEnumerable<string> requirementsToSatisfy,
-            IDictionary<string, object> unsatisfied)
+        private Task<IEnumerable<RequirementFiller>> GetChildren(IEnumerable<string> requirementsToSatisfy)
         {
             var wimPickViewModel = wimPickVmFactory();
             var diskFillerViewModel = diskFillerVmFactory();
+            var sdCardFillerViewModel = sdCardFillerVmFactory();
 
             var viewModels = new RequirementFiller[]
             {
                 wimPickViewModel,
                 diskFillerViewModel,
+                sdCardFillerViewModel,
             };
 
             var fillers = from req in requirementsToSatisfy
                 from v in viewModels
-                where v.HandledRequirements.Contains(req)
+                where v.HandledRequirements.Contains(req, StringComparer.InvariantCultureIgnoreCase)
                 select v;
 
             var vms = fillers.Distinct();

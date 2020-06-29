@@ -16,11 +16,12 @@ namespace Deployer.Core.FileSystem
         string UniqueId { get; }
         ByteSize AvailableSize { get; }
         ByteSize AllocatedSize { get; }
-        Task<IPartition> CreatePartition(ByteSize desiredSize, GptType gptType, string name);
         Task<IList<IPartition>> GetPartitions();
         Task SetGuid(Guid guid);
         Task ToggleOnline(bool b);
         Task PrepareForRemoval();
-        Task ClearAs(DiskType mbr);
+        Task ClearAs(DiskType diskType);
+        Task<IPartition> CreateMbrPartition(MbrType mbrType, ByteSize size = default);
+        Task<IPartition> CreateGptPartition(GptType gptType, ByteSize desiredSize = default);
     }
 }

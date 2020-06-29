@@ -63,9 +63,12 @@
     </ApplicationDefinition>
     <Compile Include="AppProperties.cs" />
     <Compile Include="Services\MarkdownService.cs" />
+    <Compile Include="ViewModels\Disk\DiskFillerViewModelBase.cs" />
+    <Compile Include="ViewModels\Disk\SdCardFillerViewModel.cs" />
     <Compile Include="ViewModels\OperationProgressViewModel.cs" />
     <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="ViewModels\Disk\DiskViewModel.cs" />
+    <Compile Include="ViewModels\Requirements.cs" />
     <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>

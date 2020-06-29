@@ -166,7 +166,7 @@ namespace Deployer.NetFx
             await PowerShellMixin.ExecuteScript($@"""{script}"" | & diskpart.exe");
         }
 
-        public async Task ClearAs(DiskType mbr)
+        public async Task ClearAs(DiskType diskType)
         {
             await PowerShellMixin
                 .ExecuteCommand("Clear-Disk",
@@ -174,10 +174,10 @@ namespace Deployer.NetFx
                     ("Confirm", false),
                     ("Number", Number));
 
-            await PowerShellMixin
-                .ExecuteCommand("Initialize-Disk",
-                    ("PartitionStyle", mbr.ToString().ToUpper()),
-                    ("Number", Number));
+            //await PowerShellMixin
+            //    .ExecuteCommand("Initialize-Disk",
+            //        ("PartitionStyle", mbr.ToString().ToUpper()),
+            //        ("Number", Number));
 
         }
 
@@ -186,16 +186,19 @@ namespace Deployer.NetFx
             return $"Disk {Number} ({FriendlyName})";
         }
 
-        public async Task<IPartition> CreatePartition(ByteSize size, GptType gptType, string name = "")
+        public async Task<IPartition> CreateGptPartition(GptType gptType, ByteSize size = default)
         {
-            if (size.Equals(ByteSize.MaxValue))
-            {
-                await PowerShellMixin.ExecuteScript($"New-Partition -DiskNumber {Number} -UseMaximumSize");
-            }
-            else
-            {
-                await PowerShellMixin.ExecuteScript($"New-Partition -DiskNumber {Number} -Size {size.Bytes}");
-            }
+            var sizeStr = size == default ? "-UseMaximumSize" : $"-Size {size.ToString().Replace(" ", "")}";
+            await PowerShellMixin.ExecuteScript($"New-Partition -DiskNumber {Number} {sizeStr} -GptType '{{{gptType.Guid}}}'");
+
+            var partitions = await GetPartitions();
+            return partitions.Last();
+        }
+
+        public async Task<IPartition> CreateMbrPartition(MbrType mbrType, ByteSize size = default)
+        {
+            var sizeStr = size == default ? "-UseMaximumSize" : $"-Size {size}";
+            await PowerShellMixin.ExecuteScript($"New-Partition -DiskNumber {Number} {sizeStr} -MbrType {mbrType.Name}");
 
             var partitions = await GetPartitions();
             return partitions.Last();
