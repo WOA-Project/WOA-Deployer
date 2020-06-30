@@ -18,9 +18,8 @@ namespace Deployer.Gui
         public OperationProgressViewModel OperationProgress { get; }
         private Device device;
         private readonly ObservableAsPropertyHelper<IEnumerable<string>> requirements;
-        private readonly ISubject<string> messages = new Subject<string>();
         private readonly ObservableAsPropertyHelper<bool> isDeploying;
-        private CompositeDisposable disposables = new CompositeDisposable();
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
 
         public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService, IFilePicker filePicker, OperationProgressViewModel operationProgress)
         {
@@ -61,7 +60,7 @@ namespace Deployer.Gui
                     .SelectMany(file => Observable.FromAsync(() => deployer.RunScript(file.Source.LocalPath)));
             });
 
-            dialogService.HandleExceptionsFromCommand(RunScript);
+            dialogService.HandleExceptionsFromCommand(RunScript, exception => ("Script execution failed", exception.Message));
             dialogService.HandleExceptionsFromCommand(Deploy, exception =>
             {
                 Log.Error(exception, exception.Message);

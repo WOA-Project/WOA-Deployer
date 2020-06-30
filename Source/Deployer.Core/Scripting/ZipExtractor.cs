@@ -24,6 +24,12 @@ namespace Deployer.Core.Scripting
             return ExtractCore(stream, destination, GetContents, GetTopFolderEntry, progressObserver);
         }
 
+        public Task ExtractRoot(Stream stream, string destination,
+            IOperationProgress progressObserver = null)
+        {
+            return ExtractCore(stream, destination, archive => archive.Entries.Where(x => !x.IsDirectory), null, progressObserver);
+        }
+
         private IEnumerable<ZipArchiveEntry> GetContents(ZipArchive zipArchive)
         {
             var topFolderEntry = GetTopFolderEntry(zipArchive.Entries);

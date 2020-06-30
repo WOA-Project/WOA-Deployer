@@ -17,7 +17,7 @@ namespace Deployer.Core
     {
         private const string MainScriptName = "Main.txt";
         private static readonly string BootstrapPath = Path.Combine("Core", "Bootstrap.txt");
-        private static readonly string ScriptsDownloadPath = Path.Combine(AppPaths.Feed, "Scripts");
+        private static readonly string PackagesPath = "Packages";
         private readonly ISubject<string> additionalMessages = new Subject<string>();
 
         private readonly ICompiler compiler;
@@ -41,7 +41,6 @@ namespace Deployer.Core
 
         public async Task RunScript(string path)
         {
-            await DeleteExistingFolder();
             var runContext = Load(path);
             await Run(runContext, new Dictionary<string, object>());
             Message("Script execution finished");
@@ -49,7 +48,6 @@ namespace Deployer.Core
 
         public async Task Deploy(Device device)
         {
-            await DeleteExistingFolder();
             var variables = new Dictionary<string, object>();
             await ContextualizeFor(device, variables);
             var context = await Load(device);
@@ -57,11 +55,11 @@ namespace Deployer.Core
             Message("Deployment successful");
         }
 
-        private async Task DeleteExistingFolder()
+        private async Task DeletePackagesFolder()
         {
-            if (fileSystemOperations.DirectoryExists(AppPaths.Feed))
+            if (fileSystemOperations.DirectoryExists(PackagesPath))
             {
-                await fileSystemOperations.DeleteDirectory(AppPaths.Feed);
+                await fileSystemOperations.DeleteDirectory(PackagesPath);
             }
         }
 
@@ -85,6 +83,7 @@ namespace Deployer.Core
         {
             using (new DirectorySwitch(fileSystemOperations, runContext.WorkingDirectory))
             {
+                await DeletePackagesFolder();
                 Message("Satisfying script requirements");
                 await SatisfyRequirements(runContext.Script, variables);
                 await runner.Run(runContext.Script, variables);
@@ -145,7 +144,7 @@ namespace Deployer.Core
         private async Task<RunContext> Load(Device device)
         {
             await DownloadFeed();
-            var paths = new[] {ScriptsDownloadPath}.Concat(device.Identifier).Concat(new[] {MainScriptName});
+            var paths = new[] {PackagesPath}.Concat(device.Identifier).Concat(new[] {MainScriptName});
             var scriptPath = Path.Combine(paths.ToArray());
 
             if (!fileSystemOperations.FileExists(scriptPath))

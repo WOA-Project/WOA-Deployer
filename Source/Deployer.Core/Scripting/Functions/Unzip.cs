@@ -7,17 +7,17 @@ using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions
 {
-    public class Unzip : DeployerFunction
+    public abstract class UnzipBase : DeployerFunction
     {
-        private readonly IZipExtractor extractor;
+        protected readonly IZipExtractor Extractor;
         private readonly IDownloader downloader;
-        private readonly IOperationProgress progress;
+        protected readonly IOperationProgress Progress;
 
-        public Unzip(IZipExtractor extractor, IDownloader downloader, IOperationProgress progress,  IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(fileSystemOperations, operationContext)
+        public UnzipBase(IZipExtractor extractor, IDownloader downloader, IOperationProgress progress,  IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(fileSystemOperations, operationContext)
         {
-            this.extractor = extractor;
+            this.Extractor = extractor;
             this.downloader = downloader;
-            this.progress = progress;
+            this.Progress = progress;
         }
 
         public async Task Execute(string url, string destination, string artifactName = null)
@@ -32,15 +32,17 @@ namespace Deployer.Core.Scripting.Functions
 
             using (var stream = await GetStream(url))
             {
-                await extractor.Extract(stream, finalDir, progress);
+                await Extract(stream, finalDir);
             }
         }
+
+        protected abstract Task Extract(Stream stream, string finalDir);
 
         private Task<Stream> GetStream(string url)
         {
             if (Uri.TryCreate(url, UriKind.Absolute, out _))
             {
-                return downloader.GetStream(url, progress);
+                return downloader.GetStream(url, Progress);
             }
 
             return Task.FromResult<Stream>(File.OpenRead(url));
@@ -60,6 +62,18 @@ namespace Deployer.Core.Scripting.Functions
             }
 
             throw new InvalidOperationException($"Unsupported URL: {urlString}");
+        }
+    }
+
+    public class Unzip : UnzipBase
+    {
+        public Unzip(IZipExtractor extractor, IDownloader downloader, IOperationProgress progress, IFileSystemOperations fileSystemOperations, IOperationContext operationContext) : base(extractor, downloader, progress, fileSystemOperations, operationContext)
+        {
+        }
+
+        protected override Task Extract(Stream stream, string finalDir)
+        {
+            return Extractor.Extract(stream, finalDir, Progress);
         }
     }
 }

@@ -171,13 +171,14 @@ namespace Deployer.NetFx
             await PowerShellMixin
                 .ExecuteCommand("Clear-Disk",
                     ("RemoveData", null),
+                    ("RemoveOEM", null),
                     ("Confirm", false),
                     ("Number", Number));
 
-            //await PowerShellMixin
-            //    .ExecuteCommand("Initialize-Disk",
-            //        ("PartitionStyle", mbr.ToString().ToUpper()),
-            //        ("Number", Number));
+            await PowerShellMixin
+                .ExecuteCommand("Initialize-Disk",
+                    ("PartitionStyle", diskType.ToString().ToUpper()),
+                    ("Number", Number));
 
         }
 
