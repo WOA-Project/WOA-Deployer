@@ -176,7 +176,7 @@ namespace Deployer.NetFx
                     ("Number", Number));
 
             await PowerShellMixin
-                .ExecuteCommand("Initialize-Disk",
+                .ExecuteCommand("Set-Disk",
                     ("PartitionStyle", diskType.ToString().ToUpper()),
                     ("Number", Number));
 
