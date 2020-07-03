@@ -91,7 +91,7 @@ namespace Deployer.Cli
             });
 
             var signature = $"{string.Join(", ".Pastel(accent3), parameterList)}";
-            
+
             string returnStr;
             if (function.ReturnType == typeof(Task))
             {
@@ -116,7 +116,7 @@ namespace Deployer.Cli
             Console.WriteLine(text);
         }
 
-        private  static string TokenizeTypeName(string name)
+        private static string TokenizeTypeName(string name)
         {
             var primitive = name.ToLower();
             switch (primitive)
@@ -153,6 +153,22 @@ namespace Deployer.Cli
         private static void DisplayInfo()
         {
             Log.Information($"WOA Deployer v{AppVersionMixin.VersionString}");
+        }
+
+        public async Task RunScript(string scriptFile)
+        {
+            DisplayInfo();
+
+            try
+            {
+                Log.Information("Running script...");
+                await woaDeployer.RunScript(scriptFile);
+                Log.Information("Execution finished");
+            }
+            catch (RequirementException re)
+            {
+                Log.Error($"The script requires the following variables to be defined:\n{string.Join("\n", re.Requirements.Select(s => "-" + s))}\n\nPlease, specify them using the --variables argument");
+            }
         }
     }
 }

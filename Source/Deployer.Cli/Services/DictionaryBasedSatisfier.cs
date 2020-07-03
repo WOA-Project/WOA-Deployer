@@ -7,7 +7,7 @@ namespace Deployer.Cli.Services
 {
     public class DictionaryBasedSatisfier : IRequirementSatisfier
     {
-        private System.Collections.Generic.IDictionary<string, object> variables;
+        private IDictionary<string, object> variables;
 
         public DictionaryBasedSatisfier(IDictionary<string, object> variables)
         {

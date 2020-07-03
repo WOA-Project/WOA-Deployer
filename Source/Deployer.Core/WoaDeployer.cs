@@ -55,14 +55,6 @@ namespace Deployer.Core
             Message("Deployment successful");
         }
 
-        private async Task DeletePackagesFolder()
-        {
-            if (fileSystemOperations.DirectoryExists(PackagesPath))
-            {
-                await fileSystemOperations.DeleteDirectory(PackagesPath);
-            }
-        }
-
         private void Message(string message)
         {
             additionalMessages.OnNext(message);
@@ -74,16 +66,20 @@ namespace Deployer.Core
             return GetRequirements(runContext.Script);
         }
 
-        private Task DownloadFeed()
+        private async Task DownloadFeed()
         {
-            return Run(Load(BootstrapPath), new Dictionary<string, object>());
+            if (fileSystemOperations.DirectoryExists("Feed"))
+            {
+                await fileSystemOperations.DeleteDirectory("Feed");
+            }
+
+            await Run(Load(BootstrapPath), new Dictionary<string, object>());
         }
 
         private async Task Run(RunContext runContext, IDictionary<string, object> variables)
         {
             using (new DirectorySwitch(fileSystemOperations, runContext.WorkingDirectory))
             {
-                await DeletePackagesFolder();
                 Message("Satisfying script requirements");
                 await SatisfyRequirements(runContext.Script, variables);
                 await runner.Run(runContext.Script, variables);
@@ -144,7 +140,7 @@ namespace Deployer.Core
         private async Task<RunContext> Load(Device device)
         {
             await DownloadFeed();
-            var paths = new[] {PackagesPath}.Concat(device.Identifier).Concat(new[] {MainScriptName});
+            var paths = new[] {"Feed", "Scripts" }.Concat(device.Identifier).Concat(new[] {MainScriptName});
             var scriptPath = Path.Combine(paths.ToArray());
 
             if (!fileSystemOperations.FileExists(scriptPath))
