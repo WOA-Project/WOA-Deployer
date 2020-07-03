@@ -7,7 +7,7 @@ using Deployer.Cli.Services;
 using Deployer.Core;
 using Grace.DependencyInjection;
 
-namespace Deployer.Cli
+namespace Deployer.Cli.Configuration
 {
     public static class ConfigureMixin
     {
@@ -22,7 +22,7 @@ namespace Deployer.Cli
 
         private static void ConfigureDeploy(CommandLineBuilder builder, DependencyInjectionContainer container)
         {
-            var option = CreateDictionaryOption();
+            var option = CreateVariablesOption();
 
             var deployCommand = new Command("deploy")
             {
@@ -49,7 +49,7 @@ namespace Deployer.Cli
 
         private static void ConfigureRunScript(CommandLineBuilder builder, DependencyInjectionContainer container)
         {
-            var dictionaryOption = CreateDictionaryOption();
+            var dictionaryOption = CreateVariablesOption();
             
             var command = new Command("run")
             {
@@ -90,7 +90,7 @@ namespace Deployer.Cli
             
         }
 
-        private static Option<Dictionary<string, object>> CreateDictionaryOption()
+        private static Option<Dictionary<string, object>> CreateVariablesOption()
         {
             var dictionaryOption = new Option<Dictionary<string, object>>(
                 "--variables",
@@ -109,10 +109,5 @@ namespace Deployer.Cli
 
             return dictionaryOption;
         }
-    }
-
-    public enum ListType
-    {
-        Functions
     }
 }

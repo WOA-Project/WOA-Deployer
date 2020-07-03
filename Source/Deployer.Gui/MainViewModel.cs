@@ -36,11 +36,12 @@ namespace Deployer.Gui
                 Device = detected;
             }).DisposeWith(disposables);
 
-            Detect.SelectMany(async d =>
+            Detect.SelectMany(async device =>
                 {
-                    if (d == null)
-                        await dialogService.Notice("Cannot autodetect any device",
-                            "Cannot detect any device. Please, select your device manually");
+                    if (device == null)
+                    {
+                        await dialogService.Notice("Cannot autodetect any device", "Cannot detect any device. Please, select your device manually");
+                    }
 
                     return Unit.Default;
                 })
@@ -53,9 +54,9 @@ namespace Deployer.Gui
 
             RunScript = ReactiveCommand.CreateFromObservable(() =>
             {
-                var filter = new FileTypeFilter("Deployer Script", new[] {"*.ds", "*.txt"});
+                var filter = new FileTypeFilter("Deployer Script", new[] { "*.ds", "*.txt" });
                 return filePicker
-                    .Open("Select a script", new[] {filter})
+                    .Open("Select a script", new[] { filter })
                     .Where(x => x != null)
                     .SelectMany(file => Observable.FromAsync(() => deployer.RunScript(file.Source.LocalPath)));
             });

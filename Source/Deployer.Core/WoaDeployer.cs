@@ -16,8 +16,8 @@ namespace Deployer.Core
     public class WoaDeployer
     {
         private const string MainScriptName = "Main.txt";
+        private const string FeedFolder = "Feed";
         private static readonly string BootstrapPath = Path.Combine("Core", "Bootstrap.txt");
-        private static readonly string PackagesPath = "Packages";
         private readonly ISubject<string> additionalMessages = new Subject<string>();
 
         private readonly ICompiler compiler;
@@ -68,12 +68,16 @@ namespace Deployer.Core
 
         private async Task DownloadFeed()
         {
-            if (fileSystemOperations.DirectoryExists("Feed"))
-            {
-                await fileSystemOperations.DeleteDirectory("Feed");
-            }
-
+            await DeleteFeedFolder();
             await Run(Load(BootstrapPath), new Dictionary<string, object>());
+        }
+
+        private async Task DeleteFeedFolder()
+        {
+            if (fileSystemOperations.DirectoryExists(FeedFolder))
+            {
+                await fileSystemOperations.DeleteDirectory(FeedFolder);
+            }
         }
 
         private async Task Run(RunContext runContext, IDictionary<string, object> variables)
@@ -140,7 +144,7 @@ namespace Deployer.Core
         private async Task<RunContext> Load(Device device)
         {
             await DownloadFeed();
-            var paths = new[] {"Feed", "Scripts" }.Concat(device.Identifier).Concat(new[] {MainScriptName});
+            var paths = new[] {"Feed", }.Concat(device.Identifier).Concat(new[] {MainScriptName});
             var scriptPath = Path.Combine(paths.ToArray());
 
             if (!fileSystemOperations.FileExists(scriptPath))

@@ -51,7 +51,8 @@
     <Compile Include="..\Deployer.NetFx\Properties\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ConfigureMixin.cs" />
+    <Compile Include="Configuration\ConfigureMixin.cs" />
+    <Compile Include="Configuration\ListType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Registrations\ConsoleServices.cs" />
     <Compile Include="WoaDeployerConsole.cs" />
