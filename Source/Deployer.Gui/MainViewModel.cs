@@ -24,11 +24,7 @@ namespace Deployer.Gui
         public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService, IFilePicker filePicker, OperationProgressViewModel operationProgress)
         {
             OperationProgress = operationProgress;
-            Detect = ReactiveCommand.CreateFromTask(async () =>
-            {
-                var detections = await Task.WhenAll(detectors.Select(d => d.Detect()));
-                return detections.FirstOrDefault(d => d != null);
-            });
+            Detect = DeployScript(detectors);
 
             var hasDevice = this.WhenAnyValue(model => model.Device).Select(d => d != null);
             Detect.Subscribe(detected =>
@@ -50,16 +46,9 @@ namespace Deployer.Gui
 
             GetRequirements = ReactiveCommand.CreateFromTask(() => deployer.GetRequirements(Device), hasDevice);
             requirements = GetRequirements.ToProperty(this, model => model.Requirements);
-            Deploy = ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
+            Deploy = DeployCommand(deployer, hasDevice);
 
-            RunScript = ReactiveCommand.CreateFromObservable(() =>
-            {
-                var filter = new FileTypeFilter("Deployer Script", new[] { "*.ds", "*.txt" });
-                return filePicker
-                    .Open("Select a script", new[] { filter })
-                    .Where(x => x != null)
-                    .SelectMany(file => Observable.FromAsync(() => deployer.RunScript(file.Source.LocalPath)));
-            });
+            RunScript = RunScriptCommand(deployer, filePicker);
 
             dialogService.HandleExceptionsFromCommand(RunScript, exception => ("Script execution failed", exception.Message));
             dialogService.HandleExceptionsFromCommand(Deploy, exception =>
@@ -74,7 +63,47 @@ namespace Deployer.Gui
                 return ("Deployment failed", exception.Message);
             });
 
+            RunScript.SelectMany(async x =>
+                {
+                    await dialogService.Notice("Execution finished", "Execution finished");
+                    return Unit.Default;
+                }).Subscribe()
+                .DisposeWith(disposables);
+
+            Deploy.SelectMany(async x =>
+                {
+                    await dialogService.Notice("Deployment finished", "Deployment finished");
+                    return Unit.Default;
+                }).Subscribe()
+                .DisposeWith(disposables);
+
             isDeploying = Deploy.IsExecuting.Merge(RunScript.IsExecuting).ToProperty(this, x => x.IsBusy);
+        }
+
+        private ReactiveCommand<Unit, Unit> DeployCommand(WoaDeployer deployer, IObservable<bool> hasDevice)
+        {
+            return ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
+        }
+
+        private static ReactiveCommand<Unit, Device> DeployScript(ICollection<IDetector> detectors)
+        {
+            return ReactiveCommand.CreateFromTask(async () =>
+            {
+                var detections = await Task.WhenAll(detectors.Select(d => d.Detect()));
+                return detections.FirstOrDefault(d => d != null);
+            });
+        }
+
+        private static ReactiveCommand<Unit, Unit> RunScriptCommand(WoaDeployer deployer, IFilePicker filePicker)
+        {
+            return ReactiveCommand.CreateFromObservable(() =>
+            {
+                var filter = new FileTypeFilter("Deployer Script", new[] { "*.ds", "*.txt" });
+                return filePicker
+                    .Open("Select a script", new[] { filter })
+                    .Where(x => x != null)
+                    .SelectMany(file => Observable.FromAsync(() => deployer.RunScript(file.Source.LocalPath)));
+            });
         }
 
         public ReactiveCommand<Unit, Unit> RunScript { get; }
