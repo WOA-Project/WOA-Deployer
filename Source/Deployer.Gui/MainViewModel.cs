@@ -66,7 +66,7 @@ namespace Deployer.Gui
         private void ConfigureDeployCommand()
         {
             var hasDevice = this.WhenAnyValue(model => model.Device).Select(d => d != null);
-            Deploy = DeployCommand(deployer, hasDevice);
+            Deploy = ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
             dialogService.HandleExceptionsFromCommand(Deploy, exception =>
             {
                 Log.Error(exception, exception.Message);
@@ -79,32 +79,17 @@ namespace Deployer.Gui
                 return ("Deployment failed", exception.Message);
             });
 
-            Deploy.SelectMany(async x =>
-                {
-                    await dialogService.Notice("Deployment finished", "Deployment finished");
-                    return Unit.Default;
-                }).Subscribe()
-                .DisposeWith(disposables);
+            Deploy.OnSuccess(() => dialogService.Notice("Deployment finished", "Deployment finished")).DisposeWith(disposables);
         }
 
         private void ConfigureDetectCommand()
         {
             Detect = DeployScript(detectors);
-
-
+            
             Detect.Subscribe(detected => { Device = detected; }).DisposeWith(disposables);
 
-            Detect.SelectMany(async device =>
-                {
-                    if (device == null)
-                    {
-                        await dialogService.Notice("Cannot autodetect any device",
-                            "Cannot detect any device. Please, select your device manually");
-                    }
-
-                    return Unit.Default;
-                })
-                .Subscribe()
+            Detect
+                .OnSuccess(() => dialogService.Notice("Cannot autodetect any device", "Cannot detect any device. Please, select your device manually"))
                 .DisposeWith(disposables);
         }
 
@@ -112,20 +97,12 @@ namespace Deployer.Gui
         {
             RunScript = RunScriptCommand(deployer, filePicker);
 
-            RunScript.SelectMany(async x =>
-                {
-                    await dialogService.Notice("Execution finished", "Execution finished");
-                    return Unit.Default;
-                }).Subscribe()
+            RunScript
+                .OnSuccess(() => dialogService.Notice("Execution finished", "The script has been executed successfully"))
                 .DisposeWith(disposables);
 
             dialogService.HandleExceptionsFromCommand(RunScript,
                 exception => ("Script execution failed", exception.Message));
-        }
-
-        private ReactiveCommand<Unit, Unit> DeployCommand(WoaDeployer deployer, IObservable<bool> hasDevice)
-        {
-            return ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
         }
 
         private static ReactiveCommand<Unit, Device> DeployScript(ICollection<IDetector> detectors)
