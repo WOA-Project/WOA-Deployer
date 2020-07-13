@@ -85,12 +85,11 @@ namespace Deployer.Gui
         private void ConfigureDetectCommand()
         {
             Detect = DeployScript(detectors);
+            dialogService.HandleExceptionsFromCommand(Detect, "Cannot autodetect any device",
+                "Cannot detect any device. Please, select your device manually")
+                .DisposeWith(disposables);
             
             Detect.Subscribe(detected => { Device = detected; }).DisposeWith(disposables);
-
-            Detect
-                .OnSuccess(() => dialogService.Notice("Cannot autodetect any device", "Cannot detect any device. Please, select your device manually"))
-                .DisposeWith(disposables);
         }
 
         private void ConfigureRunCommand()
