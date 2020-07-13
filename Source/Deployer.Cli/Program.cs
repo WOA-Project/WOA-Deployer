@@ -1,6 +1,7 @@
 ﻿using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
 using System.Threading.Tasks;
+using Deployer.Cli.Configuration;
 using Deployer.NetFx;
 using Serilog;
 

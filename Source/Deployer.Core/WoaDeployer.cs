@@ -16,8 +16,8 @@ namespace Deployer.Core
     public class WoaDeployer
     {
         private const string MainScriptName = "Main.txt";
+        private const string FeedFolder = "Feed";
         private static readonly string BootstrapPath = Path.Combine("Core", "Bootstrap.txt");
-        private static readonly string ScriptsDownloadPath = Path.Combine(AppPaths.Feed, "Scripts");
         private readonly ISubject<string> additionalMessages = new Subject<string>();
 
         private readonly ICompiler compiler;
@@ -41,7 +41,6 @@ namespace Deployer.Core
 
         public async Task RunScript(string path)
         {
-            await DeleteExistingFolder();
             var runContext = Load(path);
             await Run(runContext, new Dictionary<string, object>());
             Message("Script execution finished");
@@ -49,20 +48,11 @@ namespace Deployer.Core
 
         public async Task Deploy(Device device)
         {
-            await DeleteExistingFolder();
             var variables = new Dictionary<string, object>();
             await ContextualizeFor(device, variables);
             var context = await Load(device);
             await Run(context, variables);
             Message("Deployment successful");
-        }
-
-        private async Task DeleteExistingFolder()
-        {
-            if (fileSystemOperations.DirectoryExists(AppPaths.Feed))
-            {
-                await fileSystemOperations.DeleteDirectory(AppPaths.Feed);
-            }
         }
 
         private void Message(string message)
@@ -76,9 +66,18 @@ namespace Deployer.Core
             return GetRequirements(runContext.Script);
         }
 
-        private Task DownloadFeed()
+        private async Task DownloadFeed()
         {
-            return Run(Load(BootstrapPath), new Dictionary<string, object>());
+            await DeleteFeedFolder();
+            await Run(Load(BootstrapPath), new Dictionary<string, object>());
+        }
+
+        private async Task DeleteFeedFolder()
+        {
+            if (fileSystemOperations.DirectoryExists(FeedFolder))
+            {
+                await fileSystemOperations.DeleteDirectory(FeedFolder);
+            }
         }
 
         private async Task Run(RunContext runContext, IDictionary<string, object> variables)
@@ -97,7 +96,7 @@ namespace Deployer.Core
 
             var defined = variables.Select(pair => pair.Key);
             var unsatisfied = requirements.Except(defined).ToList();
-            var pending = unsatisfied.ToDictionary(s => s, s => (object) null);
+            var pending = unsatisfied.ToDictionary(s => s, s => (object) null, StringComparer.InvariantCultureIgnoreCase);
 
             if (pending.Values.All(o => o != null))
             {
@@ -145,7 +144,7 @@ namespace Deployer.Core
         private async Task<RunContext> Load(Device device)
         {
             await DownloadFeed();
-            var paths = new[] {ScriptsDownloadPath}.Concat(device.Identifier).Concat(new[] {MainScriptName});
+            var paths = new[] {"Feed", }.Concat(device.Identifier).Concat(new[] {MainScriptName});
             var scriptPath = Path.Combine(paths.ToArray());
 
             if (!fileSystemOperations.FileExists(scriptPath))

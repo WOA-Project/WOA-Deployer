@@ -4,7 +4,6 @@ using ByteSizeLib;
 using Deployer.Core.FileSystem;
 using Deployer.Core.FileSystem.Gpt;
 using Deployer.Core.Scripting.Core;
-using Deployer.Core.Services;
 using Serilog;
 using Zafiro.Core.FileSystem;
 
@@ -17,7 +16,7 @@ namespace Deployer.Core.Scripting.Functions
         private readonly ByteSize systemSize = ByteSize.FromMegaBytes(100);
 
         public CreateWindowsPartitionLayout(IFileSystem fileSystem, IFileSystemOperations fileSystemOperations,
-             IOperationContext operationContext, IWindowsImageService windowsImageService, IOperationProgress progress) : base(fileSystemOperations, operationContext)
+             IOperationContext operationContext) : base(fileSystemOperations, operationContext)
         {
             this.fileSystem = fileSystem;
         }

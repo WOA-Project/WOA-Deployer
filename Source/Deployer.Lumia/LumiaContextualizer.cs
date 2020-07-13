@@ -26,12 +26,10 @@ namespace Deployer.Lumia
         public async Task Setup(IDictionary<string, object> variables)
         {
             var disk = await Detection.GetDisk(fileSystem);
-            if (disk == null)
+            if (disk != null)
             {
-                throw new InvalidOperationException("Cannot detect the phone disk. Is the phone connected in Mass Storage Mode?");
+                variables[Requirement.Disk] = disk.Number;
             }
-
-            variables[Requirement.Disk] = disk.Number;
         }
     }
 }

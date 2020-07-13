@@ -43,21 +43,27 @@ namespace Deployer.Core.FileSystem
         public static async Task<string> GetDescriptor(IPartition partition)
         {
             var volume = await partition.GetVolume();
-            return $"Disk={partition.Disk.Number}, Name='{partition.Name}', Label='{volume.Label}', Number={partition.Number}";
+            return $"Disk={partition.Disk.Number}, Name='{partition?.Name}', Label='{volume?.Label}', Number={partition.Number}";
         }
 
         public static async Task<IPartition> GetPartitionFromDescriptor(this IFileSystem fileSystem, string descriptor)
         {
             var mini = Parser.Parse(descriptor);
-            var diskNumber = (int)mini["Disk"];
+            var diskNumber = (int?)mini["Disk"];
+
+            if (diskNumber == null)
+            {
+                throw new InvalidOperationException($"Disk value is missing while parsing partition descriptor: {descriptor}");
+            }
+
             var label = (string)mini["Label"];
             var name = (string)mini["Name"];
             var number = (int?)mini["Number"];
 
-            var disk = await fileSystem.GetDisk(diskNumber);
+            var disk = await fileSystem.GetDisk(diskNumber.Value);
             IPartition part = null;
 
-            if (part is null && number.HasValue)
+            if (number.HasValue)
             {
                 part = await disk.GetPartitionByNumber(number.Value);
             }
