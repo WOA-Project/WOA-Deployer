@@ -1,9 +1,11 @@
 using System;
+using System.Collections;
 using System.Net.Http;
 using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Scripting;
 using Grace.DependencyInjection;
 using Octokit;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Registrations
@@ -18,6 +20,7 @@ namespace Deployer.Core.Registrations
             block.ExportFactory(() => new HttpClient { Timeout = TimeSpan.FromMinutes(30) }).Lifestyle.Singleton();
             block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"))).As<IGitHubClient>().Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com"))).As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
+            block.Export<DeviceRepository>().As<IDeviceRepository>().Lifestyle.Singleton();
         }
     }
 }

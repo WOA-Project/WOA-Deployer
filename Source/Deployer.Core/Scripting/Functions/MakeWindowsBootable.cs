@@ -2,6 +2,7 @@
 using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
 using Deployer.Core.Services;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions

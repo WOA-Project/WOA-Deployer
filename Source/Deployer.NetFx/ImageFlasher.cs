@@ -10,6 +10,7 @@ using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
 using Deployer.Core.Utils;
 using Serilog;
+using Zafiro.Core;
 
 namespace Deployer.NetFx
 {

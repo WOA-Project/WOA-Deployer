@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
 using Deployer.Core.Utils;
 using Serilog;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Mixins;
 

@@ -1,5 +1,6 @@
 using Deployer.Core.Scripting;
 using Grace.DependencyInjection;
+using Zafiro.Core;
 
 namespace Deployer.Core.Registrations
 {

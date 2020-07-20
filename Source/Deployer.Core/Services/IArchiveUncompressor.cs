@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Zafiro.Core;
 
 namespace Deployer.Core.Services
 {

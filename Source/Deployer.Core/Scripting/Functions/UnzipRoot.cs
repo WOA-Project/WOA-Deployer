@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions

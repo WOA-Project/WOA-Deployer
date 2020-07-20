@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Zafiro.Core;
 
 namespace Deployer.Core.Console
 {

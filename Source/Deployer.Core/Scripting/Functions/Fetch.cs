@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Deployer.Core.Scripting.Core;
 using Serilog;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions

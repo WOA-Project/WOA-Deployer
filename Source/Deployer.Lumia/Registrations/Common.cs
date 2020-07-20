@@ -10,7 +10,7 @@ namespace Deployer.Lumia.Registrations
             block.Export<PhoneModelInfoInfoReader>().As<IPhoneModelInfoReader>();
             block.Export<PhoneInfoReader>().As<IPhoneInfoReader>();
             block.Export<LumiaContextualizer>().As<IContextualizer>();
-            block.Export<LumiaDetector>().As<IDetector>();
+            //block.Export<LumiaDetector>().As<IDetector>();
         }
     }
 }

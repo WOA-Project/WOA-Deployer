@@ -5,6 +5,7 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Deployer.Core;
 using ReactiveUI;
 using Serilog;
@@ -15,20 +16,21 @@ namespace Deployer.Gui
     public class MainViewModel : ReactiveObject
     {
         private readonly WoaDeployer deployer;
-        private readonly ICollection<IDetector> detectors;
         private readonly IDialogService dialogService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private readonly IFilePicker filePicker;
+        private readonly IDeviceRepository deviceRepository;
         private readonly ObservableAsPropertyHelper<bool> isDeploying;
         private Device device;
+        private ObservableAsPropertyHelper<IEnumerable<Device>> devices;
 
-        public MainViewModel(ICollection<IDetector> detectors, WoaDeployer deployer, IDialogService dialogService,
-            IFilePicker filePicker, OperationProgressViewModel operationProgress)
+        public MainViewModel(WoaDeployer deployer, IDialogService dialogService,
+            IFilePicker filePicker, IDeviceRepository deviceRepository, OperationProgressViewModel operationProgress)
         {
-            this.detectors = detectors;
             this.deployer = deployer;
             this.dialogService = dialogService;
             this.filePicker = filePicker;
+            this.deviceRepository = deviceRepository;
             OperationProgress = operationProgress;
 
             ConfigureCommands();
@@ -50,7 +52,7 @@ namespace Deployer.Gui
 
         public ReactiveCommand<Unit, Unit> Deploy { get; set; }
 
-        public ICollection<Device> Devices => Device.KnownDevices;
+        public IEnumerable<Device> Devices => devices.Value;
 
         public ReactiveCommand<Unit, Device> Detect { get; set; }
 
@@ -60,8 +62,17 @@ namespace Deployer.Gui
         {
             ConfigureDeployCommand();
             ConfigureRunCommand();
-            ConfigureDetectCommand();
+            ConfigureFetchDevices();
         }
+
+        private void ConfigureFetchDevices()
+        {
+            FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.GetAll());
+            devices = FetchDevices.ToProperty(this, model => model.Devices);
+            dialogService.HandleExceptionsFromCommand(FetchDevices, "Error", "Cannot fetch supported devices");
+        }
+
+        public ReactiveCommand<Unit, IEnumerable<Device>> FetchDevices { get; set; }
 
         private void ConfigureDeployCommand()
         {
@@ -80,16 +91,6 @@ namespace Deployer.Gui
             });
 
             Deploy.OnSuccess(() => dialogService.Notice("Deployment finished", "Deployment finished")).DisposeWith(disposables);
-        }
-
-        private void ConfigureDetectCommand()
-        {
-            Detect = DeployScript(detectors);
-            dialogService.HandleExceptionsFromCommand(Detect, "Cannot autodetect any device",
-                "Cannot detect any device. Please, select your device manually")
-                .DisposeWith(disposables);
-            
-            Detect.Subscribe(detected => { Device = detected; }).DisposeWith(disposables);
         }
 
         private void ConfigureRunCommand()

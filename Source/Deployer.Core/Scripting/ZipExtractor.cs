@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SharpCompress.Archives.Zip;
 using SharpCompress.Common;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting

@@ -11,7 +11,6 @@ namespace Deployer.Lumia
     public class LumiaContextualizer : IContextualizer
     {
         private readonly IFileSystem fileSystem;
-        private readonly Device[] lumias = new[] { Device.CitymanDs, Device.CitymanSs, Device.TalkmanDs, Device.TalkmanSs, };
 
         public LumiaContextualizer(IFileSystem fileSystem)
         {
@@ -20,7 +19,7 @@ namespace Deployer.Lumia
 
         public bool CanContextualize(Device device)
         {
-            return lumias.Contains(device);
+            return false;
         }
 
         public async Task Setup(IDictionary<string, object> variables)

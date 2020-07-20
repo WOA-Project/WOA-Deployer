@@ -41,17 +41,22 @@ namespace Deployer.Core
 
         public async Task RunScript(string path)
         {
-            var runContext = Load(path);
-            await Run(runContext, new Dictionary<string, object>());
+            await Run(path, new Dictionary<string, object>());
             Message("Script execution finished");
+        }
+
+        private async Task DownloadFeed()
+        {
+            await DeleteFeedFolder();
+            await Run(BootstrapPath, new Dictionary<string, object>());
         }
 
         public async Task Deploy(Device device)
         {
+            await DownloadFeed();
             var variables = new Dictionary<string, object>();
-            await ContextualizeFor(device, variables);
-            var context = await Load(device);
-            await Run(context, variables);
+            //await ContextualizeFor(device, variables);
+            await Run(device.DeploymentScriptPath, variables);
             Message("Deployment successful");
         }
 
@@ -60,17 +65,17 @@ namespace Deployer.Core
             additionalMessages.OnNext(message);
         }
 
-        public async Task<IEnumerable<string>> GetRequirements(Device device)
-        {
-            var runContext = await Load(device);
-            return GetRequirements(runContext.Script);
-        }
+        //public async Task<IEnumerable<string>> GetRequirements(Device device)
+        //{
+        //    var runContext = await Load(device);
+        //    return GetRequirements(runContext.Script);
+        //}
 
-        private async Task DownloadFeed()
-        {
-            await DeleteFeedFolder();
-            await Run(Load(BootstrapPath), new Dictionary<string, object>());
-        }
+        //private async Task DownloadFeed()
+        //{
+        //    await DeleteFeedFolder();
+        //    await Run(Load(BootstrapPath), new Dictionary<string, object>());
+        //}
 
         private async Task DeleteFeedFolder()
         {
@@ -80,13 +85,16 @@ namespace Deployer.Core
             }
         }
 
-        private async Task Run(RunContext runContext, IDictionary<string, object> variables)
+        private async Task Run(string path, IDictionary<string, object> variables)
         {
-            using (new DirectorySwitch(fileSystemOperations, runContext.WorkingDirectory))
+            var script = compiler.Compile(path);
+            var workingDirectory = Path.GetDirectoryName(path);
+
+            using (new DirectorySwitch(fileSystemOperations, workingDirectory))
             {
                 Message("Satisfying script requirements");
-                await SatisfyRequirements(runContext.Script, variables);
-                await runner.Run(runContext.Script, variables);
+                await SatisfyRequirements(script, variables);
+                await runner.Run(script, variables);
             }
         }
 
@@ -96,7 +104,7 @@ namespace Deployer.Core
 
             var defined = variables.Select(pair => pair.Key);
             var unsatisfied = requirements.Except(defined).ToList();
-            var pending = unsatisfied.ToDictionary(s => s, s => (object) null, StringComparer.InvariantCultureIgnoreCase);
+            var pending = unsatisfied.ToDictionary(s => s, s => (object)null, StringComparer.InvariantCultureIgnoreCase);
 
             if (pending.Values.All(o => o != null))
             {
@@ -124,38 +132,38 @@ namespace Deployer.Core
                 .Distinct();
         }
 
-        private async Task ContextualizeFor(Device device, IDictionary<string, object> variables)
-        {
-            var capableContextualizer = contextualizers.FirstOrDefault(x => x.CanContextualize(device));
+        //private async Task ContextualizeFor(Device device, IDictionary<string, object> variables)
+        //{
+        //    var capableContextualizer = contextualizers.FirstOrDefault(x => x.CanContextualize(device));
 
-            if (capableContextualizer is null)
-            {
-                return;
-            }
+        //    if (capableContextualizer is null)
+        //    {
+        //        return;
+        //    }
 
-            if (capableContextualizer is null)
-            {
-                throw new DeploymentException($"Cannot contextualize for this device: {device}");
-            }
+        //    if (capableContextualizer is null)
+        //    {
+        //        throw new DeploymentException($"Cannot contextualize for this device: {device}");
+        //    }
 
-            await capableContextualizer.Setup(variables);
-        }
+        //    await capableContextualizer.Setup(variables);
+        //}
 
-        private async Task<RunContext> Load(Device device)
-        {
-            await DownloadFeed();
-            var paths = new[] {"Feed", }.Concat(device.Identifier).Concat(new[] {MainScriptName});
-            var scriptPath = Path.Combine(paths.ToArray());
+        //private async Task<RunContext> Load(Device device)
+        //{
+        //    await DownloadFeed();
+        //    var paths = new[] {"Feed", }.Concat(device.Identifier).Concat(new[] {MainScriptName});
+        //    var scriptPath = Path.Combine(paths.ToArray());
 
-            if (!fileSystemOperations.FileExists(scriptPath))
-            {
-                throw new DeploymentException($"Unsupported device {device}. The required script isn't present");
-            }
+        //    if (!fileSystemOperations.FileExists(scriptPath))
+        //    {
+        //        throw new DeploymentException($"Unsupported device {device}. The required script isn't present");
+        //    }
 
-            return Load(scriptPath);
-        }
+        //    return Load(scriptPath);
+        //}
 
-        private RunContext Load(string scriptPath)
+        private RunContext RunContextFrom(string scriptPath)
         {
             var script = compiler.Compile(scriptPath);
             var workingDirectory = Path.GetDirectoryName(scriptPath);

@@ -23,7 +23,7 @@
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" Margin="8">
                         <TextBlock Margin="7">Selected Device:</TextBlock>
-                        <Button DockPanel.Dock="Right" Margin="4" Command="{Binding Detect}">Detect</Button>
+                        <Button DockPanel.Dock="Right" Margin="4" Command="{Binding FetchDevices}">Load</Button>
 
                         <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}"
                                   SelectedItem="{Binding Device, Mode=TwoWay}" />

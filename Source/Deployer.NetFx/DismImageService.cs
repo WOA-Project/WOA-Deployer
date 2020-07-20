@@ -11,6 +11,7 @@ using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
 using Deployer.Core.Utils;
 using Serilog;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.NetFx

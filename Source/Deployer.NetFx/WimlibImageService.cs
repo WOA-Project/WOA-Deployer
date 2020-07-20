@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core;
 using Deployer.Core.FileSystem;
 using ManagedWimLib;
+using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.NetFx

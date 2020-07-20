@@ -3,6 +3,7 @@ using System.Reactive.Linq;
 using ByteSizeLib;
 using Deployer.Core;
 using ReactiveUI;
+using Zafiro.Core;
 
 namespace Deployer.Gui
 {
