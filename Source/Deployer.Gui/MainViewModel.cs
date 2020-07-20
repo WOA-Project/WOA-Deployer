@@ -21,8 +21,8 @@ namespace Deployer.Gui
         private readonly IFilePicker filePicker;
         private readonly IDeviceRepository deviceRepository;
         private readonly ObservableAsPropertyHelper<bool> isDeploying;
-        private Device device;
-        private ObservableAsPropertyHelper<IEnumerable<Device>> devices;
+        private Deployment deployment;
+        private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
 
         public MainViewModel(WoaDeployer deployer, IDialogService dialogService,
             IFilePicker filePicker, IDeviceRepository deviceRepository, OperationProgressViewModel operationProgress)
@@ -44,15 +44,15 @@ namespace Deployer.Gui
 
         public bool IsBusy => isDeploying.Value;
 
-        public Device Device
+        public Deployment Deployment
         {
-            get => device;
-            set => this.RaiseAndSetIfChanged(ref device, value);
+            get => deployment;
+            set => this.RaiseAndSetIfChanged(ref deployment, value);
         }
 
         public ReactiveCommand<Unit, Unit> Deploy { get; set; }
 
-        public IEnumerable<Device> Devices => devices.Value;
+        public IEnumerable<Deployment> Deployments => devices.Value;
 
         public ReactiveCommand<Unit, Device> Detect { get; set; }
 
@@ -67,17 +67,18 @@ namespace Deployer.Gui
 
         private void ConfigureFetchDevices()
         {
-            FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.GetAll());
-            devices = FetchDevices.ToProperty(this, model => model.Devices);
+            FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.Get());
+            devices = FetchDevices.Select(x => x.Deployments).ToProperty(this, model => model.Deployments);
             dialogService.HandleExceptionsFromCommand(FetchDevices, "Error", "Cannot fetch supported devices");
         }
 
-        public ReactiveCommand<Unit, IEnumerable<Device>> FetchDevices { get; set; }
+        public ReactiveCommand<Unit, DeployerStore> FetchDevices { get; set; }
+
 
         private void ConfigureDeployCommand()
         {
-            var hasDevice = this.WhenAnyValue(model => model.Device).Select(d => d != null);
-            Deploy = ReactiveCommand.CreateFromTask(() => deployer.Deploy(Device), hasDevice);
+            var hasDevice = this.WhenAnyValue(model => model.Deployment).Select(d => d != null);
+            Deploy = ReactiveCommand.CreateFromTask(() => deployer.Deploy(Deployment), hasDevice);
             dialogService.HandleExceptionsFromCommand(Deploy, exception =>
             {
                 Log.Error(exception, exception.Message);

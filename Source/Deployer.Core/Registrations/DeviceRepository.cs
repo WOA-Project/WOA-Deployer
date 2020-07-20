@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Xml;
+using ExtendedXmlSerializer;
+using ExtendedXmlSerializer.Configuration;
 using Zafiro.Core;
 
 namespace Deployer.Core.Registrations
@@ -9,18 +9,23 @@ namespace Deployer.Core.Registrations
     public class DeviceRepository: IDeviceRepository
     {
         private readonly IDownloader downloader;
+        private readonly IExtendedXmlSerializer serializer;
 
         public DeviceRepository(IDownloader downloader)
         {
             this.downloader = downloader;
+            this.serializer = new ConfigurationContainer()
+                .EnableReferences()
+                .Create();
         }
 
-        public async Task<IEnumerable<Device>> GetAll()
+        public async Task<DeployerStore> Get()
         {
-            using (var file = new StreamReader(await downloader.GetStream("https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Devices.json")))
+            using (var stream = await downloader.GetStream("https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml"))
             {
-                var str = await file.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<Device>>(str);
+                var deserialize = serializer.Deserialize(XmlReader.Create(stream));
+                var store = (DeployerStore) deserialize;
+                return store;
             }
         }
     }

@@ -51,12 +51,12 @@ namespace Deployer.Core
             await Run(BootstrapPath, new Dictionary<string, object>());
         }
 
-        public async Task Deploy(Device device)
+        public async Task Deploy(Deployment deployment)
         {
             await DownloadFeed();
             var variables = new Dictionary<string, object>();
             //await ContextualizeFor(device, variables);
-            await Run(device.DeploymentScriptPath, variables);
+            await Run(deployment.ScriptPath, variables);
             Message("Deployment successful");
         }
 

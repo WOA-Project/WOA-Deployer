@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunProcessAsTask", "RunProc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleScript", "SimpleScript\SimpleScript\SimpleScript.csproj", "{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.DeployerStoreTool", "Deployer.DeployerStoreTool\Deployer.DeployerStoreTool.csproj", "{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Analysis|Any CPU = Analysis|Any CPU
@@ -82,6 +84,12 @@ Global
 		{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Analysis|Any CPU.ActiveCfg = Debug|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Analysis|Any CPU.Build.0 = Debug|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
