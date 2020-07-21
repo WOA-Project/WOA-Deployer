@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Deployer.Gui"
              xmlns:valueConverters="clr-namespace:ValueConverters;assembly=ValueConverters"
              xmlns:converters="clr-namespace:Deployer.Gui.Converters"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
 
         <local:Composition x:Key="Composition" />

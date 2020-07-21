@@ -8,7 +8,7 @@
         xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Icon="Assets/appicon.png"
+        Icon="/Assets/appicon.png"
         Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
 
     <Window.Resources>
