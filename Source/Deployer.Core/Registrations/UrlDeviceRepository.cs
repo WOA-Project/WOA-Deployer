@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using System.Xml;
 using ExtendedXmlSerializer;
@@ -6,13 +7,15 @@ using Zafiro.Core;
 
 namespace Deployer.Core.Registrations
 {
-    public class DeviceRepository: IDeviceRepository
+    public class UrlDeviceRepository: IDeviceRepository
     {
+        private readonly Uri uri;
         private readonly IDownloader downloader;
         private readonly IExtendedXmlSerializer serializer;
 
-        public DeviceRepository(IDownloader downloader)
+        public UrlDeviceRepository(Uri uri, IDownloader downloader)
         {
+            this.uri = uri;
             this.downloader = downloader;
             this.serializer = new ConfigurationContainer()
                 .EnableReferences()
@@ -21,7 +24,7 @@ namespace Deployer.Core.Registrations
 
         public async Task<DeployerStore> Get()
         {
-            using (var stream = await downloader.GetStream("https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml"))
+            using (var stream = await downloader.GetStream(uri.ToString()))
             {
                 var deserialize = serializer.Deserialize(XmlReader.Create(stream));
                 var store = (DeployerStore) deserialize;

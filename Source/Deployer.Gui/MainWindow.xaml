@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:parts="clr-namespace:Deployer.Lumia.Gui.Views.Parts"
+        xmlns:core="clr-namespace:Deployer.Core;assembly=Deployer.Core"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="Assets/appicon.png"
@@ -23,24 +24,17 @@
                     </Grid.RowDefinitions>
                     <DockPanel Grid.Row="0" Margin="8">
                         <TextBlock Margin="7">Selected Device:</TextBlock>
-                        <Button DockPanel.Dock="Right" Margin="4" Command="{Binding FetchDevices}">Load</Button>
+                        <Button DockPanel.Dock="Right" Margin="4" Command="{Binding FetchDevices}" VerticalAlignment="Center">Load</Button>
 
                         <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Deployments}"
                                   SelectedItem="{Binding Deployment, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
 
                             <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                            <ColumnDefinition></ColumnDefinition>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Height="50" Source="{Binding Device.Icon}" />
-                                        <TextBlock VerticalAlignment="Center" Grid.Column="1" Text="{Binding Device.FriendlyName}" />
-                                        <TextBlock VerticalAlignment="Center" Grid.Column="2" Text="{Binding Description}" />
-                                    </Grid>
+                                <DataTemplate DataType="core:Deployment">
+                                    <StackPanel Height="50" Orientation="Horizontal" ToolTip="{Binding Description}">
+                                        <Image Source="{Binding Icon}" />
+                                        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="4" />
+                                    </StackPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>

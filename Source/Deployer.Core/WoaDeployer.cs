@@ -56,7 +56,7 @@ namespace Deployer.Core
             await DownloadFeed();
             var variables = new Dictionary<string, object>();
             //await ContextualizeFor(device, variables);
-            await Run(deployment.ScriptPath, variables);
+            await Run(Path.Combine(FeedFolder, deployment.ScriptPath), variables);
             Message("Deployment successful");
         }
 
@@ -162,12 +162,5 @@ namespace Deployer.Core
 
         //    return Load(scriptPath);
         //}
-
-        private RunContext RunContextFrom(string scriptPath)
-        {
-            var script = compiler.Compile(scriptPath);
-            var workingDirectory = Path.GetDirectoryName(scriptPath);
-            return new RunContext(script, workingDirectory);
-        }
     }
 }
