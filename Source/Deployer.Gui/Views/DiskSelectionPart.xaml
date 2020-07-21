@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             xmlns:disk="clr-namespace:Deployer.Gui.ViewModels.Disk"
+             xmlns:disk="clr-namespace:Deployer.Gui.ViewModels.Common.Disk"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="UserControl" d:DataContext="{d:DesignInstance disk:DiskFillerViewModel}">

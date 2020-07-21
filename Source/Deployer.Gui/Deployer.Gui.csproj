@@ -61,26 +61,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\MetadataConverter.cs" />
+    <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
     <Compile Include="AppProperties.cs" />
+    <Compile Include="ViewModels\Sections\MainViewModel.cs" />
+    <Compile Include="ViewModels\Sections\MainViewModelBase.cs" />
     <Compile Include="ObservableExtensions.cs" />
     <Compile Include="Services\MarkdownService.cs" />
-    <Compile Include="ViewModels\Disk\DiskFillerViewModelBase.cs" />
-    <Compile Include="ViewModels\Disk\SdCardFillerViewModel.cs" />
-    <Compile Include="ViewModels\OperationProgressViewModel.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Disk\SdCardFillerViewModel.cs" />
+    <Compile Include="ViewModels\Common\OperationProgressViewModel.cs" />
     <Compile Include="RequirementTemplateSelector.cs" />
-    <Compile Include="ViewModels\Disk\DiskViewModel.cs" />
-    <Compile Include="ViewModels\Requirements.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
+    <Compile Include="ViewModels\Common\Requirements.cs" />
+    <Compile Include="Views\Parts\Advanced.xaml.cs">
+      <DependentUpon>Advanced.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Parts\DeviceDeployment.xaml.cs">
+      <DependentUpon>DeviceDeployment.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Registrations\Services.cs" />
+    <Compile Include="Registrations\GuiServices.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\DependenciesModel.cs" />
-    <Compile Include="ViewModels\Disk\DiskFillerViewModel.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
     <Compile Include="Services\GuiRequirementSatisfier.cs" />
-    <Compile Include="ViewModels\RequirementFiller.cs" />
-    <Compile Include="ViewModels\WimMetadataViewModel.cs" />
-    <Compile Include="ViewModels\WimPickViewModel.cs" />
+    <Compile Include="ViewModels\Common\RequirementFiller.cs" />
+    <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
+    <Compile Include="ViewModels\Common\WimPickViewModel.cs" />
     <Compile Include="Views\DiskSelectionPart.xaml.cs">
       <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
     </Compile>
@@ -93,11 +103,19 @@
     <Compile Include="Views\WimOptionsPart.xaml.cs">
       <DependentUpon>WimOptionsPart.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Parts\Advanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parts\DeviceDeployment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Requirements.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -106,8 +124,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Composition.cs" />
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModels\Sections\DeviceDeploymentViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -201,5 +219,6 @@
   <ItemGroup>
     <Resource Include="Assets\appicon.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

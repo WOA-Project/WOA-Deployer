@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Deployer.Gui.Views.Parts.Advanced"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Deployer.Gui.Views.Parts"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel Margin="8">
+        <TextBlock DockPanel.Dock="Top">You can run an arbitrary script. Use with caution!</TextBlock>
+        <Button Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Command="{Binding RunScript}">Run script…</Button>
+    </DockPanel>
+</UserControl>

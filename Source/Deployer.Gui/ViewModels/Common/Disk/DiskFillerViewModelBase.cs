@@ -6,7 +6,7 @@ using System.Reactive.Linq;
 using Deployer.Core.FileSystem;
 using ReactiveUI;
 
-namespace Deployer.Gui.ViewModels.Disk
+namespace Deployer.Gui.ViewModels.Common.Disk
 {
     public abstract class DiskFillerViewModelBase : RequirementFiller
     {

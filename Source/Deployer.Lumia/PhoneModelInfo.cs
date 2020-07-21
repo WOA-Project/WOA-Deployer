@@ -1,11 +1,5 @@
 ﻿namespace Deployer.Lumia
 {
-    public enum Variant
-    {
-        SingleSim,
-        DualSim,
-    }
-
     public class PhoneModelInfo
     {
         public PhoneModel Model { get; }

@@ -1,0 +1,47 @@
+﻿<Window x:Class="Deployer.Gui.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Deployer.Gui.Views"
+        xmlns:parts="clr-namespace:Deployer.Gui.Views.Parts"
+        xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Icon="Assets/appicon.png"
+        Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type sections:DeviceDeploymentViewModel}">
+            <parts:DeviceDeployment />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type sections:AdvancedViewModel}">
+            <parts:Advanced />
+        </DataTemplate>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TabControl Margin="20" Focusable="False"
+                    ItemsSource="{Binding Sections}"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    IsHitTestVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                    <Setter Property="Header" Value="{Binding Converter={StaticResource MetadataConverter}, ConverterParameter='Name'}" />
+                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                    <Setter Property="Content" Value="{Binding Value}" />
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
+
+        <Grid Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
+            <views:ProgressPart DataContext="{Binding OperationProgress}"/>
+        </Grid>
+    </Grid>
+</Window>

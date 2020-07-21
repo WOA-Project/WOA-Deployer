@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
 using Deployer.Core.FileSystem;
 
-namespace Deployer.Gui.ViewModels.Disk
+namespace Deployer.Gui.ViewModels.Common.Disk
 {
     public class DiskViewModel
     {

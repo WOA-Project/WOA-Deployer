@@ -5,7 +5,7 @@ using System.Reactive.Linq;
 using DynamicData.Binding;
 using ReactiveUI;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.Gui.ViewModels.Common
 {
     public class Requirements : ReactiveObject
     {

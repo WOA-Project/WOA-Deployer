@@ -16,7 +16,7 @@ using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
 using Zafiro.Wpf;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.Gui.ViewModels.Common
 {
     public class WimPickViewModel : RequirementFiller
     {

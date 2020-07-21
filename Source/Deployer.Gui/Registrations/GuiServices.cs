@@ -1,15 +1,16 @@
 ﻿using System;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
+using Deployer.Core.Interaction;
 using Deployer.Core.Services;
 using Deployer.Gui.Services;
+using Deployer.Gui.Views;
+using Deployer.NetFx;
 using Grace.DependencyInjection;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
 using Zafiro.Wpf;
 using Zafiro.Wpf.Services;
-using Zafiro.Wpf.Services.MarkupWindow;
 
 namespace Deployer.Gui.Registrations
 {
@@ -27,7 +28,15 @@ namespace Deployer.Gui.Registrations
             var simpleInteraction = new SimpleInteraction();
             simpleInteraction.Register("Requirements", typeof(Requirements));
             block.ExportInstance(simpleInteraction).As<ISimpleInteraction>();
-            block.Export<WoaDeployer>().Lifestyle.Singleton();
+            block.Export<ScriptDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
+            block.Export<DeviceDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
+            block.ExportAssemblies(Assemblies.AppDomainAssemblies)
+                .Where(y => typeof(ISection).IsAssignableFrom(y))
+                .ByInterface<ISection>()
+                .ByInterface<IBusy>()
+                .ByType()
+                .ExportAttributedTypes()
+                .Lifestyle.Singleton();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
 
-namespace Deployer.Gui.ViewModels.Disk
+namespace Deployer.Gui.ViewModels.Common.Disk
 {
     public class SdCardFillerViewModel : DiskFillerViewModelBase
     {

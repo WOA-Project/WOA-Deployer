@@ -1,4 +1,6 @@
-﻿using Deployer.NetFx;
+﻿using Deployer.Gui.ViewModels;
+using Deployer.Gui.ViewModels.Sections;
+using Deployer.NetFx;
 using Grace.DependencyInjection;
 
 namespace Deployer.Gui

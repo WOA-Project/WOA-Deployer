@@ -129,4 +129,10 @@
   <data name="AppTitle" xml:space="preserve">
     <value>WOA Deployer v{0}</value>
   </data>
+  <data name="TermsOfUseTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WarningNotice" xml:space="preserve">
+    <value />
+  </data>
 </root>

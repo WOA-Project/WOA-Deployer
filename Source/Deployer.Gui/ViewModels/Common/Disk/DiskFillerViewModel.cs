@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using Deployer.Core.FileSystem;
+﻿using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
-using ReactiveUI;
 
-namespace Deployer.Gui.ViewModels.Disk
+namespace Deployer.Gui.ViewModels.Common.Disk
 {
     public class DiskFillerViewModel : DiskFillerViewModelBase
     {

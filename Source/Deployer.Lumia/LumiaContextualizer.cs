@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core;
@@ -19,7 +20,9 @@ namespace Deployer.Lumia
 
         public bool CanContextualize(Device device)
         {
-            return false;
+            var identifiers = new[] {"cityman", "talkman"};
+
+            return identifiers.Any(x => device.Code.IndexOf(x, StringComparison.InvariantCultureIgnoreCase) != -1);
         }
 
         public async Task Setup(IDictionary<string, object> variables)

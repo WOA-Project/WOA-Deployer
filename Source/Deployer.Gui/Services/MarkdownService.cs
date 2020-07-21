@@ -6,7 +6,7 @@ using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
 
-namespace Deployer.Gui.Registrations
+namespace Deployer.Gui.Services
 {
     public class MarkdownService : IMarkdownService
     {

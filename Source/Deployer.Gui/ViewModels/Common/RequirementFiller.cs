@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using ReactiveUI;
 
-namespace Deployer.Gui.ViewModels
+namespace Deployer.Gui.ViewModels.Common
 {
     public abstract class RequirementFiller : ReactiveObject
     {

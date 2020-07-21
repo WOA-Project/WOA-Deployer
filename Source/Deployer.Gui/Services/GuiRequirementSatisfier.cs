@@ -5,7 +5,8 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Gui.ViewModels;
-using Deployer.Gui.ViewModels.Disk;
+using Deployer.Gui.ViewModels.Common;
+using Deployer.Gui.ViewModels.Common.Disk;
 using Zafiro.Core;
 using Zafiro.Core.UI;
 using Zafiro.Wpf.Services;
@@ -35,7 +36,7 @@ namespace Deployer.Gui.Services
             };
             var cont = false;
 
-            var reqs = new ViewModels.Requirements(unsatisfied);
+            var reqs = new Requirements(unsatisfied);
 
             foreach (var dependenciesModelChild in dependenciesModel.Children)
             {

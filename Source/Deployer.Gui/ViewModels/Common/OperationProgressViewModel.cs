@@ -1,26 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reactive.Linq;
 using ByteSizeLib;
-using Deployer.Core;
 using ReactiveUI;
 using Zafiro.Core;
 
-namespace Deployer.Gui
+namespace Deployer.Gui.ViewModels.Common
 {
     public class OperationProgressViewModel : ReactiveObject
     {
-        private readonly WoaDeployer deployer;
         private readonly ObservableAsPropertyHelper<bool> isProgressVisible;
         private readonly ObservableAsPropertyHelper<double> progress;
         private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(WoaDeployer deployer, IOperationProgress progress)
+        public OperationProgressViewModel(IEnumerable<Core.Deployer> deployers, IOperationProgress progress)
         {
-            this.deployer = deployer;
-
-            message = deployer.Messages.ToProperty(this, x => x.Message);
+            message = deployers.ToObservable().SelectMany(x => x.Messages).ToProperty(this, x => x.Message);
 
             this.progress = progress.Percentage
                 .Where(d => !double.IsNaN(d))

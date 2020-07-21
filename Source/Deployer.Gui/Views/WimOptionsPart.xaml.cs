@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Deployer.Lumia.Gui.Views.Parts
+namespace Deployer.Gui.Views
 {
     /// <summary>
     /// Interaction logic for WimOptionsPart.xaml

@@ -1,6 +1,6 @@
 ﻿using Deployer.Core;
 
-namespace Deployer.Gui.Registrations
+namespace Deployer.Gui.Services
 {
     public class SettingsService : ISettingsService
     {

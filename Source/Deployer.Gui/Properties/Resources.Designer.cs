@@ -79,6 +79,24 @@ namespace Deployer.Gui.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string TermsOfUseTitle {
+            get {
+                return ResourceManager.GetString("TermsOfUseTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string WarningNotice {
+            get {
+                return ResourceManager.GetString("WarningNotice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The selected .WIM file doesn&apos;t contain any image for ARM64. Please, select a .wim file that targets this architecture..
         /// </summary>
         internal static string WimFileNoValidArchitecture {

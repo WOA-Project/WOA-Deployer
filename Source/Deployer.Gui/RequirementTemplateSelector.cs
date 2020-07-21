@@ -2,8 +2,8 @@ using System.Windows;
 using System.Windows.Controls;
 using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels;
-using Deployer.Gui.ViewModels.Disk;
-using Deployer.Lumia.Gui.Views.Parts;
+using Deployer.Gui.ViewModels.Common;
+using Deployer.Gui.ViewModels.Common.Disk;
 
 namespace Deployer.Gui
 {

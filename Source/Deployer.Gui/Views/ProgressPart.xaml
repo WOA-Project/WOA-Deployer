@@ -1,20 +1,20 @@
-﻿<UserControl x:Class="Deployer.Lumia.Gui.Views.Parts.ProgressPart"
+﻿<UserControl x:Class="Deployer.Gui.Views.ProgressPart"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Deployer.Lumia.Gui.Views.Parts"
-             xmlns:gui="clr-namespace:Deployer.Gui"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
-             d:DesignHeight="161" d:DesignWidth="202" d:DataContext="{d:DesignInstance gui:OperationProgressViewModel}">
+             xmlns:views="clr-namespace:Deployer.Gui.Views"
+             xmlns:common="clr-namespace:Deployer.Gui.ViewModels.Common"
+             d:DesignHeight="161" d:DesignWidth="202" d:DataContext="{d:DesignInstance common:OperationProgressViewModel}">
     <UserControl.Resources>
 
     </UserControl.Resources>
     <StackPanel VerticalAlignment="Center">
         <Image gif:ImageBehavior.AnimationSpeedRatio="0.5" gif:ImageBehavior.AnimatedSource="/Assets/gears_motor.gif" Height="50" />
         <TextBlock Text="{Binding Message}" TextAlignment="Center" FontWeight="Bold" FontSize="14" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
-        <local:ProgressControl Margin="8" HorizontalAlignment="Center"
+        <views:ProgressControl Margin="8" HorizontalAlignment="Center"
                                Visibility="{Binding IsProgressVisible, Converter={StaticResource HideOnFalse}}" />
     </StackPanel>
 </UserControl>
