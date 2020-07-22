@@ -6,10 +6,20 @@
         xmlns:views="clr-namespace:Deployer.Gui.Views"
         xmlns:parts="clr-namespace:Deployer.Gui.Views.Parts"
         xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/appicon.png"
         Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
+
+
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:EventTrigger.Actions>
+                <b:InvokeCommandAction Command="{Binding ShowWarningCommand}" />
+            </b:EventTrigger.Actions>
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type sections:DeviceDeploymentViewModel}">
@@ -22,8 +32,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
+            <RowDefinition MinHeight="100" />
+            <RowDefinition MinHeight="20" Height="Auto" />
         </Grid.RowDefinitions>
 
         <TabControl Margin="20" Focusable="False"
@@ -42,5 +53,15 @@
         <Grid Grid.Row="1" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
             <views:ProgressPart DataContext="{Binding OperationProgress}"/>
         </Grid>
+        <Button Grid.Row="2" Command="{Binding DonateCommand}" ToolTip="Thanks in advance!"
+                Padding="10,5,10,5"
+                Opacity="1">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Height="16" VerticalAlignment="Center" Source="/Assets/heart.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Donate to support this tool!" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
     </Grid>
 </Window>

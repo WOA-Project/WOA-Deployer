@@ -130,9 +130,16 @@
     <value>WOA Deployer v{0}</value>
   </data>
   <data name="TermsOfUseTitle" xml:space="preserve">
-    <value />
+    <value>Disclaimer Notice and Terms of Use</value>
   </data>
   <data name="WarningNotice" xml:space="preserve">
-    <value />
+    <value>- This tool comes with no warranty. 
+- This tool is intented for advanced users ONLY.
+- The authors can't be held responsible for any damage it may cause to your device or even your computer. 
+
+## WARNING
+It's not advised to use WOA Deployer without backups. Please, do them before proceeding to any of the functions this tool offers.
+    
+By clicking "OK" you accept the aforementioned risks.</value>
   </data>
 </root>

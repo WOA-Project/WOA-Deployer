@@ -79,7 +79,7 @@ namespace Deployer.Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Disclaimer Notice and Terms of Use.
         /// </summary>
         internal static string TermsOfUseTitle {
             get {
@@ -88,7 +88,14 @@ namespace Deployer.Gui.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to - This tool comes with no warranty. 
+        ///- This tool is intented for advanced users ONLY.
+        ///- The authors can&apos;t be held responsible for any damage it may cause to your device or even your computer. 
+        ///
+        ///## WARNING
+        ///It&apos;s not advised to use WOA Deployer without backups. Please, do them before proceeding to any of the functions this tool offers.
+        ///    
+        ///By clicking &quot;OK&quot; you accept the aforementioned risks..
         /// </summary>
         internal static string WarningNotice {
             get {
