@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Lumia", "Deployer.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Core", "Deployer.Core\Deployer.Core.csproj", "{63C92B03-742B-4E52-81D7-A8211EC4475D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Cli", "Deployer.Cli\Deployer.Cli.csproj", "{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "Deployer.Gui\Deployer.Gui.csproj", "{904F13EC-DFBB-4939-B720-08CB3752093C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registry", "Registry\Registry\Registry.csproj", "{259ED967-983B-4A72-A987-255339DC9EC0}"
@@ -21,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RunProcessAsTask", "RunProc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleScript", "SimpleScript\SimpleScript\SimpleScript.csproj", "{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.DeployerStoreTool", "Deployer.DeployerStoreTool\Deployer.DeployerStoreTool.csproj", "{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.DeployerStoreTool", "Deployer.DeployerStoreTool\Deployer.DeployerStoreTool.csproj", "{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,12 +52,6 @@ Global
 		{63C92B03-742B-4E52-81D7-A8211EC4475D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63C92B03-742B-4E52-81D7-A8211EC4475D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63C92B03-742B-4E52-81D7-A8211EC4475D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Analysis|Any CPU.Build.0 = Release|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{904F13EC-DFBB-4939-B720-08CB3752093C}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
 		{904F13EC-DFBB-4939-B720-08CB3752093C}.Analysis|Any CPU.Build.0 = Release|Any CPU
 		{904F13EC-DFBB-4939-B720-08CB3752093C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

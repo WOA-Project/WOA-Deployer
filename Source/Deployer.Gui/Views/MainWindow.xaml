@@ -18,7 +18,6 @@
         <DataTemplate DataType="{x:Type sections:AdvancedViewModel}">
             <parts:Advanced />
         </DataTemplate>
-
     </Window.Resources>
 
     <Grid>
@@ -30,7 +29,7 @@
         <TabControl Margin="20" Focusable="False"
                     ItemsSource="{Binding Sections}"
                     SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                    IsHitTestVisible="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
             <TabControl.ItemContainerStyle>
                 <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
                     <Setter Property="Header" Value="{Binding Converter={StaticResource MetadataConverter}, ConverterParameter='Name'}" />

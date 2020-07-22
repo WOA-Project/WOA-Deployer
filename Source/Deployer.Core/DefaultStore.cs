@@ -7,8 +7,13 @@ namespace Deployer.Core
     {
         static string Cityman = "https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png";
         static string Talkman = "https://www.billiger-telefonieren.de/bilder/microsoft-lumia-950_0101w300_9112.png";
-        static string Rpi3 = "https://files1.element14.com/community/themes/images/raspberrypi/faq_pi3.png";
+        static string Rpi3 = "https://www.adafruit.com/includes/templates/adafruit2013/images/little_pi.png";
         static string Rpi4 = "https://www.redeszone.net/app/uploads-redeszone.net/2019/07/Raspberry_Pi_4_destacada-1.png";
+
+        private static string Emmc =
+            "https://cdn1.virmach.com/wp-content/uploads/2015/08/memory-chip-processor-memory-icone-4185-128.png";
+
+        static string MicroSD = "http://icons.iconarchive.com/icons/dakirby309/simply-styled/64/Micro-SD-Card-icon.png";
 
         public static DeployerStore GetDeployerStore()
         {
@@ -80,7 +85,7 @@ namespace Deployer.Core
                     Description = "Deploys WOA into the phone's internal memory",
                     Devices = citymans,
                     ScriptPath = "Devices\\Lumia\\950s\\Cityman\\Main.txt",
-                    Icon = citymans.First().Icon,
+                    Icon = Emmc,
                 },
                 new Deployment
                 {
@@ -88,7 +93,7 @@ namespace Deployer.Core
                     Description = "Deploys WOA into a MicroSD card",
                     Devices = citymans,
                     ScriptPath = "Devices\\Lumia\\950s\\Cityman\\CardInstall\\Main.txt",
-                    Icon = citymans.First().Icon,
+                    Icon = MicroSD,
                 },
                 new Deployment
                 {
@@ -96,7 +101,7 @@ namespace Deployer.Core
                     Description = "Deploys WOA into the phone's internal memory",
                     Devices = talkmans,
                     ScriptPath = "Devices\\Lumia\\950s\\Talkman\\Main.txt",
-                    Icon = talkmans.First().Icon,
+                    Icon = Emmc,
                 },
                 new Deployment
                 {
@@ -104,7 +109,7 @@ namespace Deployer.Core
                     Description = "For Model B/B+",
                     Devices = new[] {rpi3},
                     ScriptPath = "Devices\\Raspberry Pi 3\\Main.txt",
-                    Icon = Rpi3,
+                    Icon = MicroSD,
                 },
                 new Deployment
                 {
@@ -112,7 +117,7 @@ namespace Deployer.Core
                     Description = "For Model B/B+",
                     Devices = new[] {rpi4},
                     ScriptPath = "Devices\\Raspberry Pi 4\\Main.txt",
-                    Icon = Rpi4,
+                    Icon = MicroSD,
                 },
             };
 
