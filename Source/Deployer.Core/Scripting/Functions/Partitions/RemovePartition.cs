@@ -17,9 +17,12 @@ namespace Deployer.Core.Scripting.Functions.Partitions
 
         public async Task Execute(string partitionDescriptor)
         {
-            var partition = await fileSystem.GetPartitionFromDescriptor(partitionDescriptor);
-            await partition.Remove();
-            await partition.Disk.Refresh();
+            var partition = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
+            await partition.DoAsync(async (p, token) =>
+            {
+                await p.Remove();
+                await p.Disk.Refresh();
+            });
         }
     }
 }

@@ -17,9 +17,14 @@ namespace Deployer.Core.Scripting.Functions.Partitions
 
         public async Task<string> Execute(string partitionDescriptor)
         {
-            var part = await fileSystem.GetPartitionFromDescriptor(partitionDescriptor);
-            await part.EnsureWritable();
-            return part.Root.Remove(part.Root.Length - 1);
+            var part = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
+            var root = await part.MapAsync(async (p, ct) =>
+            {
+                await p.EnsureWritable();
+                return p.Root.Remove(p.Root.Length - 1);
+            });
+
+            return root.Reduce("");
         }
     }
 }

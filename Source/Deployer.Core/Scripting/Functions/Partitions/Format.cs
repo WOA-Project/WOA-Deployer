@@ -17,11 +17,14 @@ namespace Deployer.Core.Scripting.Functions.Partitions
 
         public async Task Execute(string partitionDescriptor, string fileSystemFormat, string label = null)
         {
-            var part = await fileSystem.GetPartitionFromDescriptor(partitionDescriptor);
-            await part.EnsureWritable();
-            var vol = await part.GetVolume();
-            var systemFormat = FileSystemFormat.FromString(fileSystemFormat);
-            await vol.Format(systemFormat, label);
+            var part = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
+            await part.DoAsync(async (p, ct) =>
+            {
+                await p.EnsureWritable();
+                var vol = await p.GetVolume();
+                var systemFormat = FileSystemFormat.FromString(fileSystemFormat);
+                await vol.Format(systemFormat, label);
+            });
         }
     }
 }

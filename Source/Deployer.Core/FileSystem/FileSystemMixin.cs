@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using BuildingBlocks.Option;
 using ByteSizeLib;
 using Deployer.Core.Scripting.MicroParser;
 using Serilog;
@@ -46,7 +47,7 @@ namespace Deployer.Core.FileSystem
             return $"Disk={partition.Disk.Number}, Name='{partition?.Name}', Label='{volume?.Label}', Number={partition.Number}";
         }
 
-        public static async Task<IPartition> GetPartitionFromDescriptor(this IFileSystem fileSystem, string descriptor)
+        public static async Task<Option<IPartition>> TryGetPartitionFromDescriptor(this IFileSystem fileSystem, string descriptor)
         {
             var mini = Parser.Parse(descriptor);
             var diskNumber = (int?)mini["Disk"];
@@ -78,12 +79,12 @@ namespace Deployer.Core.FileSystem
                 part = await disk.GetPartitionByName(name);
             }
 
-            if (part == null)
+            if (part != null)
             {
-                throw new FileSystemException($"Cannot find partition from descriptor {descriptor}");
+                return new Some<IPartition>(part);
             }
 
-            return part;
+            return new None<IPartition>();
         }
     }
 }

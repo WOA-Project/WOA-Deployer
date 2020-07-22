@@ -16,9 +16,8 @@ namespace Deployer.Core.Scripting.Functions
 
         public async Task Execute(string partitionDescriptor, string gptTypeString)
         {
-            var partition = await fileSystem.GetPartitionFromDescriptor(partitionDescriptor);
-            var gptType = GptType.FromString(gptTypeString);
-            await partition.SetGptType(gptType);
+            var partition = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
+            await partition.DoAsync((p, ct) => p.SetGptType(GptType.FromString(gptTypeString)));
         }
     }
 }
