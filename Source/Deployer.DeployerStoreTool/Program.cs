@@ -17,7 +17,7 @@ namespace Deployer.DeployerStoreTool
             var ds = DefaultStore.GetDeployerStore();
 
             var serializer = new ConfigurationContainer()
-                .Type<Device>().EnableReferences()
+                .Type<Device>(c => c.EnableReferences())
                 .UseOptimizedNamespaces()
                 .Create();
 

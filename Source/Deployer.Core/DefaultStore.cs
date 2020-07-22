@@ -50,9 +50,6 @@ namespace Deployer.Core
                 Variant = "Dual SIM",
             };
 
-            var citymans = new[] {citymanSs, citymanDs};
-            var talkmans = new[] {talkmanSs, talkmanDs};
-
             var rpi3 = new Device
             {
                 Code = "RaspberryPi3",
@@ -69,15 +66,11 @@ namespace Deployer.Core
                 Icon = Rpi4,
             };
 
-            store.Devices = new List<Device>
-            {
-                citymanSs,
-                citymanDs,
-                talkmanSs,
-                talkmanDs,
-                rpi3,
-                rpi4,
-            };
+            var citymans = new[] {citymanSs, citymanDs};
+
+            var talkmans = new[] {talkmanSs, talkmanDs};
+
+            store.Devices = citymans.Concat(talkmans).Concat(new [] {rpi3, rpi4}).ToList();
 
             store.Deployments = new List<Deployment>
             {

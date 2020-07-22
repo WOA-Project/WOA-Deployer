@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="ByteSize" Version="2.0.0" />
-    <PackageReference Include="ExtendedXmlSerializer" Version="3.2.2" />
+    <PackageReference Include="ExtendedXmlSerializer" Version="3.2.4" />
     <PackageReference Include="Grace" Version="7.1.0" />
     <PackageReference Include="GS.BuildingBlocks.Option" Version="2.0.5" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="3.1.3" />

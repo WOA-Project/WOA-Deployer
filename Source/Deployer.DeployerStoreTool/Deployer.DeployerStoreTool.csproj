@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ExtendedXmlSerializer" Version="3.2.4" />
+    <PackageReference Include="StreamExtended" Version="1.0.201" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj" />
   </ItemGroup>
 
