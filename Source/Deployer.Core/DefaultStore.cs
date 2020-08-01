@@ -5,15 +5,15 @@ namespace Deployer.Core
 {
     public static class DefaultStore
     {
-        static string Cityman = "https://www.gadgets4geeks.com.au/WebRoot/Store/Shops/gadgets4geeks/Categories/gadgets-by-brand/Microsoft/Microsoft_Lumia_950_XL/00-microsoft-lumia-950-xl-accessories_m.png";
-        static string Talkman = "https://www.billiger-telefonieren.de/bilder/microsoft-lumia-950_0101w300_9112.png";
-        static string Rpi3 = "https://www.adafruit.com/includes/templates/adafruit2013/images/little_pi.png";
-        static string Rpi4 = "https://www.redeszone.net/app/uploads-redeszone.net/2019/07/Raspberry_Pi_4_destacada-1.png";
+        static string Cityman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950xl.png";
+        static string Talkman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950.png";
+        static string Rpi3 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi3.png";
+        static string Rpi4 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi4.png";
 
         private static string Emmc =
-            "https://cdn1.virmach.com/wp-content/uploads/2015/08/memory-chip-processor-memory-icone-4185-128.png";
+            "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png";
 
-        static string MicroSD = "http://icons.iconarchive.com/icons/dakirby309/simply-styled/64/Micro-SD-Card-icon.png";
+        static string MicroSD = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png";
 
         public static DeployerStore GetDeployerStore()
         {
