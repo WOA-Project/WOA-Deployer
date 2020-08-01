@@ -5,15 +5,15 @@ namespace Deployer.Core
 {
     public static class DefaultStore
     {
-        static string Cityman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950xl.png";
-        static string Talkman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950.png";
-        static string Rpi3 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi3.png";
-        static string Rpi4 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi4.png";
+        static string Cityman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950xl.png?raw=true";
+        static string Talkman = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/lumia950.png?raw=true";
+        static string Rpi3 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi3.png?raw=true";
+        static string Rpi4 = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/rpi4.png?raw=true";
 
         private static string Emmc =
-            "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png";
+            "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/emmc.png?raw=true";
 
-        static string MicroSD = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png";
+        static string MicroSD = "https://github.com/WOA-Project/Deployment-Feed/blob/master/Assets/microsd.png?raw=true";
 
         public static DeployerStore GetDeployerStore()
         {
