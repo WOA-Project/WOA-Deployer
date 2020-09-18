@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using Deployer.Core;
@@ -17,7 +16,7 @@ namespace Deployer.DeployerStoreTool
             var ds = DefaultStore.GetDeployerStore();
 
             var serializer = new ConfigurationContainer()
-                .Type<Device>(c => c.EnableReferences())
+                .Type<Device>().EnableReferences(x => x.Id)
                 .UseOptimizedNamespaces()
                 .Create();
 

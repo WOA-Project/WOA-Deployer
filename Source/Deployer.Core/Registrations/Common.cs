@@ -20,7 +20,8 @@ namespace Deployer.Core.Registrations
             block.ExportFactory(() => new HttpClient { Timeout = TimeSpan.FromMinutes(30) }).Lifestyle.Singleton();
             block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"))).As<IGitHubClient>().Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com"))).As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
-            block.Export<DefaultDeviceRepository>().As<IDeviceRepository>().Lifestyle.Singleton();
+            block.ExportFactory((IDownloader downloader) => new XmlDeviceRepository(new Uri("https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml"), downloader))
+                .As<IDeviceRepository>().Lifestyle.Singleton();
         }
     }
 }

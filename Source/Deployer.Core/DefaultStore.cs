@@ -77,6 +77,8 @@ namespace Deployer.Core
 
             store.Devices = citymans.Concat(talkmans).Concat(new [] {rpi3, rpi4}).ToList();
 
+            store.Devices.ForEach((device, id) => device.Id = id + 1);
+
             store.Deployments = new List<Deployment>
             {
                 new Deployment

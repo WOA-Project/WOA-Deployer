@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-
-namespace Deployer.Core
+﻿namespace Deployer.Core
 {
     public class Device
     {
@@ -11,10 +8,6 @@ namespace Deployer.Core
         public string Variant { get; set; }
         public string Icon { get; set; }
         public string Description { get; set; }
-
-        public static Device FromString(string value)
-        {
-            throw new NotImplementedException();
-        }
+        public int Id { get; set; }
     }
 }
