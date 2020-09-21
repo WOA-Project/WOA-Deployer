@@ -18,7 +18,7 @@ namespace Deployer.Core.Registrations
             this.uri = uri;
             this.downloader = downloader;
             this.serializer = new ConfigurationContainer()
-                .EnableReferences()
+                .Type<Device>().EnableReferences(x => x.Id)
                 .Create();
         }
 
