@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleScript", "SimpleScrip
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.DeployerStoreTool", "Deployer.DeployerStoreTool\Deployer.DeployerStoreTool.csproj", "{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Tests", "Deployer.Tests\Deployer.Tests.csproj", "{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Analysis|Any CPU = Analysis|Any CPU
@@ -82,6 +84,12 @@ Global
 		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B53B245D-E457-4F6C-8BEC-B2B54AE68D56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Analysis|Any CPU.Build.0 = Release|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB3A54F6-8BF0-4812-8FCF-5A2CE16466D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
