@@ -4,6 +4,6 @@ namespace Deployer.Tests
 {
     public interface IRequirementsSatisfier
     {
-        IEnumerable<RequirementSpecification> Satisfy(IEnumerable<MissingRequirement> content);
+        IEnumerable<FullFilledRequirement> Satisfy(IEnumerable<MissingRequirement> content);
     }
 }

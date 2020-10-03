@@ -1,8 +1,8 @@
 ﻿namespace Deployer.Tests
 {
-    public class RequirementSpecification
+    public class FullFilledRequirement
     {
-        public RequirementSpecification(string variableName, string kind, string value)
+        public FullFilledRequirement(string variableName, string kind, string value)
         {
             VariableName = variableName;
             Kind = kind;

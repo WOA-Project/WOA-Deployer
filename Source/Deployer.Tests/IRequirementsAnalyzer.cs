@@ -4,6 +4,6 @@ namespace Deployer.Tests
 {
     public interface IRequirementsAnalyzer
     {
-        IEnumerable<RequirementSpecification> GetRequirements(string content);
+        IEnumerable<FullFilledRequirement> GetRequirements(string content);
     }
 }
