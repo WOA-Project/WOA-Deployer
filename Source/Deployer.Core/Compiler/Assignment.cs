@@ -1,8 +1,8 @@
-﻿namespace Deployer.Tests
+﻿namespace Deployer.Core.Compiler
 {
-    public class InjectableVariableDeclaration
+    public class Assignment
     {
-        public InjectableVariableDeclaration(string name, object value)
+        public Assignment(string name, object value)
         {
             Value = value;
             Name = name;

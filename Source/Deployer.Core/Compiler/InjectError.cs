@@ -1,6 +1,6 @@
 ﻿using Iridio.Common;
 
-namespace Deployer.Tests
+namespace Deployer.Core.Compiler
 {
     internal class InjectError : Error
     {
