@@ -62,6 +62,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\MetadataConverter.cs" />
+    <Compile Include="ViewModels\Common\Commands.cs" />
+    <Compile Include="ViewModels\Common\WimImage.cs" />
+    <Compile Include="ViewModels\Common\WimImageSelector.cs" />
     <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
     <Compile Include="AppProperties.cs" />
     <Compile Include="ViewModels\Sections\MainViewModel.cs" />
