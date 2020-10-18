@@ -1,6 +1,6 @@
 using System;
-using System.Collections;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Scripting;
 using Grace.DependencyInjection;
@@ -20,8 +20,22 @@ namespace Deployer.Core.Registrations
             block.ExportFactory(() => new HttpClient { Timeout = TimeSpan.FromMinutes(30) }).Lifestyle.Singleton();
             block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"))).As<IGitHubClient>().Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com"))).As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
-            block.ExportFactory((IDownloader downloader) => new XmlDeviceRepository(new Uri("https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml"), downloader))
-                .As<IDeviceRepository>().Lifestyle.Singleton();
+            //block.ExportFactory((IDownloader downloader) => XmlDeviceRepository(downloader)).As<IDeviceRepository>().Lifestyle.Singleton();
+            block.Export<TestRepo>().As<IDeviceRepository>();
+        }
+
+        private static XmlDeviceRepository XmlDeviceRepository(IDownloader downloader)
+        {
+            var definition = "https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml";
+            return new XmlDeviceRepository(new Uri(definition), downloader);
+        }
+    }
+
+    public class TestRepo : IDeviceRepository
+    {
+        public Task<DeployerStore> Get()
+        {
+            throw new NotImplementedException();
         }
     }
 }

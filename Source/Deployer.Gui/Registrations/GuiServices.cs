@@ -4,7 +4,6 @@ using BuildingBlocks.Option;
 using Deployer.Core;
 using Deployer.Core.Interaction;
 using Deployer.Core.NetCoreApp;
-using Deployer.Core.Requirements;
 using Deployer.Core.Services;
 using Deployer.Gui.Services;
 using Grace.DependencyInjection;
@@ -32,21 +31,17 @@ namespace Deployer.Gui.Registrations
             block.ExportInstance(simpleInteraction).As<ISimpleInteraction>();
             block.Export<ScriptDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
             block.Export<DeviceDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
-            block.ExportAssemblies(Assemblies.AppDomainAssemblies.Where(a => !a.IsDynamic))
-                .Where(y => typeof(ISection).IsAssignableFrom(y))
+            block.ExportAssemblies(new[] { typeof(ViewModels.Sections.MainViewModel).Assembly })
+                .Where(y =>
+                {
+                    var isSection = typeof(ISection).IsAssignableFrom(y);
+                    return isSection;
+                })
                 .ByInterface<ISection>()
                 .ByInterface<IBusy>()
                 .ByType()
                 .ExportAttributedTypes()
                 .Lifestyle.Singleton();
-        }
-    }
-
-    public class Requirements : IConfigurationModule
-    {
-        public void Configure(IExportRegistrationBlock block)
-        {
-            block.Export<RequirementSupplier>().As<IRequirementSupplier>();
         }
     }
 }

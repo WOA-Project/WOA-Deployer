@@ -3,15 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx", "Deployer.NetFx\Deployer.NetFx.csproj", "{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx.Tests", "Deployer.NetFx.Tests\Deployer.NetFx.Tests.csproj", "{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Lumia", "Deployer.Lumia\Deployer.Lumia.csproj", "{52D9692C-1CC9-4AB7-8855-61685B0C68EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Core", "Deployer.Core\Deployer.Core.csproj", "{63C92B03-742B-4E52-81D7-A8211EC4475D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "Deployer.Gui\Deployer.Gui.csproj", "{904F13EC-DFBB-4939-B720-08CB3752093C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Gui", "Deployer.Gui\Deployer.Gui.csproj", "{904F13EC-DFBB-4939-B720-08CB3752093C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Registry", "Registry\Registry\Registry.csproj", "{259ED967-983B-4A72-A987-255339DC9EC0}"
 EndProject
@@ -29,9 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zafiro.Core", "..\..\..\Sup
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zafiro.Wpf", "..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Wpf\Zafiro.Wpf.csproj", "{0F24E550-CA98-493C-A829-F34F8AD85BFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Core.NetCoreApp", "Deployer.Core.NetCoreApp\Deployer.Core.NetCoreApp.csproj", "{89F43528-97BD-416F-8CCC-76C4A9A1D81C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Core.NetCoreApp", "Deployer.Core.NetCoreApp\Deployer.Core.NetCoreApp.csproj", "{89F43528-97BD-416F-8CCC-76C4A9A1D81C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui.Tests", "Deployer.Gui.Tests\Deployer.Gui.Tests.csproj", "{BC06BDA2-2A06-4761-B617-C04F512C2F76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Gui.Tests", "Deployer.Gui.Tests\Deployer.Gui.Tests.csproj", "{BC06BDA2-2A06-4761-B617-C04F512C2F76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,18 +36,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Analysis|Any CPU.Build.0 = Release|Any CPU
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Analysis|Any CPU.ActiveCfg = Release|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Analysis|Any CPU.Build.0 = Release|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{172F8752-7DBC-4B81-8B1F-0CE4AC63F8D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{52D9692C-1CC9-4AB7-8855-61685B0C68EA}.Analysis|Any CPU.ActiveCfg = Debug|Any CPU
 		{52D9692C-1CC9-4AB7-8855-61685B0C68EA}.Analysis|Any CPU.Build.0 = Debug|Any CPU
 		{52D9692C-1CC9-4AB7-8855-61685B0C68EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

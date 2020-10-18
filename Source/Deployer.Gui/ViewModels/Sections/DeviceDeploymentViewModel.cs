@@ -25,11 +25,11 @@ namespace Deployer.Gui.ViewModels.Sections
         private Deployment deployment;
         private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
 
-        public DeviceDeploymentViewModel(IDialogService dialogService, OperationProgressViewModel operationProgress)
+        public DeviceDeploymentViewModel(IDialogService dialogService, OperationProgressViewModel operationProgress, IDeviceRepository deviceRepository)
         {
             this.dialogService = dialogService;
-            this.deviceRepository = deviceRepository;
             OperationProgress = operationProgress;
+            this.deviceRepository = deviceRepository;
 
             ConfigureCommands();
 
