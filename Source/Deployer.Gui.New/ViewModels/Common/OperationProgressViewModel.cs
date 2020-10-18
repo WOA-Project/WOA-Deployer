@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive.Linq;
 using ByteSizeLib;
 using ReactiveUI;
@@ -16,9 +15,8 @@ namespace Deployer.Gui.ViewModels.Common
         private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
         private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(IOperationProgress progress)
+        public OperationProgressViewModel(IEnumerable<Core.Deployer> deployers, IOperationProgress progress)
         {
-            var deployers = Enumerable.Empty<Core.Deployer>();
             message = deployers.ToObservable().SelectMany(x => x.Messages).ToProperty(this, x => x.Message);
 
             this.progress = progress.Percentage

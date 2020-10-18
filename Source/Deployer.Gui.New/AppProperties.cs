@@ -1,4 +1,5 @@
 ﻿using Deployer.Core;
+using Deployer.Gui.New;
 
 namespace Deployer.Gui
 {

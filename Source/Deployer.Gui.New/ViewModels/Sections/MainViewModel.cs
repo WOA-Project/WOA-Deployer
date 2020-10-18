@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reactive;
 using Deployer.Core.Interaction;
+using Deployer.Gui.New;
 using Deployer.Gui.ViewModels.Common;
 using Grace.DependencyInjection;
 using ReactiveUI;

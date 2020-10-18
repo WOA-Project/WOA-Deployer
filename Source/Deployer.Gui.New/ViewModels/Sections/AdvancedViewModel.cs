@@ -20,9 +20,10 @@ namespace Deployer.Gui.ViewModels.Sections
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private readonly IFilePicker filePicker;
 
-        public AdvancedViewModel(IDialogService dialogService,
+        public AdvancedViewModel(ScriptDeployer deployer, IDialogService dialogService,
             IFilePicker filePicker, OperationProgressViewModel operationProgress)
         {
+            this.deployer = deployer;
             this.dialogService = dialogService;
             this.filePicker = filePicker;
             OperationProgress = operationProgress;

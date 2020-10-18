@@ -9,11 +9,11 @@ using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Core.Scripting.Core;
 using Deployer.Core.Services.Wim;
+using Deployer.Gui.New;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
-using Zafiro.Wpf;
 
 namespace Deployer.Gui.ViewModels.Common
 {
@@ -85,10 +85,8 @@ namespace Deployer.Gui.ViewModels.Common
                     }),
                 };
 
-                var value = openFilePicker.Pick(filters, () => settingsService.WimFolder, x =>
-                {
-                    settingsService.WimFolder = x;
-                });
+                openFilePicker.FileTypeFilter = filters.Select(tuple => new FileTypeFilter(tuple.Item1, tuple.Item2.ToArray())).ToList();
+                var value = openFilePicker.PickFile();
 
                 return Observable.Return(value).Where(x => x != null)
                     .Select(LoadWimMetadata);
