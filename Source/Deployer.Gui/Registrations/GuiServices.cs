@@ -1,6 +1,7 @@
 ﻿using System;
 using Deployer.Core;
 using Deployer.Core.Interaction;
+using Deployer.Core.Requirements;
 using Deployer.Core.Services;
 using Deployer.Gui.Services;
 using Deployer.Gui.Views;
@@ -37,6 +38,14 @@ namespace Deployer.Gui.Registrations
                 .ByType()
                 .ExportAttributedTypes()
                 .Lifestyle.Singleton();
+        }
+    }
+
+    public class Requirements : IConfigurationModule
+    {
+        public void Configure(IExportRegistrationBlock block)
+        {
+            block.Export<RequirementSupplier>().As<IRequirementSupplier>();
         }
     }
 }

@@ -17,4 +17,12 @@ namespace Deployer.Core
             Message("Script execution finished");
         }
     }
+
+    public abstract class BrandNewDeployerBase
+    {
+        protected void Message(string message)
+        {
+            //additionalMessages.OnNext(message);
+        }
+    }
 }

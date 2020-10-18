@@ -5,7 +5,6 @@ using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Services;

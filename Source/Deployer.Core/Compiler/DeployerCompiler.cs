@@ -80,9 +80,8 @@ namespace Deployer.Core.Compiler
 
         private static Option<ProcedureDeclaration> GetMain(EnhancedScript script)
         {
-            return script
-                .Procedures
-                .FirstOrNone(d => d.Name.Equals("Main", StringComparison.InvariantCulture));
+            return OptionCollectionExtensions.FirstOrNone(script.Procedures,
+                d => d.Name.Equals("Main", StringComparison.InvariantCulture));
         }
     }
 }

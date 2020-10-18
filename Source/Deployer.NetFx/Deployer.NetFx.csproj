@@ -55,6 +55,10 @@
     <Compile Include="WmiPartition.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{E514C045-1624-4AB3-A42C-A0B77236DCE5}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
