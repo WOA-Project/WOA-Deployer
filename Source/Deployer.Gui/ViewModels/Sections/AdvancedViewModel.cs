@@ -15,10 +15,10 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 2)]
     public class AdvancedViewModel : ReactiveObject, ISection
     {
-        private readonly ScriptDeployer deployer;
         private readonly IDialogService dialogService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private readonly IFilePicker filePicker;
+        private ToDeleteDeployer deployer;
 
         public AdvancedViewModel(IDialogService dialogService,
             IFilePicker filePicker, OperationProgressViewModel operationProgress)
@@ -56,7 +56,7 @@ namespace Deployer.Gui.ViewModels.Sections
                 exception => ("Script execution failed", exception.Message));
         }
 
-        private static ReactiveCommand<Unit, Unit> RunScriptCommand(ScriptDeployer deployer, IFilePicker filePicker)
+        private static ReactiveCommand<Unit, Unit> RunScriptCommand(ToDeleteDeployer deployer, IFilePicker filePicker)
         {
             return ReactiveCommand.CreateFromObservable(() =>
             {

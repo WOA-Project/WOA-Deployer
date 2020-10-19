@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using SimpleScript;
+using Iridio.Common;
+using Iridio.Common.Utils;
+using Iridio.Parsing.Model;
 
 namespace Deployer.Core
 {

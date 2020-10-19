@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace Deployer.Core.Registrations
 {
-    public class DefaultDeviceRepository : IDeviceRepository
+    public class DefaultDeviceRepository : IDevRepo
     {
         public Task<DeployerStore> Get()
         {

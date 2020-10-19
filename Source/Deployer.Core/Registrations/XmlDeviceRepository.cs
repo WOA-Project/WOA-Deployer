@@ -7,7 +7,7 @@ using Zafiro.Core;
 
 namespace Deployer.Core.Registrations
 {
-    public class XmlDeviceRepository: IDeviceRepository
+    public class XmlDeviceRepository: IDevRepo
     {
         private readonly Uri uri;
         private readonly IDownloader downloader;

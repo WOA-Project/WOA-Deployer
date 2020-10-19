@@ -18,14 +18,14 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 1)]
     public class DeviceDeploymentViewModel : ReactiveObject, ISection
     {
-        private readonly DeviceDeployer deployer;
-        private readonly IDeviceRepository deviceRepository;
+        private readonly ToDeleteDeployer deployer;
+        private readonly IDevRepo deviceRepository;
         private readonly IDialogService dialogService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private Deployment deployment;
         private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
 
-        public DeviceDeploymentViewModel(IDialogService dialogService, OperationProgressViewModel operationProgress, IDeviceRepository deviceRepository)
+        public DeviceDeploymentViewModel(IDialogService dialogService, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
         {
             this.dialogService = dialogService;
             OperationProgress = operationProgress;

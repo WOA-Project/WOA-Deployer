@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Deployer.Core.Scripting.Core;
 using Grace.DependencyInjection;
-using SimpleScript;
+using Iridio.Common;
 
 namespace Deployer.Core.Registrations
 {

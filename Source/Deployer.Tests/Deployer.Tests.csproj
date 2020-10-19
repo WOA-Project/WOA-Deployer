@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -26,9 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj" />
-    <ProjectReference Include="..\Deployer.Gui\Deployer.Gui.csproj" />
   </ItemGroup>
 
 </Project>

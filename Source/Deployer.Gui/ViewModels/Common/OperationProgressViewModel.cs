@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using ByteSizeLib;
@@ -18,7 +17,7 @@ namespace Deployer.Gui.ViewModels.Common
 
         public OperationProgressViewModel(IOperationProgress progress)
         {
-            var deployers = Enumerable.Empty<Core.Deployer>();
+            var deployers = Enumerable.Empty<ToDeleteDeployer>();
             message = deployers.ToObservable().SelectMany(x => x.Messages).ToProperty(this, x => x.Message);
 
             this.progress = progress.Percentage

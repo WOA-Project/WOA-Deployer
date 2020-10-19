@@ -2,7 +2,7 @@
 
 namespace Deployer.Core
 {
-    public interface IDeviceRepository
+    public interface IDevRepo
     {
         Task<DeployerStore> Get();
     }

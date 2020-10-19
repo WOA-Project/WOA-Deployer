@@ -29,8 +29,6 @@ namespace Deployer.Gui.Registrations
             var simpleInteraction = new SimpleInteraction();
             simpleInteraction.Register("Requirements", typeof(Requirements));
             block.ExportInstance(simpleInteraction).As<ISimpleInteraction>();
-            block.Export<ScriptDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
-            block.Export<DeviceDeployer>().As<Core.Deployer>().Lifestyle.Singleton();
             block.ExportAssemblies(new[] { typeof(ViewModels.Sections.MainViewModel).Assembly })
                 .Where(y =>
                 {
