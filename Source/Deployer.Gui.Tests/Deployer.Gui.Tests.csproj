@@ -16,8 +16,4 @@
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Deployer.Gui\Deployer.Gui.csproj" />
-  </ItemGroup>
-
 </Project>

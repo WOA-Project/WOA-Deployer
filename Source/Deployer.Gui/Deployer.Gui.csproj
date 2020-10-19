@@ -1,116 +1,231 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{904F13EC-DFBB-4939-B720-08CB3752093C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWPF>true</UseWPF>
+    <RootNamespace>Deployer.Gui</RootNamespace>
+    <AssemblyName>Deployer.Gui</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\appicon.ico" />
-    <None Remove="Assets\appicon.png" />
-    <None Remove="Assets\drive.png" />
-    <None Remove="Assets\gears_motor.gif" />
-    <None Remove="Assets\heart.png" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="ValueConverters" Version="2.0.20011.1" />
-    <PackageReference Include="WpfAnimatedGif" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Deployer.Core.NetCoreApp\Deployer.Core.NetCore.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Wpf\Zafiro.Wpf.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Assets\appicon.ico" />
-    <Resource Include="Assets\appicon.png" />
-    <Resource Include="Assets\drive.png" />
-    <Resource Include="Assets\gears_motor.gif" />
-    <Resource Include="Assets\heart.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ApplicationDefinition Update="App.xaml">
-      <SubType>Designer</SubType>
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </ApplicationDefinition>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="App.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
+    <Compile Include="Converters\MetadataConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Views\DiskSelectionPart.xaml.cs">
-      <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\MainWindow.xaml.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Parts\Advanced.xaml.cs">
+    <Compile Include="ViewModels\Common\Commands.cs" />
+    <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
+    <Compile Include="ViewModels\Common\WimImage.cs" />
+    <Compile Include="ViewModels\Common\WimImageSelector.cs" />
+    <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
+    <Compile Include="AppProperties.cs" />
+    <Compile Include="ViewModels\Sections\MainViewModel.cs" />
+    <Compile Include="ViewModels\Sections\MainViewModelBase.cs" />
+    <Compile Include="ObservableExtensions.cs" />
+    <Compile Include="Services\MarkdownService.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Disk\SdCardFillerViewModel.cs" />
+    <Compile Include="ViewModels\Common\OperationProgressViewModel.cs" />
+    <Compile Include="RequirementTemplateSelector.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
+    <Compile Include="ViewModels\Common\Requirements.cs" />
+    <Compile Include="Views\Parts\Advanced.xaml.cs">
       <DependentUpon>Advanced.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\Parts\DeviceDeployment.xaml.cs">
+    <Compile Include="Views\Parts\DeviceDeployment.xaml.cs">
       <DependentUpon>DeviceDeployment.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\ProgressControl.xaml.cs">
-      <DependentUpon>ProgressControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\ProgressPart.xaml.cs">
-      <DependentUpon>ProgressPart.xaml</DependentUpon>
-    </Compile>
-    <Compile Update="Views\Requirements.xaml.cs">
+    <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
-    <Compile Update="Views\WimOptionsPart.xaml.cs">
+    <Compile Include="Registrations\GuiServices.cs" />
+    <Compile Include="Services\SettingsService.cs" />
+    <Compile Include="Services\DependenciesModel.cs" />
+    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
+    <Compile Include="Services\GuiRequirementSatisfier.cs" />
+    <Compile Include="ViewModels\Common\RequirementFiller.cs" />
+    <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
+    <Compile Include="ViewModels\Common\WimPickViewModel.cs" />
+    <Compile Include="Views\DiskSelectionPart.xaml.cs">
+      <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProgressControl.xaml.cs">
+      <DependentUpon>ProgressControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProgressPart.xaml.cs">
+      <DependentUpon>ProgressPart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WimOptionsPart.xaml.cs">
       <DependentUpon>WimOptionsPart.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\Parts\Advanced.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Parts\DeviceDeployment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Requirements.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Composition.cs" />
+    <Compile Include="ViewModels\Sections\DeviceDeploymentViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\DiskSelectionPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProgressControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProgressPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WimOptionsPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
-
   <ItemGroup>
-    <EmbeddedResource Update="Resources.resx">
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.manifest" />
   </ItemGroup>
-
   <ItemGroup>
-    <Page Update="Views\DiskSelectionPart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Parts\Advanced.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Parts\DeviceDeployment.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\ProgressControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\ProgressPart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\Requirements.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Views\WimOptionsPart.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Resource Include="Assets\gears_motor.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Grace">
+      <Version>7.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
+    </PackageReference>
+    <PackageReference Include="ReactiveUI.WPF">
+      <Version>11.5.35</Version>
+    </PackageReference>
+    <PackageReference Include="Serilog.Sinks.RollingFile">
+      <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="ValueConverters">
+      <Version>2.0.20011.1</Version>
+    </PackageReference>
+    <PackageReference Include="WpfAnimatedGif">
+      <Version>2.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
+      <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
+      <Name>Deployer.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deployer.Lumia\Deployer.Lumia.csproj">
+      <Project>{52d9692c-1cc9-4ab7-8855-61685b0c68ea}</Project>
+      <Name>Deployer.Lumia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deployer.NetFx\Deployer.NetFx.csproj">
+      <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
+      <Name>Deployer.NetFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{463bde4b-5eee-4d63-b0d4-1d0097a59e4e}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Wpf\Zafiro.Wpf.csproj">
+      <Project>{be601e97-0cd3-4387-9a2d-253af940efff}</Project>
+      <Name>Zafiro.Wpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\heart.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Core.Services.Wim;
+using Deployer.Gui.Properties;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.FileSystem;

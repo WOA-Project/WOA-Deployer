@@ -3,7 +3,7 @@ using System.Linq;
 using BuildingBlocks.Option;
 using Deployer.Core;
 using Deployer.Core.Interaction;
-using Deployer.Core.NetCoreApp;
+using Deployer.Core.Registrations;
 using Deployer.Core.Services;
 using Deployer.Gui.Services;
 using Grace.DependencyInjection;
