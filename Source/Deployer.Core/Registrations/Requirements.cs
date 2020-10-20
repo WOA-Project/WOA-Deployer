@@ -9,6 +9,7 @@ namespace Deployer.Core.Registrations
         {
             block.Export<RequirementSupplier>().As<IRequirementSupplier>();
             block.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>();
+            block.Export<RequirementsManager>().As<IRequirementsManager>();
         }
     }
 }

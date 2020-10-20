@@ -21,15 +21,12 @@ namespace Deployer.Tests
         {
             var requirements = new[]
             {
-                new FulfilledRequirement("wimFilePath", RequirementKind.Disk,  "path"),
-                new FulfilledRequirement("wimFileIndex", RequirementKind.Disk, 1),
+                new FulfilledRequirement("wimFilePath",  "path"),
+                new FulfilledRequirement("wimFileIndex", 1),
             };
 
             var testShell = new TestShell(options => options[0].Command.Execute(null));
-            var sut = new RequirementSupplier(new Dictionary<RequirementKind, RequirementSolver>()
-            {
-                { RequirementKind.WimFile, new TestRequirementSolver(requirements)}
-            }, testShell, () => null);
+            var sut = new RequirementSupplier(settings => new TestRequirementSolver(requirements), testShell, () => null);
 
             var missingRequirements = new List<MissingRequirement>()
             {
@@ -44,7 +41,7 @@ namespace Deployer.Tests
         }
     }
 
-    public class TestRequirementSolver : RequirementSolver
+    public class TestRequirementSolver : IRequirementSolver
     {
         private IEnumerable<FulfilledRequirement> list;
 
@@ -53,8 +50,10 @@ namespace Deployer.Tests
             this.list = list;
         }
 
-        public override IObservable<bool> IsValid => Observable.Return(true);
-        public override IEnumerable<FulfilledRequirement> FulfilledRequirements()
+        public virtual IObservable<bool> IsValid => Observable.Return(true);
+        public RequirementKind HandledRequirement => RequirementKind.WimFile;
+
+        public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
         {
             return list;
         }
@@ -108,16 +107,5 @@ namespace Deployer.Tests
 
         public string Title { get; set; }
         public IObservable<Unit> Shown { get; }
-    }
-
-
-
-    public class WimPickRequirementSolver : RequirementSolver
-    {
-        public override IObservable<bool> IsValid => Observable.Return(false);
-        public override IEnumerable<FulfilledRequirement> FulfilledRequirements()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Zafiro.Core.FileSystem;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Requirements
 {
@@ -17,7 +18,7 @@ namespace Deployer.Core.Requirements
             this.supplier = supplier;
         }
 
-        public async Task<IEnumerable<FulfilledRequirement>> Satisfy(string path)
+        public async Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(string path)
         {
             var requirements = requirementsAnalyzer.GetRequirements(fileSystemOperations.ReadAllText(path));
             var satisfied = await supplier.Satisfy(requirements);

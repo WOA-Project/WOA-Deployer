@@ -7,7 +7,7 @@ namespace Deployer.Core.Requirements
     public class RequirementKind
     {
         public static readonly RequirementKind Disk = new RequirementKind();
-        public static RequirementKind WimFile =new RequirementKind();
+        public static RequirementKind WimFile = new RequirementKind();
 
         public static Optional.Option<RequirementKind> Parse(string str)
         {

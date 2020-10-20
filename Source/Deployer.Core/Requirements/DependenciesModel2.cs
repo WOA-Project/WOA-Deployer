@@ -9,16 +9,16 @@ namespace Deployer.Core.Requirements
 {
     public class DependenciesModel2 : ReactiveObject
     {
-        private readonly IEnumerable<RequirementSolver> suppliers;
+        private readonly IEnumerable<IRequirementSolver> solvers;
 
-        public DependenciesModel2([NotNull] IEnumerable<RequirementSolver> suppliers)
+        public DependenciesModel2([NotNull] IEnumerable<IRequirementSolver> suppliers)
         {
-            this.suppliers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
+            solvers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
 
             IsValid = Observable.Merge(suppliers.Select(solver => solver.IsValid));
         }
 
-        public IEnumerable<RequirementSolver> Suppliers => suppliers;
+        public IEnumerable<IRequirementSolver> Solvers => solvers;
         public IObservable<bool> IsValid { get; }
         public bool Continue { get; set; }
     }

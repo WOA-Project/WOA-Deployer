@@ -68,6 +68,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Registrations\RequirementSolvers.cs" />
+    <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
     <Compile Include="ViewModels\Common\Commands.cs" />
     <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
     <Compile Include="ViewModels\Common\WimImage.cs" />
@@ -168,14 +175,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Properties\Settings.settings" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\gears_motor.gif" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grace">
-      <Version>7.1.0</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.19</Version>

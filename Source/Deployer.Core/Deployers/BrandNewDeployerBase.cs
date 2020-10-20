@@ -1,4 +1,4 @@
-namespace Deployer.Core
+namespace Deployer.Core.Deployers
 {
     public class BrandNewDeployerBase
     {

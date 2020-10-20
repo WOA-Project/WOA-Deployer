@@ -6,8 +6,9 @@
              xmlns:gui="clr-namespace:Deployer.Gui"
              xmlns:services="clr-namespace:Deployer.Gui.Services"
              xmlns:views="clr-namespace:Deployer.Gui.Views"
+             xmlns:requirements="clr-namespace:Deployer.Core.Requirements;assembly=Deployer.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance services:DependenciesModel}">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance requirements:DependenciesModel2}">
     <UserControl.Resources>
         <gui:RequirementTemplateSelector x:Key="TemplateSelector">
             <gui:RequirementTemplateSelector.WimImageTemplate>
@@ -28,6 +29,6 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Margin="10">Please, provide the following requirements to continue with the deployment.</TextBlock>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Children}" ItemTemplateSelector="{StaticResource TemplateSelector}" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Solvers}" ItemTemplateSelector="{StaticResource TemplateSelector}" />
     </Grid>
 </UserControl>

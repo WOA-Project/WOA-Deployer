@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModels="clr-namespace:Deployer.Gui.ViewModels"
              xmlns:common="clr-namespace:Deployer.Gui.ViewModels.Common"
+             xmlns:requirementSolvers="clr-namespace:Deployer.Gui.ViewModels.RequirementSolvers"
              mc:Ignorable="d" 
-             d:DesignHeight="277.099" d:DesignWidth="423.282" d:DataContext="{d:DesignInstance common:WimPickViewModel}">
+             d:DesignHeight="277.099" d:DesignWidth="423.282" d:DataContext="{d:DesignInstance requirementSolvers:WimPickRequirementSolver}">
     <GroupBox Header="Windows Image (.WIM)" Padding="15">
         <DockPanel>
             <StackPanel VerticalAlignment="Center" DockPanel.Dock="Bottom">
@@ -50,6 +50,8 @@
                         </ComboBox>
                     </Grid>
                 </HeaderedContentControl>
+
+                <CheckBox Content="IsValid" IsEnabled="False" IsChecked="{Binding HasWim, Mode=OneWay}" />
             </StackPanel>
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Margin="4">
                 Select a Windows Image file (.wim) to deploy

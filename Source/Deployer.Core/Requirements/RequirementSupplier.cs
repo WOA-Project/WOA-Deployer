@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Optional.Collections;
-using Optional.Unsafe;
 using ReactiveUI;
 using Zafiro.Core;
 using Zafiro.Core.Patterns.Either;
@@ -12,26 +10,25 @@ using Option = Zafiro.Core.UI.Interaction.Option;
 
 namespace Deployer.Core.Requirements
 {
-    public class RequirementSupplier 
+    public class RequirementSupplier : IRequirementSupplier
     {
-        private readonly IDictionary<RequirementKind, RequirementSolver> map;
+        private readonly Func<ResolveSettings, IRequirementSolver> solverFactory;
         private readonly IShell shell;
-        private readonly Func<IContextualizable> content;
+        private readonly Func<IContextualizable> contentFactory;
 
-        public RequirementSupplier(IDictionary<RequirementKind, RequirementSolver> map, IShell shell, Func<IContextualizable> content)
+        public RequirementSupplier(Func<ResolveSettings, IRequirementSolver> solverFactory, IShell shell, Func<IContextualizable> contentFactory)
         {
-            this.map = map;
+            this.solverFactory = solverFactory;
             this.shell = shell;
-            this.content = content;
+            this.contentFactory = contentFactory;
         }
 
         public async Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements)
         {
-            var individualSuppliers = requirements.Select(SupplyFor);
+            var individualSuppliers = requirements.Select(Supplier).ToList();
             var vm = new DependenciesModel2(individualSuppliers);
 
-            var contextualizable = content();
-            await shell.Popup(contextualizable, vm,
+            await shell.Popup(contentFactory(), vm,
                 c =>
                 {
                     c.Popup.Title = "Please, specify the following information";
@@ -52,7 +49,7 @@ namespace Deployer.Core.Requirements
 
         private IEnumerable<FulfilledRequirement> Extract(DependenciesModel2 vm)
         {
-            return vm.Suppliers.SelectMany(Extract);
+            return vm.Solvers.SelectMany(Extract);
         }
 
         private IEnumerable<FulfilledRequirement> Extract(IRequirementSolver vm)
@@ -60,9 +57,9 @@ namespace Deployer.Core.Requirements
             return vm.FulfilledRequirements();
         }
 
-        private RequirementSolver SupplyFor(MissingRequirement missingRequirement)
+        private IRequirementSolver Supplier(MissingRequirement missingRequirement)
         {
-            return DictionaryExtensions.GetValueOrNone(map, missingRequirement.Kind).ValueOrFailure();
+            return solverFactory(new ResolveSettings(missingRequirement.Key, missingRequirement.Kind));
         }
     }
 }

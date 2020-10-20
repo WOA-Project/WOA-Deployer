@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -22,13 +23,16 @@ namespace Deployer.Gui.ViewModels.Common
         private readonly IOpenFilePicker openFilePicker;
         private readonly IFileSystemOperations fileSystemOperations;
 
-        public Commands(ISettingsService settingsService, IOpenFilePicker openFilePicker, IFileSystemOperations fileSystemOperations)
+        public Commands(IShellOpen shellOpen, ISettingsService settingsService, IOpenFilePicker openFilePicker, IFileSystemOperations fileSystemOperations)
         {
             this.settingsService = settingsService;
             this.openFilePicker = openFilePicker;
             this.fileSystemOperations = fileSystemOperations;
             PickWimFileCommand = ReactiveCommand.CreateFromObservable(() => PickWimFileObs);
+            ShellOpen = ReactiveCommand.CreateFromTask((string url) => shellOpen.Open(url));
         }
+
+        public ReactiveCommand<string, Unit> ShellOpen { get; }
 
         private IObservable<WimMetadataViewModel> PickWimFileObs
         {
@@ -82,6 +86,7 @@ namespace Deployer.Gui.ViewModels.Common
                 return vm;
             }
         }
+
 
     }
 }

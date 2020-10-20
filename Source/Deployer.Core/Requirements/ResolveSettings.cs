@@ -1,15 +1,14 @@
 ﻿namespace Deployer.Core.Requirements
 {
-    public class FulfilledRequirement
+    public class ResolveSettings
     {
-        public FulfilledRequirement(string key, object value)
+        public ResolveSettings(string key, RequirementKind kind)
         {
             Key = key;
-            Value = value;
+            Kind = kind;
         }
 
         public string Key { get; }
         public RequirementKind Kind { get; }
-        public object Value { get; }
     }
 }

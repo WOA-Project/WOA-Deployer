@@ -4,6 +4,7 @@ using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels;
 using Deployer.Gui.ViewModels.Common;
 using Deployer.Gui.ViewModels.Common.Disk;
+using Deployer.Gui.ViewModels.RequirementSolvers;
 
 namespace Deployer.Gui
 {
@@ -15,20 +16,20 @@ namespace Deployer.Gui
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is WimPickViewModel)
+            if (item is WimPickRequirementSolver)
             {
                 return WimImageTemplate;
             }
 
-            if (item is DiskFillerViewModel)
-            {
-                return DiskTemplate;
-            }
+            //if (item is DiskFillerViewModel)
+            //{
+            //    return DiskTemplate;
+            //}
             
-            if (item is SdCardFillerViewModel)
-            {
-                return DiskTemplate;
-            }
+            //if (item is SdCardFillerViewModel)
+            //{
+            //    return DiskTemplate;
+            //}
 
             return base.SelectTemplate(item, container);
         }
