@@ -18,7 +18,7 @@ namespace Deployer.Gui.ViewModels.RequirementSolvers
         {
             this.key = key;
             OpenGetWoaCommand = commands.ShellOpen;
-            PickWimFileCommand = commands.PickWimFileCommand;
+            PickWimFileCommand = ReactiveCommand.CreateFromObservable(() => commands.GetPickWimFileObs(key));
             pickWimFileObs = PickWimFileCommand.ToProperty(this, x => x.WimMetadata);
             isValid = this.WhenAnyValue(model => model.WimMetadata, (WimMetadataViewModel x) => x != null);
             hasWimHelper = isValid

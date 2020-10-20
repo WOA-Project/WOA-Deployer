@@ -26,7 +26,6 @@ namespace Deployer.Gui.Registrations
     {
         public void Configure(IExportRegistrationBlock block)
         {
-            block.Export<GuiRequirementSatisfier>().As<IRequirementSatisfier>().Lifestyle.Singleton();
             block.Export<WpfDialogService>().As<IDialogService>().Lifestyle.Singleton();
             block.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
             block.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();

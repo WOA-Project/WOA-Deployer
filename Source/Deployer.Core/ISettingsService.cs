@@ -1,7 +1,9 @@
-﻿namespace Deployer.Core
+﻿using Optional;
+
+namespace Deployer.Core
 {
     public interface ISettingsService
     {
-        string WimFolder { get; set; }
+        Option<object> this[string key] { get; set; }
     }
 }

@@ -78,7 +78,6 @@
     <Compile Include="ViewModels\Common\Commands.cs" />
     <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
     <Compile Include="ViewModels\Common\WimImage.cs" />
-    <Compile Include="ViewModels\Common\WimImageSelector.cs" />
     <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
     <Compile Include="AppProperties.cs" />
     <Compile Include="ViewModels\Sections\MainViewModel.cs" />
@@ -104,10 +103,8 @@
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\DependenciesModel.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
-    <Compile Include="Services\GuiRequirementSatisfier.cs" />
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />
     <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
-    <Compile Include="ViewModels\Common\WimPickViewModel.cs" />
     <Compile Include="Views\DiskSelectionPart.xaml.cs">
       <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
     </Compile>

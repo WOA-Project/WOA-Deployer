@@ -9,6 +9,8 @@ using Deployer.Core;
 using Deployer.Core.Exceptions;
 using Deployer.Core.Services.Wim;
 using Deployer.Gui.Properties;
+using Optional;
+using Optional.Unsafe;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.FileSystem;
@@ -28,43 +30,40 @@ namespace Deployer.Gui.ViewModels.Common
             this.settingsService = settingsService;
             this.openFilePicker = openFilePicker;
             this.fileSystemOperations = fileSystemOperations;
-            PickWimFileCommand = ReactiveCommand.CreateFromObservable(() => PickWimFileObs);
             ShellOpen = ReactiveCommand.CreateFromTask((string url) => shellOpen.Open(url));
         }
 
         public ReactiveCommand<string, Unit> ShellOpen { get; }
 
-        private IObservable<WimMetadataViewModel> PickWimFileObs
+        public IObservable<WimMetadataViewModel> GetPickWimFileObs(string key)
         {
-            get
+            var filters = new List<(string, IEnumerable<string>)>
             {
-                var filters = new List<(string, IEnumerable<string>)>
+                ("Windows Images", new[]
                 {
-                    ("Windows Images", new[]
-                    {
-                        "install.wim;install.esd",
-                    }),
-                    ("Windows Images", new[]
-                    {
-                        "*.wim",
-                        "*.esd"
-                    }),
-                    ("All files", new[]
-                    {
-                        "*.*",
-                    }),
-                };
-
-                var value = openFilePicker.Pick(filters, () => settingsService.WimFolder, x =>
+                    "install.wim;install.esd",
+                }),
+                ("Windows Images", new[]
                 {
-                    settingsService.WimFolder = x;
-                });
+                    "*.wim",
+                    "*.esd"
+                }),
+                ("All files", new[]
+                {
+                    "*.*",
+                }),
+            };
 
-                return Observable.Return(value).Where(x => x != null)
-                    .Select(LoadWimMetadata);
-            }
+            var value = openFilePicker.Pick(filters, () =>
+            {
+                var option = settingsService[key];
+                var val = option.ValueOrDefault();
+                return (string) val;
+            }, x => { settingsService[key] = ((object) x).Some(); });
+
+            return Observable.Return(value).Where(x => x != null)
+                .Select(LoadWimMetadata);
         }
-        public ReactiveCommand<Unit, WimMetadataViewModel> PickWimFileCommand { get; }
 
         private WimMetadataViewModel LoadWimMetadata(string path)
         {
