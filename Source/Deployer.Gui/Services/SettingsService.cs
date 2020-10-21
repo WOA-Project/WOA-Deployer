@@ -1,7 +1,5 @@
-﻿using System.Configuration;
-using Deployer.Core;
+﻿using Deployer.Core;
 using Optional;
-using Optional.Unsafe;
 
 namespace Deployer.Gui.Services
 {
@@ -9,26 +7,17 @@ namespace Deployer.Gui.Services
     {
         public Option<object> this[string key]
         {
-            get
-            {
-                var defaultValue = Properties.Settings.Default.Properties[key]?.DefaultValue;
-                var someNotNull = defaultValue.SomeNotNull();
-                return someNotNull;
-            }
-            set
-            {
-                var prop =
-                    Properties.Settings.Default.Properties[key].SomeNotNull()
-                        .Match(s => s, () =>
-                        {
-                            var newProp = new SettingsProperty(key) { PropertyType = value.GetType() };
-                            Properties.Settings.Default.Properties.Add(newProp);
-                            return newProp;
-                        });
+            get => GetSetting(key);
+            set => SetSetting(key, value);
+        }
 
-                prop.DefaultValue = value.ValueOrDefault();
-                Properties.Settings.Default.Save();
-            }
+        private Option<object> GetSetting(string key)
+        {
+            return Option.None<object>();
+        }
+
+        private void SetSetting(string key, Option<object> value)
+        {
         }
     }
 }

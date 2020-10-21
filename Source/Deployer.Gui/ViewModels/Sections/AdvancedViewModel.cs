@@ -2,13 +2,11 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Deployer.Core;
 using Deployer.Core.Deployers;
 using Deployer.Core.Interaction;
+using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
 using Grace.DependencyInjection.Attributes;
-using Iridio;
-using Iridio.Common;
 using Iridio.Runtime;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
@@ -22,15 +20,15 @@ namespace Deployer.Gui.ViewModels.Sections
     {
         private readonly BrandNewDeployer deployer;
         private readonly IDialogService dialogService;
+        private readonly DeployerFileOpenService fileOpenService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
-        private readonly IFilePicker filePicker;
 
         public AdvancedViewModel(BrandNewDeployer deployer, IDialogService dialogService,
-            IFilePicker filePicker, OperationProgressViewModel operationProgress)
+            OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;
             this.dialogService = dialogService;
-            this.filePicker = filePicker;
+            this.fileOpenService = fileOpenService;
             OperationProgress = operationProgress;
 
             ConfigureCommands();
@@ -51,7 +49,11 @@ namespace Deployer.Gui.ViewModels.Sections
 
         private void ConfigureRunCommand()
         {
-            RunScript = RunScriptCommand(deployer, filePicker);
+            var filter = new FileTypeFilter("Deployer Script", "*.ds", "*.txt");
+
+            RunScript = ReactiveCommand.CreateFromObservable(() => 
+                fileOpenService.Picks("Settings", new []{ filter })
+                    .SelectMany(file => deployer.Run(file.Source.OriginalString)));
 
             RunScript
                 .Subscribe(either => either
@@ -63,18 +65,6 @@ namespace Deployer.Gui.ViewModels.Sections
 
             dialogService.HandleExceptionsFromCommand(RunScript,
                 exception => ("Script execution failed", exception.Message));
-        }
-
-        private static ReactiveCommand<Unit, Either<DeployError, Success>> RunScriptCommand(BrandNewDeployer deployer, IFilePicker filePicker)
-        {
-            return ReactiveCommand.CreateFromObservable(() =>
-            {
-                var filter = new FileTypeFilter("Deployer Script", "*.ds", "*.txt");
-                return filePicker
-                    .Open("Select a script", new[] {filter})
-                    .Where(x => x != null)
-                    .SelectMany(file => Observable.FromAsync(() => deployer.Run(file.Source.LocalPath)));
-            });
         }
     }
 }

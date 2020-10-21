@@ -50,8 +50,6 @@
                         </ComboBox>
                     </Grid>
                 </HeaderedContentControl>
-
-                <CheckBox Content="IsValid" IsEnabled="False" IsChecked="{Binding HasWim, Mode=OneWay}" />
             </StackPanel>
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Margin="4">
                 Select a Windows Image file (.wim) to deploy

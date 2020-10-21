@@ -25,6 +25,11 @@ namespace Deployer.Core.Requirements
 
         public async Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements)
         {
+            if (!requirements.Any())
+            {
+                return Either.Success<Error, IEnumerable<FulfilledRequirement>>(Enumerable.Empty<FulfilledRequirement>());
+            }
+
             var individualSuppliers = requirements.Select(Supplier).ToList();
             var vm = new DependenciesModel2(individualSuppliers);
 

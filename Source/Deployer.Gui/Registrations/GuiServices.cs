@@ -29,8 +29,7 @@ namespace Deployer.Gui.Registrations
             block.Export<WpfDialogService>().As<IDialogService>().Lifestyle.Singleton();
             block.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
             block.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();
-            block.Export<DesktopFilePicker>().As<IFilePicker>().Lifestyle.Singleton();
-            block.ExportFactory<Uri, IFileSystemOperations, ZafiroFile>((uri, f) => new DesktopZafiroFile(uri, f, null));
+            block.ExportFactory<Uri, IFileSystemOperations, IZafiroFile>((uri, f) => new DesktopZafiroFile(uri, f, null));
             block.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
             var simpleInteraction = new SimpleInteraction();
             simpleInteraction.Register("Requirements", typeof(Requirements));
@@ -48,7 +47,8 @@ namespace Deployer.Gui.Registrations
                 .Lifestyle.Singleton();
             block.Export<PopupWindow>().As<IPopup>();
             block.ExportFactory<IContextualizable>(() => new WpfContextualizable(new Views.Requirements()));
-
+            block.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((s, fso, dl) =>
+                new DesktopZafiroFile(new Uri(s), fso, dl));
         }
     }
 }

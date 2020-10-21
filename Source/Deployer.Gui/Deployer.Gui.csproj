@@ -74,6 +74,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Registrations\RequirementSolvers.cs" />
+    <Compile Include="Services\DeployerFileOpenService.cs" />
     <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
     <Compile Include="ViewModels\Common\Commands.cs" />
     <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
@@ -101,7 +102,6 @@
     </Compile>
     <Compile Include="Registrations\GuiServices.cs" />
     <Compile Include="Services\SettingsService.cs" />
-    <Compile Include="Services\DependenciesModel.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />
     <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
