@@ -190,7 +190,7 @@
       <Version>1.1.19</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI.WPF">
-      <Version>11.5.35</Version>
+      <Version>12.1.1</Version>
     </PackageReference>
     <PackageReference Include="Serilog.Sinks.RollingFile">
       <Version>3.3.0</Version>
