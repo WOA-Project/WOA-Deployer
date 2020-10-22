@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Deployer.Core.Services.Wim;
+using MoreLinq.Extensions;
 using ReactiveUI;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Gui.ViewModels.Common
 {
     public class WimMetadataViewModel : ReactiveObject
     {
+        public string Errors { get; }
         private DiskImageMetadata selectedDiskImage;
 
         public WimMetadataViewModel(XmlWindowsImageMetadata windowsImageMetadata, string path)
@@ -18,7 +21,12 @@ namespace Deployer.Gui.ViewModels.Common
             SelectedDiskImage = Images.First();
         }
 
-        private XmlWindowsImageMetadata WindowsImageMetadata { get; }
+        public WimMetadataViewModel(ErrorList errors)
+        {
+            Errors = string.Join(";", errors);
+        }
+
+        private XmlWindowsImageMetadata WindowsImageMetadata { get; } = new XmlWindowsImageMetadata();
 
         public string Path { get; }
 

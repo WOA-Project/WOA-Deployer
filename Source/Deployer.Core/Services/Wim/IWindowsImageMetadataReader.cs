@@ -1,9 +1,10 @@
 ﻿using System.IO;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Services.Wim
 {
     public interface IWindowsImageMetadataReader
     {
-        XmlWindowsImageMetadata Load(Stream stream);
+        Either<ErrorList, XmlWindowsImageMetadata> Load(Stream stream);
     }
 }

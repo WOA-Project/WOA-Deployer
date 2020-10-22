@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Deployer.Core.Exceptions;
 using Serilog;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Services.Wim
 {
@@ -12,7 +13,7 @@ namespace Deployer.Core.Services.Wim
     {
         private static XmlSerializer Serializer { get; } = new XmlSerializer(typeof(WimMetadata));
 
-        public XmlWindowsImageMetadata Load(Stream stream)
+        public Either<ErrorList, XmlWindowsImageMetadata> Load(Stream stream)
         {
             Log.Verbose("Getting WIM stream");
 
@@ -21,10 +22,10 @@ namespace Deployer.Core.Services.Wim
             {
                 metadata = (WimMetadata)Serializer.Deserialize(GetXmlMetadataStream(stream));
             }
-            catch (InvalidOperationException e)
+            catch (Exception e)
             {
-                throw new InvalidWimFileException("Could not read the metadata from the WIM " +
-                    "file. Please, check it's a valid .WIM file", e);
+                return new ErrorList("Could not read the metadata from the WIM " +
+                                     $"file. Please, check it's a valid .WIM file: {e.Message}");
             }
 
             Log.Verbose("Wim metadata deserialized correctly {@Metadata}", metadata);
@@ -35,7 +36,7 @@ namespace Deployer.Core.Services.Wim
                     .Where(x => x.Windows != null)
                     .Select(x => new DiskImageMetadata
                 {
-                    Architecture = GetArchitecture(x.Windows.Arch),
+                    Architecture = GetArchitecture(x.Windows.Arch).Handle(list => MyArchitecture.Unknown),
                     Build = x.Windows.Version.Build,
                     DisplayName = x.Name,
                     Index = int.Parse(x.Index)
@@ -43,21 +44,29 @@ namespace Deployer.Core.Services.Wim
             };
         }
 
-        private static Architecture GetArchitecture(string str)
+        private static Either<ErrorList, MyArchitecture> GetArchitecture(string str)
         {
             switch (str)
             {
                 case "0":
-                    return Architecture.X86;
+                    return MyArchitecture.X86;
                 case "9":
-                    return Architecture.X64;
+                    return MyArchitecture.X64;
                 case "12":
-                    return Architecture.Arm64;
+                    return MyArchitecture.Arm64;
             }
 
             throw new IndexOutOfRangeException($"The architecture '{str}' is unknown");
         }
 
         protected abstract Stream GetXmlMetadataStream(Stream wim);
+    }
+
+    public enum MyArchitecture
+    {
+        X86,
+        X64,
+        Arm64,
+        Unknown
     }
 }

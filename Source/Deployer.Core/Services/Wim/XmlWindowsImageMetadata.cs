@@ -4,6 +4,6 @@ namespace Deployer.Core.Services.Wim
 {
     public class XmlWindowsImageMetadata
     {
-        public IList<DiskImageMetadata> Images { get; set; }
+        public IList<DiskImageMetadata> Images { get; set; } = new List<DiskImageMetadata>();
     }
 }

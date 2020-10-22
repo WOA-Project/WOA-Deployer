@@ -25,10 +25,12 @@
     </UserControl.Resources>
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <TextBlock Margin="10">Please, provide the following requirements to continue with the deployment.</TextBlock>
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding Solvers}" ItemTemplateSelector="{StaticResource TemplateSelector}" />
+        <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto">
+            <ItemsControl Width="500" ItemsSource="{Binding Solvers}"
+                          ItemTemplateSelector="{StaticResource TemplateSelector}" /></ScrollViewer>
     </Grid>
 </UserControl>
