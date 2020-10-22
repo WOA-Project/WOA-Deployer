@@ -6,6 +6,6 @@ namespace Deployer.Core.Requirements
 {
     public interface IRequirementSupplier
     {
-        Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements);
+        Task<Either<ErrorList, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements);
     }
 }

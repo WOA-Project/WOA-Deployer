@@ -6,6 +6,6 @@ namespace Deployer.Core.Requirements
 {
     public interface IRequirementsManager
     {
-        Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(string path);
+        Task<Either<ErrorList, IEnumerable<FulfilledRequirement>>> Satisfy(string path);
     }
 }

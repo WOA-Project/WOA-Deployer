@@ -60,7 +60,7 @@ namespace Deployer.Gui.ViewModels.Sections
                     .MapRight(success =>
                         dialogService.Notice("Execution finished", "The script has been executed successfully"))
                     .Handle(errors =>
-                        dialogService.Notice("Execution failed", $"The script execution has failed {errors}"))
+                        dialogService.Notice("Execution failed", $"The script execution has failed: {errors}"))
                     .DisposeWith(disposables));
 
             dialogService.HandleExceptionsFromCommand(RunScript,

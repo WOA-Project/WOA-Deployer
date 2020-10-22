@@ -18,11 +18,13 @@ namespace Deployer.Core.Requirements
             this.supplier = supplier;
         }
 
-        public async Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(string path)
+        public async Task<Either<ErrorList, IEnumerable<FulfilledRequirement>>> Satisfy(string path)
         {
-            var requirements = requirementsAnalyzer.GetRequirements(fileSystemOperations.ReadAllText(path));
-            var satisfied = await supplier.Satisfy(requirements);
-            return satisfied;
+            var requirements = requirementsAnalyzer
+                .GetRequirements(fileSystemOperations.ReadAllText(path))
+                .MapRight(async reqs => await supplier.Satisfy(reqs));
+
+            return await requirements.RightTask();
         }
     }
 }

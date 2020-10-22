@@ -10,5 +10,10 @@ namespace Deployer.Core.Deployers
         {
             Errors = errors;
         }
+
+        public override string ToString()
+        {
+            return string.Join(", ", Errors);
+        }
     }
 }

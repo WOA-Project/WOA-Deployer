@@ -1,6 +1,6 @@
 namespace Deployer.Core.Deployers
 {
-    public class DeployError
+    public abstract class DeployError
     {
     }
 }

@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Deployer.Core.Exceptions;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services.Wim;
 using Deployer.Gui.Properties;
 using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
-using Iridio.Common;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.Files;
@@ -27,8 +24,7 @@ namespace Deployer.Gui.ViewModels.RequirementSolvers
         private readonly ObservableAsPropertyHelper<bool> hasWimHelper;
         private readonly IObservable<bool> isValid;
         private readonly ObservableAsPropertyHelper<WimMetadataViewModel> pickWimFileObs;
-
-
+        
         public WimPickRequirementSolver(string key, Commands commands, DeployerFileOpenService fileOpenService)
         {
             this.key = key;
@@ -85,7 +81,8 @@ namespace Deployer.Gui.ViewModels.RequirementSolvers
             using (var stream = await file.OpenForRead())
             {
                 var imageReader = new WindowsImageMetadataReader();
-                return imageReader.Load(stream)
+                return imageReader
+                    .Load(stream)
                     .MapRight(metadata =>
                     {
                         if (metadata.Images.All(x => x.Architecture != MyArchitecture.Arm64))

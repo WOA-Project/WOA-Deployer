@@ -23,11 +23,11 @@ namespace Deployer.Core.Requirements
             this.contentFactory = contentFactory;
         }
 
-        public async Task<Either<Error, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements)
+        public async Task<Either<ErrorList, IEnumerable<FulfilledRequirement>>> Satisfy(IEnumerable<MissingRequirement> requirements)
         {
             if (!requirements.Any())
             {
-                return Either.Success<Error, IEnumerable<FulfilledRequirement>>(Enumerable.Empty<FulfilledRequirement>());
+                return Either.Success<ErrorList, IEnumerable<FulfilledRequirement>>(Enumerable.Empty<FulfilledRequirement>());
             }
 
             var individualSuppliers = requirements.Select(Supplier).ToList();
@@ -46,10 +46,10 @@ namespace Deployer.Core.Requirements
 
             if (vm.Continue)
             {
-                return Either.Success<Error, IEnumerable<FulfilledRequirement>>(Extract(vm));
+                return Either.Success<ErrorList, IEnumerable<FulfilledRequirement>>(Extract(vm));
             }
 
-            return Either.Error<Error, IEnumerable<FulfilledRequirement>>(new Error());
+            return Either.Error<ErrorList, IEnumerable<FulfilledRequirement>>(new ErrorList("Operation cancelled"));
         }
 
         private IEnumerable<FulfilledRequirement> Extract(DependenciesModel2 vm)

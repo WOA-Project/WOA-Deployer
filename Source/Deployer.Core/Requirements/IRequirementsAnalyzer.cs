@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Requirements
 {
     public interface IRequirementsAnalyzer
     {
-        IEnumerable<MissingRequirement> GetRequirements(string content);
+        Either<ErrorList, IEnumerable<MissingRequirement>> GetRequirements(string content);
     }
 }

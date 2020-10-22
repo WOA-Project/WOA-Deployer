@@ -1,12 +1,19 @@
+using Zafiro.Core.Patterns.Either;
+
 namespace Deployer.Core.Deployers
 {
     class RequirementsError : DeployError
     {
-        public Requirements.Error Error { get; }
+        public ErrorList Errors { get; }
 
-        public RequirementsError(Requirements.Error error)
+        public RequirementsError(ErrorList errors)
         {
-            Error = error;
+            Errors = errors;
+        }
+
+        public override string ToString()
+        {
+            return string.Join(", ", Errors);
         }
     }
 }
