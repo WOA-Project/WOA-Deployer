@@ -1,0 +1,45 @@
+﻿<Window x:Class="Editor.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:Editor.Wpf"
+        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}">
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="{Binding OpenFile}" />
+                <MenuItem Header="Compile" Command="{Binding SaveAndCompile}" />
+            </MenuItem>
+        </Menu>
+        <ToolBar Grid.Row="1">
+            <Button Command="{Binding SaveAndCompile}">
+                <Button.Content>
+                    <iconPacks:PackIconFeatherIcons Kind="Layers" />
+                </Button.Content>
+            </Button>
+        </ToolBar>
+        <avalonedit:TextEditor Grid.Row="2" 
+                               ShowLineNumbers="True"
+                               LineNumbersForeground="#B1B1B1"
+                               x:Name="textEditor"
+                               FontFamily="Consolas"
+                               FontSize="10pt"
+                               SyntaxHighlighting="C#">
+            <b:Interaction.Behaviors>
+                <wpf:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </b:Interaction.Behaviors>
+        </avalonedit:TextEditor>
+        <ListView Grid.Row="3" ItemsSource="{Binding ValidationResult.Messages}" MaxHeight="200" />
+    </Grid>
+</Window>

@@ -88,6 +88,12 @@
   <ItemGroup>
     <AndroidResource Include="Resources\values\Styles.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Deployer.Core\Deployer.Core.csproj">
+      <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
+      <Name>Deployer.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="..\CodeEditor.Shared\CodeEditor.Shared.projitems" Label="Shared" Condition="Exists('..\CodeEditor.Shared\CodeEditor.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- This will force the generation of the APK when not building inside visual studio -->
