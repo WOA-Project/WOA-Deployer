@@ -8,7 +8,7 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Deployer Code IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}">
+        Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -34,7 +34,6 @@
                                LineNumbersForeground="#B1B1B1"
                                FontFamily="Consolas"
                                FontSize="10pt"
-                               
                                SyntaxHighlighting="C#">
             <b:Interaction.Behaviors>
                 <wpf:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
