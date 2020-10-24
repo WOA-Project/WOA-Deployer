@@ -5,12 +5,9 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
-using System.Windows;
 using Deployer.Core.Compiler;
-using ICSharpCode.AvalonEdit;
 using Iridio.Binding.Model;
 using Iridio.Common;
-using Microsoft.Xaml.Behaviors;
 using ReactiveUI;
 using Zafiro.Core;
 using Zafiro.Core.Files;
@@ -20,65 +17,11 @@ using Zafiro.Core.UI;
 
 namespace Editor.Wpf
 {
-    public sealed class AvalonEditBehaviour : Behavior<TextEditor> 
-    {
-        public static readonly DependencyProperty GiveMeTheTextProperty =
-            DependencyProperty.Register("GiveMeTheText", typeof(string), typeof(AvalonEditBehaviour), 
-                new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PropertyChangedCallback));
-
-        public string GiveMeTheText
-        {
-            get { return (string)GetValue(GiveMeTheTextProperty); }
-            set { SetValue(GiveMeTheTextProperty, value); }
-        }
-
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            if (AssociatedObject != null)
-                AssociatedObject.TextChanged += AssociatedObjectOnTextChanged;
-        }
-
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-            if (AssociatedObject != null)
-                AssociatedObject.TextChanged -= AssociatedObjectOnTextChanged;
-        }
-
-        private void AssociatedObjectOnTextChanged(object sender, EventArgs eventArgs)
-        {
-            var textEditor = sender as TextEditor;
-            if (textEditor != null)
-            {
-                if (textEditor.Document != null)
-                    GiveMeTheText = textEditor.Document.Text;
-            }
-        }
-
-        private static void PropertyChangedCallback(
-            DependencyObject dependencyObject,
-            DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var behavior = dependencyObject as AvalonEditBehaviour;
-            if (behavior.AssociatedObject!= null)
-            {
-                var editor = behavior.AssociatedObject as TextEditor;
-                if (editor.Document != null)
-                {
-                    var caretOffset = editor.CaretOffset;
-                    editor.Document.Text = dependencyPropertyChangedEventArgs.NewValue.ToString();
-                    editor.CaretOffset = caretOffset;
-                }
-            }
-        }
-    }
-
     public class MainViewModel : ReactiveObject
     {
         private readonly ObservableAsPropertyHelper<ValidationResult> validate;
 
-        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker, IDialogService dialogService)
+        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker)
         {
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,

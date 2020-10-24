@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Editor.Wpf"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+         <local:Composition x:Key="Composition" />
     </Application.Resources>
 </Application>

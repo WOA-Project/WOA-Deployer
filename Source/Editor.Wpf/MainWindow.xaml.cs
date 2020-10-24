@@ -37,12 +37,12 @@ namespace Editor.Wpf
 
         protected override void OnInitialized(EventArgs e)
         {
-            var fileSystemOperations = new FileSystemOperations();
-            var preprocessor = new Preprocessor(fileSystemOperations);
-            var deployerCompiler = new DeployerCompiler(preprocessor, new Parser(), new Binder(new BindingContext(new List<IFunction>())));
-            Func<string, IZafiroFile> fileFactory = s => new DesktopZafiroFile(new Uri(s), fileSystemOperations,new Downloader(new HttpClient()));
-            var openFilePicker = new OpenFilePicker(fileFactory, fileSystemOperations);
-            DataContext = new MainViewModel(deployerCompiler, openFilePicker, new WpfDialogService());
+            //var fileSystemOperations = new FileSystemOperations();
+            //var preprocessor = new Preprocessor(fileSystemOperations);
+            //var deployerCompiler = new DeployerCompiler(preprocessor, new Parser(), new Binder(new BindingContext(new List<IFunction>())));
+            //Func<string, IZafiroFile> fileFactory = s => new DesktopZafiroFile(new Uri(s), fileSystemOperations,new Downloader(new HttpClient()));
+            //var openFilePicker = new OpenFilePicker(fileFactory, fileSystemOperations);
+            //DataContext = new MainViewModel(deployerCompiler, openFilePicker, new WpfDialogService());
 
             base.OnInitialized(e);
         }

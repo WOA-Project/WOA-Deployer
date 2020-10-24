@@ -8,7 +8,8 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}">
+        Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}"
+        DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
