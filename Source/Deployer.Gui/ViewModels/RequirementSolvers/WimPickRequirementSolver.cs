@@ -63,7 +63,6 @@ namespace Deployer.Gui.ViewModels.RequirementSolvers
         public bool HasWim => hasWimHelper.Value;
         public WimMetadataViewModel WimMetadata => pickWimFileObs.Value;
         public virtual IObservable<bool> IsValid => isValid;
-        public RequirementKind HandledRequirement => RequirementKind.WimFile;
 
         public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
         {

@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Text;
 using Deployer.Core.Compiler;
+using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
 using Iridio.Common;
+using MediatR;
 using ReactiveUI;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.Mixins;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
+using Unit = System.Reactive.Unit;
 
 namespace Editor.Wpf
 {
@@ -21,10 +23,10 @@ namespace Editor.Wpf
     {
         private readonly ObservableAsPropertyHelper<ValidationResult> validate;
 
-        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker)
+        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker, IRequirementsAnalyzer requirementsAnalyzer, IMediator mediator)
         {
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
-                picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
+                picker.Picks(new[] { new FileTypeFilter("Text files", "*.txt") }, () => null,
                     s => { }));
 
             file = OpenFile
@@ -45,15 +47,46 @@ namespace Editor.Wpf
             {
                 using (var stream = await File.OpenForWrite())
                 {
-                    using (var r = new StreamWriter(stream, Encoding.Default){ AutoFlush = true })
+                    using (var r = new StreamWriter(stream, Encoding.Default) { AutoFlush = true })
                     {
                         await r.WriteAsync(SourceCode);
                     }
                 }
             }, hasFile);
 
-            
-            Compile = ReactiveCommand.Create(() => compiler.Compile(File.Source.OriginalString, new List<Assignment>()), hasFile);
+
+            Compile = ReactiveCommand.CreateFromTask(async () =>
+            {
+                string contents;
+                using (var openForRead = await File.OpenForRead())
+                {
+                    contents = await openForRead.ReadToEnd();
+                }
+
+                var requirements = requirementsAnalyzer.GetRequirements(contents);
+                var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
+                var responses = await missing.Select(r =>
+                {
+                    if (r.Kind == RequirementKind.WimFile)
+                    {
+                        return (RequirementRequest)new WimFileRequest(){Index = 0, Path = "", Key =  r.Key};
+                    } 
+
+                    if (r.Kind == RequirementKind.Disk)
+                    {
+                        return (RequirementRequest)new DiskRequest(){Index = 0, Key = r.Key};
+                    } 
+
+                    throw new ArgumentOutOfRangeException();
+                    
+                }).AsyncSelect(async re =>
+                {
+                    var send = await mediator.Send(re);
+                    return TurnIntoAssignments((RequirementResponse) send);
+                });
+
+                return compiler.Compile(File.Source.OriginalString, responses.SelectMany(x => x));
+            }, hasFile);
             validate = Compile
                 .Select(e => e
                     .MapRight(unit => new ValidationResult(unit))
@@ -68,6 +101,11 @@ namespace Editor.Wpf
 
             SaveAndCompile = Save;
             subscription = SaveAndCompile.InvokeCommand(Compile);
+        }
+
+        private IEnumerable<Assignment> TurnIntoAssignments(RequirementResponse responses)
+        {
+            return responses.Select(r => new Assignment(r.Key, "#placeholder#"));
         }
 
         public ReactiveCommand<Unit, Unit> SaveAndCompile { get; set; }

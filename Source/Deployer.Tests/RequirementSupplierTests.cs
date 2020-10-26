@@ -51,7 +51,6 @@ namespace Deployer.Tests
         }
 
         public virtual IObservable<bool> IsValid => Observable.Return(true);
-        public RequirementKind HandledRequirement => RequirementKind.WimFile;
 
         public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
         {
