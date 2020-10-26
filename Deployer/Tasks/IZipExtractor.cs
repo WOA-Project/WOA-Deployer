@@ -11,6 +11,6 @@ namespace Deployer.Tasks
         Task ExtractFirstChildToFolder(Stream stream, string destination, IOperationProgress progressObserver = null);
         Task ExtractToFolder(Stream stream, string folderPath, IOperationProgress progressObserver = null);
         Task ExtractRelativeFolder(Stream stream, string relativeZipPath, string destination, IOperationProgress progressObserver = null);
-        Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IOperationProgress progressObserver = null);
+        Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, string> getSourceFolder, string destination, IOperationProgress progressObserver = null);
     }
 }

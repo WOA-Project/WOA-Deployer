@@ -24,7 +24,7 @@ namespace Deployer.Tasks
                 zipArchive =>
                 {
                     var baseEntry = FirstChild(zipArchive.Entries);
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry.Key) && !x.IsDirectory);
+                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
                     return contents;
                 }, FirstChild, progressObserver);
         }
@@ -48,23 +48,23 @@ namespace Deployer.Tasks
                     relativeZipPath = relativeZipPath.EndsWith("/") ? relativeZipPath : relativeZipPath + "/" ;
                     var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(relativeZipPath) && !x.IsDirectory);
                     return contents;
-                }, progressObserver: progressObserver, baseEntry: entries => entries.First(x => x.IsDirectory && x.Key.Equals(relativeZipPath)));
+                }, progressObserver: progressObserver, baseEntry: entries => entries.First(x => x.IsDirectory && x.Key.Equals(relativeZipPath)).Key);
         }
 
-        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> getSourceFolder, string destination, IOperationProgress progressObserver = null)
+        public async Task ExtractRelativeFolder(Stream stream, Func<IEnumerable<ZipArchiveEntry>, string> getSourceFolder, string destination, IOperationProgress progressObserver = null)
         {
             await ExtractCore(stream, destination,
                 zipArchive =>
                 {
                     var baseEntry = getSourceFolder(zipArchive.Entries);
-                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry.Key) && !x.IsDirectory);
+                    var contents = zipArchive.Entries.Where(x => x.Key.StartsWith(baseEntry) && !x.IsDirectory);
                     return contents;
                 }, getSourceFolder, progressObserver);
         }
 
         private async Task ExtractCore(Stream stream, string destination,
             Func<ZipArchive, IEnumerable<ZipArchiveEntry>> selectEntries,
-            Func<IEnumerable<ZipArchiveEntry>, ZipArchiveEntry> baseEntry = null, IOperationProgress progressObserver = null)
+            Func<IEnumerable<ZipArchiveEntry>, string> baseEntry = null, IOperationProgress progressObserver = null)
         {
             var archive = ZipArchive.Open(stream);
             var entries = selectEntries(archive);
@@ -72,14 +72,14 @@ namespace Deployer.Tasks
         }
 
         private async Task ExtractContents(ICollection<ZipArchiveEntry> entries, string destination,
-            IEntry baseEntry = null, IOperationProgress progressObserver = null)
+            string baseEntry = null, IOperationProgress progressObserver = null)
         {
             var total = entries.Count;
             var copied = 0;
 
             foreach (var entry in entries)
             {
-                var filePath = entry.Key.Substring(baseEntry?.Key.Length ?? 0);
+                var filePath = entry.Key.Substring(baseEntry?.Length ?? 0);
 
                 var destFile = Path.Combine(destination, filePath.Replace("/", "\\"));
                 var dir = Path.GetDirectoryName(destFile);
@@ -100,9 +100,14 @@ namespace Deployer.Tasks
             progressObserver?.Percentage.OnNext(double.NaN);
         }
 
-        private ZipArchiveEntry FirstChild(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
+        private string FirstChild(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
         {
-            return zipArchiveEntries.First(x => x.IsDirectory);
+            var split = zipArchiveEntries.Select(x => x.Key.Split('/'))
+                .OrderBy(s => s.Length)
+                .First()
+                .First();
+
+            return split + "/";
         }        
     }
 }
