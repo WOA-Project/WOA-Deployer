@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Deployer.Core.Compiler;
 using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
@@ -43,50 +44,10 @@ namespace Editor.Wpf
 
             var hasFile = this.WhenAnyValue(v => v.File).Select(z => z != null);
 
-            Save = ReactiveCommand.CreateFromTask(async () =>
-            {
-                using (var stream = await File.OpenForWrite())
-                {
-                    using (var r = new StreamWriter(stream, Encoding.Default) { AutoFlush = true })
-                    {
-                        await r.WriteAsync(SourceCode);
-                    }
-                }
-            }, hasFile);
+            Save = ReactiveCommand.CreateFromTask(SaveFunc, hasFile);
 
 
-            Compile = ReactiveCommand.CreateFromTask(async () =>
-            {
-                string contents;
-                using (var openForRead = await File.OpenForRead())
-                {
-                    contents = await openForRead.ReadToEnd();
-                }
-
-                var requirements = requirementsAnalyzer.GetRequirements(contents);
-                var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
-                var responses = await missing.Select(r =>
-                {
-                    if (r.Kind == RequirementKind.WimFile)
-                    {
-                        return (RequirementRequest)new WimFileRequest(){Index = 0, Path = "", Key =  r.Key};
-                    } 
-
-                    if (r.Kind == RequirementKind.Disk)
-                    {
-                        return (RequirementRequest)new DiskRequest(){Index = 0, Key = r.Key};
-                    } 
-
-                    throw new ArgumentOutOfRangeException();
-                    
-                }).AsyncSelect(async re =>
-                {
-                    var send = await mediator.Send(re);
-                    return TurnIntoAssignments((RequirementResponse) send);
-                });
-
-                return compiler.Compile(File.Source.OriginalString, responses.SelectMany(x => x));
-            }, hasFile);
+            Compile = ReactiveCommand.CreateFromTask(async () => compiler.Compile(File.Source.OriginalString, await SatisfyRequirements(requirementsAnalyzer, mediator)), hasFile);
             validate = Compile
                 .Select(e => e
                     .MapRight(unit => new ValidationResult(unit))
@@ -101,6 +62,51 @@ namespace Editor.Wpf
 
             SaveAndCompile = Save;
             subscription = SaveAndCompile.InvokeCommand(Compile);
+        }
+
+        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer, IMediator mediator)
+        {
+            string contents;
+            using (var openForRead = await File.OpenForRead())
+            {
+                contents = await openForRead.ReadToEnd();
+            }
+
+            var requirements = requirementsAnalyzer.GetRequirements(contents);
+            var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
+            var responses = await missing.Select<MissingRequirement, RequirementRequest>(r =>
+            {
+                if (r.Kind == RequirementKind.WimFile)
+                {
+                    return new WimFileRequest() {Index = 0, Path = "", Key = r.Key};
+                }
+
+                if (r.Kind == RequirementKind.Disk)
+                {
+                    return new DiskRequest() {Index = 0, Key = r.Key};
+                }
+
+                throw new ArgumentOutOfRangeException();
+            }).AsyncSelect(async re =>
+            {
+                var send = await mediator.Send(re);
+                return TurnIntoAssignments((RequirementResponse) send);
+            });
+
+            var selectMany = responses.SelectMany(x => x);
+
+            return selectMany;
+        }
+
+        private async Task SaveFunc()
+        {
+            using (var stream = await File.OpenForWrite())
+            {
+                using (var r = new StreamWriter(stream, Encoding.Default) {AutoFlush = true})
+                {
+                    await r.WriteAsync(SourceCode);
+                }
+            }
         }
 
         private IEnumerable<Assignment> TurnIntoAssignments(RequirementResponse responses)
