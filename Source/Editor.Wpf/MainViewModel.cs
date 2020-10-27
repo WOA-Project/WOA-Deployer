@@ -24,7 +24,7 @@ namespace Editor.Wpf
     {
         private readonly ObservableAsPropertyHelper<ValidationResult> validate;
 
-        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker, IRequirementsAnalyzer requirementsAnalyzer, IMediator mediator)
+        public MainViewModel(IDeployerCompiler compiler, IOpenFilePicker picker, IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
         {
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] { new FileTypeFilter("Text files", "*.txt") }, () => null,
@@ -44,8 +44,7 @@ namespace Editor.Wpf
 
             var hasFile = this.WhenAnyValue(v => v.File).Select(z => z != null);
 
-            Save = ReactiveCommand.CreateFromTask(SaveFunc, hasFile);
-
+            Save = ReactiveCommand.CreateFromTask(SaveFile, hasFile);
 
             Compile = ReactiveCommand.CreateFromTask(async () => compiler.Compile(File.Source.OriginalString, await SatisfyRequirements(requirementsAnalyzer, mediator)), hasFile);
             validate = Compile
@@ -64,15 +63,9 @@ namespace Editor.Wpf
             subscription = SaveAndCompile.InvokeCommand(Compile);
         }
 
-        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer, IMediator mediator)
+        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
         {
-            string contents;
-            using (var openForRead = await File.OpenForRead())
-            {
-                contents = await openForRead.ReadToEnd();
-            }
-
-            var requirements = requirementsAnalyzer.GetRequirements(contents);
+            var requirements = requirementsAnalyzer.GetRequirements(await File.ReadToEnd());
             var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
             var responses = await missing.Select<MissingRequirement, RequirementRequest>(r =>
             {
@@ -98,7 +91,7 @@ namespace Editor.Wpf
             return selectMany;
         }
 
-        private async Task SaveFunc()
+        private async Task SaveFile()
         {
             using (var stream = await File.OpenForWrite())
             {
