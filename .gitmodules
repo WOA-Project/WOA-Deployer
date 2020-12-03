@@ -7,9 +7,6 @@
 [submodule "Source/RunProcessAsTask"]
 	path = Source/RunProcessAsTask
 	url = https://github.com/SuperJMN/RunProcessAsTask.git
-[submodule "Source/Zafiro"]
-	path = Source/Zafiro
-	url = https://github.com/SuperJMN-Zafiro/Zafiro.git
 [submodule "Source/Iridio"]
 	path = Source/Iridio
 	url = https://github.com/SuperJMN/Iridio.git
