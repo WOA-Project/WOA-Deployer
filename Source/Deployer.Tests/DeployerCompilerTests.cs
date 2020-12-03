@@ -23,7 +23,7 @@ namespace Deployer.Tests
             var preprocessor = new Mock<IPreprocessor>();
             preprocessor.Setup(p => p.Process(It.IsAny<string>())).Returns(original);
             var parser = new Parser();
-            var binder = new Binder(new BindingContext(new List<IFunction>()));
+            var binder = new Binder(new List<IFunctionDeclaration>());
             var sut = new DeployerCompiler(preprocessor.Object, parser, binder);
             var compilation = sut.Compile("fake.src", assignments.Select(pair => new Assignment(pair.Key, pair.Value)));
 

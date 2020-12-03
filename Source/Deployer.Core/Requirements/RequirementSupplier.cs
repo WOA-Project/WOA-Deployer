@@ -14,9 +14,9 @@ namespace Deployer.Core.Requirements
     {
         private readonly Func<ResolveSettings, IRequirementSolver> solverFactory;
         private readonly IShell shell;
-        private readonly Func<IContextualizable> contentFactory;
+        private readonly Func<string, IContextualizable> contentFactory;
 
-        public RequirementSupplier(Func<ResolveSettings, IRequirementSolver> solverFactory, IShell shell, Func<IContextualizable> contentFactory)
+        public RequirementSupplier(Func<ResolveSettings, IRequirementSolver> solverFactory, IShell shell, Func<string, IContextualizable> contentFactory)
         {
             this.solverFactory = solverFactory;
             this.shell = shell;
@@ -33,7 +33,7 @@ namespace Deployer.Core.Requirements
             var individualSuppliers = requirements.Select(Supplier).ToList();
             var vm = new DependenciesModel2(individualSuppliers);
 
-            await shell.Popup(contentFactory(), vm,
+            await shell.Popup(contentFactory("Requirements"), vm,
                 c =>
                 {
                     c.Popup.Title = "Please, specify the following information";

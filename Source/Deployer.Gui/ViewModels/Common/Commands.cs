@@ -1,16 +1,8 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using System.Reactive;
-using System.Runtime.InteropServices;
+﻿using System.Reactive;
 using Deployer.Core;
-using Deployer.Core.Exceptions;
-using Deployer.Core.Services.Wim;
-using Deployer.Gui.Properties;
 using ReactiveUI;
-using Serilog;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
-using Zafiro.Wpf;
 
 namespace Deployer.Gui.ViewModels.Common
 {

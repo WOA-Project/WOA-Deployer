@@ -21,15 +21,10 @@ namespace Deployer.Gui
                 return WimImageTemplate;
             }
 
-            //if (item is DiskFillerViewModel)
-            //{
-            //    return DiskTemplate;
-            //}
-            
-            //if (item is SdCardFillerViewModel)
-            //{
-            //    return DiskTemplate;
-            //}
+            if (item is DiskRequirementSolver)
+            {
+                return DiskTemplate;
+            }
 
             return base.SelectTemplate(item, container);
         }

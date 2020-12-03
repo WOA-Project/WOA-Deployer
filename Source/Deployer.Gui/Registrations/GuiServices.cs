@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using BuildingBlocks.Option;
 using Deployer.Core;
-using Deployer.Core.Deployers;
 using Deployer.Core.Interaction;
 using Deployer.Core.Services;
 using Deployer.Gui.Services;
-using Deployer.Gui.ViewModels.Common;
-using Deployer.Gui.ViewModels.Sections;
 using Grace.DependencyInjection;
-using Iridio.Binding;
-using Iridio.Common;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
@@ -46,7 +38,7 @@ namespace Deployer.Gui.Registrations
                 .ExportAttributedTypes()
                 .Lifestyle.Singleton();
             block.Export<PopupWindow>().As<IPopup>();
-            block.ExportFactory<IContextualizable>(() => new WpfContextualizable(new Views.Requirements()));
+            block.ExportFactory<string, IContextualizable>((_) => new WpfContextualizable(new Views.Requirements()));
             block.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((s, fso, dl) =>
                 new DesktopZafiroFile(new Uri(s), fso, dl));
         }

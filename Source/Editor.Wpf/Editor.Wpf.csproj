@@ -11,13 +11,12 @@
     <PackageReference Include="MahApps.Metro.IconPacks" Version="4.6.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.19" />
     <PackageReference Include="ReactiveUI.WPF" Version="12.1.1" />
+    <PackageReference Include="Zafiro.Wpf" Version="2.3.41" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Wpf\Zafiro.Wpf.csproj" />
   </ItemGroup>
 
 </Project>

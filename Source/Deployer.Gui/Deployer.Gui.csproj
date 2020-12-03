@@ -77,6 +77,7 @@
     </Compile>
     <Compile Include="Registrations\RequirementSolvers.cs" />
     <Compile Include="Services\DeployerFileOpenService.cs" />
+    <Compile Include="ViewModels\RequirementSolvers\DiskRequirementSolver.cs" />
     <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
     <Compile Include="ViewModels\Common\Commands.cs" />
     <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
@@ -201,6 +202,9 @@
     <PackageReference Include="WpfAnimatedGif">
       <Version>2.0.0</Version>
     </PackageReference>
+    <PackageReference Include="Zafiro.Wpf">
+      <Version>2.3.41</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
@@ -215,13 +219,9 @@
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.NetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{463bde4b-5eee-4d63-b0d4-1d0097a59e4e}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Wpf\Zafiro.Wpf.csproj">
-      <Project>{be601e97-0cd3-4387-9a2d-253af940efff}</Project>
-      <Name>Zafiro.Wpf</Name>
+    <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
+      <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
+      <Name>Iridio.Runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

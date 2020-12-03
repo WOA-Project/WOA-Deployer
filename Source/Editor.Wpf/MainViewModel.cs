@@ -46,7 +46,11 @@ namespace Editor.Wpf
 
             Save = ReactiveCommand.CreateFromTask(SaveFile, hasFile);
 
-            Compile = ReactiveCommand.CreateFromTask(async () => compiler.Compile(File.Source.OriginalString, await SatisfyRequirements(requirementsAnalyzer, mediator)), hasFile);
+            Compile = ReactiveCommand.CreateFromTask(async () =>
+            {
+                var compile = compiler.Compile(File.Source.OriginalString, await SatisfyRequirements(requirementsAnalyzer, mediator));
+                return compile;
+            }, hasFile);
             validate = Compile
                 .Select(e => e
                     .MapRight(unit => new ValidationResult(unit))
@@ -121,7 +125,7 @@ namespace Editor.Wpf
 
         public ValidationResult ValidationResult => validate.Value;
 
-        public ReactiveCommand<Unit, Either<Errors, CompilationUnit>> Compile { get; }
+        public ReactiveCommand<Unit, Either<Errors, Script>> Compile { get; }
 
         public string Path { get; set; }
 
@@ -134,21 +138,6 @@ namespace Editor.Wpf
         {
             get => sourceCode;
             set => this.RaiseAndSetIfChanged(ref sourceCode, value);
-        }
-    }
-
-    public class ValidationResult
-    {
-        public IEnumerable<string> Messages { get; }
-
-        public ValidationResult(CompilationUnit unit)
-        {
-            Messages = new[] { "Compile operation successful" };
-        }
-
-        public ValidationResult(Errors messages)
-        {
-            Messages = messages.Select(e => e.ErrorKind + ": " + e.AdditionalData);
         }
     }
 }

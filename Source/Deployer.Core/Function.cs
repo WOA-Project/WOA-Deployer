@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Iridio.Binding;
 using Iridio.Common;
 using Iridio.Common.Utils;
 using Iridio.Parsing.Model;
 
 namespace Deployer.Core
 {
-    public class Function : IFunction
+    public class Function : IFunction, IFunctionDeclaration
     {
         private readonly Lazy<object> instance;
         private readonly MethodInfo method;

@@ -26,7 +26,7 @@ namespace Deployer.Tests
             };
 
             var testShell = new TestShell(options => options[0].Command.Execute(null));
-            var sut = new RequirementSupplier(settings => new TestRequirementSolver(requirements), testShell, () => null);
+            var sut = new RequirementSupplier(settings => new TestRequirementSolver(requirements), testShell, str => null);
 
             var missingRequirements = new List<MissingRequirement>()
             {

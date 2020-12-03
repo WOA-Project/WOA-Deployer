@@ -17,7 +17,7 @@ namespace Deployer.Core.Compiler
     {
         private readonly IParser parser;
         private readonly IBinder binder;
-        private readonly IEqualityComparer<ProcedureDeclaration> procedureComparer = new LambdaComparer<ProcedureDeclaration>((a, b) => Equals(a.Name, b.Name));
+        private readonly IEqualityComparer<Procedure> procedureComparer = new LambdaComparer<Procedure>((a, b) => Equals(a.Name, b.Name));
         private readonly IPreprocessor preprocessor;
 
         public DeployerCompiler(IPreprocessor preprocessor, IParser parser, IBinder binder)
@@ -27,33 +27,33 @@ namespace Deployer.Core.Compiler
             this.preprocessor = preprocessor;
         }
 
-        public Either<Errors, CompilationUnit> Compile(string path, IEnumerable<Assignment> toInject)
+        public Either<Errors, Script> Compile(string path, IEnumerable<Assignment> toInject)
         {
             var input = preprocessor.Process(path);
             var parsed = parser.Parse(input);
 
             return parsed
                 .MapLeft(error => new Errors(new Error(ErrorKind.UnableToParse, error.Message)))
-                .MapRight(script => Inject(script, toInject))
+                .MapRight(script => TryInject(script, toInject).Match(syntax => syntax, () => script))
                 .MapRight(script => binder.Bind(script));
         }
 
-        private Either<Errors, EnhancedScript> Inject(EnhancedScript script, IEnumerable<Assignment> toInject)
+        private Option<IridioSyntax> TryInject(IridioSyntax script, IEnumerable<Assignment> toInject)
         {
             return GetMain(script)
-                .Match(main =>
+                .Map(main =>
                 {
-                    ProcedureDeclaration modifiedMain = ModifyMain(main, toInject);
+                    Procedure modifiedMain = ModifyMain(main, toInject);
                     var modifiedProcedures = script.Procedures.Except(new[] { modifiedMain }, procedureComparer).Concat(new[] {modifiedMain});
-                    var modifiedScript = new EnhancedScript(script.Header, modifiedProcedures.ToArray());
+                    var modifiedScript = new IridioSyntax(modifiedProcedures.ToArray());
                     return modifiedScript;
-                }, () => Either.Error<Errors, EnhancedScript>(new Errors(new InjectError())));
+                });
         }
 
-        private ProcedureDeclaration ModifyMain(ProcedureDeclaration main,
+        private Procedure ModifyMain(Procedure main,
             IEnumerable<Assignment> injectableVariableDeclarations)
         {
-            return new ProcedureDeclaration(main.Name, ModifiedBlock(main.Block, injectableVariableDeclarations));
+            return new Procedure(main.Name, ModifiedBlock(main.Block, injectableVariableDeclarations));
         }
 
         private Block ModifiedBlock(Block mainBlock,
@@ -69,8 +69,10 @@ namespace Deployer.Core.Compiler
         {
             switch (assignmentValue)
             {
-                case int i:
-                    return new NumericExpression(i);
+                case int n:
+                    return new NumericExpression(n);
+                case uint n:
+                    return new NumericExpression((int) n);
                 case string s:
                     return new StringExpression(s);
             }
@@ -78,7 +80,7 @@ namespace Deployer.Core.Compiler
             throw new NotSupportedException();
         }
 
-        private static Option<ProcedureDeclaration> GetMain(EnhancedScript script)
+        private static Option<Procedure> GetMain(IridioSyntax script)
         {
             return OptionCollectionExtensions.FirstOrNone(script.Procedures,
                 d => d.Name.Equals("Main", StringComparison.InvariantCulture));

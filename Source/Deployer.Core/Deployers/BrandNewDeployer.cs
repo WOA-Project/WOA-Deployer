@@ -38,7 +38,7 @@ namespace Deployer.Core.Deployers
             return mapLeft;
         }
 
-        private Either<Errors, CompilationUnit> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
+        private Either<Errors, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
         {
             var assignments = GetAssignments(toInject);
             var compilation = Compiler.Compile(path, assignments);

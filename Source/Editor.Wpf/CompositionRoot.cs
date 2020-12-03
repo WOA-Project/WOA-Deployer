@@ -41,7 +41,9 @@ namespace Editor.Wpf
 
                 foreach (var taskType in TaskTypes)
                 {
-                    c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator)).As<IFunction>();
+                    c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
+                        .As<IFunction>()
+                        .As<IFunctionDeclaration>();
                 }
             });
 

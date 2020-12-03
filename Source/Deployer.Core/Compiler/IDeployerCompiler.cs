@@ -7,6 +7,6 @@ namespace Deployer.Core.Compiler
 {
     public interface IDeployerCompiler
     {
-        Either<Errors, CompilationUnit> Compile(string path, IEnumerable<Assignment> toInject);
+        Either<Errors, Script> Compile(string path, IEnumerable<Assignment> toInject);
     }
 }
