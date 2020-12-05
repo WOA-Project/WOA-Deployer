@@ -86,7 +86,7 @@ namespace Deployer.Gui.ViewModels.RequirementSolvers
                     {
                         if (metadata.Images.All(x => x.Architecture != MyArchitecture.Arm64))
                         {
-                            return new ErrorList(Resources.WimFileNoValidArchitecture);
+                            return Either.Error<ErrorList, WimMetadataViewModel>(new ErrorList(Resources.WimFileNoValidArchitecture));
                         }
 
                         var vm = new WimMetadataViewModel(metadata, file.Source.OriginalString);

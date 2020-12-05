@@ -24,24 +24,24 @@ namespace Deployer.Core.Services.Wim
             }
             catch (Exception e)
             {
-                return new ErrorList("Could not read the metadata from the WIM " +
-                                     $"file. Please, check it's a valid .WIM file: {e.Message}");
+                return Either.Error<ErrorList, XmlWindowsImageMetadata>(new ErrorList("Could not read the metadata from the WIM " +
+                                     $"file. Please, check it's a valid .WIM file: {e.Message}"));
             }
 
             Log.Verbose("Wim metadata deserialized correctly {@Metadata}", metadata);
 
-            return new XmlWindowsImageMetadata
+            return Either.Success<ErrorList, XmlWindowsImageMetadata>(new XmlWindowsImageMetadata
             {
                 Images = metadata.Images
                     .Where(x => x.Windows != null)
                     .Select(x => new DiskImageMetadata
-                {
-                    Architecture = GetArchitecture(x.Windows.Arch).Handle(list => MyArchitecture.Unknown),
-                    Build = x.Windows.Version.Build,
-                    DisplayName = x.Name,
-                    Index = int.Parse(x.Index)
-                }).ToList()
-            };
+                    {
+                        Architecture = GetArchitecture(x.Windows.Arch).Handle(list => MyArchitecture.Unknown),
+                        Build = x.Windows.Version.Build,
+                        DisplayName = x.Name,
+                        Index = int.Parse(x.Index)
+                    }).ToList()
+            });
         }
 
         private static Either<ErrorList, MyArchitecture> GetArchitecture(string str)
@@ -49,11 +49,11 @@ namespace Deployer.Core.Services.Wim
             switch (str)
             {
                 case "0":
-                    return MyArchitecture.X86;
+                    return Either.Success<ErrorList, MyArchitecture>(MyArchitecture.X86);
                 case "9":
-                    return MyArchitecture.X64;
+                    return Either.Success<ErrorList, MyArchitecture>(MyArchitecture.X64);
                 case "12":
-                    return MyArchitecture.Arm64;
+                    return Either.Success<ErrorList, MyArchitecture>(MyArchitecture.Arm64);
             }
 
             throw new IndexOutOfRangeException($"The architecture '{str}' is unknown");

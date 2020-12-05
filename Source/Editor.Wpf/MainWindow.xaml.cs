@@ -1,27 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Deployer.Core.Compiler;
-using Iridio.Binding;
-using Iridio.Common;
-using Iridio.Parsing;
-using Zafiro.Core;
-using Zafiro.Core.Files;
-using Zafiro.Core.FileSystem;
-using Zafiro.Wpf;
-using Zafiro.Wpf.Services;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Document;
+using ICSharpCode.AvalonEdit.Editing;
 
 namespace Editor.Wpf
 {
@@ -30,21 +13,81 @@ namespace Editor.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CompletionWindow completionWindow;
+
         public MainWindow()
         {
             InitializeComponent();
+            //completionWindow = new CompletionWindow(this.TextEditor.TextArea);
+            //this.TextEditor.TextArea.TextEntering += TextAreaOnTextEntering;
+            //this.TextEditor.TextArea.KeyDown += TextAreaOnKeyDown;
         }
 
-        protected override void OnInitialized(EventArgs e)
+        private void TextAreaOnKeyDown(object sender, KeyEventArgs e)
         {
-            //var fileSystemOperations = new FileSystemOperations();
-            //var preprocessor = new Preprocessor(fileSystemOperations);
-            //var deployerCompiler = new DeployerCompiler(preprocessor, new Parser(), new Binder(new BindingContext(new List<IFunction>())));
-            //Func<string, IZafiroFile> fileFactory = s => new DesktopZafiroFile(new Uri(s), fileSystemOperations,new Downloader(new HttpClient()));
-            //var openFilePicker = new OpenFilePicker(fileFactory, fileSystemOperations);
-            //DataContext = new MainViewModel(deployerCompiler, openFilePicker, new WpfDialogService());
+            //if (e.Key == Key.Space && Keyboard.IsKeyDown(Key.LeftCtrl))
+            //{
+            //    // Open code completion after the user has pressed dot:
+            //    completionWindow = new CompletionWindow(TextEditor.TextArea);
+            //    IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+            //    data.Add(new MyCompletionData("GitHub"));
+            //    data.Add(new MyCompletionData("Item2"));
+            //    data.Add(new MyCompletionData("Item3"));
+            //    completionWindow.Show();
+            //    completionWindow.Closed += delegate
+            //    {
+            //        completionWindow = null;
+            //    };
 
-            base.OnInitialized(e);
+            //    e.Handled = true;
+            //}
+        }
+
+        private void TextAreaOnTextEntering(object sender, TextCompositionEventArgs e)
+        {
+            //if (e.Text.Length > 0 && completionWindow != null)
+            //{
+            //    if (!char.IsLetterOrDigit(e.Text[0]))
+            //    {
+            //        // Whenever a non-letter is typed while the completion window is open,
+            //        // insert the currently selected element.
+            //        completionWindow.CompletionList.RequestInsertion(e);
+            //    }
+            //}
         }
     }
+
+    //public class MyCompletionData : ICompletionData
+    //{
+    //    public MyCompletionData(string text)
+    //    {
+    //        this.Text = text;
+    //    }
+
+    //    public System.Windows.Media.ImageSource Image
+    //    {
+    //        get { return null; }
+    //    }
+
+    //    public string Text { get; private set; }
+
+    //    // Use this property if you want to show a fancy UIElement in the list.
+    //    public object Content
+    //    {
+    //        get { return this.Text; }
+    //    }
+
+    //    public object Description
+    //    {
+    //        get { return "Description for " + this.Text; }
+    //    }
+
+    //    public double Priority => 1;
+
+    //    public void Complete(TextArea textArea, ISegment completionSegment,
+    //        EventArgs insertionRequestEventArgs)
+    //    {
+    //        textArea.Document.Replace(completionSegment, this.Text);
+    //    }
+    //}
 }

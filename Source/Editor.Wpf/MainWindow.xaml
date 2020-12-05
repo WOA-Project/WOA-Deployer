@@ -35,7 +35,7 @@
                                LineNumbersForeground="#B1B1B1"
                                FontFamily="Consolas"
                                FontSize="10pt"
-                               SyntaxHighlighting="C#">
+                               SyntaxHighlighting="C#" x:Name="TextEditor">
             <b:Interaction.Behaviors>
                 <wpf:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </b:Interaction.Behaviors>

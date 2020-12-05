@@ -21,7 +21,7 @@ namespace Deployer.Core.Requirements
             }
             catch (Exception e)
             {
-                return new ErrorList($"Error parsing requirements: {e}");
+                return Either.Error<ErrorList, IEnumerable<MissingRequirement>>(new ErrorList($"Error parsing requirements: {e}"));
             }
         }
     }

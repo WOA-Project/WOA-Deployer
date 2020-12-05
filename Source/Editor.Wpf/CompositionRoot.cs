@@ -19,7 +19,7 @@ using IntrospectionExtensions = System.Reflection.IntrospectionExtensions;
 
 namespace Editor.Wpf
 {
-    public class CompositionRoot
+    public static class CompositionRoot
     {
         public static DependencyInjectionContainer CreateContainer()
         {
@@ -31,10 +31,9 @@ namespace Editor.Wpf
                 c.Export<Parser>().As<IParser>().Lifestyle.Singleton();
                 c.Export<Binder>().As<IBinder>().Lifestyle.Singleton();
                 c.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
-                c.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
                 c.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();
                 c.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
-                c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, downloader) => new DesktopZafiroFile(new Uri(path), fo, downloader));
+                c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new DesktopZafiroFile(new Uri(path), fo, dl));
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
 
                 c.ConfigureMediator();

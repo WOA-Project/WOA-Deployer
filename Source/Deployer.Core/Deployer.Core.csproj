@@ -34,7 +34,7 @@
     <PackageReference Include="SharpCompress" Version="0.25.0" />
     <PackageReference Include="Superpower" Version="2.3.0" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
-    <PackageReference Include="Zafiro.Core" Version="2.3.41" />
+    <PackageReference Include="Zafiro.Core" Version="2.3.42" />
   </ItemGroup>
 
   <ItemGroup>
