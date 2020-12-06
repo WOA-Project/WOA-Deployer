@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Deployer.NetFx.Tests")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 
-[assembly: Guid("172f8752-7dbc-4b81-8b1f-0ce4ac63f8d2")]
+[assembly: Guid("4d00ce39-1964-4eb0-80c1-f25acb73cc71")]
 
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]

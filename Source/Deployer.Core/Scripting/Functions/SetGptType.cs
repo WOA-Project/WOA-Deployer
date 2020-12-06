@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions
@@ -17,7 +18,7 @@ namespace Deployer.Core.Scripting.Functions
         public async Task Execute(string partitionDescriptor, string gptTypeString)
         {
             var partition = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
-            await partition.DoAsync((p, ct) => p.SetGptType(GptType.FromString(gptTypeString)));
+            await partition.MatchSomeAsync(p => p.SetGptType(GptType.FromString(gptTypeString)));
         }
     }
 }

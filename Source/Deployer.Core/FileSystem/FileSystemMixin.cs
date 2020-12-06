@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using BuildingBlocks.Option;
 using ByteSizeLib;
 using Deployer.Core.Scripting.MicroParser;
+using Optional;
 using Serilog;
 
 namespace Deployer.Core.FileSystem
@@ -81,10 +81,10 @@ namespace Deployer.Core.FileSystem
 
             if (part != null)
             {
-                return new Some<IPartition>(part);
+                return part.Some();
             }
 
-            return new None<IPartition>();
+            return Option.None<IPartition>();
         }
     }
 }

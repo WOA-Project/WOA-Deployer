@@ -1,12 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using Deployer.Core.DevOpsBuildClient;
+using Deployer.Core.FileSystem;
+using Deployer.Core.Registrations;
+using Deployer.Core.Scripting;
+using Deployer.Core.Scripting.Core;
+using Deployer.Core.Services;
+using Grace.DependencyInjection;
 using Iridio.Binding;
 using Iridio.Common;
 using Iridio.Common.Utils;
 using Iridio.Parsing.Model;
+using Octokit;
+using Zafiro.Core;
+using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core
 {
@@ -64,5 +75,21 @@ namespace Deployer.Core
                 : method.ReturnType.GenericTypeArguments.FirstOrDefault()?.Name ?? "Unknown";
             return $"{returnType}\t{Name}{firm}";
         }
+
+
+        public static IEnumerable<Type> Types
+        {
+            get
+            {
+                var taskTypes = from a in new[] { typeof(IDeployerFunction).Assembly }
+                    from type in a.ExportedTypes
+                    where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
+                    where !type.IsAbstract
+                    select type;
+                return taskTypes;
+            }
+        }
+
+       
     }
 }

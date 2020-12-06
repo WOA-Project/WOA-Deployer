@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions.Partitions
@@ -18,7 +19,7 @@ namespace Deployer.Core.Scripting.Functions.Partitions
         public async Task Execute(string partitionDescriptor)
         {
             var part = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
-            await part.DoAsync((p, token) => p.RemoveDriveLetter());
+            await part.MatchSomeAsync(p => p.RemoveDriveLetter());
         }
     }
 }

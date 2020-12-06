@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
-using JetBrains.Annotations;
 using ReactiveUI;
 
 namespace Deployer.Core.Requirements
@@ -11,7 +10,7 @@ namespace Deployer.Core.Requirements
     {
         private readonly IEnumerable<IRequirementSolver> solvers;
 
-        public DependenciesModel2([NotNull] IEnumerable<IRequirementSolver> suppliers)
+        public DependenciesModel2(IEnumerable<IRequirementSolver> suppliers)
         {
             solvers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
 

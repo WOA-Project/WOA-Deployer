@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Grace.DependencyInjection;
 using Iridio.Binding;
 using Iridio.Common;
@@ -83,7 +81,7 @@ namespace Deployer.Core
                 c.Export<OperationProgress>().As<IOperationProgress>().Lifestyle.Singleton();
 
 
-                foreach (var taskType in TaskTypes)
+                foreach (var taskType in Function.Types)
                 {
                     c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
                         .As<IFunction>()
@@ -94,18 +92,7 @@ namespace Deployer.Core
             return container.Locate<BrandNewDeployer>();
         }
 
-        private static IEnumerable<Type> TaskTypes
-        {
-            get
-            {
-                var taskTypes = from a in new[] { typeof(IDeployerFunction).Assembly }
-                    from type in a.ExportedTypes
-                    where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
-                    where !type.IsAbstract
-                    select type;
-                return taskTypes;
-            }
-        }
+       
 
         private BrandNewDeployer ConfigureContainer()
         {

@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
+using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Scripting.Functions.Partitions
 {
@@ -18,13 +20,13 @@ namespace Deployer.Core.Scripting.Functions.Partitions
         public async Task<string> Execute(string partitionDescriptor)
         {
             var part = await fileSystem.TryGetPartitionFromDescriptor(partitionDescriptor);
-            var root = await part.MapAsync(async (p, ct) =>
+            var root = await part.MapAsync(async p =>
             {
                 await p.EnsureWritable();
                 return p.Root.Remove(p.Root.Length - 1);
             });
 
-            return root.Reduce("");
+            return root.ValueOr("");
         }
     }
 }
