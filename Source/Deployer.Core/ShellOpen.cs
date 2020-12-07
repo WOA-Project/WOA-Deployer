@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Deployer.Core
 {
-    class ShellOpen : IShellOpen
+    public class ShellOpen : IShellOpen
     {
         public Task Open(string filename)
         {

@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CompositionRoot.cs" />
     <Compile Include="Converters\MetadataConverter.cs" />
     <Compile Include="MyBooleanToVisibilityConverter.cs" />
     <Compile Include="MyNullToBoolConverter.cs" />
@@ -75,7 +76,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Registrations\RequirementSolvers.cs" />
     <Compile Include="Services\DeployerFileOpenService.cs" />
     <Compile Include="ViewModels\RequirementSolvers\DiskRequirementSolver.cs" />
     <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
@@ -103,7 +103,6 @@
     <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Registrations\GuiServices.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />

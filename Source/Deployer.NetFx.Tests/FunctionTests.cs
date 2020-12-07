@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.Console;
 using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
 using Grace.DependencyInjection;
@@ -10,15 +9,17 @@ using Grace.DependencyInjection;
 namespace Deployer.NetFx.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class FunctionTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Dependencies_are_fulfilled()
         {
             var container = new DependencyInjectionContainer();
             container.Configure(block =>
             {
-                Functions.Configure(block, () => new TestMarkdownService());
+                FunctionDependencies.Configure(block);
+                block.Export<FileSystem>().As<IFileSystem>();
+                block.Export<TestMarkdownService>().As<IMarkdownService>();
             });
             
             foreach (var type in Function.Types)

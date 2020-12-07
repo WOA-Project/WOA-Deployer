@@ -1,23 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
-using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.FileSystem;
-using Deployer.Core.Registrations;
-using Deployer.Core.Scripting;
 using Deployer.Core.Scripting.Core;
-using Deployer.Core.Services;
-using Grace.DependencyInjection;
 using Iridio.Binding;
 using Iridio.Common;
 using Iridio.Common.Utils;
 using Iridio.Parsing.Model;
-using Octokit;
-using Zafiro.Core;
-using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core
 {
@@ -89,7 +80,5 @@ namespace Deployer.Core
                 return taskTypes;
             }
         }
-
-       
     }
 }

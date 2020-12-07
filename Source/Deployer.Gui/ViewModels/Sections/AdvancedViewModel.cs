@@ -2,6 +2,7 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Deployer.Core;
 using Deployer.Core.Deployers;
 using Deployer.Core.Interaction;
 using Deployer.Gui.Services;
@@ -18,12 +19,12 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 2)]
     public class AdvancedViewModel : ReactiveObject, ISection
     {
-        private readonly BrandNewDeployer deployer;
+        private readonly WoaDeployer deployer;
         private readonly IDialogService dialogService;
         private readonly DeployerFileOpenService fileOpenService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
 
-        public AdvancedViewModel(BrandNewDeployer deployer, IDialogService dialogService,
+        public AdvancedViewModel(WoaDeployer deployer, IDialogService dialogService,
             OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;

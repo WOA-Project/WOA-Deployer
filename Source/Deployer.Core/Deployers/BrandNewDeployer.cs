@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
@@ -6,36 +8,45 @@ using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
 using Iridio.Common;
 using Iridio.Runtime;
+using Zafiro.Core.FileSystem;
 using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Deployers
 {
     public class BrandNewDeployer : BrandNewDeployerBase
     {
+        private readonly IFileSystemOperations fso;
         private readonly IScriptRunner scriptRunner;
         private readonly IRequirementsManager reqsManager;
         public IDeployerCompiler Compiler { get; }
 
-        public BrandNewDeployer(IDeployerCompiler compiler, IScriptRunner scriptRunner, IRequirementsManager reqsManager)
+        public BrandNewDeployer(IDeployerCompiler compiler, IFileSystemOperations fso, IScriptRunner scriptRunner, IRequirementsManager reqsManager)
         {
+            this.fso = fso;
             this.scriptRunner = scriptRunner;
             this.reqsManager = reqsManager;
             Compiler = compiler;
+            Messages = scriptRunner.Messages;
         }
+
+        public IObservable<string> Messages { get; }
 
         public async Task<Either<DeployError, Success>> Run(string path)
         {
-            var satisfyResult = await reqsManager.Satisfy(path);
-            var mapLeft = await satisfyResult
-                .MapLeft(error => (DeployError)new RequirementsError(error))
-                .MapRight(toInject => Compile(path, toInject).MapLeft(errors => (DeployError) new CompileError(errors)))
-                .MapRight(async c =>
-                {
-                    var task = await scriptRunner.Run(c, new Dictionary<string, object>());
-                    return task.MapLeft(errors => (DeployError) new ExecutionError(errors));
-                })
-                .RightTask();
-            return mapLeft;
+            using (new DirectorySwitch(fso, Path.GetDirectoryName(path)))
+            {
+                var satisfyResult = await reqsManager.Satisfy(path);
+                var mapLeft = await satisfyResult
+                    .MapLeft(error => (DeployError)new RequirementsError(error))
+                    .MapRight(toInject => Compile(path, toInject).MapLeft(errors => (DeployError) new CompileError(errors)))
+                    .MapRight(async c =>
+                    {
+                        var task = await scriptRunner.Run(c, new Dictionary<string, object>());
+                        return task.MapLeft(errors => (DeployError) new ExecutionError(errors));
+                    })
+                    .RightTask();
+                return mapLeft;
+            }
         }
 
         private Either<Errors, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)

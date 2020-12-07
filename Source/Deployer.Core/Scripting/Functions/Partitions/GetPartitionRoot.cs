@@ -3,7 +3,6 @@ using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
 using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
-using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Scripting.Functions.Partitions
 {
