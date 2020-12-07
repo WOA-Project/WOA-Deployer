@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.FileSystem;
-using Deployer.Core.FileSystem.Gpt;
 using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
+using Deployer.Filesystem.Gpt;
 using Serilog;
 using Zafiro.Core.FileSystem;
 

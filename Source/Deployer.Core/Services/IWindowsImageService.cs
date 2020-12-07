@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 using Zafiro.Core;
 
 namespace Deployer.Core.Services

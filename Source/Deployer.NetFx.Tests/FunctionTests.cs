@@ -2,8 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
+using Deployer.Filesystem;
 using Grace.DependencyInjection;
 
 namespace Deployer.NetFx.Tests

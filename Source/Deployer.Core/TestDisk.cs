@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Functions.Partitions;
+using Deployer.Filesystem;
 
 namespace Deployer.Core
 {

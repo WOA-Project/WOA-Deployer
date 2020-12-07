@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
 using Iridio.Binding;
 using Iridio.Common;

@@ -7,8 +7,8 @@ using System.Management.Automation;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Functions.Partitions;
+using Deployer.Filesystem;
 using Serilog;
 
 namespace Deployer.NetFx
@@ -106,7 +106,7 @@ namespace Deployer.NetFx
 
         private async Task<IEnumerable<PartitionData>> GetGptPartitions()
         {
-            ReadOnlyCollection<Core.FileSystem.Gpt.Partition> gptPartitions;
+            ReadOnlyCollection<Filesystem.Gpt.Partition> gptPartitions;
             using (var context = await GptContextFactory.Create(Number, FileAccess.Read))
             {
                 gptPartitions = context.Partitions;

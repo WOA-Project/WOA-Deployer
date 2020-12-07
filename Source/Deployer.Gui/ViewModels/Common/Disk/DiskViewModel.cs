@@ -1,5 +1,5 @@
 ﻿using ByteSizeLib;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 
 namespace Deployer.Gui.ViewModels.Common.Disk
 {

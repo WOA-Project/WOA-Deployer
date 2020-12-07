@@ -1,5 +1,5 @@
-﻿using Deployer.Core.FileSystem;
-using Deployer.Core.Scripting.Core;
+﻿using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
 
 namespace Deployer.Gui.ViewModels.Common.Disk
 {

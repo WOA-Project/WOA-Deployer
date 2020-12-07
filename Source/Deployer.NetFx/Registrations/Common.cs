@@ -1,5 +1,5 @@
-using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
+using Deployer.Filesystem;
 using Grace.DependencyInjection;
 
 namespace Deployer.NetFx.Registrations

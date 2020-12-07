@@ -1,6 +1,5 @@
 ﻿using System;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Interaction;
 using Deployer.Core.Registrations;
 using Deployer.Core.Requirements;
@@ -10,6 +9,7 @@ using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
 using Deployer.Gui.ViewModels.RequirementSolvers;
 using Deployer.NetFx;
+using DiscUtils;
 using Grace.DependencyInjection;
 using Serilog.Events;
 using Zafiro.Core;
@@ -19,6 +19,7 @@ using Zafiro.Core.UI;
 using Zafiro.Core.UI.Interaction;
 using Zafiro.Wpf;
 using Zafiro.Wpf.Services;
+using IFileSystem = Deployer.Filesystem.IFileSystem;
 using Requirements = Deployer.Core.Registrations.Requirements;
 
 namespace Deployer.Gui

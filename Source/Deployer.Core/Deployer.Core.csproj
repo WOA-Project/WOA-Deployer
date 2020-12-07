@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
@@ -59,6 +60,7 @@
   <ItemGroup>
     <Folder Include="Core\Tools\Etcher-Cli\x64\" />
     <Folder Include="Core\Tools\Etcher-Cli\x86\" />
+    <Folder Include="FileSystem\" />
   </ItemGroup>
 
 </Project>

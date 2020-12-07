@@ -4,8 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
 
 namespace Deployer.Lumia
 {

@@ -6,9 +6,9 @@ using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Services;
 using Deployer.Core.Utils;
+using Deployer.Filesystem;
 using Serilog;
 using Zafiro.Core;
 

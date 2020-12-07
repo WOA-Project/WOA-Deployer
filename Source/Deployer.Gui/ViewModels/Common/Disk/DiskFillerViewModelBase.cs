@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 using ReactiveUI;
 
 namespace Deployer.Gui.ViewModels.Common.Disk

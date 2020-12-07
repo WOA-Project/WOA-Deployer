@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Console;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
+using Deployer.Filesystem;
 using Deployer.NetFx;
 using Zafiro.Core.Patterns.Either;
 

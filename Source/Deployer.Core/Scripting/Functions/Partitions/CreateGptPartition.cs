@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions.Partitions

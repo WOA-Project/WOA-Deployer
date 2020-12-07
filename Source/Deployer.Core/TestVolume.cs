@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 
 namespace Deployer.Core
 {

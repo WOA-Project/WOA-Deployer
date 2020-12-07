@@ -2,7 +2,7 @@
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
-using Deployer.Core.FileSystem.Gpt;
+using Deployer.Filesystem.Gpt;
 
 namespace Deployer.Core
 {

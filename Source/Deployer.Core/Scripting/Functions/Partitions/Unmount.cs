@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
 using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 

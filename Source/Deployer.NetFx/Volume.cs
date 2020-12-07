@@ -4,7 +4,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 
 namespace Deployer.NetFx
 {

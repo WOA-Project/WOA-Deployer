@@ -4,8 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
-using Deployer.Core.FileSystem;
-using Deployer.Core.FileSystem.Gpt;
+using Deployer.Filesystem;
 using Serilog;
 
 namespace Deployer.NetFx

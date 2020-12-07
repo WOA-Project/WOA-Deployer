@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Management.Automation;
 using System.Threading.Tasks;
-using Deployer.Core.FileSystem;
+using Deployer.Filesystem;
 
 
 namespace Deployer.NetFx
 {
     public static class PartitionMixin
     {
-        public static Partition AsCommon(this Core.FileSystem.Gpt.Partition self, IDisk disk)
+        public static Partition AsCommon(this Filesystem.Gpt.Partition self, IDisk disk)
         {
             if (self == null)
             {

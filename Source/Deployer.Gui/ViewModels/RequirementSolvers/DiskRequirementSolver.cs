@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Requirements;
+using Deployer.Filesystem;
 using Deployer.Gui.ViewModels.Common.Disk;
 using ReactiveUI;
+using IFileSystem = Deployer.Filesystem.IFileSystem;
 
 namespace Deployer.Gui.ViewModels.RequirementSolvers
 {

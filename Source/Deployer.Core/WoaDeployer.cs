@@ -1,6 +1,5 @@
 ﻿using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
-using Deployer.Core.FileSystem;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
 using Grace.DependencyInjection;

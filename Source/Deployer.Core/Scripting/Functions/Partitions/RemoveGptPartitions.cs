@@ -1,8 +1,8 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Deployer.Core.FileSystem;
-using Deployer.Core.FileSystem.Gpt;
 using Deployer.Core.Scripting.Core;
+using Deployer.Filesystem;
+using Deployer.Filesystem.Gpt;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.Scripting.Functions.Partitions

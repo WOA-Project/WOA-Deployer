@@ -55,6 +55,10 @@
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj">
+      <Project>{A968B50B-F12E-4557-9631-78E855605385}</Project>
+      <Name>Deployer.Filesystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj">
       <Project>{CCFD0C3E-EE16-4B41-A77D-250C7017E8B5}</Project>
       <Name>RunProcessAsTask</Name>

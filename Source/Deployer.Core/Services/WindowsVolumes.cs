@@ -1,4 +1,4 @@
-﻿using Deployer.Core.FileSystem;
+﻿using Deployer.Filesystem;
 
 namespace Deployer.Core.Services
 {
