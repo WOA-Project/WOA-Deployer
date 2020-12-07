@@ -10,8 +10,6 @@
   <ItemGroup>
     <Compile Remove="Deployer.cs" />
     <Compile Remove="DeviceDeployer.cs" />
-    <Compile Remove="FileSystem\CachingLowLevelApi.cs" />
-    <Compile Remove="FileSystem\ILowLevelApi.cs" />
     <Compile Remove="ScriptDeployer.cs" />
     <Compile Remove="Scripting\ConfigureBCD.cs" />
     <Compile Remove="Scripting\InstallDevMenu.cs" />
@@ -43,24 +41,6 @@
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Core\**\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Core\Bootstrap.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Core\Tools\Etcher-Cli\x64\" />
-    <Folder Include="Core\Tools\Etcher-Cli\x86\" />
-    <Folder Include="FileSystem\" />
   </ItemGroup>
 
 </Project>

@@ -128,6 +128,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
+      <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
+      <Name>Deployer.BinaryBundle</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
