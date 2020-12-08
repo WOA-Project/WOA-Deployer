@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iridio", "Iridio\Source\Iri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iridio.Runtime", "Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj", "{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{1D990D8A-EA26-474D-B167-3A92461A5A77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Cli", "ConsoleApp1\Deployer.Cli.csproj", "{1D990D8A-EA26-474D-B167-3A92461A5A77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.NetFx.Tests", "Deployer.NetFx.Tests\Deployer.NetFx.Tests.csproj", "{4D00CE39-1964-4EB0-80C1-F25ACB73CC71}"
 EndProject
@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Filesystem", "Depl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.Filesystem.Gpt", "Deployer.Filesystem.Gpt\Deployer.Filesystem.Gpt.csproj", "{6DB66862-A8F0-4A7A-8E84-A8030858C2BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.BinaryBundle", "Deployer.BinaryBundle\Deployer.BinaryBundle.csproj", "{82B5B652-01F8-4A8F-B761-DED87B0E6A7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deployer.BinaryBundle", "Deployer.BinaryBundle\Deployer.BinaryBundle.csproj", "{82B5B652-01F8-4A8F-B761-DED87B0E6A7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

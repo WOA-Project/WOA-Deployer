@@ -22,7 +22,7 @@ namespace ConsoleApp1
 
         public Task Show(string markdown)
         {
-            Console.WriteLine($"[TODO] Display Markdown from content");
+            Console.WriteLine(markdown);
             return Task.CompletedTask;
         }
     }

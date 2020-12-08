@@ -7,7 +7,6 @@ using System.Management.Automation;
 using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
-using Deployer.Core.Scripting.Functions.Partitions;
 using Deployer.Filesystem;
 using Serilog;
 

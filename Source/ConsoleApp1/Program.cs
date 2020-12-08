@@ -28,7 +28,7 @@ namespace ConsoleApp1
             {
                 using (new ConsoleProgressUpdater(deployer.OperationProgress))
                 {
-                    var result = await deployer.Run("D:\\Repos\\WOA-Project\\Deployment-Feed\\Devices\\Lumia\\950s\\Cityman\\Main.txt");
+                    var result = await deployer.Run("C:\\Users\\SuperJMN\\Desktop\\Test.txt");
                     Console.WriteLine(result
                         .MapRight(s => "Success!")
                         .Handle(x => $"Failed with errors: {x}"));

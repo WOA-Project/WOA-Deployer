@@ -53,7 +53,7 @@ namespace Editor.Wpf
         {
             get
             {
-                var taskTypes = from a in new[] { typeof(IDeployerFunction).Assembly }
+                var taskTypes = from a in new[] { typeof(IAnchor).Assembly }
                     from type in a.ExportedTypes
                     where IntrospectionExtensions.GetTypeInfo(type).ImplementedInterfaces.Contains(typeof(IDeployerFunction))
                     where !type.IsAbstract 

@@ -4,6 +4,7 @@ using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Registrations;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
+using Deployer.Core.Services.Wim;
 using Deployer.NetFx;
 using Grace.DependencyInjection;
 using Octokit;
@@ -30,6 +31,7 @@ namespace Deployer.Core
             block.ExportFactory((string store) => new BcdInvoker(store)).As<IBcdInvoker>();
             block.Export<ImageFlasher>().As<IImageFlasher>().Lifestyle.Singleton();
             block.Export<DismImageService>().As<IWindowsImageService>().Lifestyle.Singleton();
+            block.Export<WindowsImageMetadataReader>().As<IWindowsImageMetadataReader>().Lifestyle.Singleton();
         }
 
         private static XmlDeviceRepository XmlDeviceRepository(IDownloader downloader)
