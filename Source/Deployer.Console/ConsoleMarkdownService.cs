@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Services;
 
-namespace ConsoleApp1
+namespace Deployer.Console
 {
     internal class ConsoleMarkdownService : IMarkdownService
     {
@@ -16,13 +15,13 @@ namespace ConsoleApp1
 
         public async Task FromFile(string path)
         {
-            Console.WriteLine($"Display Markdown from {path}");
+            System.Console.WriteLine($"Display Markdown from {path}");
             await shellOpen.Open(path);
         }
 
         public Task Show(string markdown)
         {
-            Console.WriteLine(markdown);
+            System.Console.WriteLine(markdown);
             return Task.CompletedTask;
         }
     }

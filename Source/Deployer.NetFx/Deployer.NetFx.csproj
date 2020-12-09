@@ -49,6 +49,7 @@
     <Compile Include="Registrations\Common.cs" />
     <Compile Include="Volume.cs" />
     <Compile Include="WmiPartition.cs" />
+    <Compile Include="WoaDeployerBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
@@ -58,6 +59,14 @@
     <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj">
       <Project>{A968B50B-F12E-4557-9631-78E855605385}</Project>
       <Name>Deployer.Filesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
+      <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
+      <Name>Iridio.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj">
+      <Project>{E91DEC9F-6569-431A-B7AA-BCF9BA27EFE5}</Project>
+      <Name>Iridio</Name>
     </ProjectReference>
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj">
       <Project>{CCFD0C3E-EE16-4B41-A77D-250C7017E8B5}</Project>

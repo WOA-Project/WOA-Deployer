@@ -76,7 +76,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="Services\DeployerFileOpenService.cs" />
+    <Compile Include="Services\MarkdownService.cs" />
     <Compile Include="ViewModels\RequirementSolvers\DiskRequirementSolver.cs" />
     <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
     <Compile Include="ViewModels\Common\Commands.cs" />
@@ -87,13 +89,14 @@
     <Compile Include="ViewModels\Sections\MainViewModel.cs" />
     <Compile Include="ViewModels\Sections\MainViewModelBase.cs" />
     <Compile Include="ObservableExtensions.cs" />
-    <Compile Include="Services\MarkdownService.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Disk\SdCardFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\OperationProgressViewModel.cs" />
-    <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
     <Compile Include="ViewModels\Common\Requirements.cs" />
+    <Compile Include="Views\DiskSelectionPart.xaml.cs">
+      <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Parts\Advanced.xaml.cs">
       <DependentUpon>Advanced.xaml</DependentUpon>
     </Compile>
@@ -103,13 +106,9 @@
     <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />
     <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
-    <Compile Include="Views\DiskSelectionPart.xaml.cs">
-      <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ProgressControl.xaml.cs">
       <DependentUpon>ProgressControl.xaml</DependentUpon>
     </Compile>
@@ -119,6 +118,10 @@
     <Compile Include="Views\WimOptionsPart.xaml.cs">
       <DependentUpon>WimOptionsPart.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\DiskSelectionPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Parts\Advanced.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -145,10 +148,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\DiskSelectionPart.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\ProgressControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -221,6 +220,10 @@
     <ProjectReference Include="..\Deployer.NetFx\Deployer.NetFx.csproj">
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.NetFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deployer.Wpf\Deployer.Wpf.csproj">
+      <Project>{5ee0cd99-0553-480f-bb4a-a9bf2cdac4fa}</Project>
+      <Name>Deployer.Wpf</Name>
     </ProjectReference>
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
       <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>

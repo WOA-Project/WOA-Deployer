@@ -1,14 +1,14 @@
-﻿<Window x:Class="Editor.Wpf.MainWindow"
+﻿<Window x:Class="Deployer.Ide.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:wpf="clr-namespace:Editor.Wpf"
         xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:ide="clr-namespace:Deployer.Ide"
         mc:Ignorable="d"
-        Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance wpf:MainViewModel}"
+        Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance fixed:MainViewModel}"
         DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
     <Grid >
         <Grid.RowDefinitions>
@@ -42,7 +42,7 @@
                                FontSize="10pt"
                                SyntaxHighlighting="C#" x:Name="TextEditor">
             <b:Interaction.Behaviors>
-                <wpf:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <ide:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </b:Interaction.Behaviors>
         </avalonedit:TextEditor>
         <HeaderedContentControl Header="Messages" Grid.Row="3">

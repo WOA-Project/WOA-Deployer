@@ -20,9 +20,8 @@ using Zafiro.Wpf;
 using Zafiro.Wpf.Services;
 using IntrospectionExtensions = System.Reflection.IntrospectionExtensions;
 using MarkdownService = Deployer.Wpf.MarkdownService;
-using Parser = Iridio.Parsing.Parser;
 
-namespace Editor.Wpf
+namespace Deployer.Ide
 {
     public static class CompositionRoot
     {

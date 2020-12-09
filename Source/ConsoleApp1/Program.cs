@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Deployer.Console;
 using Deployer.Core;
 using Deployer.Core.Console;
 using Deployer.Core.Requirements;
@@ -15,20 +16,13 @@ namespace ConsoleApp1
     {
         static async Task Main(string[] args)
         {
-            var deployer = new WoaDeployer(block =>
-            {
-                block.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
-                block.ExportFactory(() => new ConsoleRequirementsManager()).As<IRequirementsManager>();
-                block.Export<FileSystem>().As<IFileSystem>();
-                block.Export<ConsoleMarkdownService>().As<IMarkdownService>();
-                block.Export<ShellOpen>().As<IShellOpen>().Lifestyle.Singleton();
-            });
+            var deployer = new WoaDeployerConsole();
 
             using (deployer.Messages.Subscribe(Console.WriteLine))
             {
                 using (new ConsoleProgressUpdater(deployer.OperationProgress))
                 {
-                    var result = await deployer.Run("C:\\Users\\SuperJMN\\Desktop\\Test.txt");
+                    var result = await deployer.Run("D:\\Repos\\WOA-Project\\Deployment-Feed\\Devices\\Lumia\\950s\\Cityman\\Main.txt");
                     Console.WriteLine(result
                         .MapRight(s => "Success!")
                         .Handle(x => $"Failed with errors: {x}"));

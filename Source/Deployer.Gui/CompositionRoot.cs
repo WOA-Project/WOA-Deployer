@@ -9,6 +9,7 @@ using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
 using Deployer.Gui.ViewModels.RequirementSolvers;
 using Deployer.NetFx;
+using Deployer.Wpf;
 using DiscUtils;
 using Grace.DependencyInjection;
 using Serilog.Events;
@@ -19,8 +20,12 @@ using Zafiro.Core.UI;
 using Zafiro.Core.UI.Interaction;
 using Zafiro.Wpf;
 using Zafiro.Wpf.Services;
+using Commands = Deployer.Wpf.Commands;
+using DeployerFileOpenService = Deployer.Wpf.DeployerFileOpenService;
+using DiskRequirementSolver = Deployer.Wpf.DiskRequirementSolver;
 using IFileSystem = Deployer.Filesystem.IFileSystem;
 using Requirements = Deployer.Core.Registrations.Requirements;
+using WimPickRequirementSolver = Deployer.Wpf.WimPickRequirementSolver;
 
 namespace Deployer.Gui
 {
@@ -46,7 +51,7 @@ namespace Deployer.Gui
                 block.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();
                 block.ExportFactory<Uri, IFileSystemOperations, IZafiroFile>((uri, f) => new DesktopZafiroFile(uri, f, null));
                 block.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
-                block.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
+                block.Export<WpfMarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
                 var simpleInteraction = new SimpleInteraction();
                 simpleInteraction.Register("Requirements", typeof(Requirements));
                 block.ExportInstance(simpleInteraction).As<ISimpleInteraction>();

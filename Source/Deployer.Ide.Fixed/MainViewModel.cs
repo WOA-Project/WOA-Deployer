@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
 using Deployer.Core.Requirements;
@@ -17,30 +16,35 @@ using MediatR;
 using ReactiveUI;
 using Zafiro.Core;
 using Zafiro.Core.Files;
-using Zafiro.Core.Mixins;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
 using Unit = System.Reactive.Unit;
 
-namespace Editor.Wpf
+namespace Deployer.Ide
 {
     public class MainViewModel : ReactiveObject
     {
         private readonly ObservableAsPropertyHelper<ValidationResult> validate;
+        private readonly ObservableAsPropertyHelper<IZafiroFile> file;
+        private readonly ObservableAsPropertyHelper<string> fileSource;
 
-        public MainViewModel(WoaDeployerBase deployer, IDeployerCompiler compiler, IOpenFilePicker picker, IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
+        private string sourceCode;
+        private IDisposable subscription;
+
+        public MainViewModel(WoaDeployerBase deployer, IDeployerCompiler compiler, IOpenFilePicker picker,
+            IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
         {
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
-                picker.Picks(new[] { new FileTypeFilter("Text files", "*.txt") }, () => null,
+                picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
                     s => { }));
 
             file = OpenFile
                 .SubscribeOnDispatcher()
                 .ToProperty(this, model => model.File);
             var openFileLoader = OpenFile
-                .SelectMany(async z =>
+                .SelectMany(async file =>
                 {
-                    await using var openForRead = await z.OpenForRead();
+                    using var openForRead = await file.OpenForRead();
                     using var stream = new StreamReader(openForRead);
                     var readToEndAsync = await stream.ReadToEndAsync();
                     return readToEndAsync;
@@ -52,7 +56,8 @@ namespace Editor.Wpf
 
             Compile = ReactiveCommand.CreateFromTask(async () =>
             {
-                var compile = compiler.Compile(File.Source.OriginalString, await SatisfyRequirements(requirementsAnalyzer, mediator));
+                var compile = compiler.Compile(File.Source.OriginalString,
+                    await SatisfyRequirements(requirementsAnalyzer, mediator));
                 return compile;
             }, hasFile);
             validate = Compile
@@ -70,26 +75,44 @@ namespace Editor.Wpf
             SaveAndCompile = Save;
             subscription = SaveAndCompile.InvokeCommand(Compile);
 
-            Run = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString));
+            Run = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString), hasFile);
+            Run.ThrownExceptions.Subscribe(exception => { });
         }
 
         public ReactiveCommand<Unit, Either<DeployError, Success>> Run { get; }
 
-        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
+        public ReactiveCommand<Unit, Unit> SaveAndCompile { get; }
+
+
+        public ReactiveCommand<Unit, Unit> Save { get; }
+
+
+        public string FileSource => fileSource.Value;
+
+        public IZafiroFile File => file.Value;
+
+        public ReactiveCommand<Unit, IZafiroFile> OpenFile { get; }
+
+        public ValidationResult ValidationResult => validate.Value;
+
+        public ReactiveCommand<Unit, Either<Errors, Script>> Compile { get; }
+
+        public string SourceCode
+        {
+            get => sourceCode;
+            set => this.RaiseAndSetIfChanged(ref sourceCode, value);
+        }
+
+        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer,
+            ISender mediator)
         {
             var requirements = requirementsAnalyzer.GetRequirements(await File.ReadToEnd());
             var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
             var responses = await missing.Select<MissingRequirement, RequirementRequest>(r =>
             {
-                if (r.Kind == RequirementKind.WimFile)
-                {
-                    return new WimFileRequest() {Index = 0, Path = "", Key = r.Key};
-                }
+                if (r.Kind == RequirementKind.WimFile) return new WimFileRequest {Index = 0, Path = "", Key = r.Key};
 
-                if (r.Kind == RequirementKind.Disk)
-                {
-                    return new DiskRequest() {Index = 0, Key = r.Key};
-                }
+                if (r.Kind == RequirementKind.Disk) return new DiskRequest {Index = 0, Key = r.Key};
 
                 throw new ArgumentOutOfRangeException();
             }).AsyncSelect(async re =>
@@ -117,35 +140,6 @@ namespace Editor.Wpf
         private IEnumerable<Assignment> TurnIntoAssignments(RequirementResponse responses)
         {
             return responses.Select(r => new Assignment(r.Key, "#placeholder#"));
-        }
-
-        public ReactiveCommand<Unit, Unit> SaveAndCompile { get; set; }
-
-
-        public ReactiveCommand<Unit, Unit> Save { get; set; }
-
-
-        public string FileSource => fileSource.Value;
-
-        public IZafiroFile File => file.Value;
-
-        public ReactiveCommand<Unit, IZafiroFile> OpenFile { get; set; }
-
-        public ValidationResult ValidationResult => validate.Value;
-
-        public ReactiveCommand<Unit, Either<Errors, Script>> Compile { get; }
-
-        public string Path { get; set; }
-
-        private string sourceCode;
-        private ObservableAsPropertyHelper<IZafiroFile> file;
-        private ObservableAsPropertyHelper<string> fileSource;
-        private IDisposable subscription;
-
-        public string SourceCode
-        {
-            get => sourceCode;
-            set => this.RaiseAndSetIfChanged(ref sourceCode, value);
         }
     }
 }
