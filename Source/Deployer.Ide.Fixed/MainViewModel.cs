@@ -64,11 +64,8 @@ namespace Deployer.Ide
                 var compile = await compiler.Compile(File.Source.OriginalString);
                 return compile;
             }, hasFile);
-            validate = Compile
-                .Select(e => e
-                    .MapRight(unit => new ValidationResult(unit))
-                    .Handle(errors => new ValidationResult(errors)))
-                .ToProperty(this, model => model.ValidationResult);
+
+         
 
             openFileLoader
                 .ObserveOnDispatcher()
@@ -79,10 +76,27 @@ namespace Deployer.Ide
             SaveAndCompile = Save;
             SaveAndCompile.InvokeCommand(Compile).DisposeWith(disposables);
 
-            Run = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString), hasFile);
+            Run = ReactiveCommand.CreateFromTask(async () =>
+            {
+                var task = await deployer.Run(File.Source.OriginalString);
+                return task;
+            }, hasFile);
 
             SaveAndRun = Save;
             SaveAndRun.InvokeCommand(Run).DisposeWith(disposables);
+
+            var runValidations = Run.Select(e => e
+                .MapRight(unit => new ValidationResult(unit))
+                .Handle(errors => new ValidationResult(errors)));
+
+            var compileValidations = Compile
+                .Select(e => e
+                    .MapRight(unit => new ValidationResult(unit))
+                    .Handle(errors => new ValidationResult(errors)));
+
+            validate = compileValidations
+                .Merge(runValidations)
+                .ToProperty(this, model => model.ValidationResult);
         }
 
         public ReactiveCommand<Unit, Unit> SaveAndRun { get; set; }

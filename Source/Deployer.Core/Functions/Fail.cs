@@ -14,7 +14,7 @@ namespace Deployer.Functions
 
         public Task Execute(string reason)
         {
-            throw new ApplicationException($"Script interrupted: {reason}");
+            throw new TaskCanceledException($"Script interrupted: {reason}");
         }
     }
 }
