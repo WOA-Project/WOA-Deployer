@@ -39,6 +39,7 @@ namespace Deployer.Ide
             var container = new DependencyInjectionContainer();
             container.Configure(c =>
             {
+                c.Export<IdeDeployerCompiler>().As<IIdeDeployerCompiler>().Lifestyle.Singleton();
                 c.Export<FileSystemOperations>().As<IFileSystemOperations>().Lifestyle.Singleton();
                 c.Export<Preprocessor>().As<IPreprocessor>().Lifestyle.Singleton();
                 c.Export<Parser>().As<IParser>().Lifestyle.Singleton();

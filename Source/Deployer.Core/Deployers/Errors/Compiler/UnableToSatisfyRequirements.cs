@@ -1,12 +1,12 @@
 using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.Core.Deployers
+namespace Deployer.Core.Deployers.Errors.Compiler
 {
-    class RequirementsError : DeployError
+    public class UnableToSatisfyRequirements : DeployerCompilerError
     {
         public ErrorList Errors { get; }
 
-        public RequirementsError(ErrorList errors)
+        public UnableToSatisfyRequirements(ErrorList errors)
         {
             Errors = errors;
         }

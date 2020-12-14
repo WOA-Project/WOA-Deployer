@@ -9,6 +9,8 @@ using Iridio.Parsing;
 using Iridio.Runtime;
 using System;
 using System.Threading.Tasks;
+using Deployer.Core.Deployers.Errors;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
@@ -65,7 +67,7 @@ namespace Deployer.Core
         public IOperationContext OperationContext => operationContext;
         public IObservable<string> Messages => deployer.Messages;
 
-        public Task<Either<DeployError, Success>> Run(string s)
+        public Task<Either<DeployerError, Success>> Run(string s)
         {
             return deployer.Run(s);
         }

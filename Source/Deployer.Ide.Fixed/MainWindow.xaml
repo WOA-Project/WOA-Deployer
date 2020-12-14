@@ -29,7 +29,7 @@
                     <iconPacks:PackIconFeatherIcons Kind="Layers" />
                 </Button.Content>
             </Button>
-            <Button Command="{Binding Run}">
+            <Button Command="{Binding SaveAndRun}">
                 <Button.Content>
                     <iconPacks:PackIconFeatherIcons Kind="Play" />
                 </Button.Content>

@@ -1,15 +1,19 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
+using Deployer.Core.Deployers.Errors;
+using Deployer.Core.Deployers.Errors.Compiler;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Net4x;
-using Deployer.NetFx;
 using Iridio.Binding.Model;
 using Iridio.Common;
 using Iridio.Runtime;
@@ -18,23 +22,22 @@ using ReactiveUI;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI;
 using Zafiro.UI;
+using Error = Iridio.Common.Error;
 using Unit = System.Reactive.Unit;
 
 namespace Deployer.Ide
 {
     public class MainViewModel : ReactiveObject
     {
-        private readonly ObservableAsPropertyHelper<ValidationResult> validate;
         private readonly ObservableAsPropertyHelper<IZafiroFile> file;
         private readonly ObservableAsPropertyHelper<string> fileSource;
+        private readonly ObservableAsPropertyHelper<ValidationResult> validate;
 
         private string sourceCode;
-        private IDisposable subscription;
+        private CompositeDisposable disposables = new CompositeDisposable();
 
-        public MainViewModel(WoaDeployerBase deployer, IDeployerCompiler compiler, IOpenFilePicker picker,
-            IRequirementsAnalyzer requirementsAnalyzer, ISender mediator)
+        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker)
         {
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
@@ -58,8 +61,7 @@ namespace Deployer.Ide
 
             Compile = ReactiveCommand.CreateFromTask(async () =>
             {
-                var compile = compiler.Compile(File.Source.OriginalString,
-                    await SatisfyRequirements(requirementsAnalyzer, mediator));
+                var compile = await compiler.Compile(File.Source.OriginalString);
                 return compile;
             }, hasFile);
             validate = Compile
@@ -75,13 +77,17 @@ namespace Deployer.Ide
             fileSource = openFileLoader.ToProperty(this, model => model.FileSource);
 
             SaveAndCompile = Save;
-            subscription = SaveAndCompile.InvokeCommand(Compile);
+            SaveAndCompile.InvokeCommand(Compile).DisposeWith(disposables);
 
             Run = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString), hasFile);
-            Run.ThrownExceptions.Subscribe(exception => { });
+
+            SaveAndRun = Save;
+            SaveAndRun.InvokeCommand(Run).DisposeWith(disposables);
         }
 
-        public ReactiveCommand<Unit, Either<DeployError, Success>> Run { get; }
+        public ReactiveCommand<Unit, Unit> SaveAndRun { get; set; }
+
+        public ReactiveCommand<Unit, Either<DeployerError, Success>> Run { get; }
 
         public ReactiveCommand<Unit, Unit> SaveAndCompile { get; }
 
@@ -97,7 +103,7 @@ namespace Deployer.Ide
 
         public ValidationResult ValidationResult => validate.Value;
 
-        public ReactiveCommand<Unit, Either<Errors, Script>> Compile { get; }
+        public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> Compile { get; }
 
         public string SourceCode
         {

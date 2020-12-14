@@ -4,6 +4,8 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Deployer.Core;
 using Deployer.Core.Deployers;
+using Deployer.Core.Deployers.Errors;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Interaction;
 using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
@@ -41,7 +43,7 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public OperationProgressViewModel OperationProgress { get; }
 
-        public ReactiveCommand<Unit, Either<DeployError, Success>> RunScript { get; set; }
+        public ReactiveCommand<Unit, Either<DeployerError, Success>> RunScript { get; set; }
 
         public IObservable<bool> IsBusyObservable { get; }
 

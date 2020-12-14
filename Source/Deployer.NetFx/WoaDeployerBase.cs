@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
+using Deployer.Core.Deployers.Errors;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
 using Deployer.Filesystem;
@@ -74,7 +76,7 @@ namespace Deployer.Net4x
         public IOperationContext OperationContext => operationContext;
         public IObservable<string> Messages => deployer.Messages;
 
-        public Task<Either<DeployError, Success>> Run(string s)
+        public Task<Either<DeployerError, Success>> Run(string s)
         {
             return deployer.Run(s);
         }

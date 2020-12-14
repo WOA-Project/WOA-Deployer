@@ -4,6 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
+using Deployer.Core.Deployers.Errors;
+using Deployer.Core.Deployers.Errors.Compiler;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
 using Iridio.Common;
@@ -31,25 +34,25 @@ namespace Deployer.Core.Deployers
 
         public IObservable<string> Messages { get; }
 
-        public async Task<Either<DeployError, Success>> Run(string path)
+        public async Task<Either<DeployerError, Success>> Run(string path)
         {
             using (new DirectorySwitch(fso, Path.GetDirectoryName(path)))
             {
                 var satisfyResult = await reqsManager.Satisfy(path);
                 var mapLeft = await satisfyResult
-                    .MapLeft(error => (DeployError)new RequirementsError(error))
-                    .MapRight(toInject => Compile(path, toInject).MapLeft(errors => (DeployError) new CompileError(errors)))
+                    .MapLeft(error => (DeployerError)new RequirementsFailed(new UnableToSatisfyRequirements(error)))
+                    .MapRight(toInject => Compile(path, toInject).MapLeft(errors => (DeployerError) new CompilationFailed(new UnableToCompile(errors) )))
                     .MapRight(async c =>
                     {
                         var task = await scriptRunner.Run(c, new Dictionary<string, object>());
-                        return task.MapLeft(errors => (DeployError) new ExecutionError(errors));
+                        return task.MapLeft(errors => (DeployerError) new ExecutionFailed(errors));
                     })
                     .RightTask();
                 return mapLeft;
             }
         }
 
-        private Either<Errors, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
+        private Either<Iridio.Common.Errors, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
         {
             var assignments = GetAssignments(toInject);
             var compilation = Compiler.Compile(path, assignments);
