@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
-using Zafiro.Core;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI.Interaction;
-using Option = Zafiro.Core.UI.Interaction.Option;
+using Zafiro.UI;
+using IPopup = Zafiro.UI.IPopup;
 
 namespace Deployer.Core.Requirements
 {
     public class RequirementSupplier : IRequirementSupplier
     {
         private readonly Func<ResolveSettings, IRequirementSolver> solverFactory;
-        private readonly IShell shell;
-        private readonly Func<string, IContextualizable> contentFactory;
+        private readonly IPopup popup;
+        private readonly Func<string, IHaveDataContext> contentFactory;
 
-        public RequirementSupplier(Func<ResolveSettings, IRequirementSolver> solverFactory, IShell shell, Func<string, IContextualizable> contentFactory)
+        public RequirementSupplier(Func<ResolveSettings, IRequirementSolver> solverFactory, IPopup popup, Func<string, IHaveDataContext> contentFactory)
         {
             this.solverFactory = solverFactory;
-            this.shell = shell;
+            this.popup = popup;
             this.contentFactory = contentFactory;
         }
 
@@ -33,14 +32,14 @@ namespace Deployer.Core.Requirements
             var individualSuppliers = requirements.Select(Supplier).ToList();
             var vm = new DependenciesModel2(individualSuppliers);
 
-            await shell.Popup(contentFactory("Requirements"), vm,
+            await popup.ShowAsModal(contentFactory("Requirements"), vm,
                 c =>
                 {
-                    c.Popup.Title = "Please, specify the following information";
-                    c.AddOption(new Option("OK", ReactiveCommand.Create(() =>
+                    c.View.Title = "Please, specify the following information";
+                    c.AddOption(new Zafiro.UI.Option("OK", ReactiveCommand.Create(() =>
                     {
                         c.Model.Continue = true;
-                        c.Popup.Close();
+                        c.View.Close();
                     }, c.Model.IsValid)));
                 });
 

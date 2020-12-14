@@ -7,8 +7,8 @@
     <ProjectGuid>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Deployer.NetFx</RootNamespace>
-    <AssemblyName>Deployer.NetFx</AssemblyName>
+    <RootNamespace>Deployer.Net4x</RootNamespace>
+    <AssemblyName>Deployer.Net4x</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -38,7 +38,6 @@
     <Compile Include="Disk.cs" />
     <Compile Include="FileSystem.cs" />
     <Compile Include="InvalidImageException.cs" />
-    <Compile Include="Functions.cs" />
     <Compile Include="OS.cs" />
     <Compile Include="Partition.cs" />
     <Compile Include="PartitionData.cs" />
@@ -52,6 +51,14 @@
     <Compile Include="WoaDeployerBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj">
+      <Project>{F53E333E-E0A3-4E3F-9C7E-20ED6FDBC0BD}</Project>
+      <Name>Zafiro.Core.Net4x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>

@@ -4,15 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:Deployer.Wpf"
-             xmlns:converters="clr-namespace:Zafiro.Wpf.Converters;assembly=Zafiro.Wpf"
+             xmlns:wpf1="clr-namespace:Zafiro.UI.Wpf;assembly=Zafiro.UI.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="277.099" d:DesignWidth="423.282"
              d:DataContext="{d:DesignInstance wpf:WimPickRequirementSolver}">
     <UserControl.Resources>
-        <converters:ValueConverterGroup x:Key="NullToCollapsed">
+        <wpf1:ValueConverterGroup x:Key="NullToCollapsed">
             <wpf:MyNullToBoolConverter IsInverted="True" />
             <wpf:MyBoolToVisibilityConverter />
-        </converters:ValueConverterGroup>
+        </wpf1:ValueConverterGroup>
     </UserControl.Resources>
     <GroupBox Header="Windows Image (.WIM)" Padding="15">
         <DockPanel>

@@ -35,12 +35,69 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ByteSize, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ByteSize.2.0.0\lib\net45\ByteSize.dll</HintPath>
+    </Reference>
+    <Reference Include="DynamicData, Version=6.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DynamicData.6.17.14\lib\net461\DynamicData.dll</HintPath>
+    </Reference>
+    <Reference Include="Grace, Version=7.1.1.0, Culture=neutral, PublicKeyToken=b7d24c6367970497, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grace.7.1.1\lib\net45\Grace.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="Markdown.Xaml, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Markdown.Xaml.1.0.0\lib\net45\Markdown.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="MdXaml, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MdXaml.1.6.0\lib\net45\MdXaml.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.1.1.0\lib\net461\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="MoreLinq, Version=3.3.2.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.3.3.2\lib\net451\MoreLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmLib.Core, Version=0.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmLib.Core.0.4.4\lib\net45\MvvmLib.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime, Version=3.0.2.0, Culture=neutral, PublicKeyToken=4226afe0d9b296d1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NodaTime.3.0.2\lib\netstandard2.0\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="Optional, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Optional.4.0.0\lib\net45\Optional.dll</HintPath>
+    </Reference>
+    <Reference Include="ReactiveUI, Version=12.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ReactiveUI.12.1.1\lib\net461\ReactiveUI.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.10.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Splat, Version=9.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.9.6.1\lib\net461\Splat.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Reactive, Version=4.4.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.4.4.1\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.7.1\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -53,12 +110,23 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="ValueConverters, Version=2.0.20011.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\SuperJMN\.nuget\packages\valueconverters\2.0.20011.1\lib\net45\ValueConverters.dll</HintPath>
+      <HintPath>..\packages\ValueConverters.2.0.20011.1\lib\net45\ValueConverters.dll</HintPath>
+    </Reference>
+    <Reference Include="ValueConverters.Annotations, Version=2.0.20011.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ValueConverters.Annotations.2.0.20011.1\lib\net45\ValueConverters.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Zafiro.Core, Version=2.2.52.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zafiro.Core.2.3.46\lib\netstandard2.0\Zafiro.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Zafiro.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zafiro.UI.2.3.45\lib\netstandard2.0\Zafiro.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Zafiro.UI.Wpf, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Zafiro.UI.Wpf.2.3.45\lib\net472\Zafiro.UI.Wpf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -139,6 +207,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -148,18 +217,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
-      <Project>{0F24E550-CA98-493C-A829-F34F8AD85BFD}</Project>
-      <Name>Zafiro.UI.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
-      <Project>{DF89B41C-1388-4E14-9BB6-3EBB78B6A30A}</Project>
-      <Name>Zafiro.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
@@ -187,14 +244,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\heart.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ByteSize">
-      <Version>2.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Grace">
-      <Version>7.1.1</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,7 @@ using Deployer.Core;
 using ReactiveUI;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.Common
 {

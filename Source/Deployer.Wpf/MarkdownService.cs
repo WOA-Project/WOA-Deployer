@@ -1,19 +1,18 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Deployer.Core.Services;
-using Zafiro.Core;
+using Optional;
 using Zafiro.Core.FileSystem;
-using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Wpf
 {
     public class MarkdownService : IMarkdownService
     {
-        private readonly IDialogService dialogService;
+        private readonly IInteraction dialogService;
         private readonly IFileSystemOperations fileSystemOperations;
 
-        public MarkdownService(IDialogService dialogService, IFileSystemOperations fileSystemOperations)
+        public MarkdownService(IInteraction dialogService, IFileSystemOperations fileSystemOperations)
         {
             this.dialogService = dialogService;
             this.fileSystemOperations = fileSystemOperations;
@@ -21,12 +20,12 @@ namespace Deployer.Wpf
 
         public Task FromFile(string path)
         {
-            return dialogService.Interaction("", fileSystemOperations.ReadAllText(path), new List<Option>(){  new Option("OK", OptionValue.OK)}, Path.GetDirectoryName(path));
+            return dialogService.Message("", fileSystemOperations.ReadAllText(path), "OK".Some(), Path.GetDirectoryName(path).Some());
         }
 
         public Task Show(string markdown)
         {
-            return dialogService.Interaction("", markdown, new List<Option>(){  new Option("OK", OptionValue.OK)});
+            return dialogService.Message("", markdown, "OK".Some(), Optional.Option.None<string>());
         }
     }
 }

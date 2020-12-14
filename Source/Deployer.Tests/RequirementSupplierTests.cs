@@ -8,8 +8,8 @@ using FluentAssertions;
 using Xunit;
 using Zafiro.Core;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI.Interaction;
-using Option = Zafiro.Core.UI.Interaction.Option;
+using Zafiro.UI;
+using Option = Zafiro.UI.Option;
 using Unit = System.Reactive.Unit;
 
 namespace Deployer.Tests
@@ -25,7 +25,7 @@ namespace Deployer.Tests
                 new FulfilledRequirement("wimFileIndex", 1),
             };
 
-            var testShell = new TestShell(options => options[0].Command.Execute(null));
+            var testShell = new TestPopup(options => options[0].Command.Execute(null));
             var sut = new RequirementSupplier(settings => new TestRequirementSolver(requirements), testShell, str => null);
 
             var missingRequirements = new List<MissingRequirement>()
@@ -58,18 +58,18 @@ namespace Deployer.Tests
         }
     }
 
-    public class TestShell: IShell
+    public class TestPopup: IPopup
     {
         private readonly Action<Collection<Option>> afterConfigure;
 
-        public TestShell(Action<Collection<Option>> afterConfigure)
+        public TestPopup(Action<Collection<Option>> afterConfigure)
         {
             this.afterConfigure = afterConfigure;
         }
 
-        public Task Popup<T>(IContextualizable content, T viewModel, Action<PopupConfiguration<T>> configure)
+        public Task ShowAsModal<T>(IHaveDataContext content, T viewModel, Action<ViewConfiguration<T>> configure)
         {
-            var config = new PopupConfiguration<T>(new TestPopup(), viewModel);
+            var config = new ViewConfiguration<T>(new FakeView(), viewModel);
             configure(config);
             afterConfigure(config.Options);
             return Task.CompletedTask;
@@ -85,7 +85,7 @@ namespace Deployer.Tests
         public object Object { get; }
     }
 
-    public class TestPopup : IPopup
+    public class FakeView : IView
     {
         private TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
 
@@ -99,7 +99,7 @@ namespace Deployer.Tests
             tcs.SetResult(null);
         }
 
-        public Task Show()
+        public Task ShowAsModal()
         {
             return tcs.Task;
         }

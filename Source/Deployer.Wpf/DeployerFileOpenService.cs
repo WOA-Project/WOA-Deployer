@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using Deployer.Core;
 using Optional;
 using Optional.Unsafe;
-using Zafiro.Core;
 using Zafiro.Core.Files;
-using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Wpf
 {

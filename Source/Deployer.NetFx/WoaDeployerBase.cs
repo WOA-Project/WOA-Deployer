@@ -6,6 +6,7 @@ using Deployer.Core.Deployers;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
 using Deployer.Filesystem;
+using Deployer.NetFx;
 using Grace.DependencyInjection;
 using Iridio.Binding;
 using Iridio.Common;
@@ -14,9 +15,10 @@ using Iridio.Runtime;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
+using Zafiro.Core.Net4x;
 using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public class WoaDeployerBase
     {

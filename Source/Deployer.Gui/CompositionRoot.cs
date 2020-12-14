@@ -1,7 +1,6 @@
 ﻿using System;
 using Deployer.Core;
 using Deployer.Core.Interaction;
-using Deployer.Core.Registrations;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
@@ -16,15 +15,14 @@ using Serilog.Events;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
-using Zafiro.Core.UI;
-using Zafiro.Core.UI.Interaction;
-using Zafiro.Wpf;
-using Zafiro.Wpf.Services;
+using Zafiro.Core.Net4x;
+using Zafiro.UI;
+using Zafiro.UI.Wpf;
 using Commands = Deployer.Wpf.Commands;
 using DeployerFileOpenService = Deployer.Wpf.DeployerFileOpenService;
 using DiskRequirementSolver = Deployer.Wpf.DiskRequirementSolver;
 using IFileSystem = Deployer.Filesystem.IFileSystem;
-using Requirements = Deployer.Core.Registrations.Requirements;
+using MarkdownService = Deployer.Wpf.MarkdownService;
 using WimPickRequirementSolver = Deployer.Wpf.WimPickRequirementSolver;
 
 namespace Deployer.Gui
@@ -47,14 +45,10 @@ namespace Deployer.Gui
                 })).Lifestyle.Singleton();
                 block.ExportFactory((WoaDeployer wd) => wd.OperationContext).As<IOperationContext>().Lifestyle.Singleton();
                 block.ExportFactory((WoaDeployer wd) => wd.OperationProgress).As<IOperationProgress>().Lifestyle.Singleton();
-                block.Export<WpfDialogService>().As<IDialogService>().Lifestyle.Singleton();
                 block.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();
-                block.ExportFactory<Uri, IFileSystemOperations, IZafiroFile>((uri, f) => new DesktopZafiroFile(uri, f, null));
+                block.ExportFactory<Uri, IFileSystemOperations, IZafiroFile>((uri, f) => new ZafiroFile(uri, f, null));
                 block.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
-                block.Export<WpfMarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
-                var simpleInteraction = new SimpleInteraction();
-                simpleInteraction.Register("Requirements", typeof(Requirements));
-                block.ExportInstance(simpleInteraction).As<ISimpleInteraction>();
+                block.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
                 block.ExportAssemblies(new[] { typeof(ViewModels.Sections.MainViewModel).Assembly })
                     .Where(y =>
                     {
@@ -67,10 +61,10 @@ namespace Deployer.Gui
                     .ExportAttributedTypes()
                     .Lifestyle.Singleton();
                 block.Export<PopupWindow>().As<IPopup>();
-                block.Export<Shell>().As<IShell>();
-                block.ExportFactory<string, IContextualizable>(_ => new WpfContextualizable(new Views.Requirements()));
+                block.Export<Popup>().As<IPopup>();
+                block.ExportFactory<string, IHaveDataContext>(_ => new HaveDataContextAdapter(new Views.Requirements()));
                 block.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((s, fso, dl) =>
-                    new DesktopZafiroFile(new Uri(s), fso, dl));
+                    new ZafiroFile(new Uri(s), fso, dl));
 
                 block.Export<WimPickRequirementSolver>().Lifestyle.Singleton();
                 block.ExportFactory<ResolveSettings, Commands, DeployerFileOpenService, IFileSystem, IRequirementSolver>((settings, commands, fileOpenService, fs) =>
@@ -92,7 +86,7 @@ namespace Deployer.Gui
                     .Singleton();
 
                 block.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
-                block.ExportFactory(() => LogEventSource.Current).As<IObservable<LogEvent>>().Lifestyle.Singleton();
+                //block.ExportFactory(() => LogEventSource.Current).As<IObservable<LogEvent>>().Lifestyle.Singleton();
                 block.Export<ShellOpen>().As<IShellOpen>().Lifestyle.Singleton();
                 block.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
             });

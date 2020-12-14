@@ -14,6 +14,7 @@ using Serilog;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.RequirementSolvers
 {

@@ -9,7 +9,10 @@
     <PackageReference Include="Optional" Version="4.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
-    <PackageReference Include="Zafiro.Core" Version="2.3.43" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 
 </Project>

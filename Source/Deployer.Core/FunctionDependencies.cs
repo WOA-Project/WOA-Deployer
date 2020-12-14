@@ -1,7 +1,6 @@
 using System;
 using System.Net.Http;
 using Deployer.Core.DevOpsBuildClient;
-using Deployer.Core.Registrations;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Core.Services.Wim;

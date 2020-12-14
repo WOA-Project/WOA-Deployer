@@ -9,9 +9,11 @@ using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
 using Grace.DependencyInjection.Attributes;
 using Iridio.Runtime;
+using Optional;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.Sections
 {
@@ -20,15 +22,15 @@ namespace Deployer.Gui.ViewModels.Sections
     public class AdvancedViewModel : ReactiveObject, ISection
     {
         private readonly WoaDeployer deployer;
-        private readonly IDialogService dialogService;
+        private readonly IInteraction interaction;
         private readonly DeployerFileOpenService fileOpenService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
 
-        public AdvancedViewModel(WoaDeployer deployer, IDialogService dialogService,
+        public AdvancedViewModel(WoaDeployer deployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;
-            this.dialogService = dialogService;
+            this.interaction = interaction;
             this.fileOpenService = fileOpenService;
             OperationProgress = operationProgress;
 
@@ -59,13 +61,14 @@ namespace Deployer.Gui.ViewModels.Sections
             RunScript
                 .Subscribe(either => either
                     .MapRight(success =>
-                        dialogService.Notice("Execution finished", "The script has been executed successfully"))
+                        interaction.Message("Execution finished", "The script has been executed successfully", "OK".Some(), Optional.Option.None<string>()))
                     .Handle(errors =>
-                        dialogService.Notice("Execution failed", $"The script execution has failed: {errors}"))
-                    .DisposeWith(disposables));
+                        interaction.Message("Execution failed", $"The script execution has failed: {errors}", "OK".Some(), Optional.Option.None<string>())))
+                    .DisposeWith(disposables);
 
-            dialogService.HandleExceptionsFromCommand(RunScript,
-                exception => ("Script execution failed", exception.Message));
+            // TODO: Handle exceptions here!
+            //interaction.HandleExceptionsFromCommand(RunScript,
+            //    exception => ("Script execution failed", exception.Message));
         }
     }
 }

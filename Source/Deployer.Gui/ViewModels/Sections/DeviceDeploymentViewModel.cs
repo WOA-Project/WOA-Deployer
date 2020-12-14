@@ -11,6 +11,7 @@ using Grace.DependencyInjection.Attributes;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.UI;
+using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.Sections
 {
@@ -20,14 +21,14 @@ namespace Deployer.Gui.ViewModels.Sections
     {
         private readonly ToDeleteDeployer deployer;
         private readonly IDevRepo deviceRepository;
-        private readonly IDialogService dialogService;
+        private readonly IInteraction interaction;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private Deployment deployment;
         private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
 
-        public DeviceDeploymentViewModel(IDialogService dialogService, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
+        public DeviceDeploymentViewModel(IInteraction interaction, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
         {
-            this.dialogService = dialogService;
+            this.interaction = interaction;
             OperationProgress = operationProgress;
             this.deviceRepository = deviceRepository;
 
@@ -62,7 +63,7 @@ namespace Deployer.Gui.ViewModels.Sections
         {
             FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.Get());
             devices = FetchDevices.Select(x => x.Deployments).ToProperty(this, model => model.Deployments);
-            dialogService.HandleExceptionsFromCommand(FetchDevices, "Error", "Cannot fetch supported devices");
+            //interaction.HandleExceptionsFromCommand(FetchDevices, "Error", "Cannot fetch supported devices");
         }
         
         private void ConfigureDeployCommand()
@@ -70,20 +71,20 @@ namespace Deployer.Gui.ViewModels.Sections
             var hasDevice = this.WhenAnyValue(model => model.Deployment).Select(d => d != null);
             Deploy = ReactiveCommand.CreateFromTask(
                 () => deployer.Deploy(Deployment.ScriptPath, Deployment.Devices.First()), hasDevice);
-            dialogService.HandleExceptionsFromCommand(Deploy, exception =>
-            {
-                Log.Error(exception, exception.Message);
+            //interaction.HandleExceptionsFromCommand(Deploy, exception =>
+            //{
+            //    Log.Error(exception, exception.Message);
 
-                if (exception is DeploymentCancelledException)
-                {
-                    return ("Deployment cancelled", "Deployment cancelled");
-                }
+            //    if (exception is DeploymentCancelledException)
+            //    {
+            //        return ("Deployment cancelled", "Deployment cancelled");
+            //    }
 
-                return ("Deployment failed", exception.Message);
-            });
+            //    return ("Deployment failed", exception.Message);
+            //});
 
-            Deploy.OnSuccess(() => dialogService.Notice("Deployment finished", "Deployment finished"))
-                .DisposeWith(disposables);
+            //Deploy.OnSuccess(() => interaction.Notice("Deployment finished", "Deployment finished"))
+            //    .DisposeWith(disposables);
         }
     }
 }

@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Registrations\**" />
+    <EmbeddedResource Remove="Registrations\**" />
+    <None Remove="Registrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Deployer.cs" />
     <Compile Remove="DeviceDeployer.cs" />
     <Compile Remove="ScriptDeployer.cs" />
@@ -32,10 +38,11 @@
     <PackageReference Include="SharpCompress" Version="0.25.0" />
     <PackageReference Include="Superpower" Version="2.3.0" />
     <PackageReference Include="System.Reactive" Version="4.4.1" />
-    <PackageReference Include="Zafiro.Core" Version="2.3.43" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj" />
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj" />
     <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />

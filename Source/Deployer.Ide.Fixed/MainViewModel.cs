@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
 using Deployer.Core.Requirements;
+using Deployer.Net4x;
 using Deployer.NetFx;
 using Iridio.Binding.Model;
 using Iridio.Common;
@@ -18,6 +19,7 @@ using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
+using Zafiro.UI;
 using Unit = System.Reactive.Unit;
 
 namespace Deployer.Ide

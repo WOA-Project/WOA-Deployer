@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls.Primitives;
 using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting.Core;
 using Deployer.Core.Services;
+using Deployer.Net4x;
 using Deployer.NetFx;
 using Deployer.Wpf;
 using Grace.DependencyInjection;
@@ -15,11 +17,11 @@ using Iridio.Parsing;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
-using Zafiro.Core.UI;
-using Zafiro.Wpf;
-using Zafiro.Wpf.Services;
+using Zafiro.UI;
+using Zafiro.UI.Wpf;
 using IntrospectionExtensions = System.Reflection.IntrospectionExtensions;
 using MarkdownService = Deployer.Wpf.MarkdownService;
+using Popup = Zafiro.UI.Popup;
 
 namespace Deployer.Ide
 {
@@ -35,7 +37,7 @@ namespace Deployer.Ide
                 c.Export<Parser>().As<IParser>().Lifestyle.Singleton();
                 c.Export<Binder>().As<IBinder>().Lifestyle.Singleton();
                 c.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
-                c.Export<WpfDialogService>().As<IDialogService>().Lifestyle.Singleton();
+                c.Export<Popup>().As<IPopup>().Lifestyle.Singleton();
                 c.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
                 c.Export<OpenFilePicker>().As<IOpenFilePicker>().Lifestyle.Singleton();
                 c.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();

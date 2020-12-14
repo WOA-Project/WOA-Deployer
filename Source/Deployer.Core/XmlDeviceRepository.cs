@@ -5,7 +5,7 @@ using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
 using Zafiro.Core;
 
-namespace Deployer.Core.Registrations
+namespace Deployer.Core
 {
     public class XmlDeviceRepository: IDevRepo
     {
