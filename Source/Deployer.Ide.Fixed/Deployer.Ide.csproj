@@ -76,7 +76,6 @@
     </Compile>
     <Compile Include="AvalonEditBehaviour.cs" />
     <Compile Include="Composition.cs" />
-    <Compile Include="CompositionRoot.cs" />
     <Compile Include="ConfigureExtensions.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
