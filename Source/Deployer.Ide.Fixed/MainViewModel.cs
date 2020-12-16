@@ -37,10 +37,12 @@ namespace Deployer.Ide
         private ReadOnlyObservableCollection<string> runtimeMessages;
         private readonly SourceList<string> outputList;
         private SourceList<string> buildList;
+        private OperationProgressViewModel status;
 
-        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker)
+        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker, OperationProgressViewModel status)
         {
             this.deployer = deployer;
+            this.status = status;
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
                     s => { }));
@@ -145,6 +147,9 @@ namespace Deployer.Ide
 
         public ReadOnlyObservableCollection<string> Output => output;
         public ReadOnlyObservableCollection<string> RuntimeMessages => runtimeMessages;
+
+        public OperationProgressViewModel Status => status;
+        
 
         private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer,
             ISender mediator)

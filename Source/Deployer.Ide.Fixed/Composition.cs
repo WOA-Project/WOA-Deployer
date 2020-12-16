@@ -53,6 +53,8 @@ namespace Deployer.Ide
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 c.ConfigureMediator();
                 c.ExportFactory(() => new WoaDeployerWpf()).As<WoaDeployerBase>().Lifestyle.Singleton();
+                c.ExportFactory((WoaDeployerBase d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
+                    .Singleton();
                 
                 foreach (var taskType in Function.Types)
                 {
