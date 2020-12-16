@@ -27,22 +27,21 @@ namespace Deployer.Ide
 {
     public class MainViewModel : ReactiveObject
     {
-        private readonly WoaDeployerBase deployer;
         private readonly ObservableAsPropertyHelper<IZafiroFile> file;
         private readonly ObservableAsPropertyHelper<string> fileSource;
+        private readonly SourceList<string> outputList;
+        private readonly SourceList<string> buildList;
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private readonly ReadOnlyObservableCollection<string> output;
+        private readonly ReadOnlyObservableCollection<string> runtimeMessages;
 
         private string sourceCode;
-        private CompositeDisposable disposables = new CompositeDisposable();
-        private ReadOnlyObservableCollection<string> output;
-        private ReadOnlyObservableCollection<string> runtimeMessages;
-        private readonly SourceList<string> outputList;
-        private SourceList<string> buildList;
-        private OperationProgressViewModel status;
+        private ObservableAsPropertyHelper<bool> isBusy;
 
-        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker, OperationProgressViewModel status)
+        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker,
+            OperationProgressViewModel status)
         {
-            this.deployer = deployer;
-            this.status = status;
+            Status = status;
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
                     s => { }));
@@ -105,32 +104,23 @@ namespace Deployer.Ide
             CompileCore.Subscribe(either => buildList.AddRange(Extract(either)));
             RunCore.Subscribe(either => buildList.AddRange(Extract(either)));
 
+            isBusy = Run.IsExecuting.Merge(Compile.IsExecuting).ToProperty(this, model => model.IsBusy);
+
             ResetBuild = ReactiveCommand.Create(() => buildList.Clear());
         }
 
-        public ReactiveCommand<Unit, Unit> ResetBuild { get; set; }
+        public bool IsBusy => isBusy.Value;
 
-        private IEnumerable<string> Extract(Either<DeployerError, Success> either)
-        {
-            return either.MapRight(s => (IEnumerable<string>)new[] {"Execution finished successfully"})
-                .Handle(s => s.Items);
-        }
+        public ReactiveCommand<Unit, Unit> ResetBuild { get; set; }
 
         public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> CompileCore { get; }
 
         public ReactiveCommand<Unit, Either<DeployerError, Success>> RunCore { get; }
 
-        private IEnumerable<string> Extract(Either<DeployerCompilerError, Script> either)
-        {
-            return either
-                .MapRight(s => (IEnumerable<string>)new[] { "Static analysis is OK" })
-                .Handle(s => s.Items);
-        }
-
         public ReactiveCommand<Unit, Unit> Run { get; }
-        
+
         public ReactiveCommand<Unit, Unit> Save { get; }
-        
+
         public string FileSource => fileSource.Value;
 
         public IZafiroFile File => file.Value;
@@ -148,8 +138,21 @@ namespace Deployer.Ide
         public ReadOnlyObservableCollection<string> Output => output;
         public ReadOnlyObservableCollection<string> RuntimeMessages => runtimeMessages;
 
-        public OperationProgressViewModel Status => status;
-        
+        public OperationProgressViewModel Status { get; }
+
+        private IEnumerable<string> Extract(Either<DeployerError, Success> either)
+        {
+            return either.MapRight(s => (IEnumerable<string>) new[] {"Execution finished successfully"})
+                .Handle(s => s.Items);
+        }
+
+        private IEnumerable<string> Extract(Either<DeployerCompilerError, Script> either)
+        {
+            return either
+                .MapRight(s => (IEnumerable<string>) new[] {"Static analysis is OK"})
+                .Handle(s => s.Items);
+        }
+
 
         private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer,
             ISender mediator)
