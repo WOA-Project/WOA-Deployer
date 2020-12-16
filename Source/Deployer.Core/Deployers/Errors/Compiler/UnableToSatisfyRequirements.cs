@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Deployers.Errors.Compiler
@@ -15,5 +17,7 @@ namespace Deployer.Core.Deployers.Errors.Compiler
         {
             return string.Join(", ", Errors);
         }
+
+        public override IEnumerable<string> Items => Errors.Select(s => s.ToString());
     }
 }

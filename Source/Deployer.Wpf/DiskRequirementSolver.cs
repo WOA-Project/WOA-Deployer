@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using Deployer.Core.Requirements;
 using Deployer.Filesystem;
 using ReactiveUI;
 using IFileSystem = Deployer.Filesystem.IFileSystem;
+using Unit = System.Reactive.Unit;
 
 namespace Deployer.Wpf
 {
@@ -23,7 +23,7 @@ namespace Deployer.Wpf
             this.key = key;
             RefreshDisks = ReactiveCommand.CreateFromTask(fileSystem.GetDisks);
             disks = RefreshDisks
-                .Select(x => Enumerable.Select<IDisk, DiskViewModel>(x, disk => new DiskViewModel(disk)))
+                .Select(x => Enumerable.Select(x, disk => new DiskViewModel(disk)))
                 .ToProperty(this, x => x.Disks);
 
             isBusy = RefreshDisks.IsExecuting.ToProperty(this, x => x.IsBusy);
@@ -48,7 +48,7 @@ namespace Deployer.Wpf
         {
             return new[]
             {
-                new FulfilledRequirement(key + "Path", SelectedDisk.Number),
+                new FulfilledRequirement(key, SelectedDisk.Number - 1),
             };
         }
     }

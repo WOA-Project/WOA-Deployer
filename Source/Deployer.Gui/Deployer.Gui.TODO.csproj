@@ -112,7 +112,6 @@
     <Compile Include="Views\Requirements.xaml.cs">
       <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />
     <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
     <Compile Include="Views\ProgressControl.xaml.cs">

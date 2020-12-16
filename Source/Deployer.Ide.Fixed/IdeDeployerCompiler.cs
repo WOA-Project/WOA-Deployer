@@ -14,7 +14,7 @@ using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Ide
 {
-    class IdeDeployerCompiler : IIdeDeployerCompiler
+    internal class IdeDeployerCompiler : IIdeDeployerCompiler
     {
         private readonly IDeployerCompiler compiler;
         private readonly IRequirementsAnalyzer requirementsAnalyzer;
@@ -35,7 +35,7 @@ namespace Deployer.Ide
             var requirements = requirementsAnalyzer.GetRequirements(fileContents);
             var ret = requirements.MapRight(async req =>
                 {
-                    var satisfiedReqs = await SatisfyRequirements2(req);
+                    var satisfiedReqs = await SatisfyRequirements(req);
                     var assignmentsToInject = satisfiedReqs.Select(TurnIntoAssignments);
                     return compiler.Compile(path, assignmentsToInject)
                         .MapLeft(x => (DeployerCompilerError) new UnableToCompile(x));
@@ -46,7 +46,7 @@ namespace Deployer.Ide
             return rightTask;
         }
 
-        private async Task<IEnumerable<FulfilledRequirement>> SatisfyRequirements2(IEnumerable<MissingRequirement> requirements)
+        private async Task<IEnumerable<FulfilledRequirement>> SatisfyRequirements(IEnumerable<MissingRequirement> requirements)
         {
             var responses = await requirements.Select(ToRequirementRequest)
                 .AsyncSelect(async re =>

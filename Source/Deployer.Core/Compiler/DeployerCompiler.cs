@@ -35,7 +35,11 @@ namespace Deployer.Core.Compiler
             return parsed
                 .MapLeft(error => new Errors(new Error(ErrorKind.UnableToParse, error.Message)))
                 .MapRight(script => TryInject(script, toInject).Match(syntax => syntax, () => script))
-                .MapRight(script => binder.Bind(script));
+                .MapRight(script =>
+                {
+                    var either = binder.Bind(script);
+                    return either;
+                });
         }
 
         private Option<IridioSyntax> TryInject(IridioSyntax script, IEnumerable<Assignment> toInject)

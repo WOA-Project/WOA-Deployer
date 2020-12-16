@@ -1,6 +1,6 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
@@ -8,14 +8,12 @@ using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
-using Deployer.Core.Deployers;
-using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Net4x;
+using DynamicData;
 using Iridio.Binding.Model;
-using Iridio.Common;
 using Iridio.Runtime;
 using MediatR;
 using ReactiveUI;
@@ -23,22 +21,26 @@ using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.UI;
-using Error = Iridio.Common.Error;
 using Unit = System.Reactive.Unit;
 
 namespace Deployer.Ide
 {
     public class MainViewModel : ReactiveObject
     {
+        private readonly WoaDeployerBase deployer;
         private readonly ObservableAsPropertyHelper<IZafiroFile> file;
         private readonly ObservableAsPropertyHelper<string> fileSource;
-        private readonly ObservableAsPropertyHelper<ValidationResult> validate;
 
         private string sourceCode;
         private CompositeDisposable disposables = new CompositeDisposable();
+        private ReadOnlyObservableCollection<string> output;
+        private ReadOnlyObservableCollection<string> runtimeMessages;
+        private readonly SourceList<string> outputList;
+        private SourceList<string> buildList;
 
         public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker)
         {
+            this.deployer = deployer;
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
                     s => { }));
@@ -59,63 +61,79 @@ namespace Deployer.Ide
 
             Save = ReactiveCommand.CreateFromTask(SaveFile, hasFile);
 
-            Compile = ReactiveCommand.CreateFromTask(async () =>
-            {
-                var compile = await compiler.Compile(File.Source.OriginalString);
-                return compile;
-            }, hasFile);
-
-         
-
             openFileLoader
                 .ObserveOnDispatcher()
                 .Subscribe(s => SourceCode = s);
 
-            fileSource = openFileLoader.ToProperty(this, model => model.FileSource);
+            Compile = ReactiveCommand.CreateFromTask(async () =>
+            {
+                await Save.Execute();
+                return await CompileCore.Execute();
+            }, hasFile);
 
-            SaveAndCompile = Save;
-            SaveAndCompile.InvokeCommand(Compile).DisposeWith(disposables);
+            fileSource = openFileLoader.ToProperty(this, model => model.FileSource);
 
             Run = ReactiveCommand.CreateFromTask(async () =>
             {
-                var task = await deployer.Run(File.Source.OriginalString);
-                return task;
+                await Save.Execute();
+                var p = await CompileCore.Execute();
+                var l = p.MapRight(async script => await RunCore.Execute());
+                await l.RightTask();
             }, hasFile);
 
-            SaveAndRun = Save;
-            SaveAndRun.InvokeCommand(Run).DisposeWith(disposables);
+            RunCore = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString));
+            CompileCore = ReactiveCommand.CreateFromTask(() => compiler.Compile(File.Source.OriginalString));
 
-            var runValidations = Run.Select(e => e
-                .MapRight(unit => new ValidationResult(unit))
-                .Handle(errors => new ValidationResult(errors)));
+            deployer.Messages
+                .ToObservableChangeSet()
+                .Bind(out output)
+                .ObserveOnDispatcher()
+                .DisposeMany()
+                .Subscribe()
+                .DisposeWith(disposables);
 
-            var compileValidations = Compile
-                .Select(e => e
-                    .MapRight(unit => new ValidationResult(unit))
-                    .Handle(errors => new ValidationResult(errors)));
+            buildList = new SourceList<string>();
+            buildList.Connect()
+                .Bind(out runtimeMessages)
+                .ObserveOnDispatcher()
+                .DisposeMany()
+                .Subscribe()
+                .DisposeWith(disposables);
 
-            validate = compileValidations
-                .Merge(runValidations)
-                .ToProperty(this, model => model.ValidationResult);
+            CompileCore.Subscribe(either => buildList.AddRange(Extract(either)));
+            RunCore.Subscribe(either => buildList.AddRange(Extract(either)));
+
+            ResetBuild = ReactiveCommand.Create(() => buildList.Clear());
         }
 
-        public ReactiveCommand<Unit, Unit> SaveAndRun { get; set; }
+        public ReactiveCommand<Unit, Unit> ResetBuild { get; set; }
 
-        public ReactiveCommand<Unit, Either<DeployerError, Success>> Run { get; }
+        private IEnumerable<string> Extract(Either<DeployerError, Success> either)
+        {
+            return either.MapRight(s => (IEnumerable<string>)new[] {"Execution finished successfully"})
+                .Handle(s => s.Items);
+        }
 
-        public ReactiveCommand<Unit, Unit> SaveAndCompile { get; }
+        public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> CompileCore { get; }
 
+        public ReactiveCommand<Unit, Either<DeployerError, Success>> RunCore { get; }
 
+        private IEnumerable<string> Extract(Either<DeployerCompilerError, Script> either)
+        {
+            return either
+                .MapRight(s => (IEnumerable<string>)new[] { "Static analysis is OK" })
+                .Handle(s => s.Items);
+        }
+
+        public ReactiveCommand<Unit, Unit> Run { get; }
+        
         public ReactiveCommand<Unit, Unit> Save { get; }
-
-
+        
         public string FileSource => fileSource.Value;
 
         public IZafiroFile File => file.Value;
 
         public ReactiveCommand<Unit, IZafiroFile> OpenFile { get; }
-
-        public ValidationResult ValidationResult => validate.Value;
 
         public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> Compile { get; }
 
@@ -124,6 +142,9 @@ namespace Deployer.Ide
             get => sourceCode;
             set => this.RaiseAndSetIfChanged(ref sourceCode, value);
         }
+
+        public ReadOnlyObservableCollection<string> Output => output;
+        public ReadOnlyObservableCollection<string> RuntimeMessages => runtimeMessages;
 
         private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer,
             ISender mediator)

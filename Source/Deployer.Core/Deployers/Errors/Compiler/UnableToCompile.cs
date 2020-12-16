@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+
 namespace Deployer.Core.Deployers.Errors.Compiler
 {
     public class UnableToCompile : DeployerCompilerError
@@ -13,5 +16,7 @@ namespace Deployer.Core.Deployers.Errors.Compiler
         {
             return string.Join(", ", Errors);
         }
+
+        public override IEnumerable<string> Items => Errors.Select(s => s.ToString());
     }
 }

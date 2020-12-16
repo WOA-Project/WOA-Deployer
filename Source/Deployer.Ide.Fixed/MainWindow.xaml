@@ -20,18 +20,21 @@
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="Open" Command="{Binding OpenFile}" />
-                <MenuItem Header="Compile" Command="{Binding SaveAndCompile}" />
+            </MenuItem>
+            <MenuItem Header="Build">
+                <MenuItem Header="Check syntax" Command="{Binding Compile}" />
+                <MenuItem Header="Run" Command="{Binding Run}" />
             </MenuItem>
         </Menu>
         <ToolBar Grid.Row="1">
-            <Button Command="{Binding SaveAndCompile}">
+            <Button Command="{Binding Compile}">
                 <Button.Content>
-                    <iconPacks:PackIconFeatherIcons Kind="Layers" />
+                    <iconPacks:PackIconFeatherIcons Kind="Layers" ToolTip="Check syntax (static analysis)" />
                 </Button.Content>
             </Button>
-            <Button Command="{Binding SaveAndRun}">
+            <Button Command="{Binding Run}">
                 <Button.Content>
-                    <iconPacks:PackIconFeatherIcons Kind="Play" />
+                    <iconPacks:PackIconFeatherIcons Kind="Play" ToolTip="Run the script" />
                 </Button.Content>
             </Button>
         </ToolBar>
@@ -45,8 +48,16 @@
                 <ide:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </b:Interaction.Behaviors>
         </avalonedit:TextEditor>
-        <HeaderedContentControl Header="Messages" Grid.Row="3">
-            <ListView MinHeight="50" ItemsSource="{Binding ValidationResult.Messages}" MaxHeight="200" />
-        </HeaderedContentControl>
+        <TabControl Grid.Row="3">
+           <TabItem Header="Runtime output">
+               <Grid>
+                   <ListView MinHeight="50" ItemsSource="{Binding RuntimeMessages}" MaxHeight="200" />
+                   <Button Command="{Binding ResetBuild}" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="4"  />
+               </Grid>
+            </TabItem>
+            <TabItem Header="Program output">
+                <ListView MinHeight="50" ItemsSource="{Binding Output}" MaxHeight="200" />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

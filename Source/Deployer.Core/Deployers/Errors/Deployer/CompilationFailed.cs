@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Deployer.Core.Deployers.Errors.Compiler;
 
 namespace Deployer.Core.Deployers.Errors.Deployer
@@ -10,5 +12,7 @@ namespace Deployer.Core.Deployers.Errors.Deployer
         {
             Error = error;
         }
+
+        public override IEnumerable<string> Items => Error.Items.Select(s => s);
     }
 }

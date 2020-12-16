@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Deployer.Core.Deployers.Errors.Compiler;
 
 namespace Deployer.Core.Deployers.Errors.Deployer
@@ -10,5 +11,7 @@ namespace Deployer.Core.Deployers.Errors.Deployer
         {
             RequirementsError = requirementsError;
         }
+
+        public override IEnumerable<string> Items => RequirementsError.Items;
     }
 }
