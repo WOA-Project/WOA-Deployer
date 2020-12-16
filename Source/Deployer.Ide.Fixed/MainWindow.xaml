@@ -8,13 +8,15 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:ide="clr-namespace:Deployer.Ide"
         xmlns:valueConverters="clr-namespace:ValueConverters;assembly=ValueConverters"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
+        Icon="Assets/appicon.png"
+        WindowStartupLocation="CenterScreen"
         Title="Deployer IDE" Height="450" Width="800" d:DataContext="{d:DesignInstance ide:MainViewModel}"
         DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
     <Window.Resources>
         <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnFalse"  />
         <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnTrue" IsInverted="True" />
-        <valueConverters:BoolNegationConverter x:Key="InvertBool" />
     </Window.Resources>
     <Grid >
         <Grid.RowDefinitions>
@@ -26,20 +28,20 @@
         </Grid.RowDefinitions>
         <Menu>
             <MenuItem Header="File">
-                <MenuItem Header="Open" Command="{Binding OpenFile}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}"/>
+                <MenuItem Header="Open" Command="{Binding OpenFile}" />
             </MenuItem>
             <MenuItem Header="Build">
-                <MenuItem Header="Check syntax" Command="{Binding Compile}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}" />
+                <MenuItem Header="Check syntax" Command="{Binding Compile}" />
                 <MenuItem Header="Run" Command="{Binding Run}" />
             </MenuItem>
         </Menu>
         <ToolBar Grid.Row="1">
-            <Button Command="{Binding Compile}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}">
+            <Button Command="{Binding Compile}">
                 <Button.Content>
                     <iconPacks:PackIconFeatherIcons Kind="Layers" ToolTip="Check syntax (static analysis)" />
                 </Button.Content>
             </Button>
-            <Button Command="{Binding Run}" IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}">
+            <Button Command="{Binding Run}">
                 <Button.Content>
                     <iconPacks:PackIconFeatherIcons Kind="Play" ToolTip="Run the script" />
                 </Button.Content>
@@ -71,16 +73,20 @@
                 <ItemsPanelTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="7*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
                     </Grid>
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
-            <StatusBarItem>
+            <StatusBarItem Grid.Column="0" Width="25" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}">
+                <Image gif:ImageBehavior.AnimationSpeedRatio="0.5" Stretch="Uniform" gif:ImageBehavior.AnimatedSource="/Assets/busy.gif"  />
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="1">
                 <TextBlock Text="{Binding Status.Message}" />
             </StatusBarItem>
-            <StatusBarItem Grid.Column="1" DataContext="{Binding Status}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
+            <StatusBarItem Grid.Column="2" DataContext="{Binding Status}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
                 <Grid>
                     <Border BorderThickness="1"
                             Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnTrue}}">

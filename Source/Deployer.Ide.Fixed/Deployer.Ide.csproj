@@ -38,6 +38,9 @@
     <WarningLevel>4</WarningLevel>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -59,6 +62,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WpfAnimatedGif">
+      <HintPath>C:\Users\SuperJMN\.nuget\packages\wpfanimatedgif\2.0.0\lib\net40\WpfAnimatedGif.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -86,6 +92,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ObservableMixin.cs" />
     <Compile Include="OperationProgressViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -181,6 +188,24 @@
     <PackageReference Include="Superpower">
       <Version>2.3.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\appicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\gears_motor.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\busy.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
@@ -36,7 +37,7 @@ namespace Deployer.Ide
         private readonly ReadOnlyObservableCollection<string> runtimeMessages;
 
         private string sourceCode;
-        private ObservableAsPropertyHelper<bool> isBusy;
+        private readonly ObservableAsPropertyHelper<bool> isBusy;
 
         public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker,
             OperationProgressViewModel status)
@@ -46,6 +47,7 @@ namespace Deployer.Ide
                 picker.Picks(new[] {new FileTypeFilter("Text files", "*.txt")}, () => null,
                     s => { }));
 
+            
             file = OpenFile
                 .SubscribeOnDispatcher()
                 .ToProperty(this, model => model.File);
@@ -59,6 +61,8 @@ namespace Deployer.Ide
                 });
 
             var hasFile = this.WhenAnyValue(v => v.File).Select(z => z != null);
+            
+            
 
             Save = ReactiveCommand.CreateFromTask(SaveFile, hasFile);
 
@@ -66,11 +70,12 @@ namespace Deployer.Ide
                 .ObserveOnDispatcher()
                 .Subscribe(s => SourceCode = s);
 
+            ISubject<bool> canExecute = new Subject<bool>();
             Compile = ReactiveCommand.CreateFromTask(async () =>
             {
                 await Save.Execute();
                 return await CompileCore.Execute();
-            }, hasFile);
+            }, canExecute);
 
             fileSource = openFileLoader.ToProperty(this, model => model.FileSource);
 
@@ -80,7 +85,9 @@ namespace Deployer.Ide
                 var p = await CompileCore.Execute();
                 var l = p.MapRight(async script => await RunCore.Execute());
                 await l.RightTask();
-            }, hasFile);
+            }, canExecute);
+
+            Run.IsExecuting.Invert().Merge(Compile.IsExecuting.Invert()).Merge(hasFile).Subscribe(canExecute);
 
             RunCore = ReactiveCommand.CreateFromTask(() => deployer.Run(File.Source.OriginalString));
             CompileCore = ReactiveCommand.CreateFromTask(() => compiler.Compile(File.Source.OriginalString));
@@ -101,10 +108,10 @@ namespace Deployer.Ide
                 .Subscribe()
                 .DisposeWith(disposables);
 
+            isBusy = Run.IsExecuting.Merge(Compile.IsExecuting).ToProperty(this, x => x.IsBusy);
+
             CompileCore.Subscribe(either => buildList.AddRange(Extract(either)));
             RunCore.Subscribe(either => buildList.AddRange(Extract(either)));
-
-            isBusy = Run.IsExecuting.Merge(Compile.IsExecuting).ToProperty(this, model => model.IsBusy);
 
             ResetBuild = ReactiveCommand.Create(() => buildList.Clear());
         }
