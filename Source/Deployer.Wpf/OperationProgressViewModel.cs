@@ -1,5 +1,6 @@
 ﻿using System;
 using ByteSizeLib;
+using Deployer.Core;
 using Deployer.Net4x;
 using ReactiveUI;
 using Zafiro.Core;
@@ -14,7 +15,7 @@ namespace Deployer.Wpf
         private ByteSize downloaded;
         private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(WoaDeployerBase deployer, IOperationProgress operationProgress)
+        public OperationProgressViewModel(IWoaDeployer deployer, IOperationProgress operationProgress)
         {
             message = deployer.Messages.ToProperty(this, x => x.Message);
 

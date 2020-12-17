@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
+using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
@@ -40,7 +41,7 @@ namespace Deployer.Ide
         private string sourceCode;
         private readonly ObservableAsPropertyHelper<bool> isBusy;
 
-        public MainViewModel(WoaDeployerBase deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker,
+        public MainViewModel(IWoaDeployer deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker,
             OperationProgressViewModel status)
         {
             Status = status;

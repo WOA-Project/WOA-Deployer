@@ -2,6 +2,7 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Interaction;
 using Deployer.Net4x;
@@ -20,12 +21,12 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 2)]
     public class AdvancedViewModel : ReactiveObject, ISection
     {
-        private readonly WoaDeployerBase deployer;
+        private readonly IWoaDeployer deployer;
         private readonly IInteraction interaction;
         private readonly DeployerFileOpenService fileOpenService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
 
-        public AdvancedViewModel(WoaDeployerBase deployer, IInteraction interaction,
+        public AdvancedViewModel(IWoaDeployer deployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;
@@ -64,10 +65,6 @@ namespace Deployer.Gui.ViewModels.Sections
                     .Handle(errors =>
                         interaction.Message("Execution failed", $"The script execution has failed: {errors}", "OK".Some(), Optional.Option.None<string>())))
                     .DisposeWith(disposables);
-
-            // TODO: Handle exceptions here!
-            //interaction.HandleExceptionsFromCommand(RunScript,
-            //    exception => ("Script execution failed", exception.Message));
         }
     }
 }

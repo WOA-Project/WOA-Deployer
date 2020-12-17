@@ -5,12 +5,16 @@ using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Deployer.Core;
+using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Interaction;
 using Deployer.Gui.ViewModels.Common;
 using Deployer.Wpf;
 using Grace.DependencyInjection.Attributes;
+using Iridio.Runtime;
+using Optional;
 using ReactiveUI;
 using Serilog;
+using Zafiro.Core.Patterns.Either;
 using Zafiro.Core.UI;
 using Zafiro.UI;
 
@@ -20,17 +24,18 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 1)]
     public class DeviceDeploymentViewModel : ReactiveObject, ISection
     {
-        private readonly ToDeleteDeployer deployer;
-        private readonly IDevRepo deviceRepository;
+        private readonly IDeviceDeployer deviceDeployer;
         private readonly IInteraction interaction;
-        private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private readonly IDevRepo deviceRepository;
         private Deployment deployment;
         private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
+        private readonly CompositeDisposable disposables = new CompositeDisposable();
 
-        public DeviceDeploymentViewModel(IInteraction interaction, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
+        public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
         {
-            this.interaction = interaction;
             OperationProgress = operationProgress;
+            this.deviceDeployer = deviceDeployer;
+            this.interaction = interaction;
             this.deviceRepository = deviceRepository;
 
             ConfigureCommands();
@@ -46,7 +51,7 @@ namespace Deployer.Gui.ViewModels.Sections
             set => this.RaiseAndSetIfChanged(ref deployment, value);
         }
 
-        public ReactiveCommand<Unit, Unit> Deploy { get; set; }
+        public ReactiveCommand<Unit, Either<DeployerError, Success>> Deploy { get; set; }
 
         public IEnumerable<Deployment> Deployments => devices.Value;
 
@@ -64,28 +69,23 @@ namespace Deployer.Gui.ViewModels.Sections
         {
             FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.Get());
             devices = FetchDevices.Select(x => x.Deployments).ToProperty(this, model => model.Deployments);
-            //interaction.HandleExceptionsFromCommand(FetchDevices, "Error", "Cannot fetch supported devices");
         }
         
         private void ConfigureDeployCommand()
         {
             var hasDevice = this.WhenAnyValue(model => model.Deployment).Select(d => d != null);
             Deploy = ReactiveCommand.CreateFromTask(
-                () => deployer.Deploy(Deployment.ScriptPath, Deployment.Devices.First()), hasDevice);
-            //interaction.HandleExceptionsFromCommand(Deploy, exception =>
-            //{
-            //    Log.Error(exception, exception.Message);
+                () => deviceDeployer.Deploy(new DeploymentRequest(this.Deployment.Devices.First(), this.deployment.ScriptPath)), hasDevice);
 
-            //    if (exception is DeploymentCancelledException)
-            //    {
-            //        return ("Deployment cancelled", "Deployment cancelled");
-            //    }
+            Deploy.ThrownExceptions.Subscribe(exception => { });
 
-            //    return ("Deployment failed", exception.Message);
-            //});
-
-            //Deploy.OnSuccess(() => interaction.Notice("Deployment finished", "Deployment finished"))
-            //    .DisposeWith(disposables);
+            Deploy
+                .Subscribe(either => either
+                    .MapRight(success =>
+                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(), Optional.Option.None<string>()))
+                    .Handle(errors =>
+                        interaction.Message("Execution failed", $"The deployment has failed: {errors}", "OK".Some(), Optional.Option.None<string>())))
+                .DisposeWith(disposables);
         }
     }
 }

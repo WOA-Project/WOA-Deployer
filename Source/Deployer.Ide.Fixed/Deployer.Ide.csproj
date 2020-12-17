@@ -119,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
+      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
+      <Name>Markdown.Xaml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
       <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
       <Name>Zafiro.Core</Name>

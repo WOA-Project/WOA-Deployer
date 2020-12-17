@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <Compile Remove="Deployer.cs" />
-    <Compile Remove="DeviceDeployer.cs" />
     <Compile Remove="ScriptDeployer.cs" />
     <Compile Remove="Scripting\ConfigureBCD.cs" />
     <Compile Remove="Scripting\InstallDevMenu.cs" />

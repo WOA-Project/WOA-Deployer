@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Deployers;
-using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
@@ -22,13 +21,13 @@ using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Net4x
 {
-    public class WoaDeployerBase
+    public class WoaDeployerBase : IWoaDeployer
     {
         private readonly BrandNewDeployer deployer;
         private readonly IOperationProgress operationProgress = new OperationProgress();
         private readonly IOperationContext operationContext = new OperationContext();
 
-        public WoaDeployerBase()
+        protected WoaDeployerBase()
         {
             deployer = GetDeployer();
         }

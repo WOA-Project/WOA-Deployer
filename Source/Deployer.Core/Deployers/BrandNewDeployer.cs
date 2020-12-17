@@ -38,10 +38,11 @@ namespace Deployer.Core.Deployers
         {
             using (new DirectorySwitch(fso, Path.GetDirectoryName(path)))
             {
-                var satisfyResult = await reqsManager.Satisfy(path);
+                var fileName = Path.GetFileName(path);
+                var satisfyResult = await reqsManager.Satisfy(fileName);
                 var mapLeft = await satisfyResult
                     .MapLeft(error => (DeployerError)new RequirementsFailed(new UnableToSatisfyRequirements(error)))
-                    .MapRight(toInject => Compile(path, toInject).MapLeft(errors => (DeployerError) new CompilationFailed(new UnableToCompile(errors) )))
+                    .MapRight(toInject => Compile(fileName, toInject).MapLeft(errors => (DeployerError) new CompilationFailed(new UnableToCompile(errors) )))
                     .MapRight(async c =>
                     {
                         var task = await scriptRunner.Run(c, new Dictionary<string, object>());

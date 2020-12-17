@@ -47,8 +47,8 @@ namespace Deployer.Gui
                 c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new DesktopZafiroFile(new Uri(path), fo, dl));
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 c.ConfigureMediator();
-                c.ExportFactory(() => new WoaDeployerWpf()).As<WoaDeployerBase>().Lifestyle.Singleton();
-                c.ExportFactory((WoaDeployerBase d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
+                c.ExportFactory(() => new WoaDeployerWpf()).As<IWoaDeployer>().Lifestyle.Singleton();
+                c.ExportFactory((IWoaDeployer d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
                     .Singleton();
                 
                 foreach (var taskType in Function.Types)
@@ -60,6 +60,7 @@ namespace Deployer.Gui
 
                 // Difference between IDE and GUI
                 ExportSections(c);
+                c.Export<DeviceDeployer>().As<IDeviceDeployer>().Lifestyle.Singleton();
                 c.Export<Interaction>().As<IInteraction>().Lifestyle.Singleton();
                 c.Export<PopupWindow>().As<IView>();
                 c.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();

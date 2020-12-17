@@ -52,8 +52,8 @@ namespace Deployer.Ide
                 c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new DesktopZafiroFile(new Uri(path), fo, dl));
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 c.ConfigureMediator();
-                c.ExportFactory(() => new WoaDeployerWpf()).As<WoaDeployerBase>().Lifestyle.Singleton();
-                c.ExportFactory((WoaDeployerBase d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
+                c.ExportFactory(() => new WoaDeployerWpf()).As<IWoaDeployer>().Lifestyle.Singleton();
+                c.ExportFactory((IWoaDeployer d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
                     .Singleton();
                 
                 foreach (var taskType in Function.Types)
