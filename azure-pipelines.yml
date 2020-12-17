@@ -63,7 +63,7 @@ steps:
 - task: GitHubRelease@1
   displayName: Create GitHub Release
   inputs:    
-    gitHubConnection: 'github.com_SuperJMN'
+    gitHubConnection: 'GitHub'
     repositoryName: 'WOA-Project/WOA-Deployer'
     action: 'create'
     target: '$(Build.SourceVersion)'
