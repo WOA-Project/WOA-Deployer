@@ -39,12 +39,12 @@ steps:
     includeRootFolder: false    
     archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer GUI.zip'
 
-- task: ArchiveFiles@2
-  displayName: ZIP CLI
-  inputs:
-    rootFolderOrFile: 'Source\Deployer.Cli\bin\$(buildConfiguration)'
-    includeRootFolder: false    
-    archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
+# - task: ArchiveFiles@2
+#   displayName: ZIP CLI
+#   inputs:
+#     rootFolderOrFile: 'Source\Deployer.Cli\bin\$(buildConfiguration)'
+#     includeRootFolder: false    
+#     archiveFile: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
  
 - task: PublishBuildArtifacts@1
   displayName: Publish GUI
@@ -53,12 +53,12 @@ steps:
     ArtifactName: 'WOA Deployer GUI'
     publishLocation: 'Container'
   
-- task: PublishBuildArtifacts@1
-  displayName: Publish CLI
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
-    ArtifactName: 'WOA Deployer CLI'
-    publishLocation: 'Container'
+# - task: PublishBuildArtifacts@1
+#   displayName: Publish CLI
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)/WOA Deployer CLI.zip'
+#     ArtifactName: 'WOA Deployer CLI'
+#     publishLocation: 'Container'
 
 - task: GitHubRelease@1
   displayName: Create GitHub Release
