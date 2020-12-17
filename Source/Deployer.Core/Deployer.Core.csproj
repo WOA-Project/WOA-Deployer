@@ -45,6 +45,7 @@
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj" />
   </ItemGroup>
 
 </Project>

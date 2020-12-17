@@ -157,6 +157,18 @@
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.Net4x</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
+      <Project>{0F24E550-CA98-493C-A829-F34F8AD85BFD}</Project>
+      <Name>Zafiro.UI.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
+      <Project>{6FC79263-C506-47B4-A4EC-69F4AC2138A0}</Project>
+      <Name>Zafiro.UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\appicon.ico" />

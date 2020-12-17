@@ -71,6 +71,14 @@
       <Project>{CCFD0C3E-EE16-4B41-A77D-250C7017E8B5}</Project>
       <Name>RunProcessAsTask</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj">
+      <Project>{F53E333E-E0A3-4E3F-9C7E-20ED6FDBC0BD}</Project>
+      <Name>Zafiro.Core.Net4x</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
+      <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
+      <Name>Zafiro.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
