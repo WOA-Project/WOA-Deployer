@@ -1,6 +1,6 @@
-[submodule "SimpleScript"]
-	path = SimpleScript
-	url = https://github.com/SuperJMN/SimpleScript.git
+[submodule "Markdown.XAML"]
+	path = Source/Markdown.XAML
+	url = https://github.com/SuperJMN/Markdown.XAML.git
 [submodule "Source/Registry"]
 	path = Source/Registry
 	url = https://github.com/EricZimmerman/Registry.git
