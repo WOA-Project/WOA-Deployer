@@ -119,22 +119,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
-      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
-      <Name>Markdown.Xaml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
-      <Project>{0F24E550-CA98-493C-A829-F34F8AD85BFD}</Project>
-      <Name>Zafiro.UI.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
-      <Project>{DF89B41C-1388-4E14-9BB6-3EBB78B6A30A}</Project>
-      <Name>Zafiro.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>

@@ -40,8 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj" />
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj" />
     <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />

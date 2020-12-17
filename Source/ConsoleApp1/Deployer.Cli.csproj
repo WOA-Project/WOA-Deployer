@@ -56,10 +56,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
       <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
       <Name>Deployer.BinaryBundle</Name>

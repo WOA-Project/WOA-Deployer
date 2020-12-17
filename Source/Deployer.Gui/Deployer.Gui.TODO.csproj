@@ -200,26 +200,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
-      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
-      <Name>Markdown.Xaml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj">
-      <Project>{f53e333e-e0a3-4e3f-9c7e-20ed6fdbc0bd}</Project>
-      <Name>Zafiro.Core.Net4x</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{a8630be7-bb2a-473f-a997-453bdf45ae64}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
-      <Project>{0f24e550-ca98-493c-a829-f34f8ad85bfd}</Project>
-      <Name>Zafiro.UI.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
-      <Project>{df89b41c-1388-4e14-9bb6-3ebb78b6a30a}</Project>
-      <Name>Zafiro.UI</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
       <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
       <Name>Deployer.BinaryBundle</Name>
