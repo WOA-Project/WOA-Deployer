@@ -2,20 +2,17 @@
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using Deployer.Core;
-using Deployer.Core.Deployers;
-using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Interaction;
-using Deployer.Gui.Services;
-using Deployer.Gui.ViewModels.Common;
+using Deployer.Net4x;
+using Deployer.Wpf;
 using Grace.DependencyInjection.Attributes;
 using Iridio.Runtime;
 using Optional;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI;
 using Zafiro.UI;
+using DeployerFileOpenService = Deployer.Gui.Services.DeployerFileOpenService;
 
 namespace Deployer.Gui.ViewModels.Sections
 {
@@ -23,12 +20,12 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 2)]
     public class AdvancedViewModel : ReactiveObject, ISection
     {
-        private readonly WoaDeployer deployer;
+        private readonly WoaDeployerBase deployer;
         private readonly IInteraction interaction;
         private readonly DeployerFileOpenService fileOpenService;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
 
-        public AdvancedViewModel(WoaDeployer deployer, IInteraction interaction,
+        public AdvancedViewModel(WoaDeployerBase deployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;

@@ -7,6 +7,7 @@ using System.Reactive.Linq;
 using Deployer.Core;
 using Deployer.Core.Interaction;
 using Deployer.Gui.ViewModels.Common;
+using Deployer.Wpf;
 using Grace.DependencyInjection.Attributes;
 using ReactiveUI;
 using Serilog;

@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:common="clr-namespace:Deployer.Gui.ViewModels.Common"
+             xmlns:wpf="clr-namespace:Deployer.Wpf;assembly=Deployer.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="35" d:DesignWidth="153.75" d:DataContext="{d:DesignInstance common:OperationProgressViewModel}">
+             d:DesignHeight="35" d:DesignWidth="153.75" d:DataContext="{d:DesignInstance wpf:OperationProgressViewModel}">
     <Grid>
         <Border BorderThickness="1" Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnTrue}}">
             <Grid >

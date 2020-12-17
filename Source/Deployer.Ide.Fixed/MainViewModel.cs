@@ -13,6 +13,7 @@ using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Net4x;
+using Deployer.Wpf;
 using DynamicData;
 using Iridio.Binding.Model;
 using Iridio.Runtime;

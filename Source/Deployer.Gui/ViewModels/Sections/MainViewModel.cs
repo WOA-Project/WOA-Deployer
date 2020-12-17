@@ -2,11 +2,10 @@
 using System.Reactive;
 using Deployer.Core.Interaction;
 using Deployer.Gui.Properties;
-using Deployer.Gui.ViewModels.Common;
+using Deployer.Wpf;
 using Grace.DependencyInjection;
 using Optional;
 using ReactiveUI;
-using Zafiro.Core.UI;
 using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.Sections
@@ -15,10 +14,10 @@ namespace Deployer.Gui.ViewModels.Sections
     {
         public OperationProgressViewModel OperationProgress { get; }
 
-        public MainViewModel(IList<Meta<ISection>> sections, IList<IBusy> busies, IInteraction contextDialog, OperationProgressViewModel operationProgress) : base(sections, busies)
+        public MainViewModel(IList<Meta<ISection>> sections, IList<IBusy> busies, IInteraction interaction, OperationProgressViewModel operationProgress) : base(sections, busies)
         {
             OperationProgress = operationProgress;
-            ShowWarningCommand = ReactiveCommand.CreateFromTask(() => contextDialog.Message(Resources.TermsOfUseTitle, Resources.WarningNotice, "OK".Some(), Optional.Option.None<string>()));
+            ShowWarningCommand = ReactiveCommand.CreateFromTask(() => interaction.Message(Resources.TermsOfUseTitle, Resources.WarningNotice, "OK".Some(), Optional.Option.None<string>()));
         }
 
         public ReactiveCommand<Unit, Unit> ShowWarningCommand { get; set; }

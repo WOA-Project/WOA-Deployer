@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Reactive.Linq;
 using ByteSizeLib;
 using Deployer.Net4x;
 using ReactiveUI;
 using Zafiro.Core;
 
-namespace Deployer.Ide
+namespace Deployer.Wpf
 {
     public class OperationProgressViewModel : ReactiveObject
     {
@@ -15,11 +14,11 @@ namespace Deployer.Ide
         private ByteSize downloaded;
         private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(WoaDeployerBase deployer, IOperationProgress progress)
+        public OperationProgressViewModel(WoaDeployerBase deployer, IOperationProgress operationProgress)
         {
             message = deployer.Messages.ToProperty(this, x => x.Message);
 
-            progress.Progress.Subscribe(progress => {
+            operationProgress.Progress.Subscribe(progress => {
                 switch (progress)
                 {
                     case Done done:

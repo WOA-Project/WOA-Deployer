@@ -55,19 +55,14 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Zafiro.UI">
-      <HintPath>..\packages\Zafiro.UI.2.3.45\lib\netstandard2.0\Zafiro.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Zafiro.UI.Wpf">
-      <HintPath>..\packages\Zafiro.UI.Wpf.2.3.45\lib\net472\Zafiro.UI.Wpf.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CompositionRoot.cs" />
+    <Compile Include="Composition.cs" />
+    <Compile Include="ConfigureExtensions.cs" />
     <Compile Include="Converters\MetadataConverter.cs" />
     <Compile Include="MyBooleanToVisibilityConverter.cs" />
     <Compile Include="MyNullToBoolConverter.cs" />
@@ -97,7 +92,6 @@
     <Compile Include="ObservableExtensions.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Disk\SdCardFillerViewModel.cs" />
-    <Compile Include="ViewModels\Common\OperationProgressViewModel.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
     <Compile Include="ViewModels\Common\Requirements.cs" />
     <Compile Include="Views\DiskSelectionPart.xaml.cs">
@@ -147,7 +141,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Composition.cs" />
     <Compile Include="ViewModels\Sections\DeviceDeploymentViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -207,13 +200,25 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
+      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
+      <Name>Markdown.Xaml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj">
-      <Project>{F53E333E-E0A3-4E3F-9C7E-20ED6FDBC0BD}</Project>
+      <Project>{f53e333e-e0a3-4e3f-9c7e-20ed6fdbc0bd}</Project>
       <Name>Zafiro.Core.Net4x</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{A8630BE7-BB2A-473F-A997-453BDF45AE64}</Project>
+      <Project>{a8630be7-bb2a-473f-a997-453bdf45ae64}</Project>
       <Name>Zafiro.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
+      <Project>{0f24e550-ca98-493c-a829-f34f8ad85bfd}</Project>
+      <Name>Zafiro.UI.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SuperJMN-Zafiro\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
+      <Project>{df89b41c-1388-4e14-9bb6-3ebb78b6a30a}</Project>
+      <Name>Zafiro.UI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
@@ -238,6 +243,10 @@
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
       <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
       <Name>Iridio.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj">
+      <Project>{E91DEC9F-6569-431A-B7AA-BCF9BA27EFE5}</Project>
+      <Name>Iridio</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

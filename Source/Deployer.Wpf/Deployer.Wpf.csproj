@@ -52,10 +52,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="ValueConverters, Version=2.0.20011.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\SuperJMN\.nuget\packages\valueconverters\2.0.20011.1\lib\net45\ValueConverters.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,6 +62,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands.cs" />
+    <Compile Include="OperationProgressViewModel.cs" />
     <Compile Include="RequirementsModel.cs" />
     <Compile Include="DeployerFileOpenService.cs" />
     <Compile Include="DiskRequirementSolver.cs" />
@@ -194,6 +191,9 @@
     </PackageReference>
     <PackageReference Include="Grace">
       <Version>7.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="ValueConverters">
+      <Version>2.0.20011.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
