@@ -4,7 +4,7 @@ using Deployer.Core.Scripting.MicroParser;
 using Deployer.Filesystem;
 using Optional;
 
-namespace Deployer.Functions.Partitions
+namespace Deployer.Core.Functions.Partitions
 {
     public static class PartitionConversionMixin 
     {

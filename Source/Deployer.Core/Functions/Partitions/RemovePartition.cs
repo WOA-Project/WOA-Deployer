@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Deployer.Filesystem;
 using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions.Partitions
+namespace Deployer.Core.Functions.Partitions
 {
     public class RemovePartition : DeployerFunction
     {

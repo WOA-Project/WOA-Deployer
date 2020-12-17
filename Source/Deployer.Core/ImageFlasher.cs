@@ -5,14 +5,13 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Deployer.Core;
 using Deployer.Core.Services;
 using Deployer.Core.Utils;
 using Deployer.Filesystem;
 using Serilog;
 using Zafiro.Core;
 
-namespace Deployer.NetFx
+namespace Deployer.Core
 {
     public class ImageFlasher : IImageFlasher
     {
@@ -30,7 +29,7 @@ namespace Deployer.NetFx
 
         public async Task Flash(IDisk disk, string imagePath, IOperationProgress progressObserver = null)
         {
-            Log.Information("Flashing GPT image...");
+            Log.Information("Flashing image...");
             
             ISubject<string> outputSubject = new Subject<string>();
             IDisposable stdOutputSubscription = null;
@@ -42,14 +41,13 @@ namespace Deployer.NetFx
                     {
                         if (!isValidating && CultureInfo.CurrentCulture.CompareInfo.IndexOf(s, "validating", 0, CompareOptions.IgnoreCase) != -1)
                         {
-                            progressObserver?.Percentage.OnNext(double.NaN);
+                            progressObserver?.Send(new Unknown());
                             Log.Information("Validating flashed image...");                            
                             isValidating = true;
                         }                        
                     })
                     .Select(GetPercentage)
-                    .Where(d => !double.IsNaN(d))
-                    .Subscribe(progressObserver.Percentage);
+                    .Subscribe(progressObserver.Send);
             }
             
             var args = $@"-d \\.\PHYSICALDRIVE{disk.Number} ""{imagePath}"" --yes --no-unmount";
@@ -61,7 +59,7 @@ namespace Deployer.NetFx
                 throw new FlashException($"Cannot flash the image: {imagePath} to {disk}");
             }
 
-            progressObserver?.Percentage.OnNext(double.NaN);
+            progressObserver?.Send(new Unknown());
 
             stdOutputSubscription?.Dispose();
 
@@ -69,7 +67,9 @@ namespace Deployer.NetFx
 
             await EnsureDiskHasNewGuid(disk);
 
-            Log.Information("GPT image flashed");
+            progressObserver?.Send(new Done());
+
+            Log.Information("Image flashed");
         }
 
         private static async Task EnsureDiskHasNewGuid(IDisk disk)
@@ -77,11 +77,11 @@ namespace Deployer.NetFx
             await disk.SetGuid(Guid.NewGuid());
         }
 
-        private double GetPercentage(string output)
+        private Progress GetPercentage(string output)
         {
             if (output == null)
             {
-                return double.NaN;
+                return new Unknown();
             }
 
             var matches = percentRegex.Match(output);
@@ -92,7 +92,7 @@ namespace Deployer.NetFx
                 try
                 {
                     var percentage = double.Parse(value, CultureInfo.InvariantCulture) / 100D;
-                    return percentage;
+                    return new Percentage(percentage);
                 }
                 catch (FormatException)
                 {
@@ -100,7 +100,7 @@ namespace Deployer.NetFx
                 }
             }
 
-            return double.NaN;
+            return new Unknown();
         }
     }
 }

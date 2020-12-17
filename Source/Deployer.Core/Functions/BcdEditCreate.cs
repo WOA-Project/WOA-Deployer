@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Deployer.Core.Services;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions
+namespace Deployer.Core.Functions
 {
     public class BcdEditCreate : DeployerFunction
     {

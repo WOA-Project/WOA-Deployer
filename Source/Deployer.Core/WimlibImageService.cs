@@ -6,7 +6,7 @@ using ManagedWimLib;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.NetFx
+namespace Deployer.Core
 {
     public class WimlibImageService : ImageServiceBase
     {
@@ -59,7 +59,7 @@ namespace Deployer.NetFx
                         break;
                 }
 
-                progressObserver.Percentage.OnNext((double) percentComplete / 100);
+                progressObserver.Send(new Percentage((double) percentComplete / 100));
             }
 
 

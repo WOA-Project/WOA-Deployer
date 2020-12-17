@@ -4,7 +4,7 @@ using Deployer.Core.Scripting;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions
+namespace Deployer.Core.Functions
 {
     public class Unzip : UnzipBase
     {

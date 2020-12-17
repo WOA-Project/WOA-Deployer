@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions.Urls
+namespace Deployer.Core.Functions.Urls
 {
     public class GitHub : DeployerFunction
     {

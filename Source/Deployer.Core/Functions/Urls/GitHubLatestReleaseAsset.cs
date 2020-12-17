@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Octokit;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions.Urls
+namespace Deployer.Core.Functions.Urls
 {
     public class GitHubLatestReleaseAsset : DeployerFunction
     {

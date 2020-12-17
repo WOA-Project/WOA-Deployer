@@ -1,4 +1,4 @@
-﻿namespace Deployer.Functions
+﻿namespace Deployer.Core.Functions
 {
     public interface Anchor
     {

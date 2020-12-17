@@ -13,7 +13,7 @@ using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.NetFx
+namespace Deployer.Core
 {
     public class DismImageService : ImageServiceBase
     {
@@ -77,7 +77,6 @@ namespace Deployer.NetFx
             Log.Verbose("We are about to run DISM: {ExecName} {Parameters}", dismName, args);
             var processResults = await ProcessMixin.RunProcess(dismName, args, outputSubject, cancellationToken: token);
 
-            progressObserver?.Percentage.OnNext(double.NaN);
             progressObserver?.Send(new Done());
 
             if (processResults.ExitCode != 0)

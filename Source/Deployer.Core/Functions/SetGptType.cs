@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Deployer.Core.Functions.Partitions;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Deployer.Filesystem;
-using Deployer.Functions.Partitions;
 using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions
+namespace Deployer.Core.Functions
 {
     public class SetGptType : DeployerFunction
     {

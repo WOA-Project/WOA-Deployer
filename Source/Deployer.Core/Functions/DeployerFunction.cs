@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using Deployer.Core.Scripting;
 using Newtonsoft.Json;
 using Serilog;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Scripting.Core
+namespace Deployer.Core.Functions
 {
     public abstract class DeployerFunction : IDeployerFunction
     {

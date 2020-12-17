@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions
+namespace Deployer.Core.Functions
 {
     public class Fail : DeployerFunction
     {

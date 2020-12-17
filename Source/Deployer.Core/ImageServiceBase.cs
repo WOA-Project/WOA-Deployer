@@ -14,7 +14,7 @@ using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Mixins;
 
-namespace Deployer.NetFx
+namespace Deployer.Core
 {
     public abstract class ImageServiceBase : IWindowsImageService
     {

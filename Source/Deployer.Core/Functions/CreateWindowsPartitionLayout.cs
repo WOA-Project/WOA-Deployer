@@ -1,15 +1,13 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core;
 using Deployer.Core.Scripting;
-using Deployer.Core.Scripting.Core;
 using Deployer.Filesystem;
 using Deployer.Filesystem.Gpt;
 using Serilog;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions
+namespace Deployer.Core.Functions
 {
     public class CreateWindowsPartitionLayout : DeployerFunction
     {

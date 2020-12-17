@@ -1,4 +1,4 @@
-﻿namespace Deployer.Core.Scripting.Core
+﻿namespace Deployer.Core
 {
     public interface IDeployerFunction
     {

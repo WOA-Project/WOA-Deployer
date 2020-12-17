@@ -4,7 +4,6 @@ using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Core.Services.Wim;
-using Deployer.NetFx;
 using Grace.DependencyInjection;
 using Octokit;
 using Zafiro.Core;

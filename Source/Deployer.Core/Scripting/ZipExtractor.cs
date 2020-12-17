@@ -77,11 +77,11 @@ namespace Deployer.Core.Scripting
                 {
                     await stream.CopyToAsync(destStream);
                     copied++;
-                    progressObserver?.Percentage.OnNext(copied / (double)total);
+                    progressObserver?.Send(new Percentage(copied / (double)total));
                 }
             }
 
-            progressObserver?.Percentage.OnNext(double.NaN);
+            progressObserver?.Send(new Done());
         }
 
         private ZipArchiveEntry GetTopFolderEntry(IEnumerable<ZipArchiveEntry> zipArchiveEntries)
