@@ -10,6 +10,6 @@
 [submodule "Source/Iridio"]
 	path = Source/Iridio
 	url = https://github.com/SuperJMN/Iridio.git
-[submodule "Zafiro"]
-	path = Zafiro
+[submodule "Source/Zafiro"]
+	path = Source/Zafiro
 	url = https://github.com/SuperJMN-Zafiro/Zafiro.git
