@@ -62,8 +62,6 @@ namespace Deployer.Ide
 
             var hasFile = this.WhenAnyValue(v => v.File).Select(z => z != null);
             
-            
-
             Save = ReactiveCommand.CreateFromTask(SaveFile, hasFile);
 
             openFileLoader

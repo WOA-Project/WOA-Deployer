@@ -9,42 +9,64 @@ namespace Deployer.Ide
 {
     public class OperationProgressViewModel : ReactiveObject
     {
-        private readonly ObservableAsPropertyHelper<bool> isProgressVisible;
-        private readonly ObservableAsPropertyHelper<double> progress;
-        private readonly ObservableAsPropertyHelper<bool> isProgressIndeterminate;
-        private readonly ObservableAsPropertyHelper<ByteSize> downloaded;
+        private bool isProgressVisible;
+        private double percentage;
+        private bool isProgressIndeterminate;
+        private ByteSize downloaded;
         private readonly ObservableAsPropertyHelper<string> message;
 
         public OperationProgressViewModel(WoaDeployerBase deployer, IOperationProgress progress)
         {
             message = deployer.Messages.ToProperty(this, x => x.Message);
 
-            this.progress = progress.Percentage
-                .Where(d => !double.IsNaN(d))
-                .ToProperty(this, model => model.Progress);
-
-            isProgressVisible = progress.Percentage
-                .Select(d => !double.IsNaN(d))
-                .ToProperty(this, x => x.IsProgressVisible);
-
-            isProgressIndeterminate = progress.Percentage
-                .Select(double.IsPositiveInfinity)
-                .ToProperty(this, x => x.IsProgressIndeterminate);
-
-            downloaded = progress.Value
-                .Select(x => ByteSize.FromBytes(x))
-                .Sample(TimeSpan.FromSeconds(1))
-                .ToProperty(this, model => model.Downloaded);
+            progress.Progress.Subscribe(progress => {
+                switch (progress)
+                {
+                    case Done done:
+                        IsProgressVisible = false;
+                        break;
+                    case Percentage p:
+                        IsProgressVisible = true;
+                        this.Progress = p.Value;
+                        break;
+                    case UndefinedProgress<ulong> undefinedProgress:
+                        IsProgressVisible = true;
+                        this.Downloaded = ByteSize.FromBytes(undefinedProgress.Value);
+                        break;
+                    case Unknown unknown:
+                        IsProgressVisible = true;
+                        IsProgressIndeterminate = true;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(progress));
+                }
+            });
         }
 
         public string Message => message.Value;
 
-        public ByteSize Downloaded => downloaded.Value;
+        public ByteSize Downloaded
+        {
+            get => downloaded;
+            set => this.RaiseAndSetIfChanged(ref downloaded, value);
+        }
 
-        public bool IsProgressIndeterminate => isProgressIndeterminate.Value;
+        public bool IsProgressIndeterminate
+        {
+            get => isProgressIndeterminate;
+            set => this.RaiseAndSetIfChanged(ref isProgressIndeterminate, value);
+        }
 
-        public bool IsProgressVisible => isProgressVisible.Value;
+        public bool IsProgressVisible
+        {
+            get => isProgressVisible;
+            set => this.RaiseAndSetIfChanged(ref isProgressVisible, value);
+        }
 
-        public double Progress => progress.Value;
+        public double Progress
+        {
+            get => percentage;
+            set => this.RaiseAndSetIfChanged(ref percentage, value);
+        }
     }
 }

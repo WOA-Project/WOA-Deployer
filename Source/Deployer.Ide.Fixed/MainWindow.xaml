@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <RowDefinition Height="5" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -57,7 +58,8 @@
                 <ide:AvalonEditBehaviour GiveMeTheText="{Binding SourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </b:Interaction.Behaviors>
         </avalonedit:TextEditor>
-        <TabControl Grid.Row="3">
+        <GridSplitter Grid.Row="3" Background="LightGray" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+        <TabControl Grid.Row="4">
             <TabItem Header="Runtime output">
                 <Grid>
                     <ListView MinHeight="50" ItemsSource="{Binding RuntimeMessages}" MaxHeight="200" />
@@ -68,7 +70,7 @@
                 <ListView MinHeight="50" ItemsSource="{Binding Output}" MaxHeight="200" />
             </TabItem>
         </TabControl>
-        <StatusBar Grid.Row="4">
+        <StatusBar Grid.Row="5">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -87,7 +89,7 @@
                 <TextBlock Text="{Binding Status.Message}" />
             </StatusBarItem>
             <StatusBarItem Grid.Column="2" DataContext="{Binding Status}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
-                <Grid>
+                <Grid Visibility="{Binding IsProgressVisible, Converter={StaticResource CollapseOnFalse}}">
                     <Border BorderThickness="1"
                             Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnTrue}}">
                         <Grid>
