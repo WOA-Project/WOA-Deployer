@@ -232,6 +232,10 @@
       <Project>{E91DEC9F-6569-431A-B7AA-BCF9BA27EFE5}</Project>
       <Name>Iridio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
+      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
+      <Name>Markdown.Xaml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
       <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
       <Name>Zafiro.Core</Name>

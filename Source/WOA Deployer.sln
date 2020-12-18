@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Submodules", "Submodules", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Net4x", "Deployer.NetFx\Deployer.Net4x.csproj", "{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui.TODO", "Deployer.Gui\Deployer.Gui.TODO.csproj", "{904F13EC-DFBB-4939-B720-08CB3752093C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Deployer.Gui", "Deployer.Gui\Deployer.Gui.csproj", "{904F13EC-DFBB-4939-B720-08CB3752093C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Iridio", "Iridio\Source\Iridio\Iridio.csproj", "{E91DEC9F-6569-431A-B7AA-BCF9BA27EFE5}"
 EndProject
