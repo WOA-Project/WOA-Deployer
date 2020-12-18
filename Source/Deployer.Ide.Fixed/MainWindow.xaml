@@ -83,7 +83,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0" Width="25" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}">
-                <Image Stretch="Uniform" gif:ImageBehavior.AnimatedSource="/Assets/busy.gif"  />
+                <Image gif:ImageBehavior.AnimationSpeedRatio="0.5" Stretch="Uniform" gif:ImageBehavior.AnimatedSource="/Assets/busy.gif"  />
             </StatusBarItem>
             <StatusBarItem Grid.Column="1">
                 <TextBlock Text="{Binding Status.Message}" />
