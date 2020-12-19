@@ -5,15 +5,13 @@ using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core.Exceptions;
-using Deployer.Core.Services;
-using Deployer.Core.Utils;
 using Deployer.Filesystem;
+using Deployer.Tools.Common;
 using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core
+namespace Deployer.Tools.Dism
 {
     public class DismImageService : ImageServiceBase
     {
@@ -27,7 +25,7 @@ namespace Deployer.Core
             bool useCompact = false,
             IOperationProgress progressObserver = null, CancellationToken token = default(CancellationToken))
         {
-            return ApplyImage(target.Root, imagePath, imageIndex, useCompact, progressObserver, token);
+            return ApplyImage((string) target.Root, imagePath, imageIndex, useCompact, progressObserver, token);
         }
 
         public override Task ApplyImage(string targetDriveRoot, string imagePath, int imageIndex = 1,
@@ -82,7 +80,7 @@ namespace Deployer.Core
             if (processResults.ExitCode != 0)
             {
                 Log.Error("There has been a problem during deployment: DISM failed {Results}", processResults);
-                throw new DeploymentException($"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}");
+                throw new Exception($"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}");
             }
 
             stdOutputSubscription?.Dispose();

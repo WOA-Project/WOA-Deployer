@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Deployer.Core.Utils
+namespace Deployer.Tools.Dism
 {
     public static class OsMetadata 
     {

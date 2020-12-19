@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
+using Deployer.Core.Functions;
 using Deployer.Core.Scripting;
-using Deployer.Core.Services;
+using Deployer.Tools.Dism;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions.Dism
 {
     public class ApplyWindowsImage : DeployerFunction
     {

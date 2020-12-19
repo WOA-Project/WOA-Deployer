@@ -45,7 +45,6 @@
     <Compile Include="PowerShellMixin.cs" />
     <Compile Include="PowerShellUtils.cs" />
     <Compile Include="Properties\SharedAssemblyInfo.cs" />
-    <Compile Include="Registrations\Common.cs" />
     <Compile Include="Volume.cs" />
     <Compile Include="WmiPartition.cs" />
     <Compile Include="WoaDeployerBase.cs" />
@@ -94,5 +93,6 @@
       <Version>1.1.0</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,10 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using RunProcessAsTask;
 using Serilog;
-using Zafiro.Core;
 using Zafiro.Core.Mixins;
 
-namespace Deployer.Core.Utils
+namespace Deployer.Tools.Common
 {
     public static class ProcessMixin
     {

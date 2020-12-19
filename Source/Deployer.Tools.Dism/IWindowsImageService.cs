@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Deployer.Filesystem;
 using Zafiro.Core;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.Dism
 {
     public interface IWindowsImageService
     {

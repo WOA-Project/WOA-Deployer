@@ -6,7 +6,7 @@ using ManagedWimLib;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core
+namespace Deployer.Tools.Dism
 {
     public class WimlibImageService : ImageServiceBase
     {

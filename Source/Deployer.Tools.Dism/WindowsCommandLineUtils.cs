@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using Deployer.Core.Utils;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.Dism
 {
     public static class WindowsCommandLineUtils
     {

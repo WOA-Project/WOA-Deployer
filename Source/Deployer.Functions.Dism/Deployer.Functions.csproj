@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj" />
+    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
+    <ProjectReference Include="..\Deployer.Tools.Dism\Deployer.Tools.Dism.csproj" />
+    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
+  </ItemGroup>
+
+</Project>

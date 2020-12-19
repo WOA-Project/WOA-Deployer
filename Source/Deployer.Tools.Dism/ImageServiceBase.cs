@@ -5,16 +5,14 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core.Exceptions;
-using Deployer.Core.Services;
-using Deployer.Core.Utils;
 using Deployer.Filesystem;
+using Deployer.Tools.Common;
 using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Mixins;
 
-namespace Deployer.Core
+namespace Deployer.Tools.Dism
 {
     public abstract class ImageServiceBase : IWindowsImageService
     {
@@ -84,11 +82,11 @@ namespace Deployer.Core
             
             if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException(
+                throw new Exception(
                     $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput.Join()}");
             }
 
-            return StringExtensions.ExtractFileNames(string.Concat(processResults.StandardOutput)).ToList();
+            return Enumerable.ToList<string>(StringExtensions.ExtractFileNames(string.Concat((IEnumerable<string>) processResults.StandardOutput)));
         }
 
         private bool IsUniqueFile(string path)
@@ -112,7 +110,7 @@ namespace Deployer.Core
             
             if (processResults.ExitCode != 0)
             {
-                throw new DeploymentException(
+                throw new Exception(
                     $"There has been a problem during removal: DISM exited with code {processResults}.");
             }
         }

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ManagedWimLib" Version="1.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
+    <ProjectReference Include="..\Deployer.Tools.Common\Deployer.Tools.Common.csproj" />
+  </ItemGroup>
+
+</Project>
