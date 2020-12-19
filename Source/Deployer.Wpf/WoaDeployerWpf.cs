@@ -10,7 +10,7 @@ using Zafiro.UI.Wpf;
 
 namespace Deployer.Wpf
 {
-    public class WoaDeployerWpf : WoaDeployerBase
+    public class WoaDeployerWpf : WoaDeployer
     {
         protected override void ExportSpecificDependencies(IExportRegistrationBlock block)
         {

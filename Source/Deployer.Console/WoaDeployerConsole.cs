@@ -7,7 +7,7 @@ using Grace.DependencyInjection;
 
 namespace Deployer.Console
 {
-    public class WoaDeployerConsole : WoaDeployerBase
+    public class WoaDeployerConsole : WoaDeployer
     {
         protected override void ExportSpecificDependencies(IExportRegistrationBlock block)
         {

@@ -4,12 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Compiler;
-using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
-using Iridio.Common;
 using Iridio.Runtime;
 using Iridio.Runtime.ReturnValues;
 using Zafiro.Core.FileSystem;
@@ -17,14 +15,14 @@ using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core.Deployers
 {
-    public class BrandNewDeployer : BrandNewDeployerBase
+    public class CoreDeployer
     {
         private readonly IFileSystemOperations fso;
         private readonly IScriptRunner scriptRunner;
         private readonly IRequirementsManager reqsManager;
         public IDeployerCompiler Compiler { get; }
 
-        public BrandNewDeployer(IDeployerCompiler compiler, IFileSystemOperations fso, IScriptRunner scriptRunner, IRequirementsManager reqsManager)
+        public CoreDeployer(IDeployerCompiler compiler, IFileSystemOperations fso, IScriptRunner scriptRunner, IRequirementsManager reqsManager)
         {
             this.fso = fso;
             this.scriptRunner = scriptRunner;

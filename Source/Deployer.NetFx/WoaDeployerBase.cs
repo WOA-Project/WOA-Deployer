@@ -22,63 +22,65 @@ using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Net4x
 {
-    public class WoaDeployerBase : IWoaDeployer
+    public abstract class WoaDeployer : IWoaDeployer
     {
-        private readonly BrandNewDeployer deployer;
-        private readonly IOperationProgress operationProgress = new OperationProgress();
-        private readonly IOperationContext operationContext = new OperationContext();
+        private readonly CoreDeployer deployer;
 
-        protected WoaDeployerBase()
+        protected WoaDeployer()
         {
             deployer = GetDeployer();
         }
 
-        private BrandNewDeployer GetDeployer()
+        public IOperationProgress OperationProgress { get; } = new OperationProgress();
+
+        public IOperationContext OperationContext { get; } = new OperationContext();
+
+        public IObservable<string> Messages => deployer.Messages;
+
+        public Task<Either<DeployerError, Success>> Run(string scriptPath)
+        {
+            return deployer.Run(scriptPath);
+        }
+
+        private CoreDeployer GetDeployer()
         {
             var container = new DependencyInjectionContainer();
 
-            container.Configure(c =>
+            container.Configure(block =>
             {
-                FunctionDependencies.Configure(c);
-                c.Export<FileSystemOperations>().As<IFileSystemOperations>().Lifestyle.Singleton();
-                c.Export<Preprocessor>().As<IPreprocessor>().Lifestyle.Singleton();
-                c.Export<Parser>().As<IParser>().Lifestyle.Singleton();
-                c.Export<Binder>().As<IBinder>().Lifestyle.Singleton();
-                c.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
-                c.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
-                c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new ZafiroFile(new Uri(path), fo, dl));
-                c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
-                c.Export<ScriptRunner>().As<IScriptRunner>().Lifestyle.Singleton();
-                c.ExportFactory(() => operationProgress).As<IOperationProgress>().Lifestyle.Singleton();
-                c.ExportFactory(() => operationContext).As<IOperationContext>().Lifestyle.Singleton();
-                c.Export<ShellOpen>().As<IShellOpen>().Lifestyle.Singleton();
-                c.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
-
-                foreach (var taskType in Function.Types)
-                {
-                    c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
-                        .As<IFunction>()
-                        .As<IFunctionDeclaration>()
-                        .Lifestyle.Singleton();
-                }
-
-                ExportSpecificDependencies(c);
+                FunctionDependencies.Configure(block);
+                block.Export<FileSystemOperations>().As<IFileSystemOperations>().Lifestyle.Singleton();
+                block.Export<Preprocessor>().As<IPreprocessor>().Lifestyle.Singleton();
+                block.Export<Parser>().As<IParser>().Lifestyle.Singleton();
+                block.Export<Binder>().As<IBinder>().Lifestyle.Singleton();
+                block.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
+                block.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
+                block.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) =>
+                    new ZafiroFile(new Uri(path), fo, dl));
+                block.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
+                block.Export<ScriptRunner>().As<IScriptRunner>().Lifestyle.Singleton();
+                block.ExportFactory(() => OperationProgress).As<IOperationProgress>().Lifestyle.Singleton();
+                block.ExportFactory(() => OperationContext).As<IOperationContext>().Lifestyle.Singleton();
+                block.Export<ShellOpen>().As<IShellOpen>().Lifestyle.Singleton();
+                block.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
+                ExportFunctions(block);
+                ExportSpecificDependencies(block);
             });
 
-            return container.Locate<BrandNewDeployer>();
+            return container.Locate<CoreDeployer>();
+        }
+
+        private static void ExportFunctions(IExportRegistrationBlock block)
+        {
+            foreach (var taskType in Function.Types)
+                block.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
+                    .As<IFunction>()
+                    .As<IFunctionDeclaration>()
+                    .Lifestyle.Singleton();
         }
 
         protected virtual void ExportSpecificDependencies(IExportRegistrationBlock exportRegistrationBlock)
         {
-        }
-
-        public IOperationProgress OperationProgress => operationProgress;
-        public IOperationContext OperationContext => operationContext;
-        public IObservable<string> Messages => deployer.Messages;
-
-        public Task<Either<DeployerError, Success>> Run(string s)
-        {
-            return deployer.Run(s);
         }
     }
 }

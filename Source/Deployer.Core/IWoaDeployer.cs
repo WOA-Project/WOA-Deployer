@@ -13,6 +13,6 @@ namespace Deployer.Core
         IOperationProgress OperationProgress { get; }
         IOperationContext OperationContext { get; }
         IObservable<string> Messages { get; }
-        Task<Either<DeployerError, Success>> Run(string s);
+        Task<Either<DeployerError, Success>> Run(string scriptPath);
     }
 }
