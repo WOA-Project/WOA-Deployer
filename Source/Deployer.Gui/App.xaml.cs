@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Deployer.Core;
+using NLog;
 using Serilog;
 using Serilog.Events;
 
@@ -12,9 +14,10 @@ namespace Deployer.Gui
         protected override void OnStartup(StartupEventArgs e)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.RollingFile(@"Logs\Log-{Date}.txt")
-                .MinimumLevel.Debug()
+                .WriteTo.File(@"Logs\Deployer.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
+            
+            Log.Information($"Starting Deployer v{AppVersionMixin.VersionString}");
         }
     }
 }

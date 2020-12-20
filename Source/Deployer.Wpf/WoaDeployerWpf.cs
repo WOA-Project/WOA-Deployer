@@ -5,6 +5,7 @@ using Deployer.Core.Services;
 using Deployer.Filesystem;
 using Deployer.Net4x;
 using Grace.DependencyInjection;
+using Serilog;
 using Zafiro.UI;
 using Zafiro.UI.Wpf;
 
