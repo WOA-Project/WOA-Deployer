@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Deployer.Filesystem;
 using Zafiro.Core;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.ImageFlashing
 {
     public interface IImageFlasher
     {

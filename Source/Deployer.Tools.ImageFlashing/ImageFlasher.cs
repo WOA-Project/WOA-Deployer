@@ -5,14 +5,12 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Deployer.Core.Services;
-using Deployer.Core.Utils;
 using Deployer.Filesystem;
 using Deployer.Tools.Common;
 using Serilog;
 using Zafiro.Core;
 
-namespace Deployer.Core
+namespace Deployer.Tools.ImageFlashing
 {
     public class ImageFlasher : IImageFlasher
     {
@@ -23,7 +21,7 @@ namespace Deployer.Core
             get
             {
                 var platformSuffix = Environment.Is64BitProcess ? "x64" : "x86";
-                var etcherPath = Path.Combine("Core", "Tools", platformSuffix, "Etcher-Cli", "Etcher");
+                var etcherPath = Path.Combine("Etcher-Cli", platformSuffix, "Etcher");
                 return etcherPath;
             }
         }

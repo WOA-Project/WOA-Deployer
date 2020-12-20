@@ -43,6 +43,7 @@
     <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
     <ProjectReference Include="..\Deployer.Tools.AzureDevOps\Deployer.Tools.AzureDevOps.csproj" />
     <ProjectReference Include="..\Deployer.Tools.Dism\Deployer.Tools.Dism.csproj" />
+    <ProjectReference Include="..\Deployer.Tools.ImageFlashing\Deployer.Tools.ImageFlashing.csproj" />
     <ProjectReference Include="..\Deployer.Tools.Wim\Deployer.Tools.Wim.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />

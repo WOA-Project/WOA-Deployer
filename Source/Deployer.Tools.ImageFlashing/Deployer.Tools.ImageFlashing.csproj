@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
+    <ProjectReference Include="..\Deployer.Tools.Common\Deployer.Tools.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Etcher-Cli\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+
+</Project>

@@ -4,6 +4,7 @@ using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Tools.AzureDevOps;
 using Deployer.Tools.Dism;
+using Deployer.Tools.ImageFlashing;
 using Deployer.Tools.Wim;
 using Grace.DependencyInjection;
 using Octokit;

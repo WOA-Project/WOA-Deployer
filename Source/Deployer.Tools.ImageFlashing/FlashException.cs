@@ -1,6 +1,6 @@
 using System;
 
-namespace Deployer.Core
+namespace Deployer.Tools.ImageFlashing
 {
     public class FlashException : Exception
     {

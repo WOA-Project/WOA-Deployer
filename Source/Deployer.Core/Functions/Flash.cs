@@ -2,6 +2,7 @@
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Filesystem;
+using Deployer.Tools.ImageFlashing;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
