@@ -43,11 +43,16 @@
     <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj" />
     <ProjectReference Include="..\Deployer.Tools.AzureDevOps\Deployer.Tools.AzureDevOps.csproj" />
     <ProjectReference Include="..\Deployer.Tools.Dism\Deployer.Tools.Dism.csproj" />
+    <ProjectReference Include="..\Deployer.Tools.Wim\Deployer.Tools.Wim.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj" />
     <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj" />
     <ProjectReference Include="..\Registry\Registry\Registry.csproj" />
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
     <ProjectReference Include="..\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Wim\" />
   </ItemGroup>
 
 </Project>

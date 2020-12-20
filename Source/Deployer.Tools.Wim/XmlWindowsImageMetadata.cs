@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     public class XmlWindowsImageMetadata
     {

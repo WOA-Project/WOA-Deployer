@@ -141,6 +141,10 @@
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.Net4x</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deployer.Tools.Wim\Deployer.Tools.Wim.csproj">
+      <Project>{05EC5E58-0B54-4BF0-8EAE-29827C4732E6}</Project>
+      <Name>Deployer.Tools.Wim</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
       <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
       <Name>Zafiro.Core</Name>

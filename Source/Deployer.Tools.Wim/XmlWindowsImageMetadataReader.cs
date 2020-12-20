@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     public class XmlWindowsImageMetadataReader : WindowsImageMetadataReaderBase
     {

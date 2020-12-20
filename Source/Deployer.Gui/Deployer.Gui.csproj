@@ -220,6 +220,10 @@
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.Net4x</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deployer.Tools.Wim\Deployer.Tools.Wim.csproj">
+      <Project>{05EC5E58-0B54-4BF0-8EAE-29827C4732E6}</Project>
+      <Name>Deployer.Tools.Wim</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Wpf\Deployer.Wpf.csproj">
       <Project>{5ee0cd99-0553-480f-bb4a-a9bf2cdac4fa}</Project>
       <Name>Deployer.Wpf</Name>

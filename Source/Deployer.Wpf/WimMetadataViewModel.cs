@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Deployer.Core.Services.Wim;
+using Deployer.Tools.Wim;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
 

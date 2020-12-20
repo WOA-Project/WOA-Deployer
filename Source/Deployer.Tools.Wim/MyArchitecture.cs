@@ -1,4 +1,4 @@
-﻿namespace Deployer.Core.Services.Wim
+﻿namespace Deployer.Tools.Wim
 {
     public enum MyArchitecture
     {

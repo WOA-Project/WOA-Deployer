@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Services.Wim;
+using Deployer.Tools.Wim;
 using Optional.Collections;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Patterns.Either;

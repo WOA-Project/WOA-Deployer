@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Serilog;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     public class WindowsImageMetadataReader : WindowsImageMetadataReaderBase
     {

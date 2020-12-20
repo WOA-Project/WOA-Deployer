@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Xml.Serialization;
-using Deployer.Core.Exceptions;
 using Serilog;
 using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     public abstract class WindowsImageMetadataReaderBase : IWindowsImageMetadataReader
     {

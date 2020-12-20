@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml.Serialization;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     [XmlRoot(ElementName = "WIM")]
     public class WimMetadata

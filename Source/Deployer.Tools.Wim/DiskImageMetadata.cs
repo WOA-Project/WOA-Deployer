@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Deployer.Core.Services.Wim
+﻿namespace Deployer.Tools.Wim
 {
     public class DiskImageMetadata
     {

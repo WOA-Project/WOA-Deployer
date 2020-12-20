@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     public interface IWindowsImageMetadataReader
     {

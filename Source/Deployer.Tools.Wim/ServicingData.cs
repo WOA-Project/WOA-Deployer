@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Deployer.Core.Services.Wim
+namespace Deployer.Tools.Wim
 {
     [XmlRoot(ElementName = "SERVICINGDATA")]
     public class ServicingData

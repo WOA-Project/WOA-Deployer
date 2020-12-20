@@ -5,15 +5,14 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Requirements;
-using Deployer.Core.Services.Wim;
 using Deployer.Gui.Properties;
 using Deployer.Gui.Services;
 using Deployer.Gui.ViewModels.Common;
+using Deployer.Tools.Wim;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI;
 using Zafiro.UI;
 
 namespace Deployer.Gui.ViewModels.RequirementSolvers
