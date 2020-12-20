@@ -1,9 +1,9 @@
 using System;
 using System.Net.Http;
-using Deployer.Core.DevOpsBuildClient;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Core.Services.Wim;
+using Deployer.Tools.AzureDevOps;
 using Deployer.Tools.Dism;
 using Grace.DependencyInjection;
 using Octokit;

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Deployer.Core.DevOpsBuildClient.ArtifactModel;
+using Deployer.Tools.AzureDevOps.ArtifactModel;
 
-namespace Deployer.Core.DevOpsBuildClient
+namespace Deployer.Tools.AzureDevOps
 {
     public interface IAzureDevOpsBuildClient
     {

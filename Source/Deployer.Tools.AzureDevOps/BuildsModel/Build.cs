@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Deployer.Core.DevOpsBuildClient.BuildsModel
+namespace Deployer.Tools.AzureDevOps.BuildsModel
 {
     public class Build
     {
-
         [JsonProperty("_links")]
         public Links Links { get; set; }
 

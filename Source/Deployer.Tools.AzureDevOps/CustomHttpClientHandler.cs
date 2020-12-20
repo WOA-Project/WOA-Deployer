@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Deployer.Core.DevOpsBuildClient
+namespace Deployer.Tools.AzureDevOps
 {
     public class CustomHttpClientHandler : HttpClientHandler
     {

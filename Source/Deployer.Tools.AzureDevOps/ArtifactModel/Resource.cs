@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Deployer.Core.DevOpsBuildClient.ArtifactModel
+namespace Deployer.Tools.AzureDevOps.ArtifactModel
 {
     public class Resource
     {

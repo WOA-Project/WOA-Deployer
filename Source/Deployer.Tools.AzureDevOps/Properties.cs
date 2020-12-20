@@ -1,4 +1,4 @@
-﻿namespace Deployer.Core.DevOpsBuildClient
+﻿namespace Deployer.Tools.AzureDevOps
 {
     public class Properties
     {

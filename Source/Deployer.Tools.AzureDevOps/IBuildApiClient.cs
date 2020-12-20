@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Deployer.Core.DevOpsBuildClient.ArtifactModel;
-using Deployer.Core.DevOpsBuildClient.BuildsModel;
+using Deployer.Tools.AzureDevOps.ArtifactModel;
+using Deployer.Tools.AzureDevOps.BuildsModel;
 using Refit;
 
-namespace Deployer.Core.DevOpsBuildClient
+namespace Deployer.Tools.AzureDevOps
 {
     public interface IBuildApiClient
     {
