@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.Bcd
 {
     public interface IBcdInvoker
     {

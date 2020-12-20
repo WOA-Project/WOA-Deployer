@@ -7,7 +7,6 @@ using Deployer.Core.Console;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
 using Deployer.Filesystem;
-using Deployer.NetFx;
 using Zafiro.Core.Patterns.Either;
 
 namespace ConsoleApp1

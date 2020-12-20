@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public class OS
     {

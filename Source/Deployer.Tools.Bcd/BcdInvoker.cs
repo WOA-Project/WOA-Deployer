@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Deployer.Core.Utils;
 using Deployer.Tools.Common;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.Bcd
 {
     public class BcdInvoker : IBcdInvoker
     {

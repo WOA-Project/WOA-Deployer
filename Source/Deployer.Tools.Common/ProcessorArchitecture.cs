@@ -1,4 +1,4 @@
-﻿namespace Deployer.Tools.Dism
+﻿namespace Deployer.Tools.Common
 {
     public enum ProcessorArchitecture
     {

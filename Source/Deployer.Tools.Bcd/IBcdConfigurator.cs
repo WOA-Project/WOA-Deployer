@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Filesystem;
 
-namespace Deployer.Core
+namespace Deployer.Tools.Bcd
 {
     public interface IBcdConfigurator
     {

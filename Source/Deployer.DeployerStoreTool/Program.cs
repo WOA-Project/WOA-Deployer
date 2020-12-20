@@ -5,7 +5,7 @@ using Deployer.Core;
 using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
 
-namespace Deployer.DeployerStoreTool
+namespace Deployer.Generator.DefaultDeployerStoreData
 {
     class Program
     {

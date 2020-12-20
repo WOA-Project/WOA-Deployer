@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Deployer.Core.Services
+namespace Deployer.Tools.Bcd
 {
     public static class InvokerMixin
     {

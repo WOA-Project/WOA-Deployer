@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Deployer.Tools.Common;
 using Deployer.Tools.Dism;
 
 namespace Deployer.Core

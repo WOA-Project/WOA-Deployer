@@ -5,7 +5,7 @@ using Deployer.Tools.Dism;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Functions.Dism
+namespace Deployer.Functions
 {
     public class ApplyWindowsImage : DeployerFunction
     {

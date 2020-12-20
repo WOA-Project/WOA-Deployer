@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Services;
 using Deployer.Filesystem;
+using Deployer.Net4x;
 using Grace.DependencyInjection;
 
 namespace Deployer.NetFx.Tests

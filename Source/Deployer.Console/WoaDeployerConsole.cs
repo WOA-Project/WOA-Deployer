@@ -1,8 +1,6 @@
-﻿using ConsoleApp1;
-using Deployer.Core.Requirements;
+﻿using Deployer.Core.Requirements;
 using Deployer.Core.Services;
 using Deployer.Net4x;
-using Deployer.NetFx;
 using Grace.DependencyInjection;
 
 namespace Deployer.Console

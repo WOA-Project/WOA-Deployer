@@ -13,4 +13,851 @@
     <ProjectReference Include="..\Deployer.Tools.Common\Deployer.Tools.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Dism\amd64\DISM\api-ms-win-core-apiquery-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l2-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l2-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l3-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-advapi32-l4-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-kernel32-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-kernel32-l2-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-ole32-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-ole32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-shlwapi-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-shlwapi-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-user32-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-user32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\api-ms-win-downlevel-version-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\compatprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\de-de\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\Dism.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\dism.Format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\dism.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\dism.psm1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\dism.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\DismApi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\DismCore.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\DismCorePS.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\DismProv.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\FfuProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\ImagingProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\VhdProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\en-US\WimProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\es-es\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ext-ms-win-advapi32-encryptedfile-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\FfuProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\FolderProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\fr-fr\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\imagex.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ImagingProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\it-it\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ja-jp\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ko-kr\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\LogProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\Microsoft.Dism.Powershell.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pkgmgr.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\pt-br\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\qps-ploc\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ru-ru\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\siloedpackageprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\ssshim.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\VhdProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\wimgapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\wimmount.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\wimmountadksetupamd64.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\WimProvider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\wimserv.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\wofadk.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-cn\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\amd64\DISM\zh-tw\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-advapi32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-advapi32-l2-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-advapi32-l3-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-advapi32-l4-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-kernel32-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-kernel32-l2-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-ole32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-shlwapi-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-user32-l1-1-1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\api-ms-win-downlevel-version-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\compatprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dism.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dism.Format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dism.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dism.psm1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dism.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dismapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dismcore.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dismcoreps.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\dismprov.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\en-us\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\ext-ms-win-advapi32-encryptedfile-l1-1-0.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\ffuprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\folderprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\imagex.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\imagingprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\logprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\Microsoft.Dism.Powershell.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\pkgmgr.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\compatprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\dism.exe.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\dismapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\dismcore.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\dismprov.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\ffuprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\folderprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\imagingprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\logprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\siloedpackageprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\VHDProvider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\wimgapi.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\qps-ploc\wimprovider.dll.mui">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\siloedpackageprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\ssshim.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\vhdprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wimgapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wimmount.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wimmountadksetuparm.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wimprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wimserv.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm64\DISM\wofadk.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dism.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dism.Format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dism.psd1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dism.psm1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dism.Types.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dismapi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dismcore.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dismcoreps.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\dismprov.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\ffuprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\folderprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\imagingprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\logprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\Microsoft.Dism.Powershell.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\pkgmgr.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\siloedpackageprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\vhdprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Dism\arm\DISM\wimprovider.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="C:\Users\SuperJMN\.nuget\packages\managedwimlib\1.4.3\build\netstandard2.0\Precompiled\arm64\libwim.so" />
+  </ItemGroup>
+
 </Project>

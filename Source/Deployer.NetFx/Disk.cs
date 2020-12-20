@@ -10,7 +10,7 @@ using Deployer.Core;
 using Deployer.Filesystem;
 using Serilog;
 
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public class Disk : IDisk
     {

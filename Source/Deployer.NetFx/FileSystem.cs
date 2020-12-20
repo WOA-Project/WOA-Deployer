@@ -5,7 +5,7 @@ using ByteSizeLib;
 using Deployer.Filesystem;
 using Serilog;
 
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public class FileSystem : IFileSystem
     {

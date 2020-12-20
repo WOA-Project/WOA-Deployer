@@ -4,8 +4,7 @@ using System.Management.Automation;
 using System.Threading.Tasks;
 using Deployer.Filesystem;
 
-
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public static class PartitionMixin
     {

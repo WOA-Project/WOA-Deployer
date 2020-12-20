@@ -7,7 +7,6 @@ using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
 using Deployer.Core.Scripting;
 using Deployer.Filesystem;
-using Deployer.NetFx;
 using Grace.DependencyInjection;
 using Iridio.Binding;
 using Iridio.Common;

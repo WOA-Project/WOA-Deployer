@@ -1,17 +1,17 @@
 ﻿using System;
 using System.IO;
 
-namespace Deployer.Tools.Dism
+namespace Deployer.Tools.Common
 {
     public static class WindowsCommandLineUtils
     {
         public static string BcdEdit { get; } = Path.Combine(GetSystemFolder, "bcdedit.exe");
         public static string BcdBoot { get; } = Path.Combine(GetSystemFolder, "bcdboot.exe");
         public static string Dism { get; } = GetDismPath();
-
+        
         private static string GetDismPath()
         {
-            var bundledDism = Path.Combine("Core", "Tools", OsMetadata.Architecture.ToString(), "DISM", "DISM.exe");
+            var bundledDism = Path.Combine("Dism", OsMetadata.Architecture.ToString(), "DISM.exe");
             if (File.Exists(bundledDism))
             {
                 return bundledDism;

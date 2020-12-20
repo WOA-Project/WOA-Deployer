@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Deployer.Tools.Dism
+namespace Deployer.Tools.Common
 {
     public static class ArchitectureInfo
     {

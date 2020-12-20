@@ -1,12 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
-using Deployer.Core.Services;
-using Deployer.Core.Utils;
-using Deployer.Filesystem;
 using Deployer.Tools.Common;
 using Serilog;
 
-namespace Deployer.Core
+namespace Deployer.Tools.Bcd
 {
     public class BootCreator : IBootCreator
     {
@@ -21,11 +19,16 @@ namespace Deployer.Core
         {
             Log.Verbose("Making Windows installation bootable...");
 
-            var bcdInvoker = bcdInvokerFactory(systemRoot.CombineRelativeBcdPath());
+            var bcdInvoker = bcdInvokerFactory(CombineRelativeBcdPath(systemRoot));
 
             await ProcessMixin.RunProcess(WindowsCommandLineUtils.BcdBoot, $@"{windowsPath} /f UEFI /s {systemRoot} /l en-us");
             await bcdInvoker.Invoke("/set {default} testsigning on");
             await bcdInvoker.Invoke("/set {default} nointegritychecks on");
+        }
+
+        private static string CombineRelativeBcdPath(string root)
+        {
+            return Path.Combine(root, "EFI", "Microsoft", "Boot", "BCD");
         }
     }
 }

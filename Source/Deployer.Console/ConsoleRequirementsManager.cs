@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Deployer.Core.Requirements;
 using Zafiro.Core.Patterns.Either;
 
-namespace ConsoleApp1
+namespace Deployer.Console
 {
     internal class ConsoleRequirementsManager : IRequirementsManager
     {

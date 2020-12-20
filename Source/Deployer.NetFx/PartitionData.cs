@@ -2,7 +2,7 @@
 using ByteSizeLib;
 using Deployer.Filesystem;
 
-namespace Deployer.NetFx
+namespace Deployer.Net4x
 {
     public class PartitionData
     {
