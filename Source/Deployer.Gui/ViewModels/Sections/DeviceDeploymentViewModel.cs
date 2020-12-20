@@ -84,8 +84,8 @@ namespace Deployer.Gui.ViewModels.Sections
                 .Subscribe(either => either
                     .MapRight(success =>
                         interaction.Message("Done", "The deployment has finished successfully", "OK".Some(), Optional.Option.None<string>()))
-                    .Handle(errors =>
-                        interaction.Message("Execution failed", $"The deployment has failed: {errors}", "OK".Some(), Optional.Option.None<string>())))
+                    .Handle(deployerError =>
+                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}", "OK".Some(), Optional.Option.None<string>())))
                 .DisposeWith(disposables);
         }
     }

@@ -14,5 +14,10 @@ namespace Deployer.Core.Deployers.Errors.Deployer
         }
 
         public override IEnumerable<string> Items => Error.Items.Select(s => s);
+
+        public override string ToString()
+        {
+            return string.Join(";", Items.Select(s => s));
+        }
     }
 }

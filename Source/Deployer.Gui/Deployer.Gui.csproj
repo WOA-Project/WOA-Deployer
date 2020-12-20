@@ -79,19 +79,15 @@
     </Compile>
     <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="Services\DeployerFileOpenService.cs" />
-    <Compile Include="Services\MarkdownService.cs" />
     <Compile Include="ViewModels\RequirementSolvers\DiskRequirementSolver.cs" />
     <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
     <Compile Include="ViewModels\Common\Commands.cs" />
-    <Compile Include="ViewModels\Common\ToDeleteDeployer.cs" />
-    <Compile Include="ViewModels\Common\WimImage.cs" />
     <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
     <Compile Include="AppProperties.cs" />
     <Compile Include="ViewModels\Sections\MainViewModel.cs" />
     <Compile Include="ViewModels\Sections\MainViewModelBase.cs" />
     <Compile Include="ObservableExtensions.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\Disk\SdCardFillerViewModel.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
     <Compile Include="ViewModels\Common\Requirements.cs" />
     <Compile Include="Views\DiskSelectionPart.xaml.cs">

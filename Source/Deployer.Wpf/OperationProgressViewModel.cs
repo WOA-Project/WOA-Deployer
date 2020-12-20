@@ -27,6 +27,7 @@ namespace Deployer.Wpf
                         break;
                     case Percentage p:
                         IsProgressVisible = true;
+                        IsProgressIndeterminate = false;
                         this.Progress = p.Value;
                         break;
                     case UndefinedProgress<ulong> undefinedProgress:

@@ -2,7 +2,6 @@
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
-using Deployer.Core.Exceptions;
 using Deployer.Filesystem;
 using Zafiro.Core.Mixins;
 
