@@ -120,6 +120,10 @@
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deployer.Functions.Dism\Deployer.Functions.csproj">
+      <Project>{F924E186-2FCF-4042-B1FC-5E79BC89548A}</Project>
+      <Name>Deployer.Functions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.NetFx\Deployer.Net4x.csproj">
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.Net4x</Name>

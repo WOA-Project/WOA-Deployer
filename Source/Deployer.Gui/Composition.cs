@@ -4,6 +4,7 @@ using Deployer.Core.Compiler;
 using Deployer.Core.Interaction;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
+using Deployer.Functions;
 using Deployer.Gui.ViewModels.Sections;
 using Deployer.Net4x;
 using Deployer.Wpf;
@@ -47,17 +48,10 @@ namespace Deployer.Gui
                 c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new DesktopZafiroFile(new Uri(path), fo, dl));
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 c.ConfigureMediator();
-                c.ExportFactory(() => new WoaDeployerWpf()).As<IWoaDeployer>().Lifestyle.Singleton();
+                c.ExportFactory(() => new WoaDeployerWpf(new [] {typeof(Anchor).Assembly})).As<IWoaDeployer>().Lifestyle.Singleton();
                 c.ExportFactory((IWoaDeployer d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
                     .Singleton();
                 
-                foreach (var taskType in Function.Types)
-                {
-                    c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
-                        .As<IFunction>()
-                        .As<IFunctionDeclaration>();
-                }
-
                 // Difference between IDE and GUI
                 ExportSections(c);
                 c.Export<DeviceDeployer>().As<IDeviceDeployer>().Lifestyle.Singleton();
@@ -79,7 +73,7 @@ namespace Deployer.Gui
 
         private static void ExportSections(IExportRegistrationBlock block)
         {
-            block.ExportAssemblies(new[] { typeof(ViewModels.Sections.MainViewModel).Assembly })
+            block.ExportAssemblies(new[] { typeof(MainViewModel).Assembly })
                 .Where(y =>
                 {
                     var isSection = typeof(ISection).IsAssignableFrom(y);

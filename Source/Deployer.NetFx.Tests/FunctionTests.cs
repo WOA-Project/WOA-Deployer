@@ -12,22 +12,22 @@ namespace Deployer.NetFx.Tests
     [TestClass]
     public class FunctionTests
     {
-        [TestMethod]
-        public void Dependencies_are_fulfilled()
-        {
-            var container = new DependencyInjectionContainer();
-            container.Configure(block =>
-            {
-                FunctionDependencies.Configure(block);
-                block.Export<FileSystem>().As<IFileSystem>();
-                block.Export<TestMarkdownService>().As<IMarkdownService>();
-            });
+        //[TestMethod]
+        //public void Dependencies_are_fulfilled()
+        //{
+        //    var container = new DependencyInjectionContainer();
+        //    container.Configure(block =>
+        //    {
+        //        FunctionDependencies.Configure(block);
+        //        block.Export<FileSystem>().As<IFileSystem>();
+        //        block.Export<TestMarkdownService>().As<IMarkdownService>();
+        //    });
             
-            foreach (var type in Function.Types)
-            {
-                container.Locate(type);
-            }
-        }
+        //    foreach (var type in Function.Types)
+        //    {
+        //        container.Locate(type);
+        //    }
+        //}
     }
 
     public class TestMarkdownService : IMarkdownService

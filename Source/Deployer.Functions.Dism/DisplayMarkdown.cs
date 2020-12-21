@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Deployer.Core.Functions;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class DisplayMarkdown : DeployerFunction
     {

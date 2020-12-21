@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Compiler;
@@ -18,15 +21,18 @@ using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Net4x;
 using Zafiro.Core.Patterns.Either;
+using Binder = Iridio.Binding.Binder;
 
 namespace Deployer.Net4x
 {
     public abstract class WoaDeployer : IWoaDeployer
     {
+        private readonly IEnumerable<Assembly> assembliesToScan;
         private readonly CoreDeployer deployer;
 
-        protected WoaDeployer()
+        protected WoaDeployer(IEnumerable<Assembly> assembliesToScan)
         {
+            this.assembliesToScan = assembliesToScan;
             deployer = GetDeployer();
         }
 
@@ -69,9 +75,22 @@ namespace Deployer.Net4x
             return container.Locate<CoreDeployer>();
         }
 
-        private static void ExportFunctions(IExportRegistrationBlock block)
+        public IEnumerable<Type> FunctionTypes
         {
-            foreach (var taskType in Function.Types)
+            get
+            {
+                var taskTypes = from a in assembliesToScan
+                    from type in a.ExportedTypes
+                    where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
+                    where !type.IsAbstract
+                    select type;
+                return taskTypes;
+            }
+        }
+
+        private void ExportFunctions(IExportRegistrationBlock block)
+        {
+            foreach (var taskType in FunctionTypes)
                 block.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
                     .As<IFunction>()
                     .As<IFunctionDeclaration>()

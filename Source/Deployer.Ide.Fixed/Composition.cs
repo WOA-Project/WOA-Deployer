@@ -3,6 +3,7 @@ using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
+using Deployer.Functions;
 using Deployer.Net4x;
 using Deployer.Wpf;
 using Grace.DependencyInjection;
@@ -26,13 +27,7 @@ namespace Deployer.Ide
             container = CreateContainer();
         }
 
-        public MainViewModel Root
-        {
-            get
-            {
-                return container.Locate<MainViewModel>();
-            }
-        }
+        public MainViewModel Root => container.Locate<MainViewModel>();
 
         public static DependencyInjectionContainer CreateContainer()
         {
@@ -52,16 +47,9 @@ namespace Deployer.Ide
                 c.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) => new DesktopZafiroFile(new Uri(path), fo, dl));
                 c.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 c.ConfigureMediator();
-                c.ExportFactory(() => new WoaDeployerWpf()).As<IWoaDeployer>().Lifestyle.Singleton();
+                c.ExportFactory(() => new WoaDeployerWpf(new[] { typeof(Anchor).Assembly })).As<IWoaDeployer>().Lifestyle.Singleton();
                 c.ExportFactory((IWoaDeployer d) => d.OperationProgress).As<IOperationProgress>().Lifestyle
                     .Singleton();
-                
-                foreach (var taskType in Function.Types)
-                {
-                    c.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
-                        .As<IFunction>()
-                        .As<IFunctionDeclaration>();
-                }
             });
 
             return container;

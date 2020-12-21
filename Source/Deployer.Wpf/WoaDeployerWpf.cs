@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Deployer.Core;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
@@ -41,6 +43,10 @@ namespace Deployer.Wpf
                 throw new ArgumentOutOfRangeException();
             });
 
+        }
+
+        public WoaDeployerWpf(IEnumerable<Assembly> assembliesToScan) : base(assembliesToScan)
+        {
         }
     }
 }

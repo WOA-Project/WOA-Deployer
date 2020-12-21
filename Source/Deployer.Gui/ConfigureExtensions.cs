@@ -1,5 +1,6 @@
 ﻿using System;
 using Deployer.Core;
+using Deployer.Core.Requirements;
 using Grace.DependencyInjection;
 using MediatR;
 
@@ -12,7 +13,7 @@ namespace Deployer.Gui
             block.ExportFactory<Func<Type, object>, Mediator>(locate => new Mediator(x => locate(x)))
                 .As<ISender>()
                 .As<IMediator>();
-            block.ExportAssembly(typeof(IAnchor).Assembly).BasedOn(typeof(IRequestHandler<,>)).ByInterfaces();
+            block.ExportAssembly(typeof(WimFileHandler).Assembly).BasedOn(typeof(IRequestHandler<,>)).ByInterfaces();
         }
     }
 }

@@ -65,19 +65,5 @@ namespace Deployer.Core
                 : method.ReturnType.GenericTypeArguments.FirstOrDefault()?.Name ?? "Unknown";
             return $"{returnType}\t{Name}{firm}";
         }
-
-
-        public static IEnumerable<Type> Types
-        {
-            get
-            {
-                var taskTypes = from a in new[] { typeof(IDeployerFunction).Assembly }
-                    from type in a.ExportedTypes
-                    where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
-                    where !type.IsAbstract
-                    select type;
-                return taskTypes;
-            }
-        }
     }
 }

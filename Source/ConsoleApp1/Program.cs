@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Deployer.Console;
-using Deployer.Core;
 using Deployer.Core.Console;
-using Deployer.Core.Requirements;
-using Deployer.Core.Services;
-using Deployer.Filesystem;
+using Deployer.Functions;
 using Zafiro.Core.Patterns.Either;
 
 namespace ConsoleApp1
@@ -15,7 +11,7 @@ namespace ConsoleApp1
     {
         static async Task Main(string[] args)
         {
-            var deployer = new WoaDeployerConsole();
+            var deployer = new WoaDeployerConsole(new[] { typeof(Anchor).Assembly });
 
             using (deployer.Messages.Subscribe(Console.WriteLine))
             {

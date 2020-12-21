@@ -205,6 +205,10 @@
       <Project>{A968B50B-F12E-4557-9631-78E855605385}</Project>
       <Name>Deployer.Filesystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Deployer.Functions.Dism\Deployer.Functions.csproj">
+      <Project>{F924E186-2FCF-4042-B1FC-5E79BC89548A}</Project>
+      <Name>Deployer.Functions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Lumia\Deployer.Lumia.csproj">
       <Project>{52d9692c-1cc9-4ab7-8855-61685b0c68ea}</Project>
       <Name>Deployer.Lumia</Name>
