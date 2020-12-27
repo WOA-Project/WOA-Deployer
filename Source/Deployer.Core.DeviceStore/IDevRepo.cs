@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Deployer.Core
+namespace Deployer.Core.DeploymentLibrary
 {
     public interface IDevRepo
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Deployer.Core;
 using Deployer.Core.Compiler;
+using Deployer.Core.DeploymentLibrary;
 using Deployer.Core.Interaction;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
@@ -58,17 +59,17 @@ namespace Deployer.Gui
                 c.Export<Interaction>().As<IInteraction>().Lifestyle.Singleton();
                 c.Export<PopupWindow>().As<IView>();
                 c.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
-                c.ExportFactory((IDownloader downloader) => XmlDeviceRepository(downloader)).As<IDevRepo>().Lifestyle
+                c.ExportFactory((IDownloader downloader) => GetDeploymentLibrary(downloader)).As<IDeploymentLibrary>().Lifestyle
                     .Singleton();
             });
 
             return container;
         }
 
-        private static XmlDeviceRepository XmlDeviceRepository(IDownloader downloader)
+        private static IDeploymentLibrary GetDeploymentLibrary(IDownloader downloader)
         {
             var definition = "https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml";
-            return new XmlDeviceRepository(new Uri(definition), downloader);
+            return new XmlDeploymentLibrary(new Uri(definition), downloader);
         }
 
         private static void ExportSections(IExportRegistrationBlock block)

@@ -1,11 +1,12 @@
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using System.Xml;
 using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
 using Zafiro.Core;
 
-namespace Deployer.Core
+namespace Deployer.Core.DeploymentLibrary
 {
     public class XmlDeviceRepository: IDevRepo
     {
@@ -26,7 +27,7 @@ namespace Deployer.Core
         {
             using (var stream = await downloader.GetStream(uri.ToString()))
             {
-                var deserialize = serializer.Deserialize(XmlReader.Create(stream));
+                var deserialize = serializer.Deserialize(XmlReader.Create((Stream) stream));
                 var store = (DeployerStore) deserialize;
                 return store;
             }

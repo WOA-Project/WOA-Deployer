@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using Deployer.Core;
+using Deployer.Core.DeploymentLibrary;
 using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
 

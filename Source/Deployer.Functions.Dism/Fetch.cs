@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Deployer.Core.Functions;
 using Deployer.Core.Scripting;
 using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class Fetch : DeployerFunction
     {

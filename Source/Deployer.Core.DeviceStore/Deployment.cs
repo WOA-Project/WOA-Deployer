@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Deployer.Core
+namespace Deployer.Core.DeploymentLibrary
 {
     public class Deployment
     {

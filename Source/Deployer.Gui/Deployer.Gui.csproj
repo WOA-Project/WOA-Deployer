@@ -180,7 +180,7 @@
       <Version>1.1.19</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI.WPF">
-      <Version>12.1.1</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="Serilog.Sinks.File">
       <Version>4.1.0</Version>
@@ -196,6 +196,10 @@
     <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
       <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
       <Name>Deployer.BinaryBundle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Deployer.Core.DeviceStore\Deployer.Core.DeploymentLibrary.csproj">
+      <Project>{5D60A18C-FDD6-44AB-BCDA-6C32B7E082E7}</Project>
+      <Name>Deployer.Core.DeploymentLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>

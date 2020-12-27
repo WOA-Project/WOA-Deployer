@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Deployer.Core.DeploymentLibrary;
 using Deployer.Core.Scripting;
 using Deployer.Core.Services;
 using Deployer.Tools.AzureDevOps;

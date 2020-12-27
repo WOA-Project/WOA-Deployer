@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Deployer;
+using Deployer.Core.DeploymentLibrary;
 using Deployer.Core.Interaction;
-using Deployer.Gui.ViewModels.Common;
 using Deployer.Wpf;
 using Grace.DependencyInjection.Attributes;
-using Iridio.Runtime;
 using Iridio.Runtime.ReturnValues;
 using Optional;
 using ReactiveUI;
-using Serilog;
 using Zafiro.Core.Patterns.Either;
-using Zafiro.Core.UI;
 using Zafiro.UI;
+using Option = Optional.Option;
 
 namespace Deployer.Gui.ViewModels.Sections
 {
@@ -26,18 +23,20 @@ namespace Deployer.Gui.ViewModels.Sections
     public class DeviceDeploymentViewModel : ReactiveObject, ISection
     {
         private readonly IDeviceDeployer deviceDeployer;
-        private readonly IInteraction interaction;
-        private readonly IDevRepo deviceRepository;
-        private Deployment deployment;
-        private ObservableAsPropertyHelper<IEnumerable<Deployment>> devices;
+        private readonly IDeploymentLibrary deploymentLibrary;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private readonly IInteraction interaction;
+        private DeploymentDto deployment;
+        private ObservableAsPropertyHelper<IEnumerable<DeploymentDto>> deployments;
+        private ObservableAsPropertyHelper<IEnumerable<DeviceDto>> devices;
 
-        public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction, OperationProgressViewModel operationProgress, IDevRepo deviceRepository)
+        public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
+            OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary)
         {
             OperationProgress = operationProgress;
             this.deviceDeployer = deviceDeployer;
             this.interaction = interaction;
-            this.deviceRepository = deviceRepository;
+            this.deploymentLibrary = deploymentLibrary;
 
             ConfigureCommands();
 
@@ -46,46 +45,61 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public OperationProgressViewModel OperationProgress { get; }
 
-        public Deployment Deployment
+        public DeploymentDto Deployment
         {
             get => deployment;
             set => this.RaiseAndSetIfChanged(ref deployment, value);
         }
 
+        private DeviceDto device;
+
+        public DeviceDto Device
+        {
+            get => device;
+            set => this.RaiseAndSetIfChanged(ref device, value);
+        }
+
         public ReactiveCommand<Unit, Either<DeployerError, Success>> Deploy { get; set; }
 
-        public IEnumerable<Deployment> Deployments => devices.Value;
+        public IEnumerable<DeploymentDto> Deployments => deployments.Value;
 
-        public ReactiveCommand<Unit, DeployerStore> FetchDevices { get; set; }
+        public IEnumerable<DeviceDto> Devices => devices.Value;
 
         public IObservable<bool> IsBusyObservable { get; }
 
         private void ConfigureCommands()
         {
             ConfigureDeployCommand();
-            ConfigureFetchDevices();
+
+            FetchDevices = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Devices());
+            devices = FetchDevices.ToProperty(this, x => x.Devices);
+            FetchDeployments = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Deployments());
+            deployments = FetchDeployments.ToProperty(this, x => x.Deployments);
         }
 
-        private void ConfigureFetchDevices()
-        {
-            FetchDevices = ReactiveCommand.CreateFromTask(() => deviceRepository.Get());
-            devices = FetchDevices.Select(x => x.Deployments).ToProperty(this, model => model.Deployments);
-        }
-        
+        public ReactiveCommand<Unit, List<DeploymentDto>> FetchDeployments { get; set; }
+
+        public ReactiveCommand<Unit, List<DeviceDto>> FetchDevices { get; set; }
+
+        public ReactiveCommand<Unit, Unit> Fetch { get; set; }
+
         private void ConfigureDeployCommand()
         {
             var hasDevice = this.WhenAnyValue(model => model.Deployment).Select(d => d != null);
             Deploy = ReactiveCommand.CreateFromTask(
-                () => deviceDeployer.Deploy(new DeploymentRequest(this.Deployment.Devices.First(), this.deployment.ScriptPath)), hasDevice);
+                () => deviceDeployer.Deploy(new DeploymentRequest(Device, deployment.ScriptPath)),
+                hasDevice);
 
             Deploy.ThrownExceptions.Subscribe(exception => { });
 
             Deploy
                 .Subscribe(either => either
                     .MapRight(success =>
-                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(), Optional.Option.None<string>()))
+                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(),
+                            Option.None<string>()))
                     .Handle(deployerError =>
-                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}", "OK".Some(), Optional.Option.None<string>())))
+                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}",
+                            "OK".Some(), Option.None<string>())))
                 .DisposeWith(disposables);
         }
     }
