@@ -124,6 +124,9 @@ namespace Deployer.Core
                 },
             };
 
+            store.Deployments.ForEach((d, id) => d.Id = id + 1);
+
+
             return store;
         }
     }

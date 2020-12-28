@@ -50,8 +50,8 @@
                     <TextBlock DockPanel.Dock="Top">Select a deployment type from the list</TextBlock>
 
                     <DockPanel>
-                        <Button Command="{Binding FetchDeployments}">Refresh</Button>
-                        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Deployments}"
+                        <Button Command="{Binding FetchAllDeployments}">Refresh</Button>
+                        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding FilteredDeployments}"
                                   SelectedItem="{Binding Deployment, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
 
                             <ComboBox.ItemTemplate>
@@ -72,6 +72,7 @@
                         </ComboBox>
                     </DockPanel>
                 </DockPanel>
+                <ComboBox ItemsSource="{Binding AllDeployments}" />
             </StackPanel>
         </GroupBox>
         <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="5" Command="{Binding Deploy}">Deploy</Button>
