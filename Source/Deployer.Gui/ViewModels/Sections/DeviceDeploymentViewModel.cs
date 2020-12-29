@@ -30,11 +30,9 @@ namespace Deployer.Gui.ViewModels.Sections
         private readonly CompositeDisposable disposables = new CompositeDisposable();
         private readonly IInteraction interaction;
         private DeploymentDto deployment;
-        private ReadOnlyObservableCollection<DeploymentDto> depls;
-
+        private ReadOnlyObservableCollection<DeploymentDto> deployments;
         private DeviceDto device;
         private ObservableAsPropertyHelper<IEnumerable<DeviceDto>> devices;
-        private ObservableAsPropertyHelper<List<DeploymentDto>> allDeployments;
 
         public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary)
@@ -43,11 +41,16 @@ namespace Deployer.Gui.ViewModels.Sections
             this.deviceDeployer = deviceDeployer;
             this.interaction = interaction;
             this.deploymentLibrary = deploymentLibrary;
-            
+
             ConfigureCommands();
+
+            this.WhenAnyValue(x => x.Device)
+                .InvokeCommand(SelectFirstDeployment);
 
             IsBusyObservable = Deploy.IsExecuting;
         }
+
+        public ReactiveCommand<DeviceDto, Unit> SelectFirstDeployment { get; set; }
 
         public OperationProgressViewModel OperationProgress { get; }
 
@@ -65,11 +68,11 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public ReactiveCommand<Unit, Either<DeployerError, Success>> Deploy { get; set; }
 
-        public ReadOnlyObservableCollection<DeploymentDto> FilteredDeployments => depls;
+        public ReadOnlyObservableCollection<DeploymentDto> FilteredDeployments => deployments;
 
         public IEnumerable<DeviceDto> Devices => devices.Value;
 
-        public ReactiveCommand<Unit, List<DeploymentDto>> FetchAllDeployments { get; set; }
+        public ReactiveCommand<Unit, List<DeploymentDto>> FetchDeployments { get; set; }
 
         public ReactiveCommand<Unit, List<DeviceDto>> FetchDevices { get; set; }
 
@@ -83,40 +86,39 @@ namespace Deployer.Gui.ViewModels.Sections
 
             FetchDevices = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Devices());
             devices = FetchDevices.ToProperty(this, x => x.Devices);
-            FetchAllDeployments = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Deployments());
+            FetchDeployments = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Deployments());
 
             var filter = this.WhenAnyValue(x => x.Device).Select(dto => BuildFilter(dto));
-            allDeployments = FetchAllDeployments.ToProperty(this, x => x.AllDeployments);
 
-            var filteredData = new SourceCache<DeploymentDto, int>(d => d.Id);
+            Fetch = ReactiveCommand.CreateFromObservable(() =>
+                ObservableMixins.Cast<object>(FetchDeployments.Execute())
+                    .Concat(ObservableMixins.Cast<object>(FetchDevices.Execute())));
 
-            FetchAllDeployments.Subscribe(dtos => filteredData.AddOrUpdate(dtos));
-
-            Fetch = ReactiveCommand.CreateFromObservable(() => ObservableMixins.Cast<object>(FetchAllDeployments.Execute()).Concat(ObservableMixins.Cast<object>(FetchDevices.Execute())));
-
-
-            filteredData.Connect()
+            FetchDeployments.SelectMany(x => x)
+                .ToObservableChangeSet(s => s.Id)
                 .Filter(filter)
-                .Bind(out depls)
+                .Bind(out deployments)
                 .Subscribe()
                 .DisposeWith(disposables);
-        }
 
-        public List<DeploymentDto> AllDeployments => allDeployments.Value;
+            SelectFirstDeployment = ReactiveCommand.Create<DeviceDto, Unit>(_ =>
+            {
+                if (deployments.Count == 1)
+                {
+                    Deployment = deployments.First();
+                }
+
+                return Unit.Default;
+            });
+        }
 
         private Func<DeploymentDto, bool> BuildFilter(DeviceDto dto)
         {
-            if (dto == null)
-            {
-                return d => false;
-            }
-            
+            if (dto == null) return d => false;
+
             return d =>
             {
-                if (d == null)
-                {
-                    return false;
-                }
+                if (d == null) return false;
 
                 return d.Devices.Any(i => dto.Id == i);
             };
@@ -128,8 +130,6 @@ namespace Deployer.Gui.ViewModels.Sections
             Deploy = ReactiveCommand.CreateFromTask(
                 () => deviceDeployer.Deploy(new DeploymentRequest(Device, deployment.ScriptPath)),
                 hasDevice);
-
-            Deploy.ThrownExceptions.Subscribe(exception => { });
 
             Deploy
                 .Subscribe(either => either

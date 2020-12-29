@@ -5,8 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
              xmlns:dl="clr-namespace:Deployer.Core.DeploymentLibrary;assembly=Deployer.Core.DeploymentLibrary"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance sections:DeviceDeploymentViewModel}">
+
+
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding Fetch}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -14,66 +22,66 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <GroupBox Header="Deployment" Grid.Row="0" Margin="8">
-            <StackPanel>
-                <Button DockPanel.Dock="Right" Margin="4" Command="{Binding Fetch}"
-                        VerticalAlignment="Center"
-                        Padding="4">
-                    Refresh
-                </Button>
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                
                 <DockPanel Margin="9">
                     <TextBlock DockPanel.Dock="Top">Choose the target device</TextBlock>
 
-                    <DockPanel>
-                        <Button Command="{Binding FetchDevices}">Refresh</Button>
-                        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Devices}"
-                                  SelectedItem="{Binding Device, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
+                    <ListView VerticalAlignment="Center" ItemsSource="{Binding Devices}"
+                              SelectedItem="{Binding Device, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
 
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="dl:DeviceDto">
-                                    <Grid ToolTip="{Binding Description}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Image RenderOptions.BitmapScalingMode="HighQuality"
-                                               Source="{Binding Icon}" VerticalAlignment="Bottom"
-                                               HorizontalAlignment="Right" />
-                                        <TextBlock Grid.Column="1" Text="{Binding FriendlyName}" VerticalAlignment="Center"
-                                                   Margin="16" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </DockPanel>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel   />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate DataType="dl:DeviceDto">
+                                <Grid ToolTip="{Binding Description}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="80" />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                           Source="{Binding Icon}" VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Center" />
+                                    <TextBlock Grid.Row="1" Text="{Binding FriendlyName}" VerticalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </DockPanel>
-                <DockPanel Margin="9">
+                <DockPanel Grid.Row="1" Margin="9">
                     <TextBlock DockPanel.Dock="Top">Select a deployment type from the list</TextBlock>
 
-                    <DockPanel>
-                        <Button Command="{Binding FetchAllDeployments}">Refresh</Button>
-                        <ComboBox VerticalAlignment="Center" ItemsSource="{Binding FilteredDeployments}"
-                                  SelectedItem="{Binding Deployment, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
+                    <ComboBox VerticalAlignment="Center" ItemsSource="{Binding FilteredDeployments}"
+                              SelectedItem="{Binding Deployment, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
 
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="dl:DeploymentDto">
-                                    <Grid ToolTip="{Binding Description}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition />
-                                        </Grid.ColumnDefinitions>
-                                        <Image RenderOptions.BitmapScalingMode="HighQuality"
-                                               Source="{Binding Icon}" VerticalAlignment="Bottom"
-                                               HorizontalAlignment="Right" />
-                                        <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center"
-                                                   Margin="16" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </DockPanel>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate DataType="dl:DeploymentDto">
+                                <Grid ToolTip="{Binding Description}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <Image RenderOptions.BitmapScalingMode="HighQuality"
+                                           Source="{Binding Icon}" VerticalAlignment="Bottom"
+                                           HorizontalAlignment="Right" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center"
+                                               Margin="16" />
+                                </Grid>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
                 </DockPanel>
-                <ComboBox ItemsSource="{Binding AllDeployments}" />
-            </StackPanel>
+            </Grid>
         </GroupBox>
         <Button Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="5" Command="{Binding Deploy}">Deploy</Button>
     </Grid>
