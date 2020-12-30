@@ -33,7 +33,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition MinHeight="100" />
+            <RowDefinition MinHeight="140" />
             <RowDefinition MinHeight="20" Height="Auto" />
         </Grid.RowDefinitions>
 

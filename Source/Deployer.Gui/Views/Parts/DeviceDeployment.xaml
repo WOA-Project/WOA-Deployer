@@ -19,7 +19,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <GroupBox Header="Deployment" Grid.Row="0" Margin="8">
             <Grid>
@@ -30,14 +30,14 @@
                 </Grid.RowDefinitions>
                 
                 <DockPanel Margin="9">
-                    <TextBlock DockPanel.Dock="Top">Choose the target device</TextBlock>
+                    <TextBlock DockPanel.Dock="Top">1. Choose the target device:</TextBlock>
 
                     <ListView VerticalAlignment="Center" ItemsSource="{Binding Devices}"
-                              SelectedItem="{Binding Device, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
-
+                              SelectedItem="{Binding Device, Mode=TwoWay}" HorizontalContentAlignment="Stretch"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapPanel   />
+                                <WrapPanel ItemWidth="180"  />
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
                         <ListView.ItemTemplate>
@@ -50,7 +50,7 @@
                                     <Image RenderOptions.BitmapScalingMode="HighQuality"
                                            Source="{Binding Icon}" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Center" />
-                                    <TextBlock Grid.Row="1" Text="{Binding FriendlyName}" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Grid.Row="1" Margin="10" Text="{Binding FriendlyName}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -58,7 +58,7 @@
 
                 </DockPanel>
                 <DockPanel Grid.Row="1" Margin="9">
-                    <TextBlock DockPanel.Dock="Top">Select a deployment type from the list</TextBlock>
+                    <TextBlock DockPanel.Dock="Top">2. Choose the type of deployment:</TextBlock>
 
                     <ComboBox VerticalAlignment="Center" ItemsSource="{Binding FilteredDeployments}"
                               SelectedItem="{Binding Deployment, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
@@ -67,14 +67,18 @@
                             <DataTemplate DataType="dl:DeploymentDto">
                                 <Grid ToolTip="{Binding Description}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="80" />
+                                        <ColumnDefinition Width="64" />
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <Image RenderOptions.BitmapScalingMode="HighQuality"
                                            Source="{Binding Icon}" VerticalAlignment="Bottom"
                                            HorizontalAlignment="Right" />
-                                    <TextBlock Grid.Column="1" Text="{Binding Title}" VerticalAlignment="Center"
-                                               Margin="16" />
+                                    <TextBlock Grid.Column="1" VerticalAlignment="Center"
+                                               Margin="16">
+                                        <Run FontWeight="Bold" Text="{Binding Path=Title}" />
+                                        <LineBreak />
+                                        <Run Text="{Binding Path=Description}" />
+                                    </TextBlock>
                                 </Grid>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
