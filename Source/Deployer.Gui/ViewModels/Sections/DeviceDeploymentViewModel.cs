@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.DeploymentLibrary;
@@ -15,6 +17,7 @@ using Grace.DependencyInjection.Attributes;
 using Iridio.Runtime.ReturnValues;
 using Optional;
 using ReactiveUI;
+using Zafiro.Core.FileSystem;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.UI;
 using Option = Optional.Option;
@@ -25,9 +28,13 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 1)]
     public class DeviceDeploymentViewModel : ReactiveObject, ISection
     {
+        private const string FeedFolder = "Feed";
+        private static readonly string BootstrapPath = Path.Combine("Core", "Bootstrap.txt");
+        private readonly IWoaDeployer deployer;
         private readonly IDeploymentLibrary deploymentLibrary;
         private readonly IDeviceDeployer deviceDeployer;
         private readonly CompositeDisposable disposables = new CompositeDisposable();
+        private readonly IFileSystemOperations fileSystemOperations;
         private readonly IInteraction interaction;
         private DeploymentDto deployment;
         private ReadOnlyObservableCollection<DeploymentDto> deployments;
@@ -35,20 +42,25 @@ namespace Deployer.Gui.ViewModels.Sections
         private ObservableAsPropertyHelper<IEnumerable<DeviceDto>> devices;
 
         public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
-            OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary)
+            OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary,
+            IFileSystemOperations fileSystemOperations, IWoaDeployer deployer)
         {
             OperationProgress = operationProgress;
             this.deviceDeployer = deviceDeployer;
             this.interaction = interaction;
             this.deploymentLibrary = deploymentLibrary;
+            this.fileSystemOperations = fileSystemOperations;
+            this.deployer = deployer;
 
             ConfigureCommands();
 
             this.WhenAnyValue(x => x.Device)
                 .InvokeCommand(SelectFirstDeployment);
 
-            IsBusyObservable = Deploy.IsExecuting;
+            DownloadFeedCommand = ReactiveCommand.CreateFromTask(DownloadFeed);
         }
+
+        public ReactiveCommand<Unit, Unit> DownloadFeedCommand { get; }
 
         public ReactiveCommand<DeviceDto, Unit> SelectFirstDeployment { get; set; }
 
@@ -76,23 +88,37 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public ReactiveCommand<Unit, List<DeviceDto>> FetchDevices { get; set; }
 
-        public ReactiveCommand<Unit, object> Fetch { get; set; }
+        public ReactiveCommand<Unit, Unit> Refresh { get; set; }
 
-        public IObservable<bool> IsBusyObservable { get; }
+        public IObservable<bool> IsBusyObservable => Refresh.IsExecuting.Merge(Deploy.IsExecuting);
+
+        private async Task DeleteFeedFolder()
+        {
+            if (fileSystemOperations.DirectoryExists(FeedFolder))
+                await fileSystemOperations.DeleteDirectory(FeedFolder);
+        }
+
+        private async Task DownloadFeed()
+        {
+            await DeleteFeedFolder();
+            await Run(BootstrapPath);
+        }
+
+        private Task<Either<DeployerError, Success>> Run(string bootstrapPath)
+        {
+            return deployer.Run(bootstrapPath);
+        }
 
         private void ConfigureCommands()
         {
             ConfigureDeployCommand();
+
 
             FetchDevices = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Devices());
             devices = FetchDevices.ToProperty(this, x => x.Devices);
             FetchDeployments = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Deployments());
 
             var filter = this.WhenAnyValue(x => x.Device).Select(dto => BuildFilter(dto));
-
-            Fetch = ReactiveCommand.CreateFromObservable(() =>
-                ObservableMixins.Cast<object>(FetchDeployments.Execute())
-                    .Concat(ObservableMixins.Cast<object>(FetchDevices.Execute())));
 
             FetchDeployments.SelectMany(x => x)
                 .ToObservableChangeSet(s => s.Id)
@@ -103,12 +129,16 @@ namespace Deployer.Gui.ViewModels.Sections
 
             SelectFirstDeployment = ReactiveCommand.Create<DeviceDto, Unit>(_ =>
             {
-                if (deployments.Count == 1)
-                {
-                    Deployment = deployments.First();
-                }
+                if (deployments.Count == 1) Deployment = deployments.First();
 
                 return Unit.Default;
+            });
+
+            Refresh = ReactiveCommand.CreateFromTask(async () =>
+            {
+                await DownloadFeedCommand.Execute();
+                await FetchDevices.Execute();
+                await FetchDeployments.Execute();
             });
         }
 

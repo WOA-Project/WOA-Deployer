@@ -8,20 +8,25 @@ using Deployer.Core.DeploymentLibrary.Utils.LazyTask;
 using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
 using Zafiro.Core;
+using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.DeploymentLibrary
 {
     public class XmlDeploymentLibrary : IDeploymentLibrary
     {
+        private readonly string path;
         private readonly Uri uri;
         private readonly IDownloader downloader;
+        private readonly IFileSystemOperations ops;
         private readonly IExtendedXmlSerializer serializer;
         
 
-        public XmlDeploymentLibrary(Uri uri, IDownloader downloader)
+        public XmlDeploymentLibrary(string path, Uri uri, IDownloader downloader, IFileSystemOperations ops)
         {
+            this.path = path;
             this.uri = uri;
             this.downloader = downloader;
+            this.ops = ops;
             this.serializer = new ConfigurationContainer()
                 .Type<Device>().EnableReferences(x => x.Id)
                 .Create();
@@ -57,7 +62,7 @@ namespace Deployer.Core.DeploymentLibrary
 
         private async LazyTask<DeployerStore> DeployerStore()
         {
-            using (var stream = await downloader.GetStream(uri.ToString()))
+            using (var stream = ops.OpenForRead(path))
             {
                 var deserialize = serializer.Deserialize(XmlReader.Create((Stream) stream));
                 var store = (DeployerStore)deserialize;

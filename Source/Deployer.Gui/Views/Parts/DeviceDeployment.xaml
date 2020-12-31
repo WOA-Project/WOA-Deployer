@@ -12,7 +12,7 @@
 
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
-            <b:InvokeCommandAction Command="{Binding Fetch}" />
+            <b:InvokeCommandAction Command="{Binding Refresh}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
 

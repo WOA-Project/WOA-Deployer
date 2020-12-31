@@ -59,17 +59,17 @@ namespace Deployer.Gui
                 c.Export<Interaction>().As<IInteraction>().Lifestyle.Singleton();
                 c.Export<PopupWindow>().As<IView>();
                 c.Export<SettingsService>().As<ISettingsService>().Lifestyle.Singleton();
-                c.ExportFactory((IDownloader downloader) => GetDeploymentLibrary(downloader)).As<IDeploymentLibrary>().Lifestyle
+                c.ExportFactory((IDownloader downloader, IFileSystemOperations ops) => GetDeploymentLibrary(downloader, ops)).As<IDeploymentLibrary>().Lifestyle
                     .Singleton();
             });
 
             return container;
         }
 
-        private static IDeploymentLibrary GetDeploymentLibrary(IDownloader downloader)
+        private static IDeploymentLibrary GetDeploymentLibrary(IDownloader downloader, IFileSystemOperations ops)
         {
             var definition = "https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml";
-            return new XmlDeploymentLibrary(new Uri(definition), downloader);
+            return new XmlDeploymentLibrary("Feed\\Deployments.xml", new Uri(definition), downloader, ops);
         }
 
         private static void ExportSections(IExportRegistrationBlock block)
