@@ -1,0 +1,5 @@
+﻿Main
+{
+	The line below is for testing purposes
+	CopyDirectory("D:\Repos\WOA-Project\Deployment-Feed", "..\Feed");
+}
