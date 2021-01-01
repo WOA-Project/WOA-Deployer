@@ -13,6 +13,7 @@ using Deployer.Core.DeploymentLibrary;
 using Deployer.Core.Interaction;
 using Deployer.Wpf;
 using DynamicData;
+using ExtendedXmlSerializer.ExtensionModel.Types;
 using Grace.DependencyInjection.Attributes;
 using Iridio.Runtime.ReturnValues;
 using Optional;
@@ -60,7 +61,7 @@ namespace Deployer.Gui.ViewModels.Sections
             DownloadFeedCommand = ReactiveCommand.CreateFromTask(DownloadFeed);
         }
 
-        public ReactiveCommand<Unit, Unit> DownloadFeedCommand { get; }
+        public ReactiveCommand<Unit, Either<DeployerError, Success>> DownloadFeedCommand { get; }
 
         public ReactiveCommand<DeviceDto, Unit> SelectFirstDeployment { get; set; }
 
@@ -88,20 +89,22 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public ReactiveCommand<Unit, List<DeviceDto>> FetchDevices { get; set; }
 
-        public ReactiveCommand<Unit, Unit> Refresh { get; set; }
+        public ReactiveCommand<Unit, Either<DeployerError, List<DeploymentDto>>> Refresh { get; set; }
 
         public IObservable<bool> IsBusyObservable => Refresh.IsExecuting.Merge(Deploy.IsExecuting);
 
         private async Task DeleteFeedFolder()
         {
             if (fileSystemOperations.DirectoryExists(FeedFolder))
+            {
                 await fileSystemOperations.DeleteDirectory(FeedFolder);
+            }
         }
 
-        private async Task DownloadFeed()
+        private async Task<Either<DeployerError, Success>> DownloadFeed()
         {
             await DeleteFeedFolder();
-            await Run(BootstrapPath);
+            return await Run(BootstrapPath);
         }
 
         private Task<Either<DeployerError, Success>> Run(string bootstrapPath)
@@ -136,10 +139,21 @@ namespace Deployer.Gui.ViewModels.Sections
 
             Refresh = ReactiveCommand.CreateFromTask(async () =>
             {
-                await DownloadFeedCommand.Execute();
-                await FetchDevices.Execute();
-                await FetchDeployments.Execute();
+                return await (await DownloadFeedCommand.Execute())
+                    .MapRight(async success => await FetchDevices.Execute())
+                    .MapRight(async task => await FetchDeployments.Execute()).RightTask();
             });
+
+            Refresh
+                .Subscribe(either => either
+                    .MapRight(success =>
+                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(),
+                            Option.None<string>()))
+                    .Handle(deployerError =>
+                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}",
+                            "OK".Some(), Option.None<string>())))
+                .DisposeWith(disposables);
+
         }
 
         private Func<DeploymentDto, bool> BuildFilter(DeviceDto dto)
