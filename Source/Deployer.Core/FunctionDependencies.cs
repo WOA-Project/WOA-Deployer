@@ -27,19 +27,11 @@ namespace Deployer.Core
                 .Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com")))
                 .As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
-            block.ExportFactory((IDownloader downloader) => XmlDeviceRepository(downloader)).As<IDevRepo>().Lifestyle
-                .Singleton();
             block.Export<BootCreator>().As<IBootCreator>().Lifestyle.Singleton();
             block.ExportFactory((string store) => new BcdInvoker(store)).As<IBcdInvoker>();
             block.Export<ImageFlasher>().As<IImageFlasher>().Lifestyle.Singleton();
             block.Export<DismImageService>().As<IWindowsImageService>().Lifestyle.Singleton();
             block.Export<WindowsImageMetadataReader>().As<IWindowsImageMetadataReader>().Lifestyle.Singleton();
-        }
-
-        private static XmlDeviceRepository XmlDeviceRepository(IDownloader downloader)
-        {
-            var definition = "https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml";
-            return new XmlDeviceRepository(new Uri(definition), downloader);
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Xml;
 using Deployer.Core.DeploymentLibrary.Utils.LazyTask;
 using ExtendedXmlSerializer;
 using ExtendedXmlSerializer.Configuration;
-using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
 namespace Deployer.Core.DeploymentLibrary
@@ -15,17 +13,13 @@ namespace Deployer.Core.DeploymentLibrary
     public class XmlDeploymentLibrary : IDeploymentLibrary
     {
         private readonly string path;
-        private readonly Uri uri;
-        private readonly IDownloader downloader;
         private readonly IFileSystemOperations ops;
         private readonly IExtendedXmlSerializer serializer;
         
 
-        public XmlDeploymentLibrary(string path, Uri uri, IDownloader downloader, IFileSystemOperations ops)
+        public XmlDeploymentLibrary(string path, IFileSystemOperations ops)
         {
             this.path = path;
-            this.uri = uri;
-            this.downloader = downloader;
             this.ops = ops;
             this.serializer = new ConfigurationContainer()
                 .Type<Device>().EnableReferences(x => x.Id)
@@ -69,32 +63,5 @@ namespace Deployer.Core.DeploymentLibrary
                 return store;
             }
         }
-    }
-
-    public interface IDeploymentLibrary
-    {
-        Task<List<DeviceDto>> Devices();
-        Task<List<DeploymentDto>> Deployments();
-    }
-
-    public class DeviceDto
-    {
-        public int Id { get; set; }
-        public string Icon { get; set; }
-        public string Code { get; set; }
-        public string Description { get; set; }
-        public string FriendlyName { get; set; }
-        public string Name { get; set; }
-        public string Variant { get; set; }
-    }
-
-    public class DeploymentDto
-    {
-        public IEnumerable<int> Devices { get; set; }
-        public string ScriptPath { get; set; }
-        public string Title { get; set; }
-        public string Icon { get; set; }
-        public string Description { get; set; }
-        public int Id { get; set; }
     }
 }
