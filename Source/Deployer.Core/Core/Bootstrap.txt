@@ -1,4 +1,5 @@
 ﻿Main
 {
+	<Fetching debug feed>
 	CopyDirectory("D:\Repos\WOA-Project\Deployment-Feed", "..\Feed");
 }

@@ -9,10 +9,8 @@
              xmlns:common="clr-namespace:Deployer.Gui.ViewModels.Common"
              xmlns:wpf="clr-namespace:Deployer.Wpf;assembly=Deployer.Wpf"
              d:DesignHeight="161" d:DesignWidth="202" d:DataContext="{d:DesignInstance wpf:OperationProgressViewModel}">
-    <UserControl.Resources>
 
-    </UserControl.Resources>
-    <StackPanel VerticalAlignment="Center">
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
         <Image gif:ImageBehavior.AnimationSpeedRatio="0.5" gif:ImageBehavior.AnimatedSource="/Assets/gears_motor.gif" Height="50" />
         <TextBlock Text="{Binding Message}" TextAlignment="Center" FontWeight="Bold" FontSize="14" VerticalAlignment="Bottom" TextWrapping="Wrap"/>
         <views:ProgressControl Margin="8" HorizontalAlignment="Center"
