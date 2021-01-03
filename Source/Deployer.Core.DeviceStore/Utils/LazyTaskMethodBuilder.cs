@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using Deployer.Core.DeploymentLibrary.Utils.LazyTask;
 
-namespace Deployer.Core.DeploymentLibrary.Utils.LazyTask.LazyTask
+namespace Deployer.Core.DeploymentLibrary.Utils
 {
     public class LazyTaskMethodBuilder<T>
     {

@@ -1,27 +1,28 @@
-﻿using System.CommandLine.Builder;
-using System.CommandLine.Parsing;
+﻿using System;
 using System.Threading.Tasks;
-using Deployer.Cli.Configuration;
-using Deployer.NetFx;
-using Serilog;
+using Deployer.Console;
+using Deployer.Core.Console;
+using Deployer.Functions;
+using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.Cli
+namespace ConsoleApp1
 {
     class Program
     {
-        static async Task<int> Main(string[] args)
+        static async Task Main(string[] args)
         {
-            var builder = new CommandLineBuilder()
-                .UseDefaults()
-                .UseExceptionHandler((exception, context) =>
-                {
-                    Log.Error(exception, "An error has occurred: {Error}",
-                        exception?.InnerException?.Message ?? exception?.Message);
-                })
-                .Configure(CompositionRoot.CreateContainer())
-                .Build();
+            var deployer = new WoaDeployerConsole(new[] { typeof(Anchor).Assembly });
 
-            return await builder.InvokeAsync(args);
+            using (deployer.Messages.Subscribe(Console.WriteLine))
+            {
+                using (new ConsoleProgressUpdater(deployer.OperationProgress))
+                {
+                    var result = await deployer.Run("D:\\Repos\\WOA-Project\\Deployment-Feed\\Devices\\Lumia\\950s\\Cityman\\Main.txt");
+                    Console.WriteLine(result
+                        .MapRight(s => "Success!")
+                        .Handle(x => $"Failed with errors: {x}"));
+                }
+            }
         }
     }
 }

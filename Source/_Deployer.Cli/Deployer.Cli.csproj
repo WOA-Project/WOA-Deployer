@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D990D8A-EA26-474D-B167-3A92461A5A77}</ProjectGuid>
+    <ProjectGuid>{ABE9D853-BA2E-48A6-AE23-F72C4CC63A6D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ConsoleApp1</RootNamespace>
-    <AssemblyName>ConsoleApp1</AssemblyName>
+    <RootNamespace>Deployer.Cli</RootNamespace>
+    <AssemblyName>Deployer.Cli</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,85 +33,86 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Deployer.NetFx\Properties\SharedAssemblyInfo.cs">
+      <Link>Properties\SharedAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Configuration\ConfigureMixin.cs" />
+    <Compile Include="Configuration\ListType.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registrations\ConsoleServices.cs" />
+    <Compile Include="WoaDeployerConsole.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\DictionaryBasedSatisfier.cs" />
+    <Compile Include="Services\MarkdownService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
-      <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
-      <Name>Deployer.BinaryBundle</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Deployer.Console\Deployer.Console.csproj">
-      <Project>{BB5ECC19-FBCA-4086-AEE5-81BA31DE5024}</Project>
-      <Name>Deployer.Console</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deployer.Filesystem\Deployer.Filesystem.csproj">
-      <Project>{A968B50B-F12E-4557-9631-78E855605385}</Project>
-      <Name>Deployer.Filesystem</Name>
+    <ProjectReference Include="..\Deployer.Lumia\Deployer.Lumia.csproj">
+      <Project>{52d9692c-1cc9-4ab7-8855-61685b0c68ea}</Project>
+      <Name>Deployer.Lumia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deployer.Functions.Dism\Deployer.Functions.csproj">
-      <Project>{F924E186-2FCF-4042-B1FC-5E79BC89548A}</Project>
-      <Name>Deployer.Functions</Name>
+    <ProjectReference Include="..\Deployer.NetFx\Deployer.NetFx.csproj">
+      <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
+      <Name>Deployer.NetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deployer.Net4x\Deployer.Net4x.csproj">
-      <Project>{fbedaf0e-e2ed-4005-8d83-f980fa67feb2}</Project>
-      <Name>Deployer.Net4x</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
-      <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
-      <Name>Iridio.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{48d712e7-7654-4104-89f6-1c1f98dcb407}</Project>
-      <Name>Zafiro.Core</Name>
+    <ProjectReference Include="..\SimpleScript\SimpleScript\SimpleScript.csproj">
+      <Project>{2C81EACD-26A0-40B0-98B0-878AE12BBBE8}</Project>
+      <Name>SimpleScript</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="ByteSize">
-      <Version>2.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Grace">
-      <Version>7.1.1</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
-    <PackageReference Include="MediatR">
-      <Version>9.0.0</Version>
+    <PackageReference Include="NETStandard.Library">
+      <Version>2.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Optional.Async">
-      <Version>1.3.0</Version>
+    <PackageReference Include="Pastel">
+      <Version>1.3.1</Version>
     </PackageReference>
-    <PackageReference Include="Optional.Collections">
-      <Version>1.1.0</Version>
+    <PackageReference Include="ReactiveUI">
+      <Version>11.3.1</Version>
     </PackageReference>
-    <PackageReference Include="SharpCompress">
-      <Version>0.26.0</Version>
+    <PackageReference Include="Serilog.Sinks.Console">
+      <Version>3.1.1</Version>
     </PackageReference>
-    <PackageReference Include="Superpower">
-      <Version>2.3.0</Version>
+    <PackageReference Include="Serilog.Sinks.Observable">
+      <Version>2.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Serilog.Sinks.RollingFile">
+      <Version>3.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="System.CommandLine">
+      <Version>2.0.0-beta1.20158.1</Version>
+    </PackageReference>
+    <PackageReference Include="System.Reactive">
+      <Version>4.4.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

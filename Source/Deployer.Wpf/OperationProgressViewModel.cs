@@ -1,7 +1,6 @@
 ﻿using System;
 using ByteSizeLib;
 using Deployer.Core;
-using Deployer.Net4x;
 using ReactiveUI;
 using Zafiro.Core;
 

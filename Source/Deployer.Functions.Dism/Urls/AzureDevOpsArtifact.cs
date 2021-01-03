@@ -3,7 +3,7 @@ using Deployer.Core.Scripting;
 using Deployer.Tools.AzureDevOps;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions.Urls
+namespace Deployer.Functions.Urls
 {
     public class AzureDevOpsArtifact : DeployerFunction
     {

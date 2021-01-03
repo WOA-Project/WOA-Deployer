@@ -4,7 +4,7 @@ using Deployer.Core.Scripting;
 using Deployer.Filesystem;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions.Partitions
+namespace Deployer.Functions.Partitions
 {
     public class CreateMbrPartition : DeployerFunction
     {

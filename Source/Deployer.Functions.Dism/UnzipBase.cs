@@ -6,7 +6,7 @@ using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public abstract class UnzipBase : DeployerFunction
     {

@@ -5,7 +5,7 @@ using Deployer.Core.Scripting;
 using Octokit;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions.Urls
+namespace Deployer.Functions.Urls
 {
     public class GitHubLatestReleaseAsset : DeployerFunction
     {

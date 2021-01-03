@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Deployer.Core.Scripting;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class DateConventionDirectoryMostRecent : DeployerFunction
     {

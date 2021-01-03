@@ -6,7 +6,7 @@ using Optional.Collections;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Patterns.Either;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class WimBuildVersion : DeployerFunction
     {

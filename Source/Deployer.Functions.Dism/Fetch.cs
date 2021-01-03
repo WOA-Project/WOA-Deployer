@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Deployer.Core.Functions;
 using Deployer.Core.Scripting;
 using Serilog;
 using Zafiro.Core;

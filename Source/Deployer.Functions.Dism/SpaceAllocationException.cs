@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class SpaceAllocationException : Exception
     {

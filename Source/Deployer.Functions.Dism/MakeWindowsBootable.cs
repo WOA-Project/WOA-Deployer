@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Core.Scripting;
-using Deployer.Core.Services;
 using Deployer.Filesystem;
 using Deployer.Tools.Bcd;
 using Deployer.Tools.Dism;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class MakeWindowsBootable : DeployerFunction
     {

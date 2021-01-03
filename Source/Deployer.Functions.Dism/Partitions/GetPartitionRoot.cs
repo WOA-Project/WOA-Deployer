@@ -4,7 +4,7 @@ using Deployer.Filesystem;
 using Optional.Async.Extensions;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions.Partitions
+namespace Deployer.Functions.Partitions
 {
     public class GetPartitionRoot : DeployerFunction
     {

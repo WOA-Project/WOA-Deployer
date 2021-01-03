@@ -6,7 +6,7 @@ using Deployer.Filesystem;
 using Serilog;
 using Zafiro.Core.FileSystem;
 
-namespace Deployer.Core.Functions
+namespace Deployer.Functions
 {
     public class AllocateSpace : DeployerFunction
     {
