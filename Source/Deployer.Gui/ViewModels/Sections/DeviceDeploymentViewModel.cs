@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Deployer;
@@ -144,16 +145,45 @@ namespace Deployer.Gui.ViewModels.Sections
                     .MapRight(async task => await FetchDeployments.Execute()).RightTask();
             });
 
-            Refresh
-                .Subscribe(either => either
-                    .MapRight(success =>
-                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(),
-                            Option.None<string>()))
-                    .Handle(deployerError =>
-                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}",
-                            "OK".Some(), Option.None<string>())))
-                .DisposeWith(disposables);
+            Refresh.SelectMany(either =>
+                {
+                    var mapRight = either
+                        .MapRight(error => Task.FromResult(Unit.Default))
+                        .Handle(async error =>
+                        {
+                            await RefreshWentWrong(error);
+                            return Unit.Default;
+                        });
 
+                    return mapRight;
+                })
+                .Subscribe()
+                .DisposeWith(disposables);
+        }
+
+        private Task RefreshWentWrong(DeployerError deployerError)
+        {
+            return interaction.Message("Error", $"Could not fetch the bootstrap files: {deployerError}",
+                "OK".Some(), Option.None<string>());
+        }
+
+        private Task RefreshWasOk()
+        {
+            return interaction.Message("OK", "Initial bootstrap download OK", "OK".Some(),
+                Option.None<string>());
+        }
+
+
+        private Task DeploymentWentWrong(DeployerError deployerError)
+        {
+            return interaction.Message("Error", $"The deployment has failed: {deployerError}",
+                "OK".Some(), Option.None<string>());
+        }
+
+        private Task DeploymentWasOk()
+        {
+            return interaction.Message("Done", "The deployment has finished successfully", "OK".Some(),
+                Option.None<string>());
         }
 
         private Func<DeploymentDto, bool> BuildFilter(DeviceDto dto)
@@ -174,6 +204,27 @@ namespace Deployer.Gui.ViewModels.Sections
             Deploy = ReactiveCommand.CreateFromTask(
                 () => deviceDeployer.Deploy(new DeploymentRequest(Device, deployment.ScriptPath)),
                 hasDevice);
+
+
+            Deploy.SelectMany(either =>
+                {
+                    var mapRight = either
+                        .MapRight(async error =>
+                        {
+                            await DeploymentWasOk();
+                            return Unit.Default;
+                        })
+                        .Handle(async error =>
+                        {
+                            await DeploymentWentWrong(error);
+                            return Unit.Default;
+                        });
+
+                    return mapRight;
+                })
+                .Subscribe()
+                .DisposeWith(disposables);
+
 
             Deploy
                 .Subscribe(either => either
