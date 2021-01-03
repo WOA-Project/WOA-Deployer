@@ -6,6 +6,7 @@
              xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
              xmlns:dl="clr-namespace:Deployer.Core.DeploymentLibrary;assembly=Deployer.Core.DeploymentLibrary"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:views="clr-namespace:Deployer.Gui.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance sections:DeviceDeploymentViewModel}">
 
@@ -19,7 +20,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MinHeight="150" />
         </Grid.RowDefinitions>
         <GroupBox Header="Deployment" Grid.Row="0" Margin="8">
             <Grid>
@@ -32,7 +33,7 @@
                 <DockPanel Margin="9">
                     <TextBlock DockPanel.Dock="Top">1. Choose the target device:</TextBlock>
 
-                    <ListView VerticalAlignment="Center" ItemsSource="{Binding Devices}"
+                    <ListView ItemsSource="{Binding Devices}"
                               SelectedItem="{Binding Device, Mode=TwoWay}" HorizontalContentAlignment="Stretch"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListView.ItemsPanel>
@@ -88,5 +89,9 @@
             </Grid>
         </GroupBox>
         <Button Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="12" Command="{Binding Deploy}">Deploy</Button>
+
+        <Grid Grid.Row="1" Background="White" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
+            <views:ProgressPart DataContext="{Binding OperationProgress}"/>
+        </Grid>
     </Grid>
 </UserControl>

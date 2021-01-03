@@ -42,6 +42,7 @@ namespace Deployer.Gui.ViewModels.Sections
         private ReadOnlyObservableCollection<DeploymentDto> deployments;
         private DeviceDto device;
         private ObservableAsPropertyHelper<IEnumerable<DeviceDto>> devices;
+        private readonly ObservableAsPropertyHelper<bool> isBusy;
 
         public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary,
@@ -60,7 +61,11 @@ namespace Deployer.Gui.ViewModels.Sections
                 .InvokeCommand(SelectFirstDeployment);
 
             DownloadFeedCommand = ReactiveCommand.CreateFromTask(DownloadFeed);
+
+            isBusy = IsBusyObservable.ToProperty(this, x => x.IsBusy);
         }
+
+        public bool IsBusy => isBusy.Value;
 
         public ReactiveCommand<Unit, Either<DeployerError, Success>> DownloadFeedCommand { get; }
 
@@ -167,12 +172,6 @@ namespace Deployer.Gui.ViewModels.Sections
                 "OK".Some(), Option.None<string>());
         }
 
-        private Task RefreshWasOk()
-        {
-            return interaction.Message("OK", "Initial bootstrap download OK", "OK".Some(),
-                Option.None<string>());
-        }
-
 
         private Task DeploymentWentWrong(DeployerError deployerError)
         {
@@ -223,17 +222,6 @@ namespace Deployer.Gui.ViewModels.Sections
                     return mapRight;
                 })
                 .Subscribe()
-                .DisposeWith(disposables);
-
-
-            Deploy
-                .Subscribe(either => either
-                    .MapRight(success =>
-                        interaction.Message("Done", "The deployment has finished successfully", "OK".Some(),
-                            Option.None<string>()))
-                    .Handle(deployerError =>
-                        interaction.Message("Execution failed", $"The deployment has failed: {deployerError}",
-                            "OK".Some(), Option.None<string>())))
                 .DisposeWith(disposables);
         }
     }

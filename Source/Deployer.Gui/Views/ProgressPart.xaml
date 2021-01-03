@@ -6,7 +6,6 @@
              mc:Ignorable="d" 
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:views="clr-namespace:Deployer.Gui.Views"
-             xmlns:common="clr-namespace:Deployer.Gui.ViewModels.Common"
              xmlns:wpf="clr-namespace:Deployer.Wpf;assembly=Deployer.Wpf"
              d:DesignHeight="161" d:DesignWidth="202" d:DataContext="{d:DesignInstance wpf:OperationProgressViewModel}">
 

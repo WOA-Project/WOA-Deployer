@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/appicon.png"
-        Title="{Binding Title}" Height="450" Width="800" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
+        Title="{Binding Title}" Height="700" Width="900" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
 
 
     <b:Interaction.Triggers>
@@ -36,22 +36,21 @@
             <RowDefinition MinHeight="20" Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TabControl Margin="20" Focusable="False"
-                    ItemsSource="{Binding Sections}"
-                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
-                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
-                    <Setter Property="Header" Value="{Binding Converter={StaticResource MetadataConverter}, ConverterParameter='Name'}" />
-                    <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
-                    <Setter Property="Content" Value="{Binding Value}" />
-                </Style>
-            </TabControl.ItemContainerStyle>
-        </TabControl>
-
-        <Grid Grid.Row="0" Background="White" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
-            <views:ProgressPart DataContext="{Binding OperationProgress}"/>
-        </Grid>
+        <ScrollViewer>
+            <TabControl Margin="20" Focusable="False"
+                        ItemsSource="{Binding Sections}"
+                        SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBoolConverter}}">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="TabItem" BasedOn="{StaticResource {x:Type TabItem}}">
+                        <Setter Property="Header"
+                                Value="{Binding Converter={StaticResource MetadataConverter}, ConverterParameter='Name'}" />
+                        <!-- ReSharper disable once Xaml.BindingWithContextNotResolved -->
+                        <Setter Property="Content" Value="{Binding Value}" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+            </TabControl></ScrollViewer
+            >
 
         <Button Grid.Row="1" Command="{Binding DonateCommand}" ToolTip="Thanks in advance!"
                 Padding="10,5,10,5"
