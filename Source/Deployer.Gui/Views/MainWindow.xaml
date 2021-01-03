@@ -3,20 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:views="clr-namespace:Deployer.Gui.Views"
         xmlns:parts="clr-namespace:Deployer.Gui.Views.Parts"
         xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/appicon.png"
-        Title="{Binding Title}" Height="700" Width="900" DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
-
+        Title="{Binding Title}" Height="700" Width="900"
+        DataContext="{Binding Source={StaticResource Composition}, Path=Root}">
 
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:EventTrigger.Actions>
-                <b:InvokeCommandAction Command="{Binding ShowWarningCommand}" />
+                <b:InvokeCommandAction Command="{Binding ShowWarning}" />
             </b:EventTrigger.Actions>
         </b:EventTrigger>
     </b:Interaction.Triggers>
@@ -49,15 +48,16 @@
                         <Setter Property="Content" Value="{Binding Value}" />
                     </Style>
                 </TabControl.ItemContainerStyle>
-            </TabControl></ScrollViewer
-            >
+            </TabControl>
+        </ScrollViewer>
 
         <Button Grid.Row="1" Command="{Binding DonateCommand}" ToolTip="Thanks in advance!"
                 Padding="10,5,10,5"
                 Opacity="1">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image Height="16" VerticalAlignment="Center" Source="/Assets/heart.png" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <Image Height="16" VerticalAlignment="Center" Source="/Assets/heart.png"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
                     <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Donate to support this tool!" />
                 </StackPanel>
             </Button.Content>
