@@ -122,7 +122,6 @@ namespace Deployer.Gui.ViewModels.Sections
         {
             ConfigureDeployCommand();
 
-
             FetchDevices = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Devices());
             devices = FetchDevices.ToProperty(this, x => x.Devices);
             FetchDeployments = ReactiveCommand.CreateFromTask(() => deploymentLibrary.Deployments());

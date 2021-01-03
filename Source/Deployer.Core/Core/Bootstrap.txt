@@ -1,5 +1,5 @@
 ﻿Main
 {
-	<Fetching debug feed>
-	CopyDirectory("D:\Repos\WOA-Project\Deployment-Feed", "..\Feed");
+	<Fetching Deployment Scripts>
+	Unzip(GitHub("WOA-Project", "Deployment-Feed"), "..", "Feed");
 }

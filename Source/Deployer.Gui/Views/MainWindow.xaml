@@ -71,7 +71,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Height="16" VerticalAlignment="Center" Source="/Assets/heart.png"
                            RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Donate to support this tool!" />
+                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Text="Please, support this tool with a little donation. Click here :)" />
                 </StackPanel>
             </Button.Content>
         </Button>

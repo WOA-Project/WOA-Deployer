@@ -4,16 +4,16 @@ Hi! I'm José Manuel, the creator of WOA Deployer 😊 I've spent countless hour
 
 I hope my tool is useful for you. 
 
-You can contribute with the deployment its maintenance.
-Please, consider donating to keep it going. Any amount is appreciated.
+If you wish, you can contribute with the deployment and maintenance.
+Please, consider donating to keep it going. Any amount is very appreciated!
 
-Please, click this link: 
+You can donate using PayPal using this link below:
 
-❤ [**Donate** via PayPal](http://paypal.me/superjmn) ❤
+❤ [**Donate to WOA Deployer**](http://paypal.me/superjmn) ❤
 
 Thank you!! 🤩
 
-## Want to offer additional support?
+## Do you want to offer additional support?
 This project relies on work from awesome people that made this possible in the end.
 
 - [WOA for Lumia](DonationsLumia.md)
