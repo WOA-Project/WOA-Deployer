@@ -60,11 +60,11 @@ steps:
 #     ArtifactName: 'WOA Deployer CLI'
 #     publishLocation: 'Container'
 
-  inputs:
-    gitHubConnection: 'github.com_SuperJMN'
+- task: GitHubRelease@1
+  displayName: Create GitHub Release
+  inputs:    
+    gitHubConnection: 'GitHub'
     repositoryName: 'WOA-Project/WOA-Deployer'
     action: 'create'
     target: '$(Build.SourceVersion)'
     tagSource: 'gitTag'
-    changeLogCompareToRelease: 'lastFullRelease'
-    changeLogType: 'commitBased'
