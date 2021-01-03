@@ -89,9 +89,5 @@
             </Grid>
         </GroupBox>
         <Button Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="12" Command="{Binding Deploy}">Deploy</Button>
-
-        <Grid Grid.Row="1" Background="White" Visibility="{Binding IsBusy, Converter={StaticResource CollapseOnFalse}}" >
-            <views:ProgressPart DataContext="{Binding OperationProgress}"/>
-        </Grid>
     </Grid>
 </UserControl>
