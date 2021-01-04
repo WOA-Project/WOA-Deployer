@@ -9,10 +9,16 @@
              d:DesignHeight="277.099" d:DesignWidth="423.282"
              d:DataContext="{d:DesignInstance wpf:WimPickRequirementSolver}">
     <UserControl.Resources>
-        <wpf1:ValueConverterGroup x:Key="NullToCollapsed">
-            <wpf:MyNullToBoolConverter IsInverted="True" />
-            <wpf:MyBoolToVisibilityConverter />
-        </wpf1:ValueConverterGroup>
+        
+        <ResourceDictionary>
+            <wpf1:ValueConverterGroup x:Key="NullToCollapsed">
+                <wpf:MyNullToBoolConverter IsInverted="True" />
+                <wpf:MyBoolToVisibilityConverter />
+            </wpf1:ValueConverterGroup>
+
+
+        </ResourceDictionary>
+        
     </UserControl.Resources>
     <GroupBox Header="Windows Image (.WIM)" Padding="15">
         <DockPanel>

@@ -101,10 +101,10 @@
                                          Maximum="1"
                                          Margin="0"
                                          IsIndeterminate="{Binding IsProgressIndeterminate}"
-                                         Value="{Binding Progress, Mode=OneWay}"
+                                         Value="{Binding Percentage, Mode=OneWay}"
                                          VerticalAlignment="Stretch">
                                 <ProgressBar.ToolTip>
-                                    <TextBlock Text="{Binding Path=Progress, StringFormat='P0'}" />
+                                    <TextBlock Text="{Binding Path=Percentage, StringFormat='P0'}" />
                                 </ProgressBar.ToolTip>
                             </ProgressBar>
                         </Grid>

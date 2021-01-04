@@ -6,8 +6,8 @@
              xmlns:wpf="clr-namespace:Deployer.Wpf;assembly=Deployer.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="153.75" d:DataContext="{d:DesignInstance wpf:OperationProgressViewModel}">
-    <Grid>
-        <Border BorderThickness="1" Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnTrue}}">
+    <Grid Visibility="{Binding IsProgressVisible, Converter={StaticResource CollapseOnFalse}}">
+        <Border BorderThickness="1">
             <Grid >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -19,21 +19,17 @@
                                       Maximum="1"
                                       Margin="0"
                                       IsIndeterminate="{Binding IsProgressIndeterminate}"
-                                      Value="{Binding Progress, Mode=OneWay}"
+                                      Value="{Binding Percentage, Mode=OneWay}"
                                       VerticalAlignment="Stretch">
                     <ProgressBar.ToolTip>
-                        <TextBlock Text="{Binding Path=Progress, StringFormat='P0'}" />
+                        <TextBlock Text="{Binding Path=Percentage, StringFormat='P0'}" />
                     </ProgressBar.ToolTip>
                 </ProgressBar>
             </Grid>
         </Border>
 
-        <StackPanel Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnFalse}}">
-
-            <TextBlock FontWeight="Bold" Text="{Binding Downloaded, StringFormat='{}{0} downloaded'}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center" />
-
-        </StackPanel>
+        <TextBlock FontWeight="Bold" Text="{Binding ProgressText}"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
     </Grid>
 </UserControl>

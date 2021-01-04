@@ -20,8 +20,7 @@ namespace Deployer.Functions
         public async Task Execute(int diskNumber, string gptPartition, int requiredGBs)
         {
             var requiredSize = ByteSize.FromGigaBytes(requiredGBs);
-            Log.Verbose("Verifying available space");
-            Log.Verbose("Verifying the available space...");
+            Log.Verbose("Verifying the available space");
             Log.Verbose("We will need {Size} of free space for Windows", requiredSize);
 
             var disk = await fileSystem.GetDisk(diskNumber);
@@ -30,24 +29,24 @@ namespace Deployer.Functions
             {
                 Log.Warning("There's not enough space in the disk. We will try to allocate it automatically");
                 await Allocate(() => fileSystem.GetDisk(diskNumber), gptPartition, requiredSize);
-                Log.Verbose("Space allocated correctly");
+                Log.Information("Space allocated correctly");
             }
             else
             {
-                Log.Verbose("We have enough available space to deploy Windows");
+                Log.Information("We have enough available space to deploy Windows");
             }
         }
 
         private async Task Allocate(Func<Task<IDisk>> diskFactory, string partitionName, ByteSize requiredSpace)
         {
-            Log.Verbose("Trying to shrink Data partition...");
+            Log.Information("Trying to shrink Data partition...");
 
             var disk = await diskFactory();
             var dataPartition = await disk.GetPartitionByName(partitionName);
 
             if (dataPartition == null)
             {
-                Log.Verbose("Data partition doesn't exist. Skipping.");
+                Log.Information("Data partition doesn't exist. Skipping.");
                 throw new SpaceAllocationException();
             }
 
@@ -69,7 +68,7 @@ namespace Deployer.Functions
 
             await dataVolume.Partition.Resize(newData);
 
-            Log.Verbose("Resize operation completed successfully");
+            Log.Information("Resize operation completed successfully");
 
             disk = await diskFactory();
             var isEnoughAlready = disk.HasEnoughSpace(requiredSpace);

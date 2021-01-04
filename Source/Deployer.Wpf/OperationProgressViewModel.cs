@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 using ByteSizeLib;
 using Deployer.Core;
 using ReactiveUI;
@@ -9,9 +10,9 @@ namespace Deployer.Wpf
     public class OperationProgressViewModel : ReactiveObject
     {
         private bool isProgressVisible;
-        private double percentage;
         private bool isProgressIndeterminate;
-        private ByteSize downloaded;
+        private double percentage;
+
         private readonly ObservableAsPropertyHelper<string> message;
 
         public OperationProgressViewModel(IWoaDeployer deployer, IOperationProgress operationProgress)
@@ -23,19 +24,22 @@ namespace Deployer.Wpf
                 {
                     case Done done:
                         IsProgressVisible = false;
+                        ProgressText = "";
                         break;
                     case Percentage p:
                         IsProgressVisible = true;
-                        IsProgressIndeterminate = false;
-                        this.Progress = p.Value;
+                        ProgressText = string.Format("{0:P0}", p.Value);
+                        this.Percentage = p.Value;
+
                         break;
-                    case UndefinedProgress<ulong> undefinedProgress:
+                    case AbsoluteProgress<ulong> undefinedProgress:
                         IsProgressVisible = true;
-                        this.Downloaded = ByteSize.FromBytes(undefinedProgress.Value);
+                        ProgressText = string.Format("{0} downloaded", ByteSize.FromBytes(undefinedProgress.Value));
                         break;
                     case Unknown unknown:
                         IsProgressVisible = true;
                         IsProgressIndeterminate = true;
+                        ProgressText = "";
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(progress));
@@ -43,13 +47,15 @@ namespace Deployer.Wpf
             });
         }
 
-        public string Message => message.Value;
+        private string progressText;
 
-        public ByteSize Downloaded
+        public string ProgressText
         {
-            get => downloaded;
-            set => this.RaiseAndSetIfChanged(ref downloaded, value);
+            get => progressText;
+            set => this.RaiseAndSetIfChanged(ref progressText, value);
         }
+
+        public string Message => message.Value;
 
         public bool IsProgressIndeterminate
         {
@@ -63,7 +69,7 @@ namespace Deployer.Wpf
             set => this.RaiseAndSetIfChanged(ref isProgressVisible, value);
         }
 
-        public double Progress
+        public double Percentage
         {
             get => percentage;
             set => this.RaiseAndSetIfChanged(ref percentage, value);

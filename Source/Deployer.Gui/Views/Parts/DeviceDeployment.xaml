@@ -11,6 +11,16 @@
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance sections:DeviceDeploymentViewModel}">
 
 
+    <UserControl.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+    </UserControl.Resources>
+
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding Refresh}" />
@@ -22,7 +32,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" MinHeight="150" />
         </Grid.RowDefinitions>
-        <GroupBox Header="Deployment" Grid.Row="0" Margin="8">
+        <GroupBox Header="Deployment" Grid.Row="0" Margin="8" Visibility="{Binding IsRefreshVisible, Converter={StaticResource CollapseOnTrue}}" >
             <Grid>
 
                 <Grid.RowDefinitions>
@@ -88,6 +98,7 @@
                 </DockPanel>
             </Grid>
         </GroupBox>
-        <Button Grid.Row="1" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4" Padding="12" Command="{Binding Deploy}">Deploy</Button>
+        <Button Grid.Row="0" Grid.RowSpan="2"  Command="{Binding Refresh}" Style="{DynamicResource ButtonStyle}" Visibility="{Binding IsRefreshVisible, Converter={StaticResource CollapseOnFalse}}" >Retry fetch</Button>
+        <Button Grid.Row="1" Command="{Binding Deploy}" Style="{StaticResource ButtonStyle}" Visibility="{Binding IsRefreshVisible, Converter={StaticResource CollapseOnTrue}}" >Deploy</Button>
     </Grid>
 </UserControl>

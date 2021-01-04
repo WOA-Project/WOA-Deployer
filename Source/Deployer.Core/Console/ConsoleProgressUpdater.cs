@@ -30,7 +30,7 @@ namespace Deployer.Core.Console
                     DrawPercentageValue(percentage.Value);
 
                     break;
-                case UndefinedProgress<ulong> undefinedProgress:
+                case AbsoluteProgress<ulong> undefinedProgress:
 
                     DrawBytesValue(undefinedProgress.Value);
 

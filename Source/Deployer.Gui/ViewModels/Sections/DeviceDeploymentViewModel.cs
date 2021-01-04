@@ -43,6 +43,7 @@ namespace Deployer.Gui.ViewModels.Sections
         private DeviceDto device;
         private ObservableAsPropertyHelper<IEnumerable<DeviceDto>> devices;
         private readonly ObservableAsPropertyHelper<bool> isBusy;
+        private ObservableAsPropertyHelper<bool> isRefreshVisible;
 
         public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
             OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary,
@@ -56,7 +57,7 @@ namespace Deployer.Gui.ViewModels.Sections
             this.deployer = deployer;
 
             ConfigureCommands();
-
+            
             this.WhenAnyValue(x => x.Device)
                 .InvokeCommand(SelectFirstDeployment);
 
@@ -163,7 +164,14 @@ namespace Deployer.Gui.ViewModels.Sections
                 })
                 .Subscribe()
                 .DisposeWith(disposables);
+
+            isRefreshVisible = this
+                .WhenAnyValue(x => x.Devices)
+                .Select(x => x == null || !x.Any())
+                .ToProperty(this, d => d.IsRefreshVisible);
         }
+
+        public bool IsRefreshVisible => isRefreshVisible.Value;
 
         private Task RefreshWentWrong(DeployerError deployerError)
         {
