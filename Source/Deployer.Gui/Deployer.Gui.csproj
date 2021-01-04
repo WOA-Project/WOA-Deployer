@@ -107,8 +107,8 @@
     <Compile Include="Views\ProgressControl.xaml.cs">
       <DependentUpon>ProgressControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ProgressPart.xaml.cs">
-      <DependentUpon>ProgressPart.xaml</DependentUpon>
+    <Compile Include="Views\OperationsStatusPart.xaml.cs">
+      <DependentUpon>OperationsStatusPart.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\WimOptionsPart.xaml.cs">
       <DependentUpon>WimOptionsPart.xaml</DependentUpon>
@@ -146,7 +146,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ProgressPart.xaml">
+    <Page Include="Views\OperationsStatusPart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

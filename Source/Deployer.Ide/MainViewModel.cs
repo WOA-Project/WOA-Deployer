@@ -43,7 +43,7 @@ namespace Deployer.Ide
         private readonly ObservableAsPropertyHelper<bool> isBusy;
 
         public MainViewModel(IWoaDeployer deployer, IIdeDeployerCompiler compiler, IOpenFilePicker picker,
-            OperationProgressViewModel status)
+            OperationStatusViewModel status)
         {
             Status = status;
             OpenFile = ReactiveCommand.CreateFromObservable(() =>
@@ -146,7 +146,7 @@ namespace Deployer.Ide
         public ReadOnlyObservableCollection<string> Output => output;
         public ReadOnlyObservableCollection<string> RuntimeMessages => runtimeMessages;
 
-        public OperationProgressViewModel Status { get; }
+        public OperationStatusViewModel Status { get; }
 
         private IEnumerable<string> Extract(Either<DeployerError, Success> either)
         {

@@ -46,10 +46,10 @@ namespace Deployer.Gui.ViewModels.Sections
         private ObservableAsPropertyHelper<bool> isRefreshVisible;
 
         public DeviceDeploymentViewModel(IDeviceDeployer deviceDeployer, IInteraction interaction,
-            OperationProgressViewModel operationProgress, IDeploymentLibrary deploymentLibrary,
+            OperationStatusViewModel operationStatus, IDeploymentLibrary deploymentLibrary,
             IFileSystemOperations fileSystemOperations, IWoaDeployer deployer)
         {
-            OperationProgress = operationProgress;
+            OperationStatus = operationStatus;
             this.deviceDeployer = deviceDeployer;
             this.interaction = interaction;
             this.deploymentLibrary = deploymentLibrary;
@@ -61,18 +61,18 @@ namespace Deployer.Gui.ViewModels.Sections
             this.WhenAnyValue(x => x.Device)
                 .InvokeCommand(SelectFirstDeployment);
 
-            DownloadFeedCommand = ReactiveCommand.CreateFromTask(DownloadFeed);
+            DownloadFeedCommand = ReactiveCommand.CreateFromObservable(DownloadFeed);
 
             isBusy = IsBusyObservable.ToProperty(this, x => x.IsBusy);
         }
 
         public bool IsBusy => isBusy.Value;
 
-        public ReactiveCommand<Unit, Either<DeployerError, Success>> DownloadFeedCommand { get; }
+        public ReactiveCommand<Unit, Either<GenericError, GenericSuccess>> DownloadFeedCommand { get; }
 
         public ReactiveCommand<DeviceDto, Unit> SelectFirstDeployment { get; set; }
 
-        public OperationProgressViewModel OperationProgress { get; }
+        public OperationStatusViewModel OperationStatus { get; }
 
         public DeploymentDto Deployment
         {
@@ -96,27 +96,46 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public ReactiveCommand<Unit, List<DeviceDto>> FetchDevices { get; set; }
 
-        public ReactiveCommand<Unit, Either<DeployerError, List<DeploymentDto>>> Refresh { get; set; }
+        public ReactiveCommand<Unit, Either<GenericError, List<DeploymentDto>>> Refresh { get; set; }
 
         public IObservable<bool> IsBusyObservable => Refresh.IsExecuting.Merge(Deploy.IsExecuting);
 
-        private async Task DeleteFeedFolder()
+        private async Task<Either<GenericError, GenericSuccess>> DeleteFeedFolder()
         {
             if (fileSystemOperations.DirectoryExists(FeedFolder))
             {
-                await fileSystemOperations.DeleteDirectory(FeedFolder);
+                try
+                {
+                    await fileSystemOperations.DeleteDirectory(FeedFolder);
+                }
+                catch (Exception e)
+                {
+                    return new GenericError(e.Message);
+                }
             }
+
+            return new GenericSuccess();
         }
 
-        private async Task<Either<DeployerError, Success>> DownloadFeed()
+        private IObservable<Either<GenericError, GenericSuccess>> DownloadFeed()
         {
-            await DeleteFeedFolder();
-            return await Run(BootstrapPath);
+            var downloadFeed = Observable.FromAsync(DeleteFeedFolder)
+                .SelectMany(async dl =>
+                {
+                    var run = await Run(BootstrapPath);
+                    var dlAndRun = dl.MapRight(_ => run);
+                    return dlAndRun;
+                });
+
+            return downloadFeed;
         }
 
-        private Task<Either<DeployerError, Success>> Run(string bootstrapPath)
+        private async Task<Either<GenericError, GenericSuccess>> Run(string bootstrapPath)
         {
-            return deployer.Run(bootstrapPath);
+            var task = await deployer.Run(bootstrapPath);
+            return task
+                .MapLeft(s => new GenericError(s.ToString()))
+                .MapRight(s => new GenericSuccess());
         }
 
         private void ConfigureCommands()
@@ -173,9 +192,9 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public bool IsRefreshVisible => isRefreshVisible.Value;
 
-        private Task RefreshWentWrong(DeployerError deployerError)
+        private Task RefreshWentWrong(GenericError error)
         {
-            return interaction.Message("Error", $"Could not fetch the bootstrap files: {deployerError}",
+            return interaction.Message("Error", $"Could not fetch the bootstrap files: {error}",
                 "OK".Some(), Option.None<string>());
         }
 
@@ -230,6 +249,25 @@ namespace Deployer.Gui.ViewModels.Sections
                 })
                 .Subscribe()
                 .DisposeWith(disposables);
+        }
+    }
+
+    public class GenericSuccess
+    {
+    }
+
+    public class GenericError
+    {
+        public string Message { get; }
+
+        public GenericError(string message)
+        {
+            Message = message;
+        }
+
+        public override string ToString()
+        {
+            return Message;
         }
     }
 }

@@ -4,10 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Deployer.Gui.Views.Parts"
+             xmlns:sections="clr-namespace:Deployer.Gui.ViewModels.Sections"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance sections:AdvancedViewModel}">
     <DockPanel Margin="8">
         <TextBlock DockPanel.Dock="Top">You can run an arbitrary script. Use with caution!</TextBlock>
-        <Button Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Command="{Binding RunScript}">Run script…</Button>
+        <Button Style="{StaticResource ButtonStyle}" Margin="4" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="5" Command="{Binding RunScript}">Run script…</Button>
     </DockPanel>
 </UserControl>

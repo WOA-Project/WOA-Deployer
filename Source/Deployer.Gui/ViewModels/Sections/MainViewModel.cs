@@ -13,11 +13,11 @@ namespace Deployer.Gui.ViewModels.Sections
 {
     public class MainViewModel : MainViewModelBase
     {
-        public OperationProgressViewModel OperationProgress { get; }
+        public OperationStatusViewModel OperationStatus { get; }
 
-        public MainViewModel(IList<Meta<ISection>> sections, IList<IBusy> busies, IInteraction interaction, OperationProgressViewModel operationProgress) : base(sections, busies)
+        public MainViewModel(IList<Meta<ISection>> sections, IList<IBusy> busies, IInteraction interaction, OperationStatusViewModel operationStatus) : base(sections, busies)
         {
-            OperationProgress = operationProgress;
+            OperationStatus = operationStatus;
             ShowWarning = ReactiveCommand.CreateFromObservable(() => 
                 Observable.FromAsync(() =>  interaction.Message(Resources.TermsOfUseTitle, Resources.WarningNotice, "OK".Some(),
                         Optional.Option.None<string>())));

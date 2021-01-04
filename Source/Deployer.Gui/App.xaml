@@ -21,5 +21,13 @@
             <local:MyBoolToVisibilityConverter />
         </wpf:ValueConverterGroup>
 
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="Padding" Value="12" />
+        </Style>
+
     </Application.Resources>
 </Application>

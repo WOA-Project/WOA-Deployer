@@ -7,7 +7,7 @@ using Zafiro.Core;
 
 namespace Deployer.Wpf
 {
-    public class OperationProgressViewModel : ReactiveObject
+    public class OperationStatusViewModel : ReactiveObject
     {
         private bool isProgressVisible;
         private bool isProgressIndeterminate;
@@ -15,7 +15,7 @@ namespace Deployer.Wpf
 
         private readonly ObservableAsPropertyHelper<string> message;
 
-        public OperationProgressViewModel(IWoaDeployer deployer, IOperationProgress operationProgress)
+        public OperationStatusViewModel(IWoaDeployer deployer, IOperationProgress operationProgress)
         {
             message = deployer.Messages.ToProperty(this, x => x.Message);
 
@@ -29,11 +29,13 @@ namespace Deployer.Wpf
                     case Percentage p:
                         IsProgressVisible = true;
                         ProgressText = string.Format("{0:P0}", p.Value);
-                        this.Percentage = p.Value;
-
+                        IsProgressIndeterminate = false;
+                        Percentage = p.Value;
                         break;
                     case AbsoluteProgress<ulong> undefinedProgress:
                         IsProgressVisible = true;
+                        IsProgressIndeterminate = true;
+
                         ProgressText = string.Format("{0} downloaded", ByteSize.FromBytes(undefinedProgress.Value));
                         break;
                     case Unknown unknown:

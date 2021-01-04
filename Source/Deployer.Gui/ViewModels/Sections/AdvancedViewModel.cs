@@ -26,19 +26,19 @@ namespace Deployer.Gui.ViewModels.Sections
         private readonly CompositeDisposable disposables = new CompositeDisposable();
 
         public AdvancedViewModel(IWoaDeployer deployer, IInteraction interaction,
-            OperationProgressViewModel operationProgress, DeployerFileOpenService fileOpenService)
+            OperationStatusViewModel operationStatus, DeployerFileOpenService fileOpenService)
         {
             this.deployer = deployer;
             this.interaction = interaction;
             this.fileOpenService = fileOpenService;
-            OperationProgress = operationProgress;
+            OperationStatus = operationStatus;
 
             ConfigureCommands();
 
             IsBusyObservable = RunScript.IsExecuting;
         }
 
-        public OperationProgressViewModel OperationProgress { get; }
+        public OperationStatusViewModel OperationStatus { get; }
 
         public ReactiveCommand<Unit, Either<DeployerError, Success>> RunScript { get; set; }
 

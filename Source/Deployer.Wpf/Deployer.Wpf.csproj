@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
-    <Compile Include="OperationProgressViewModel.cs" />
+    <Compile Include="OperationStatusViewModel.cs" />
     <Compile Include="RequirementsModel.cs" />
     <Compile Include="DeployerFileOpenService.cs" />
     <Compile Include="DiskRequirementSolver.cs" />

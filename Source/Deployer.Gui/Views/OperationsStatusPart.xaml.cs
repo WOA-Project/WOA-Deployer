@@ -5,9 +5,9 @@ namespace Deployer.Gui.Views
     /// <summary>
     /// Interaction logic for ProgressPart.xaml
     /// </summary>
-    public partial class ProgressPart : UserControl
+    public partial class OperationsStatusPart : UserControl
     {
-        public ProgressPart()
+        public OperationsStatusPart()
         {
             InitializeComponent();
         }

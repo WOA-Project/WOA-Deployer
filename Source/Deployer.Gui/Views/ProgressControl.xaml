@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpf="clr-namespace:Deployer.Wpf;assembly=Deployer.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="35" d:DesignWidth="153.75" d:DataContext="{d:DesignInstance wpf:OperationProgressViewModel}">
+             d:DesignHeight="35" d:DesignWidth="153.75" d:DataContext="{d:DesignInstance wpf:OperationStatusViewModel}">
     <Grid Visibility="{Binding IsProgressVisible, Converter={StaticResource CollapseOnFalse}}">
         <Border BorderThickness="1">
             <Grid >
