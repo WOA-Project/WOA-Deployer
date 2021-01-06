@@ -57,23 +57,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Wim\" />
+    <None Update="Core\Bootstrap.Debug.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\Bootstrap.Release.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Core\Bootstrap.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Core\Bootstrap.Debug.txt">
-      <DependentUpon>Bootstrap.txt</DependentUpon>
-
-    </Content>
-    <Content Include="Core\Bootstrap.Release.txt">
-      <DependentUpon>Bootstrap.txt</DependentUpon>  
-    </Content>
-  </ItemGroup>
-  <Target Name="CopyFiles" BeforeTargets="PrepareForBuild">
-    <Copy SourceFiles="$(ProjectDir)Core\Bootstrap.$(Configuration).txt" DestinationFiles="$(ProjectDir)Core\Bootstrap.txt"></Copy>
-  </Target>
 
 </Project>

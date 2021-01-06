@@ -9,11 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance sections:DeviceDeploymentViewModel}">
 
-
-    <UserControl.Resources>
-      
-    </UserControl.Resources>
-
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding Refresh}" />

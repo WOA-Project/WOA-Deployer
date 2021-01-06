@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using ExtendedXmlSerializer;
 using Optional.Collections;
 
 namespace Deployer.Core.Requirements

@@ -4,6 +4,7 @@ using MediatR;
 
 namespace Deployer.Core.Requirements
 {
+    // ReSharper disable once UnusedType.Global
     public class WimFileHandler : IRequestHandler<WimFileRequest, RequirementResponse>
     {
         public Task<RequirementResponse> Handle(WimFileRequest request, CancellationToken cancellationToken)

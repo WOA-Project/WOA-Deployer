@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Deployer;
@@ -14,7 +13,6 @@ using Deployer.Core.DeploymentLibrary;
 using Deployer.Core.Interaction;
 using Deployer.Wpf;
 using DynamicData;
-using ExtendedXmlSerializer.ExtensionModel.Types;
 using Grace.DependencyInjection.Attributes;
 using Iridio.Runtime.ReturnValues;
 using Optional;
@@ -30,8 +28,14 @@ namespace Deployer.Gui.ViewModels.Sections
     [Metadata("Order", 1)]
     public class DeviceDeploymentViewModel : ReactiveObject, ISection
     {
+
+#if DEBUG
+        private const string BoostrapFilename = "Bootstrap.Debug.txt";
+#else
+        private const string BoostrapFilename = "Bootstrap.Release.txt";
+#endif
         private const string FeedFolder = "Feed";
-        private static readonly string BootstrapPath = Path.Combine("Core", "Bootstrap.txt");
+        private static readonly string BootstrapPath = Path.Combine("Core", BoostrapFilename);
         private readonly IWoaDeployer deployer;
         private readonly IDeploymentLibrary deploymentLibrary;
         private readonly IDeviceDeployer deviceDeployer;

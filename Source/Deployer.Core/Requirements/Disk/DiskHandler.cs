@@ -4,6 +4,7 @@ using MediatR;
 
 namespace Deployer.Core.Requirements
 {
+    // ReSharper disable once UnusedType.Global
     public class DiskHandler : IRequestHandler<DiskRequest, RequirementResponse>
     {
         public Task<RequirementResponse> Handle(DiskRequest request, CancellationToken cancellationToken)

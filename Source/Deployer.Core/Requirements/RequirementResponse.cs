@@ -1,10 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Deployer.Core.Requirements
 {
     public class RequirementResponse : Collection<FulfilledRequirement>
     {
-        public RequirementResponse(FulfilledRequirement[] fulfilledRequirements) : base(fulfilledRequirements)
+        public RequirementResponse(IList<FulfilledRequirement> fulfilledRequirements) : base(fulfilledRequirements)
         {
         }
     }

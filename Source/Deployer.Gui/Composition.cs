@@ -66,7 +66,6 @@ namespace Deployer.Gui
 
         private static IDeploymentLibrary GetDeploymentLibrary(IDownloader downloader, IFileSystemOperations ops)
         {
-            var definition = "https://raw.githubusercontent.com/WOA-Project/Deployment-Feed/master/Deployments.xml";
             return new XmlDeploymentLibrary("Feed\\Deployments.xml", ops);
         }
 

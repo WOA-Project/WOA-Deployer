@@ -6,6 +6,7 @@
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              xmlns:wpf="clr-namespace:Deployer.Wpf"
              xmlns:valueConverters="clr-namespace:ValueConverters;assembly=ValueConverters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="UserControl" d:DataContext="{d:DesignInstance wpf:DiskRequirementSolver}">
@@ -14,7 +15,19 @@
         <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnTrue" IsInverted="True" />
         <valueConverters:BoolNegationConverter x:Key="InvertBoolConverter" />
         <valueConverters:BoolToVisibilityConverter x:Key="CollapseOnFalse"  />
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Height" Value="30"></Setter>
+                <Setter Property="Padding" Value="4"></Setter>
+            </Style.Setters>
+        </Style>
     </UserControl.Resources>
+
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding RefreshDisks}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
 
     <GroupBox Header="Drive selection" Padding="15">
         <GroupBox.Resources>

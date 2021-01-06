@@ -6,15 +6,15 @@ using ReactiveUI;
 
 namespace Deployer.Core.Requirements
 {
-    public class DependenciesModel2 : ReactiveObject
+    public class DependenciesModel : ReactiveObject
     {
         private readonly IEnumerable<IRequirementSolver> solvers;
 
-        public DependenciesModel2(IEnumerable<IRequirementSolver> suppliers)
+        public DependenciesModel(IEnumerable<IRequirementSolver> suppliers)
         {
             solvers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
 
-            IsValid = Observable.Merge(suppliers.Select(solver => solver.IsValid));
+            IsValid = suppliers.Select(solver => solver.IsValid).Merge();
         }
 
         public IEnumerable<IRequirementSolver> Solvers => solvers;

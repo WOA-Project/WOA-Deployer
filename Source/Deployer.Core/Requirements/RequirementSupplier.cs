@@ -30,13 +30,13 @@ namespace Deployer.Core.Requirements
             }
 
             var individualSuppliers = requirements.Select(Supplier).ToList();
-            var vm = new DependenciesModel2(individualSuppliers);
+            var vm = new DependenciesModel(individualSuppliers);
 
             await popup.ShowAsModal(contentFactory("Requirements"), vm,
                 c =>
                 {
-                    c.View.Title = "Please, specify the following information";
-                    c.AddOption(new Zafiro.UI.Option("OK", ReactiveCommand.Create(() =>
+                    c.View.Title = "Requirements";
+                    c.AddOption(new Option("OK", ReactiveCommand.Create(() =>
                     {
                         c.Model.Continue = true;
                         c.View.Close();
@@ -51,7 +51,7 @@ namespace Deployer.Core.Requirements
             return Either.Error<ErrorList, IEnumerable<FulfilledRequirement>>(new ErrorList("Operation cancelled"));
         }
 
-        private IEnumerable<FulfilledRequirement> Extract(DependenciesModel2 vm)
+        private IEnumerable<FulfilledRequirement> Extract(DependenciesModel vm)
         {
             return vm.Solvers.SelectMany(Extract);
         }
