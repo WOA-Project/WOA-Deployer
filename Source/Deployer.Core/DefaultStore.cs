@@ -22,38 +22,18 @@ namespace Deployer.Core
 
             var citymanSs = new Device
             {
-                Code = "CitymanSS",
-                FriendlyName = "Lumia 950 XL - Single SIM",
+                Code = "Cityman",
+                FriendlyName = "Lumia 950 XL",
                 Icon =  Cityman,
-                Name = "Cityman",
-                Variant = "Single SIM",
-            };
-
-            var citymanDs = new Device
-            {
-                Code = "CitymanDS",
-                FriendlyName = "Lumia 950 XL - Dual SIM",
-                Icon =  Cityman,
-                Name = "Cityman",
-                Variant = "Dual SIM",
+                Name = "Lumia 950 XL",
             };
 
             var talkmanSs = new Device
             {
-                Code = "TalkmanSS",
-                FriendlyName = "Lumia 950 - Single SIM",
+                Code = "Talkman",
+                FriendlyName = "Lumia 950",
                 Icon = Talkman,
-                Name = "Talkman",
-                Variant = "Single SIM",
-            };
-
-            var talkmanDs = new Device
-            {
-                Code = "TalkmanDS",
-                FriendlyName = "Lumia 950 - Dual SIM",
-                Icon = Talkman,
-                Name = "Talkman",
-                Variant = "Dual SIM",
+                Name = "Lumia 950",
             };
 
             var rpi3 = new Device
@@ -68,13 +48,13 @@ namespace Deployer.Core
             {
                 Code = "RaspberryPi4",
                 FriendlyName = "Raspberry Pi 4",
-                Name = "Raspberry Pi 3",
+                Name = "Raspberry Pi 4",
                 Icon = Rpi4,
             };
 
-            var citymans = new[] {citymanSs, citymanDs};
+            var citymans = new[] {citymanSs, };
 
-            var talkmans = new[] {talkmanSs, talkmanDs};
+            var talkmans = new[] {talkmanSs, };
 
             store.Devices = citymans.Concat(talkmans).Concat(new [] {rpi3, rpi4}).ToList();
 
@@ -84,7 +64,7 @@ namespace Deployer.Core
             {
                 new Deployment
                 {
-                    Title = "Lumia 950 XL (eMMC)",
+                    Title = "Standard",
                     Description = "Deploys WOA into the phone's internal memory",
                     Devices = citymans,
                     ScriptPath = "Devices\\Lumia\\950s\\Cityman\\Main.txt",
@@ -92,15 +72,7 @@ namespace Deployer.Core
                 },
                 new Deployment
                 {
-                    Title = "Lumia 950 XL (MicroSD)",
-                    Description = "Deploys WOA into a MicroSD card",
-                    Devices = citymans,
-                    ScriptPath = "Devices\\Lumia\\950s\\Cityman\\CardInstall\\Main.txt",
-                    Icon = MicroSD,
-                },
-                new Deployment
-                {
-                    Title = "Lumia 950 (eMMC)",
+                    Title = "Standard",
                     Description = "Deploys WOA into the phone's internal memory",
                     Devices = talkmans,
                     ScriptPath = "Devices\\Lumia\\950s\\Talkman\\Main.txt",
@@ -108,18 +80,18 @@ namespace Deployer.Core
                 },
                 new Deployment
                 {
-                    Title = "Raspberry Pi 3",
+                    Title = "Standard",
                     Description = "For Model B/B+",
                     Devices = new[] {rpi3},
-                    ScriptPath = "Devices\\Raspberry Pi 3\\Main.txt",
+                    ScriptPath = "Devices\\Raspberry Pi\\3\\Main.txt",
                     Icon = MicroSD,
                 },
                 new Deployment
                 {
-                    Title = "Raspberry Pi 4",
-                    Description = "For Model B/B+",
+                    Title = "Standard",
+                    Description = "For Model B",
                     Devices = new[] {rpi4},
-                    ScriptPath = "Devices\\Raspberry Pi 4\\Main.txt",
+                    ScriptPath = "Devices\\Raspberry Pi\\4\\Main.txt",
                     Icon = MicroSD,
                 },
             };

@@ -51,6 +51,7 @@ namespace Deployer.Core.DeploymentLibrary
             var deployerStore = await lazyStore.Value;
             return deployerStore.Deployments.Select(d => new DeploymentDto()
             {
+                Id = d.Id,
                 Icon = d.Icon,
                 Description = d.Description,
                 Devices = d.Devices.Select(x => x.Id).ToList(),
@@ -68,5 +69,12 @@ namespace Deployer.Core.DeploymentLibrary
                 return new Lazy<Task<DeployerStore>>(() => Task.FromResult(store));
             }
         }
+
+        public static IExtendedXmlSerializer CreateSerializer() =>
+            new ConfigurationContainer()
+                .Type<Device>().EnableReferences(x => x.Id)
+                .Type<Deployment>().Member(x => x.Id).Attribute()
+                .UseOptimizedNamespaces()
+                .Create();
     }
 }

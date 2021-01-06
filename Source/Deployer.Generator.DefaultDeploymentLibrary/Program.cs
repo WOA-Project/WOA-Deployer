@@ -4,7 +4,6 @@ using System.Xml;
 using Deployer.Core;
 using Deployer.Core.DeploymentLibrary;
 using ExtendedXmlSerializer;
-using ExtendedXmlSerializer.Configuration;
 
 namespace Deployer.Generator.DefaultDeploymentLibrary
 {
@@ -16,10 +15,7 @@ namespace Deployer.Generator.DefaultDeploymentLibrary
         {
             var ds = DefaultStore.GetDeployerStore();
 
-            var serializer = new ConfigurationContainer()
-                .Type<Device>().EnableReferences(x => x.Id)
-                .UseOptimizedNamespaces()
-                .Create();
+            var serializer = XmlDeploymentLibrary.CreateSerializer();
 
             var serialized = serializer.Serialize(new XmlWriterSettings() {Indent = true}, ds);
 
