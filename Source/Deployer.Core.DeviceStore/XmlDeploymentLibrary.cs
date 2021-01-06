@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using System.Xml;
 using Deployer.Core.DeploymentLibrary.Utils.LazyTask;
@@ -15,7 +18,8 @@ namespace Deployer.Core.DeploymentLibrary
         private readonly string path;
         private readonly IFileSystemOperations ops;
         private readonly IExtendedXmlSerializer serializer;
-        
+        private Lazy<Task<DeployerStore>> lazyStore;
+
 
         public XmlDeploymentLibrary(string path, IFileSystemOperations ops)
         {
@@ -24,11 +28,12 @@ namespace Deployer.Core.DeploymentLibrary
             this.serializer = new ConfigurationContainer()
                 .Type<Device>().EnableReferences(x => x.Id)
                 .Create();
+            lazyStore = GetDeployerStore();
         }
         
         public async Task<List<DeviceDto>> Devices()
         {
-            var deployerStore = await DeployerStore();
+            var deployerStore = await lazyStore.Value;
             return deployerStore.Devices.Select(d => new DeviceDto()
             {
                 Id = d.Id,
@@ -43,24 +48,24 @@ namespace Deployer.Core.DeploymentLibrary
 
         public async Task<List<DeploymentDto>> Deployments()
         {
-            var deployerStore = await DeployerStore();
+            var deployerStore = await lazyStore.Value;
             return deployerStore.Deployments.Select(d => new DeploymentDto()
             {
                 Icon = d.Icon,
                 Description = d.Description,
-                Devices = d.Devices.Select(x => x.Id),
+                Devices = d.Devices.Select(x => x.Id).ToList(),
                 ScriptPath = d.ScriptPath,
                 Title = d.Title,
             }).ToList();
         }
 
-        private async LazyTask<DeployerStore> DeployerStore()
+        private Lazy<Task<DeployerStore>> GetDeployerStore()
         {
             using (var stream = ops.OpenForRead(path))
             {
-                var deserialize = serializer.Deserialize(XmlReader.Create((Stream) stream));
-                var store = (DeployerStore)deserialize;
-                return store;
+                var deserialize = serializer.Deserialize(XmlReader.Create(stream));
+                var store = (DeployerStore) deserialize;
+                return new Lazy<Task<DeployerStore>>(() => Task.FromResult(store));
             }
         }
     }
