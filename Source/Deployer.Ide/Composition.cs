@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Deployer.Core;
 using Deployer.Core.Compiler;
 using Deployer.Core.Requirements;
@@ -15,6 +16,7 @@ using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
 using Zafiro.UI;
 using Zafiro.UI.Wpf;
+using Binder = Iridio.Binding.Binder;
 
 namespace Deployer.Ide
 {
@@ -39,6 +41,7 @@ namespace Deployer.Ide
                 c.Export<Preprocessor>().As<IPreprocessor>().Lifestyle.Singleton();
                 c.Export<Parser>().As<IParser>().Lifestyle.Singleton();
                 c.Export<Binder>().As<IBinder>().Lifestyle.Singleton();
+                WoaDeployer.ExportFunctions(c, new Assembly[] { typeof(Anchor).Assembly });
                 c.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
                 c.Export<Popup>().As<IPopup>().Lifestyle.Singleton();
                 c.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();

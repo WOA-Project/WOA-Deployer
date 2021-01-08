@@ -10,6 +10,7 @@ using Zafiro.Core.FileSystem;
 
 namespace Deployer.Functions
 {
+    // ReSharper disable once UnusedType.Global
     public class CreateWindowsPartitionLayout : DeployerFunction
     {
         private readonly IFileSystem fileSystem;

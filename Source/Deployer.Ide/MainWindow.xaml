@@ -22,9 +22,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition />
+            <RowDefinition Height="6*" />
             <RowDefinition Height="5" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Menu>
@@ -62,12 +62,24 @@
         <TabControl Grid.Row="4">
             <TabItem Header="Runtime output">
                 <Grid>
-                    <ListView MinHeight="50" ItemsSource="{Binding RuntimeMessages}" MaxHeight="200" />
+                    <ListView MinHeight="50" ItemsSource="{Binding RuntimeMessages}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="NoWrap"  Text="{Binding}"></TextBlock>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <Button Command="{Binding ResetBuild}" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="4"  />
                 </Grid>
             </TabItem>
             <TabItem Header="Program output">
-                <ListView MinHeight="50" ItemsSource="{Binding Output}" MaxHeight="200" />
+                <ListView MinHeight="50" ItemsSource="{Binding Output}" />
             </TabItem>
         </TabControl>
         <StatusBar Grid.Row="5">
@@ -90,8 +102,7 @@
             </StatusBarItem>
             <StatusBarItem Grid.Column="2" DataContext="{Binding Status}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" >
                 <Grid Visibility="{Binding IsProgressVisible, Converter={StaticResource CollapseOnFalse}}">
-                    <Border BorderThickness="1"
-                            Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnTrue}}">
+                    <Border BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -110,14 +121,9 @@
                         </Grid>
                     </Border>
 
-                    <StackPanel
-                        Visibility="{Binding IsProgressIndeterminate, Converter={StaticResource CollapseOnFalse}}">
-
-                        <TextBlock FontWeight="Bold" Text="{Binding Downloaded, StringFormat='{}{0} downloaded'}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center" />
-
-                    </StackPanel>
+                    <TextBlock FontWeight="Bold" Text="{Binding ProgressText}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
                 </Grid>
             </StatusBarItem>
         </StatusBar>

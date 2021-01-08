@@ -68,29 +68,26 @@ namespace Deployer.Net4x
                 block.ExportFactory(() => OperationContext).As<IOperationContext>().Lifestyle.Singleton();
                 block.Export<ShellOpen>().As<IShellOpen>().Lifestyle.Singleton();
                 block.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
-                ExportFunctions(block);
+                ExportFunctions(block, assembliesToScan);
                 ExportSpecificDependencies(block);
             });
 
             return container.Locate<CoreDeployer>();
         }
 
-        public IEnumerable<Type> FunctionTypes
+        public static IEnumerable<Type> GetFunctionTypes(IEnumerable<Assembly> toScan)
         {
-            get
-            {
-                var taskTypes = from a in assembliesToScan
-                    from type in a.ExportedTypes
-                    where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
-                    where !type.IsAbstract
-                    select type;
-                return taskTypes;
-            }
+            var taskTypes = from a in toScan
+                from type in a.ExportedTypes
+                where type.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IDeployerFunction))
+                where !type.IsAbstract
+                select type;
+            return taskTypes;
         }
 
-        private void ExportFunctions(IExportRegistrationBlock block)
+        public static void ExportFunctions(IExportRegistrationBlock block, IEnumerable<Assembly> toScan)
         {
-            foreach (var taskType in FunctionTypes)
+            foreach (var taskType in GetFunctionTypes(toScan))
                 block.ExportFactory((Func<Type, object> locator) => new Function(taskType, locator))
                     .As<IFunction>()
                     .As<IFunctionDeclaration>()
