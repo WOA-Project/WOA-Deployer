@@ -28,7 +28,7 @@ namespace Deployer.Core.DeploymentLibrary
             this.serializer = new ConfigurationContainer()
                 .Type<Device>().EnableReferences(x => x.Id)
                 .Create();
-            lazyStore = GetDeployerStore();
+            lazyStore = new Lazy<Task<DeployerStore>>(GetDeployerStore);
         }
         
         public async Task<List<DeviceDto>> Devices()
@@ -60,13 +60,13 @@ namespace Deployer.Core.DeploymentLibrary
             }).ToList();
         }
 
-        private Lazy<Task<DeployerStore>> GetDeployerStore()
+        private Task<DeployerStore> GetDeployerStore()
         {
             using (var stream = ops.OpenForRead(path))
             {
                 var deserialize = serializer.Deserialize(XmlReader.Create(stream));
                 var store = (DeployerStore) deserialize;
-                return new Lazy<Task<DeployerStore>>(() => Task.FromResult(store));
+                return Task.FromResult(store);
             }
         }
 
