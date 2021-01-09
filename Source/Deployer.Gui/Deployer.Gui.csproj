@@ -90,17 +90,11 @@
     <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
     <Compile Include="ViewModels\Common\Requirements.cs" />
-    <Compile Include="Views\DiskSelectionPart.xaml.cs">
-      <DependentUpon>DiskSelectionPart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Parts\Advanced.xaml.cs">
       <DependentUpon>Advanced.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Parts\DeviceDeployment.xaml.cs">
       <DependentUpon>DeviceDeployment.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Requirements.xaml.cs">
-      <DependentUpon>Requirements.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Common\RequirementFiller.cs" />
     <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
@@ -110,13 +104,6 @@
     <Compile Include="Views\OperationsStatusPart.xaml.cs">
       <DependentUpon>OperationsStatusPart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WimOptionsPart.xaml.cs">
-      <DependentUpon>WimOptionsPart.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Views\DiskSelectionPart.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Parts\Advanced.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,10 +111,6 @@
     <Page Include="Views\Parts\DeviceDeployment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Requirements.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -147,10 +130,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\OperationsStatusPart.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\WimOptionsPart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

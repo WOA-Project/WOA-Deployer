@@ -183,6 +183,9 @@
     <PackageReference Include="Grace">
       <Version>7.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.31</Version>
+    </PackageReference>
     <PackageReference Include="ValueConverters">
       <Version>2.0.20011.1</Version>
     </PackageReference>
