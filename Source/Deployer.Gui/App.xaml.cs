@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Threading;
 using Deployer.Core;
 using NLog;
 using Serilog;
@@ -18,6 +19,13 @@ namespace Deployer.Gui
                 .CreateLogger();
             
             Log.Information($"Starting Deployer v{AppVersionMixin.VersionString}");
+            
+            this.DispatcherUnhandledException += OnDispatcherUnhandledException;
+        }
+
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Log.Fatal(e.Exception, "An unhandled exception has been thrown");
         }
     }
 }

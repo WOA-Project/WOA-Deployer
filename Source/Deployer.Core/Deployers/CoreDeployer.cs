@@ -12,6 +12,8 @@ using Deployer.Core.Requirements;
 using Iridio.Binding.Model;
 using Iridio.Runtime;
 using Iridio.Runtime.ReturnValues;
+using NLog;
+using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
 using Zafiro.Core.Patterns.Either;
@@ -53,7 +55,12 @@ namespace Deployer.Core.Deployers
                     .MapRight(async c =>
                     {
                         var task = await scriptRunner.Run(c, new Dictionary<string, object>());
-                        return task.MapLeft(errors => (DeployerError) new ExecutionFailed(errors));
+                        return task.MapLeft(delegate(RuntimeErrors errors)
+                        {
+                            var deployerError = (DeployerError) new ExecutionFailed(errors);
+                            Log.Error($"The deployment has failed: {deployerError}");
+                            return deployerError;
+                        });
                     })
                     .RightTask();
                 operationProgress.Send(new Done());
