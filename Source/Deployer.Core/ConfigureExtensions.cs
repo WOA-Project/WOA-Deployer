@@ -1,10 +1,10 @@
 ﻿using System;
-using Deployer.Core;
 using Deployer.Core.Requirements;
+using Deployer.Core.Requirements.WimFile;
 using Grace.DependencyInjection;
 using MediatR;
 
-namespace Deployer.Ide
+namespace Deployer.Core
 {
     public static class ConfigureExtensions
     {

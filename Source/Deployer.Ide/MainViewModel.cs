@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 using Deployer.Core;
-using Deployer.Core.Compiler;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
-using Deployer.Core.Requirements;
 using Deployer.Net4x;
 using Deployer.Wpf;
 using DynamicData;
 using Iridio.Binding.Model;
 using Iridio.Runtime;
 using Iridio.Runtime.ReturnValues;
-using MediatR;
 using ReactiveUI;
-using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.UI;
@@ -119,7 +114,7 @@ namespace Deployer.Ide
 
         public bool IsBusy => isBusy.Value;
 
-        public ReactiveCommand<Unit, Unit> ResetBuild { get; set; }
+        public ReactiveCommand<Unit, Unit> ResetBuild { get; }
 
         public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> CompileCore { get; }
 
@@ -162,29 +157,6 @@ namespace Deployer.Ide
         }
 
 
-        private async Task<IEnumerable<Assignment>> SatisfyRequirements(IRequirementsAnalyzer requirementsAnalyzer,
-            ISender mediator)
-        {
-            var requirements = requirementsAnalyzer.GetRequirements(await File.ReadToEnd());
-            var missing = requirements.Handle(list => Enumerable.Empty<MissingRequirement>());
-            var responses = await missing.Select<MissingRequirement, RequirementRequest>(r =>
-            {
-                if (r.Kind == RequirementKind.WimFile) return new WimFileRequest {Index = 0, Path = "", Key = r.Key};
-
-                if (r.Kind == RequirementKind.Disk) return new DiskRequest {Index = 0, Key = r.Key};
-
-                throw new ArgumentOutOfRangeException();
-            }).AsyncSelect(async re =>
-            {
-                var send = await mediator.Send(re);
-                return TurnIntoAssignments((RequirementResponse) send);
-            });
-
-            var selectMany = responses.SelectMany(x => x);
-
-            return selectMany;
-        }
-
         private async Task SaveFile()
         {
             using (var stream = await File.OpenForWrite())
@@ -194,11 +166,6 @@ namespace Deployer.Ide
                     await r.WriteAsync(SourceCode);
                 }
             }
-        }
-
-        private IEnumerable<Assignment> TurnIntoAssignments(RequirementResponse responses)
-        {
-            return responses.Select(r => new Assignment(r.Key, "#placeholder#"));
         }
     }
 }

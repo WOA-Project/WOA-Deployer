@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using Deployer.Core.Requirements;
+using Deployer.Core.Requirements.Disk;
 using Deployer.Filesystem;
+using MediatR;
 using ReactiveUI;
 using IFileSystem = Deployer.Filesystem.IFileSystem;
 using Unit = System.Reactive.Unit;
@@ -16,11 +19,13 @@ namespace Deployer.Wpf
         private readonly ObservableAsPropertyHelper<bool> isBusy;
         private DiskViewModel selectedDisk;
         private readonly IObservable<bool> isValid;
-        private ObservableAsPropertyHelper<IEnumerable<DiskViewModel>> disks;
+        private readonly ObservableAsPropertyHelper<IEnumerable<DiskViewModel>> disks;
+        private IMediator mediator;
 
-        public DiskRequirementSolver(string key, IFileSystem fileSystem)
+        public DiskRequirementSolver(string key, IFileSystem fileSystem, IMediator mediator)
         {
             this.key = key;
+            this.mediator = mediator;
             RefreshDisks = ReactiveCommand.CreateFromTask(fileSystem.GetDisks);
             disks = RefreshDisks
                 .Select(x => Enumerable.Select(x, disk => new DiskViewModel(disk)))
@@ -44,12 +49,11 @@ namespace Deployer.Wpf
         
         public virtual IObservable<bool> IsValid => isValid;
 
-        public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
+        public virtual Task<RequirementResponse> FulfilledRequirements()
         {
-            return new[]
-            {
-                new FulfilledRequirement(key, SelectedDisk.Number - 1),
-            };
+            var req = new DiskRequest {  Key = key, Index = (int) (SelectedDisk.Number - 1)};
+
+            return mediator.Send(req);
         }
     }
 }

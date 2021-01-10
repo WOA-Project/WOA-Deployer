@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Requirements;
@@ -19,11 +20,11 @@ namespace Deployer.Tests
         [Fact]
         public async Task Supply()
         {
-            var requirements = new[]
+            var requirements = new RequirementResponse(new[]
             {
                 new FulfilledRequirement("wimFilePath",  "path"),
                 new FulfilledRequirement("wimFileIndex", 1),
-            };
+            });
 
             var testShell = new TestPopup(options => options[0].Command.Execute(null));
             var sut = new RequirementSupplier(settings => new TestRequirementSolver(requirements), testShell, str => null);
@@ -43,18 +44,18 @@ namespace Deployer.Tests
 
     public class TestRequirementSolver : IRequirementSolver
     {
-        private IEnumerable<FulfilledRequirement> list;
+        private RequirementResponse list;
 
-        public TestRequirementSolver(IEnumerable<FulfilledRequirement> list)
+        public TestRequirementSolver(RequirementResponse list)
         {
             this.list = list;
         }
 
         public virtual IObservable<bool> IsValid => Observable.Return(true);
 
-        public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
+        public virtual Task<RequirementResponse> FulfilledRequirements()
         {
-            return list;
+            return Task.FromResult(list);
         }
     }
 

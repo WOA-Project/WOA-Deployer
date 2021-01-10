@@ -6,6 +6,7 @@ using Deployer.Core.Compiler;
 using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Requirements;
+using Deployer.Core.Requirements.Disk;
 using Iridio.Binding.Model;
 using MediatR;
 using Zafiro.Core;

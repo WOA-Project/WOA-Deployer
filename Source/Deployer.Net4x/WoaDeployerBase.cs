@@ -70,6 +70,7 @@ namespace Deployer.Net4x
                 block.Export<FileSystem>().As<IFileSystem>().Lifestyle.Singleton();
                 ExportFunctions(block, assembliesToScan);
                 ExportSpecificDependencies(block);
+                block.ConfigureMediator();
             });
 
             return container.Locate<CoreDeployer>();

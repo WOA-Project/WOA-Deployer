@@ -4,7 +4,6 @@ using System.Reflection;
 using Deployer.Core;
 using Deployer.Core.Requirements;
 using Deployer.Core.Services;
-using Deployer.Filesystem;
 using Deployer.Net4x;
 using Grace.DependencyInjection;
 using Zafiro.UI;
@@ -14,6 +13,10 @@ namespace Deployer.Wpf
 {
     public class WoaDeployerWpf : WoaDeployer
     {
+        public WoaDeployerWpf(IEnumerable<Assembly> assembliesToScan) : base(assembliesToScan)
+        {
+        }
+
         protected override void ExportSpecificDependencies(IExportRegistrationBlock block)
         {
             block.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
@@ -27,25 +30,15 @@ namespace Deployer.Wpf
             block.Export<Interaction>().As<IInteraction>().Lifestyle.Singleton();
             block.Export<MarkdownService>().As<IMarkdownService>().Lifestyle.Singleton();
             block.ExportFactory<string, IHaveDataContext>(_ => new HaveDataContextAdapter(new Requirements()));
-            block.ExportFactory<ResolveSettings, Commands, DeployerFileOpenService, IFileSystem, IRequirementSolver>((settings, commands, fileOpenService, fs) =>
+            block.ExportFactory<ResolveSettings, IExportLocatorScope, IRequirementSolver>((settings, e) =>
             {
                 if (settings.Kind == RequirementKind.WimFile)
-                {
-                    return new WimPickRequirementSolver(settings.Key, commands, fileOpenService);
-                }
+                    return e.Locate<WimPickRequirementSolver>(new {settings.Key});
 
-                if (settings.Kind == RequirementKind.Disk)
-                {
-                    return new DiskRequirementSolver(settings.Key, fs);
-                }
+                if (settings.Kind == RequirementKind.Disk) return e.Locate<DiskRequirementSolver>(new {settings.Key});
 
                 throw new ArgumentOutOfRangeException();
             });
-
-        }
-
-        public WoaDeployerWpf(IEnumerable<Assembly> assembliesToScan) : base(assembliesToScan)
-        {
         }
     }
 }

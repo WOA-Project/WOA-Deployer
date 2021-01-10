@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
@@ -45,18 +46,20 @@ namespace Deployer.Core.Requirements
 
             if (vm.Continue)
             {
-                return Either.Success<ErrorList, IEnumerable<FulfilledRequirement>>(Extract(vm));
+                var responseList = await Extract(vm).ToList();
+                var fulfilledReqs = responseList.SelectMany(x => x);
+                return Either.Success<ErrorList, IEnumerable<FulfilledRequirement>>(fulfilledReqs);
             }
 
             return Either.Error<ErrorList, IEnumerable<FulfilledRequirement>>(new ErrorList("Operation cancelled"));
         }
 
-        private IEnumerable<FulfilledRequirement> Extract(DependenciesModel vm)
+        private IObservable<RequirementResponse> Extract(DependenciesModel vm)
         {
-            return vm.Solvers.SelectMany(Extract);
+            return vm.Solvers.ToObservable().SelectMany(x => x.FulfilledRequirements());
         }
 
-        private IEnumerable<FulfilledRequirement> Extract(IRequirementSolver vm)
+        private Task<RequirementResponse> Extract(IRequirementSolver vm)
         {
             return vm.FulfilledRequirements();
         }

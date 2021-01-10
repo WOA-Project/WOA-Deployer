@@ -81,7 +81,6 @@
     </Compile>
     <Compile Include="AvalonEditBehaviour.cs" />
     <Compile Include="Composition.cs" />
-    <Compile Include="ConfigureExtensions.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

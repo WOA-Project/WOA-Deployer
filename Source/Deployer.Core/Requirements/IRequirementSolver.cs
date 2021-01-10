@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Deployer.Core.Requirements
 {
     public interface IRequirementSolver
     {
         IObservable<bool> IsValid { get; }
-        IEnumerable<FulfilledRequirement> FulfilledRequirements();
+        Task<RequirementResponse> FulfilledRequirements();
     }
 }

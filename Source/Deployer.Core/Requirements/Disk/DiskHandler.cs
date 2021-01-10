@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Deployer.Core.Requirements.Disk;
 using MediatR;
 
 namespace Deployer.Core.Requirements

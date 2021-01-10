@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Requirements;
 using Deployer.Tools.Wim;
+using MediatR;
 using ReactiveUI;
 using Serilog;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
 using Zafiro.UI;
+using Unit = System.Reactive.Unit;
 
 namespace Deployer.Wpf
 {
@@ -21,11 +22,13 @@ namespace Deployer.Wpf
         private readonly ObservableAsPropertyHelper<bool> hasWimHelper;
         private readonly IObservable<bool> isValid;
         private readonly ObservableAsPropertyHelper<WimMetadataViewModel> pickWimFileObs;
-        
-        public WimPickRequirementSolver(string key, Commands commands, DeployerFileOpenService fileOpenService)
+        private IMediator mediator;
+
+        public WimPickRequirementSolver(string key, Commands commands, DeployerFileOpenService fileOpenService, IMediator mediator)
         {
             this.key = key;
             this.fileOpenService = fileOpenService;
+            this.mediator = mediator;
             OpenGetWoaCommand = commands.ShellOpen;
             PickWimFileCommand = ReactiveCommand
                 .CreateFromObservable(() => PickWim()
@@ -61,13 +64,17 @@ namespace Deployer.Wpf
         public WimMetadataViewModel WimMetadata => pickWimFileObs.Value;
         public virtual IObservable<bool> IsValid => isValid;
 
-        public virtual IEnumerable<FulfilledRequirement> FulfilledRequirements()
+        public virtual async Task<RequirementResponse> FulfilledRequirements()
         {
-            return new[]
+            var req = new WimFileRequest
             {
-                new FulfilledRequirement(key + "Path", WimMetadata.Path),
-                new FulfilledRequirement(key + "Index", WimMetadata.SelectedDiskImage.Index),
+                Index = WimMetadata.SelectedDiskImage.Index,
+                Path = WimMetadata.Path,
+                Key = key
             };
+            
+            var fulfilledRequirements = await mediator.Send(req);
+            return fulfilledRequirements;
         }
 
         private async Task<Either<ErrorList, WimMetadataViewModel>> LoadWimMetadata(IZafiroFile file)

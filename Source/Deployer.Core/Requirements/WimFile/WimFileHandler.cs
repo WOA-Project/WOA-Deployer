@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Deployer.Core.Requirements
+namespace Deployer.Core.Requirements.WimFile
 {
     // ReSharper disable once UnusedType.Global
     public class WimFileHandler : IRequestHandler<WimFileRequest, RequirementResponse>
