@@ -64,8 +64,6 @@
     <Compile Include="Composition.cs" />
     <Compile Include="ConfigureExtensions.cs" />
     <Compile Include="Converters\MetadataConverter.cs" />
-    <Compile Include="MyBooleanToVisibilityConverter.cs" />
-    <Compile Include="MyNullToBoolConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -77,27 +75,17 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="RequirementTemplateSelector.cs" />
     <Compile Include="Services\DeployerFileOpenService.cs" />
-    <Compile Include="ViewModels\RequirementSolvers\DiskRequirementSolver.cs" />
-    <Compile Include="ViewModels\RequirementSolvers\WimPickRequirementSolver.cs" />
-    <Compile Include="ViewModels\Common\Commands.cs" />
     <Compile Include="ViewModels\Sections\AdvancedViewModel.cs" />
     <Compile Include="AppProperties.cs" />
     <Compile Include="ViewModels\Sections\MainViewModel.cs" />
     <Compile Include="ViewModels\Sections\MainViewModelBase.cs" />
-    <Compile Include="ObservableExtensions.cs" />
-    <Compile Include="ViewModels\Common\Disk\DiskFillerViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\Disk\DiskViewModel.cs" />
-    <Compile Include="ViewModels\Common\Requirements.cs" />
     <Compile Include="Views\Parts\Advanced.xaml.cs">
       <DependentUpon>Advanced.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Parts\DeviceDeployment.xaml.cs">
       <DependentUpon>DeviceDeployment.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\Common\RequirementFiller.cs" />
-    <Compile Include="ViewModels\Common\WimMetadataViewModel.cs" />
     <Compile Include="Views\ProgressControl.xaml.cs">
       <DependentUpon>ProgressControl.xaml</DependentUpon>
     </Compile>
@@ -196,7 +184,7 @@
       <Project>{52d9692c-1cc9-4ab7-8855-61685b0c68ea}</Project>
       <Name>Deployer.Lumia</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Deployer.NetFx\Deployer.Net4x.csproj">
+    <ProjectReference Include="..\Deployer.Net4x\Deployer.Net4x.csproj">
       <Project>{FBEDAF0E-E2ED-4005-8D83-F980FA67FEB2}</Project>
       <Name>Deployer.Net4x</Name>
     </ProjectReference>
@@ -245,5 +233,6 @@
   <ItemGroup>
     <Resource Include="Assets\heart.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

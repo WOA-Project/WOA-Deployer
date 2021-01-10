@@ -16,10 +16,6 @@
         <valueConverters:BoolToVisibilityConverter x:Key="HideOnTrue" TrueValue="Hidden" FalseValue="Visible" />
         <valueConverters:BoolNegationConverter x:Key="InvertBoolConverter" />
         <converters:MetadataConverter x:Key="MetadataConverter" />
-        <wpf:ValueConverterGroup x:Key="NullToCollapsed">
-            <local:MyNullToBoolConverter IsInverted="True" />
-            <local:MyBoolToVisibilityConverter />
-        </wpf:ValueConverterGroup>
 
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Center" />
