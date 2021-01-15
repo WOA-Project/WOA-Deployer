@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Deployer.Tools.Common;
+using Serilog;
 
 namespace Deployer.Tools.Bcd
 {
@@ -19,7 +20,9 @@ namespace Deployer.Tools.Bcd
             var processResults = await ProcessMixin.RunProcess(bcdEdit, $@"{commonArgs} {command}");
             var output = string.Join("\n", processResults.StandardOutput);
             var errors = string.Join("\n", processResults.StandardError);
-            return string.Join(";", output, errors);
+            var result = string.Join(";", output, errors);
+            Log.Information($"BCD Edit Command: '{command}'. Result: {result}");
+            return result;
         }
     }
 }
