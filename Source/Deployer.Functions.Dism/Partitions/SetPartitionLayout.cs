@@ -19,7 +19,7 @@ namespace Deployer.Functions.Partitions
         public async Task Execute(int diskNumber, string diskType)
         {
             var disk = await fileSystem.GetDisk(diskNumber);
-            var type = (DiskType) Enum.Parse(typeof(DiskType), diskType, true);
+            var type = DiskType.FromString(diskType);
             await disk.ClearAs(type);
         }
     }

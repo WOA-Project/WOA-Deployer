@@ -26,7 +26,10 @@ namespace Deployer.Net4x
             IsReadOnly = diskProps.IsReadOnly;
             IsOffline = diskProps.IsOffline;
             UniqueId = diskProps.UniqueId;
+            PartitionStyle = diskProps.PartitionStyle;
         }
+
+        public DiskType PartitionStyle { get; }
 
         public ByteSize Size { get; }
 
@@ -167,16 +170,19 @@ namespace Deployer.Net4x
 
         public async Task ClearAs(DiskType diskType)
         {
-            await PowerShellMixin
-                .ExecuteCommand("Clear-Disk",
-                    ("RemoveData", null),
-                    ("RemoveOEM", null),
-                    ("Confirm", false),
-                    ("Number", Number));
+            if (!PartitionStyle.Equals(DiskType.Raw))
+            {
+                await PowerShellMixin
+                    .ExecuteCommand("Clear-Disk",
+                        ("RemoveData", null),
+                        ("RemoveOEM", null),
+                        ("Confirm", false),
+                        ("Number", Number));
+            }
 
             await PowerShellMixin
-                .ExecuteCommand("Set-Disk",
-                    ("PartitionStyle", diskType.ToString().ToUpper()),
+                .ExecuteCommand("Initialize-Disk",
+                    ("PartitionStyle", diskType.Name.ToUpper()),
                     ("Number", Number));
 
         }

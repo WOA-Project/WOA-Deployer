@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ByteSizeLib;
@@ -37,9 +38,23 @@ namespace Deployer.Net4x
                 IsOffline = (bool)disk.GetPropertyValue("IsOffline"),
                 IsReadOnly = (bool)disk.GetPropertyValue("IsReadOnly"),
                 UniqueId = (string)disk.GetPropertyValue("UniqueId"),
+                PartitionStyle = GetDiskType((ushort)disk.GetPropertyValue("PartitionStyle")),
             };
 
             return new Disk(diskInfo);
+        }
+
+        private DiskType GetDiskType(ushort index)
+        {
+            switch (index)
+            {
+                case 1:
+                    return DiskType.Mbr;
+                case 2:
+                    return DiskType.Gpt;
+                default:
+                    return DiskType.Raw;
+            }
         }
 
         public async Task<IDisk> GetDisk(int n)

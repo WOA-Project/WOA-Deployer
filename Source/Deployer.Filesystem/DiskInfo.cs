@@ -13,5 +13,6 @@ namespace Deployer.Filesystem
         public bool IsOffline { get; set; }
         public bool IsReadOnly { get; set; }
         public string UniqueId { get; set; }
+        public DiskType PartitionStyle { get; set; }
     }
 }
