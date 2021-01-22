@@ -74,7 +74,7 @@ namespace Deployer.Net4x
             IPartition BothSelector(PartitionData wmi, PartitionData gpt) =>
                 new Partition(this)
                 {
-                    Name = gpt.Name,
+                    GptName = gpt.Name,
                     Root = wmi.Root,
                     Number = wmi.Number,
                     Guid = wmi.Guid,

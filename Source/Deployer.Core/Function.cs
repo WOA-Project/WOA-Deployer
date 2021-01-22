@@ -62,6 +62,11 @@ namespace Deployer.Core
                     return n;
                 }
 
+                if (o is int i)
+                {
+                    return (double) i;
+                }
+
                 return double.Parse((string)o);
             }
 

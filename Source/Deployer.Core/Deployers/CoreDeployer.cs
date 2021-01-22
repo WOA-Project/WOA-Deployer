@@ -54,7 +54,7 @@ namespace Deployer.Core.Deployers
                     .MapRight(toInject => Compile(fileName, toInject).MapLeft(errors => (DeployerError) new CompilationFailed(new UnableToCompile(errors) )))
                     .MapRight(async c =>
                     {
-                        var task = await scriptRunner.Run(c, new Dictionary<string, object>());
+                        var task = await scriptRunner.Run(c);
                         return task.MapLeft(delegate(RuntimeErrors errors)
                         {
                             var deployerError = (DeployerError) new ExecutionFailed(errors);

@@ -54,7 +54,7 @@ namespace Deployer.Filesystem
         {
             var partitions = await disk.GetPartitions();
             var matching = from p in partitions
-                where string.Equals(p.Name, name, StringComparison.InvariantCultureIgnoreCase)
+                where string.Equals(p.GptName, name, StringComparison.InvariantCultureIgnoreCase)
                 select p;
 
             return matching.FirstOrDefault();

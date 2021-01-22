@@ -7,7 +7,7 @@ namespace Deployer.Filesystem
     public interface IPartition
     {
         IDisk Disk { get; }
-        string Name { get; set; }
+        string GptName { get; set; }
         GptType GptType { get; set; }
         string Root { get; set; }
         Guid? Guid { get; set; }

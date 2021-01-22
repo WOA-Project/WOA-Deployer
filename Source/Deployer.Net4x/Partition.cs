@@ -20,7 +20,7 @@ namespace Deployer.Net4x
         public Guid? Guid { get; set; }
         public GptType GptType { get; set; }
         public string Root { get; set; }
-        public string Name { get; set; }
+        public string GptName { get; set; }
         public uint Number { get; set; }
         public string UniqueId { get; set; }
 
@@ -134,7 +134,7 @@ namespace Deployer.Net4x
 
         public override string ToString()
         {
-            return $@"Partition '{Name ?? "Unnamed"}' - Guid: {Guid} in {Disk}. ";
+            return $@"Partition '{GptName ?? "Unnamed"}' - Guid: {Guid} in {Disk}. ";
         }
 
         protected bool Equals(IPartition other)

@@ -86,7 +86,7 @@ namespace Deployer.Tools.Dism
                     $"There has been a problem during deployment: DISM exited with code {processResults.ExitCode}. Output: {processResults.StandardOutput.Join()}");
             }
 
-            return Enumerable.ToList<string>(StringExtensions.ExtractFileNames(string.Concat((IEnumerable<string>) processResults.StandardOutput)));
+            return Enumerable.ToList<string>(StringMixin.ExtractFileNames(string.Concat((IEnumerable<string>) processResults.StandardOutput)));
         }
 
         private bool IsUniqueFile(string path)

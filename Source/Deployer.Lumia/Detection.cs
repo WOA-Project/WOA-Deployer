@@ -30,7 +30,7 @@ namespace Deployer.Lumia
             }
 
             var partitions = await disk.GetPartitions();
-            var names = partitions.Select(x => x.Name);
+            var names = partitions.Select(x => x.GptName);
             var lookup = new[] { "EFIESP", "TZAPPS", "DPP" };
 
             return lookup.IsSubsetOf(names);

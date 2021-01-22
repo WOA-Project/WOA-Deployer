@@ -42,7 +42,7 @@ namespace Deployer.Filesystem
         public static async Task<string> GetDescriptor(IPartition partition)
         {
             var volume = await partition.GetVolume();
-            return $"Disk={partition.Disk.Number}, Name='{partition?.Name}', Label='{volume?.Label}', Number={partition.Number}";
+            return $"Disk={partition.Disk.Number}, Name='{partition?.GptName}', Label='{volume?.Label}', Number={partition.Number}";
         }
     }
 }

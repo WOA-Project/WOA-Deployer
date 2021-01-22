@@ -74,9 +74,9 @@ namespace Deployer.Core.Compiler
             switch (assignmentValue)
             {
                 case int n:
-                    return new NumericExpression(n);
+                    return new IntegerExpression(n);
                 case uint n:
-                    return new NumericExpression((int) n);
+                    return new IntegerExpression((int) n);
                 case string s:
                     return new StringExpression(s);
                 case double d:

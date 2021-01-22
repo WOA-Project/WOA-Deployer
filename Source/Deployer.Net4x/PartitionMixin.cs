@@ -23,7 +23,7 @@ namespace Deployer.Net4x
             var partition = new Partition(disk)
             {
                 Guid = self.Guid,
-                Name = self.Name,
+                GptName = self.Name,
                 GptType = self.GptType,
             };
 

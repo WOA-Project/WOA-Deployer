@@ -18,7 +18,7 @@ namespace Deployer.Core
 {
     public class FunctionDependencies
     {
-        public const string GitHubToken = "0961bdcedca3ee1e12e04287e1474aa1ac4eba3d";
+        public const string GitHubToken = "3b689c6318e13e43954015cfa356dcb9e6cbb8e0";
         
         public static void Configure(IExportRegistrationBlock block)
         {
