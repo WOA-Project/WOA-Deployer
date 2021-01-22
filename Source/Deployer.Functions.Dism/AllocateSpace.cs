@@ -17,7 +17,7 @@ namespace Deployer.Functions
             this.fileSystem = fileSystem;
         }
 
-        public async Task Execute(int diskNumber, string gptPartition, int requiredGBs)
+        public async Task Execute(int diskNumber, string gptPartition, double requiredGBs)
         {
             var requiredSize = ByteSize.FromGigaBytes(requiredGBs);
             Log.Verbose("Verifying the available space");

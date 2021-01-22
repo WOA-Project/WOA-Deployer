@@ -184,7 +184,6 @@ namespace Deployer.Net4x
                 .ExecuteCommand("Initialize-Disk",
                     ("PartitionStyle", diskType.Name.ToUpper()),
                     ("Number", Number));
-
         }
 
         public override string ToString()

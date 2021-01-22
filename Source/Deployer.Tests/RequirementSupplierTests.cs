@@ -31,7 +31,7 @@ namespace Deployer.Tests
 
             var missingRequirements = new List<MissingRequirement>()
             {
-                new MissingRequirement("wimFile", RequirementKind.WimFile, "")
+                new MissingRequirement("wimFile", RequirementDefinition.WimFile, "")
             };
 
             var satisfyResult = await sut.Satisfy(missingRequirements);

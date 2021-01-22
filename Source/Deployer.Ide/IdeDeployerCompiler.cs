@@ -7,6 +7,8 @@ using Deployer.Core.Deployers.Errors;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Requirements;
 using Deployer.Core.Requirements.Disk;
+using Deployer.Core.Requirements.Number;
+using Deployer.Core.Requirements.WimFile;
 using Iridio.Binding.Model;
 using MediatR;
 using Zafiro.Core;
@@ -63,14 +65,19 @@ namespace Deployer.Ide
 
         private static RequirementRequest ToRequirementRequest(MissingRequirement r)
         {
-            if (r.Kind == RequirementKind.WimFile)
+            if (r.Definition == RequirementDefinition.WimFile)
             {
                 return new WimFileRequest {Index = 0, Path = "", Key = r.Key};
             }
 
-            if (r.Kind == RequirementKind.Disk)
+            if (r.Definition == RequirementDefinition.Disk)
             {
                 return new DiskRequest {Index = 0, Key = r.Key};
+            }
+
+            if (r.Definition is NumberRequirementDefinition)
+            {
+                return new NumberRequest(r.Key, 0d);
             }
 
             throw new ArgumentOutOfRangeException();

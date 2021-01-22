@@ -9,6 +9,8 @@ namespace Deployer.Wpf
 
         public DataTemplate DiskTemplate { get; set; }
 
+        public DataTemplate NumberTemplate { get; set; }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is WimPickRequirementSolver)
@@ -19,6 +21,12 @@ namespace Deployer.Wpf
             if (item is DiskRequirementSolver)
             {
                 return DiskTemplate;
+            }
+
+
+            if (item is NumberRequirementSolver)
+            {
+                return NumberTemplate;
             }
 
             return base.SelectTemplate(item, container);

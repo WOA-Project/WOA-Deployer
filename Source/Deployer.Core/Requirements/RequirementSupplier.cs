@@ -37,11 +37,14 @@ namespace Deployer.Core.Requirements
                 c =>
                 {
                     c.View.Title = "Requirements";
-                    c.AddOption(new Option("OK", ReactiveCommand.Create(() =>
+                    var reactiveCommand = ReactiveCommand.Create(() =>
                     {
                         c.Model.Continue = true;
                         c.View.Close();
-                    }, c.Model.IsValid)));
+                    }, c.Model.IsValid);
+                    
+                    var option = new Option("OK", reactiveCommand);
+                    c.AddOption(option);
                 });
 
             if (vm.Continue)
@@ -66,7 +69,7 @@ namespace Deployer.Core.Requirements
 
         private IRequirementSolver Supplier(MissingRequirement missingRequirement)
         {
-            return solverFactory(new ResolveSettings(missingRequirement.Key, missingRequirement.Kind));
+            return solverFactory(new ResolveSettings(missingRequirement.Key, missingRequirement.Definition, missingRequirement.Description));
         }
     }
 }

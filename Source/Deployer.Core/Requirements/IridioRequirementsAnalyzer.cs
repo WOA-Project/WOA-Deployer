@@ -13,10 +13,10 @@ namespace Deployer.Core.Requirements
         {
             try
             {
-                var pattern = @"(?i)\s*//\s*Requires\s+([A-Za-z_]+[\dA-Za-z_])\s+""(.+)""\s+as\s+""(.+)""";
+                var pattern = @"(?i)\s*//\s*Requires\s+(\S*)\s+""(\S*)""\s+as\s+""([^""]*)""";
                 var matches = Regex.Matches(content, pattern);
                 var missingRequirements = matches.Cast<Match>()
-                    .Select(m => new MissingRequirement(m.Groups[2].Value, RequirementKind.Parse(m.Groups[1].Value).ValueOrFailure(), m.Groups[3].Value));
+                    .Select(m => new MissingRequirement(m.Groups[2].Value, RequirementDefinition.Parse(m.Groups[1].Value).ValueOrFailure(), m.Groups[3].Value));
                 return Either.Success<ErrorList, IEnumerable<MissingRequirement>>(missingRequirements);
             }
             catch (Exception e)

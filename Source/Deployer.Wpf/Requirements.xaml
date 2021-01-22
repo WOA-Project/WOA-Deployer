@@ -18,6 +18,11 @@
                     <wpf:DiskSelectionPart />
                 </DataTemplate>
             </wpf:RequirementTemplateSelector.DiskTemplate>
+            <wpf:RequirementTemplateSelector.NumberTemplate>
+                <DataTemplate DataType="wpf:NumberRequirementSolver">
+                   <wpf:NumberSelectionPart />
+                </DataTemplate>
+            </wpf:RequirementTemplateSelector.NumberTemplate>
         </wpf:RequirementTemplateSelector>
     </UserControl.Resources>
     <Grid Margin="10">
@@ -28,6 +33,7 @@
         <TextBlock Margin="10">Please, provide the following requirements to continue with the deployment.</TextBlock>
         <ScrollViewer Grid.Row="1"  VerticalScrollBarVisibility="Auto">
             <ItemsControl Width="500" ItemsSource="{Binding Solvers}"
-                          ItemTemplateSelector="{StaticResource TemplateSelector}" /></ScrollViewer>
+                          ItemTemplateSelector="{StaticResource TemplateSelector}" />
+        </ScrollViewer>
     </Grid>
 </UserControl>

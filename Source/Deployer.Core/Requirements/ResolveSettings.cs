@@ -2,13 +2,15 @@
 {
     public class ResolveSettings
     {
-        public ResolveSettings(string key, RequirementKind kind)
+        public ResolveSettings(string key, RequirementDefinition definition, string description)
         {
             Key = key;
-            Kind = kind;
+            Definition = definition;
+            Description = description;
         }
 
         public string Key { get; }
-        public RequirementKind Kind { get; }
+        public RequirementDefinition Definition { get; }
+        public string Description { get; }
     }
 }

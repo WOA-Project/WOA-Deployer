@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Deployer.Core.Requirements.Disk;
 using MediatR;
 
-namespace Deployer.Core.Requirements
+namespace Deployer.Core.Requirements.Disk
 {
     // ReSharper disable once UnusedType.Global
     public class DiskHandler : IRequestHandler<DiskRequest, RequirementResponse>

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Deployer.Core.Requirements
+namespace Deployer.Core.Requirements.WimFile
 {
     public class WimFileRequest : RequirementRequest, IRequest<RequirementResponse>
     {

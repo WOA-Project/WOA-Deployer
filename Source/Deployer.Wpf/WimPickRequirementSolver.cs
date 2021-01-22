@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Deployer.Core.Requirements;
+using Deployer.Core.Requirements.WimFile;
 using Deployer.Tools.Wim;
 using MediatR;
 using ReactiveUI;

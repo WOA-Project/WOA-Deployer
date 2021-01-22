@@ -79,6 +79,8 @@ namespace Deployer.Core.Compiler
                     return new NumericExpression((int) n);
                 case string s:
                     return new StringExpression(s);
+                case double d:
+                    return new DoubleExpression(d);
             }
 
             throw new NotSupportedException();

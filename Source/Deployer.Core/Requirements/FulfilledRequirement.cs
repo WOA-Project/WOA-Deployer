@@ -9,7 +9,7 @@
         }
 
         public string Key { get; }
-        public RequirementKind Kind { get; }
+        public RequirementDefinition Definition { get; }
         public object Value { get; }
     }
 }

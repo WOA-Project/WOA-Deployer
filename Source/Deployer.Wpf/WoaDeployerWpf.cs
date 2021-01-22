@@ -32,10 +32,13 @@ namespace Deployer.Wpf
             block.ExportFactory<string, IHaveDataContext>(_ => new HaveDataContextAdapter(new Requirements()));
             block.ExportFactory<ResolveSettings, IExportLocatorScope, IRequirementSolver>((settings, e) =>
             {
-                if (settings.Kind == RequirementKind.WimFile)
+                if (settings.Definition == RequirementDefinition.WimFile)
                     return e.Locate<WimPickRequirementSolver>(new {settings.Key});
 
-                if (settings.Kind == RequirementKind.Disk) return e.Locate<DiskRequirementSolver>(new {settings.Key});
+                if (settings.Definition == RequirementDefinition.Disk) return e.Locate<DiskRequirementSolver>(new {settings.Key});
+
+                if (settings.Definition is NumberRequirementDefinition def) 
+                    return e.Locate<NumberRequirementSolver>(new { settings.Key, def.Min, def.DefaultValue, def.Max, settings.Definition, settings.Description });
 
                 throw new ArgumentOutOfRangeException();
             });
