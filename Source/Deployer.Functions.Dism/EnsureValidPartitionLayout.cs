@@ -18,7 +18,7 @@ namespace Deployer.Functions
             this.fileSystem = fileSystem;
         }
 
-        public async Task Execute(int diskNumber, double requiredGBs)
+        public async Task Execute(int diskNumber)
         {
             var disk = await fileSystem.GetDisk(diskNumber);
             var parts = await disk.GetPartitions();
