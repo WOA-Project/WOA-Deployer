@@ -13,9 +13,9 @@ namespace Deployer.Core.Requirements
         public static Option<RequirementDefinition> Parse(string str)
         {
             var split = str.Split(':');
-            if (split[0] == "Number")
+            if (split[0] == "DoubleNumber")
             {
-                return new NumberRequirementDefinition(double.Parse(split[1]), double.Parse(split[2]), double.Parse(split[3])).Some<RequirementDefinition>();
+                return new DoubleNumberRequirementDefinition(double.Parse(split[1]), double.Parse(split[2]), double.Parse(split[3])).Some<RequirementDefinition>();
             }
             
             return OptionCollectionExtensions.FirstOrNone(typeof(RequirementDefinition).GetFields()
@@ -33,13 +33,13 @@ namespace Deployer.Core.Requirements
     {
     }
 
-    public class NumberRequirementDefinition : RequirementDefinition
+    public class DoubleNumberRequirementDefinition : RequirementDefinition
     {
         public double Min { get; }
         public double Max { get; }
         public double DefaultValue { get; set; }
 
-        public NumberRequirementDefinition(double min, double defaultValue, double max)
+        public DoubleNumberRequirementDefinition(double min, double defaultValue, double max)
         {
             Min = min;
             DefaultValue = defaultValue;

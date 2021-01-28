@@ -5,9 +5,9 @@ using MediatR;
 namespace Deployer.Core.Requirements.Number
 {
     // ReSharper disable once UnusedType.Global
-    public class NumberHandler : IRequestHandler<NumberRequest, RequirementResponse>
+    public class DoubleNumberHandler : IRequestHandler<DoubleNumberRequest, RequirementResponse>
     {
-        public Task<RequirementResponse> Handle(NumberRequest request, CancellationToken cancellationToken)
+        public Task<RequirementResponse> Handle(DoubleNumberRequest request, CancellationToken cancellationToken)
         {
             return Task.FromResult(new RequirementResponse(new[]
             {

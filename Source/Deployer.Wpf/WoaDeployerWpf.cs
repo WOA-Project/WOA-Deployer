@@ -37,8 +37,8 @@ namespace Deployer.Wpf
 
                 if (settings.Definition == RequirementDefinition.Disk) return e.Locate<DiskRequirementSolver>(new {settings.Key});
 
-                if (settings.Definition is NumberRequirementDefinition def) 
-                    return e.Locate<NumberRequirementSolver>(new { settings.Key, def.Min, def.DefaultValue, def.Max, settings.Definition, settings.Description });
+                if (settings.Definition is DoubleNumberRequirementDefinition def) 
+                    return e.Locate<DoubleNumberRequirementSolver>(new { settings.Key, def.Min, def.DefaultValue, def.Max, settings.Definition, settings.Description });
 
                 throw new ArgumentOutOfRangeException();
             });

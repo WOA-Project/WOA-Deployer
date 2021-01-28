@@ -14,7 +14,7 @@ namespace Deployer.Core.Requirements
         {
             solvers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
 
-            IsValid = suppliers.Select(solver => solver.IsValid).Merge();
+            IsValid = suppliers.Select(solver => solver.IsValid).CombineLatest(list => list.All(b => b));
         }
 
         public IEnumerable<IRequirementSolver> Solvers => solvers;

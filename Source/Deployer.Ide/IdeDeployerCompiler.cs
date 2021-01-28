@@ -75,9 +75,9 @@ namespace Deployer.Ide
                 return new DiskRequest {Index = 0, Key = r.Key};
             }
 
-            if (r.Definition is NumberRequirementDefinition)
+            if (r.Definition is DoubleNumberRequirementDefinition)
             {
-                return new NumberRequest(r.Key, 0d);
+                return new DoubleNumberRequest(r.Key, 0d);
             }
 
             throw new ArgumentOutOfRangeException();

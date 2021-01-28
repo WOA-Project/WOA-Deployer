@@ -18,16 +18,18 @@ namespace Deployer.Core
 {
     public class FunctionDependencies
     {
-        public const string GitHubToken = "3b689c6318e13e43954015cfa356dcb9e6cbb8e0";
+        public const string EncryptedGitHubToken = "vkGU7tqfkG0qlOK/vKVhgfhDTNwiQwAutIjfL8KS9xN9B1rPmQjpcZSNs2Y6Z3RHqmsbltzcVLjPCLGAjOF073we96nyLFHcKUh/OhLoLAF7QXumPFvwrk1evMtaexhz";
         
         public static void Configure(IExportRegistrationBlock block)
         {
+            var token = Encryption.Decrypt(EncryptedGitHubToken);
+            var gitHubClient = new GitHubClient(new ProductHeaderValue("WOADeployer"), new InMemoryCredentialStore(new Credentials(token)));
+            
             block.Export<ZipExtractor>().As<IZipExtractor>();
             block.Export<FileSystemOperations>().As<IFileSystemOperations>().Lifestyle.Singleton();
             block.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
             block.ExportFactory(() => new HttpClient { Timeout = TimeSpan.FromMinutes(30) }).Lifestyle.Singleton();
-            block.ExportFactory(() => new GitHubClient(new ProductHeaderValue("WOADeployer"), new InMemoryCredentialStore(new Credentials(GitHubToken)))).As<IGitHubClient>()
-                .Lifestyle.Singleton();
+            block.ExportFactory(() => gitHubClient).As<IGitHubClient>().Lifestyle.Singleton();
             block.ExportFactory(() => AzureDevOpsBuildClient.Create(new Uri("https://dev.azure.com")))
                 .As<IAzureDevOpsBuildClient>().Lifestyle.Singleton();
             block.Export<BootCreator>().As<IBootCreator>().Lifestyle.Singleton();

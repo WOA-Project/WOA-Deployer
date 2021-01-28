@@ -8,14 +8,14 @@ using ReactiveUI;
 
 namespace Deployer.Wpf
 {
-    public class NumberRequirementSolver : ReactiveObject, IRequirementSolver
+    public class DoubleNumberRequirementSolver : ReactiveObject, IRequirementSolver
     {
         private readonly string key;
         private IMediator mediator;
 
         private double v;
 
-        public NumberRequirementSolver(string key, double min, double defaultValue, double max, string description, IMediator mediator)
+        public DoubleNumberRequirementSolver(string key, double min, double defaultValue, double max, string description, IMediator mediator)
         {
             Min = min;
             Max = max;
@@ -40,7 +40,7 @@ namespace Deployer.Wpf
 
         public virtual async Task<RequirementResponse> FulfilledRequirements()
         {
-            var req = new NumberRequest(key, Value)
+            var req = new DoubleNumberRequest(key, Value)
             {
                 Key = key
             };

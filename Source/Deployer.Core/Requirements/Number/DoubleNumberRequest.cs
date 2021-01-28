@@ -2,11 +2,11 @@
 
 namespace Deployer.Core.Requirements.Number
 {
-    public class NumberRequest : RequirementRequest, IRequest<RequirementResponse>
+    public class DoubleNumberRequest : RequirementRequest, IRequest<RequirementResponse>
     {
         public double Value { get; }
 
-        public NumberRequest(string key, double value)
+        public DoubleNumberRequest(string key, double value)
         {
             Value = value;
             Key = key;

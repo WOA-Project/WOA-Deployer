@@ -9,7 +9,7 @@ namespace Deployer.Wpf
 
         public DataTemplate DiskTemplate { get; set; }
 
-        public DataTemplate NumberTemplate { get; set; }
+        public DataTemplate DoubleTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -24,9 +24,9 @@ namespace Deployer.Wpf
             }
 
 
-            if (item is NumberRequirementSolver)
+            if (item is DoubleNumberRequirementSolver)
             {
-                return NumberTemplate;
+                return DoubleTemplate;
             }
 
             return base.SelectTemplate(item, container);

@@ -18,11 +18,11 @@
                     <wpf:DiskSelectionPart />
                 </DataTemplate>
             </wpf:RequirementTemplateSelector.DiskTemplate>
-            <wpf:RequirementTemplateSelector.NumberTemplate>
-                <DataTemplate DataType="wpf:NumberRequirementSolver">
-                   <wpf:NumberSelectionPart />
+            <wpf:RequirementTemplateSelector.DoubleTemplate>
+                <DataTemplate DataType="wpf:DoubleNumberRequirementSolver">
+                   <wpf:DoubleNumberSelectionPart />
                 </DataTemplate>
-            </wpf:RequirementTemplateSelector.NumberTemplate>
+            </wpf:RequirementTemplateSelector.DoubleTemplate>
         </wpf:RequirementTemplateSelector>
     </UserControl.Resources>
     <Grid Margin="10">

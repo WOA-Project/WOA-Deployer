@@ -1,9 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
 using Deployer.Core;
-using NLog;
 using Serilog;
-using Serilog.Events;
 
 namespace Deployer.Gui
 {
@@ -16,6 +14,7 @@ namespace Deployer.Gui
         {
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(@"Logs\Deployer.txt", rollingInterval: RollingInterval.Day)
+                .MinimumLevel.Verbose()
                 .CreateLogger();
             
             Log.Information($"Starting Deployer v{AppVersionMixin.VersionString}");

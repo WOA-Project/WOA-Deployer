@@ -64,9 +64,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands.cs" />
-    <Compile Include="NumberRequirementSolver.cs" />
-    <Compile Include="NumberSelectionPart.xaml.cs">
-      <DependentUpon>NumberSelectionPart.xaml</DependentUpon>
+    <Compile Include="DoubleNumberRequirementSolver.cs" />
+    <Compile Include="DoubleNumberSelectionPart.xaml.cs">
+      <DependentUpon>DoubleNumberSelectionPart.xaml</DependentUpon>
     </Compile>
     <Compile Include="OperationStatusViewModel.cs" />
     <Compile Include="RequirementsModel.cs" />
@@ -99,7 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="NumberSelectionPart.xaml">
+    <Page Include="DoubleNumberSelectionPart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

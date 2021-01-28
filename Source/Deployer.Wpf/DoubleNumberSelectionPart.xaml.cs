@@ -18,9 +18,9 @@ namespace Deployer.Wpf
     /// <summary>
     /// Interaction logic for NumberSelectionPart.xaml
     /// </summary>
-    public partial class NumberSelectionPart : UserControl
+    public partial class DoubleNumberSelectionPart : UserControl
     {
-        public NumberSelectionPart()
+        public DoubleNumberSelectionPart()
         {
             InitializeComponent();
         }
