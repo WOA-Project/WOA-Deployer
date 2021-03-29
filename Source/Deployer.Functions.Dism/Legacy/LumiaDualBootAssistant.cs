@@ -44,7 +44,7 @@ namespace Deployer.Functions.Legacy
             else
             {
                 var statusStr = isEnabled ? "Enabled" : "Disabled";
-                throw new InvalidOperationException($"Dual Boot status operation not performed. The Dual Boot was already {statusStr}");
+                throw new InvalidOperationException($"Dual Boot status operation not performed: Dual Boot was already {statusStr}");
             }
         }
 

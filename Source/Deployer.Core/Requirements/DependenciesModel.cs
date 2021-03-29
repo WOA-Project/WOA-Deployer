@@ -10,11 +10,11 @@ namespace Deployer.Core.Requirements
     {
         private readonly IEnumerable<IRequirementSolver> solvers;
 
-        public DependenciesModel(IEnumerable<IRequirementSolver> suppliers)
+        public DependenciesModel(IEnumerable<IRequirementSolver> requirementSolvers)
         {
-            solvers = suppliers ?? throw new ArgumentNullException(nameof(suppliers));
+            solvers = requirementSolvers ?? throw new ArgumentNullException(nameof(requirementSolvers));
 
-            IsValid = suppliers.Select(solver => solver.IsValid).CombineLatest(list => list.All(b => b));
+            IsValid = requirementSolvers.Select(solver => solver.IsValid).CombineLatest(list => list.All(value => value == true));
         }
 
         public IEnumerable<IRequirementSolver> Solvers => solvers;

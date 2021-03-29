@@ -24,7 +24,7 @@ namespace Deployer.Functions.Urls
             if (asset is null)
             {
                 throw new ApplicationException(
-                    $"Couldn't find the asset in the latest release. Owner: {owner}, Repository: {repo}, Asset: {asset}. Release name: {latestRelease.Name}, Published at: {latestRelease.PublishedAt}");
+                    $"Couldn't find the asset in the latest release. Owner: {owner}, Repository: {repo}, Asset: {assetName}. Release name: {latestRelease.Name}, Published at: {latestRelease.PublishedAt}");
             }
             return asset.BrowserDownloadUrl;
         }
