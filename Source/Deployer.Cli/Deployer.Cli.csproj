@@ -80,10 +80,6 @@
       <Project>{fbedaf0e-e2ed-4005-8d83-f980fa67feb2}</Project>
       <Name>Deployer.Net4x</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
-      <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
-      <Name>Iridio.Runtime</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
       <Project>{48d712e7-7654-4104-89f6-1c1f98dcb407}</Project>
       <Name>Zafiro.Core</Name>

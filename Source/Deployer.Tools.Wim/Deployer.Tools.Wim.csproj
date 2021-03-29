@@ -4,8 +4,4 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Iridio\Source\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
-  </ItemGroup>
-
 </Project>

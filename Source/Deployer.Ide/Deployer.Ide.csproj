@@ -131,14 +131,6 @@
       <Project>{5EE0CD99-0553-480F-BB4A-A9BF2CDAC4FA}</Project>
       <Name>Deployer.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
-      <Project>{9298ABA0-F1B8-4C89-B2A3-F8D5122D2589}</Project>
-      <Name>Iridio.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iridio\Source\Iridio\Iridio.csproj">
-      <Project>{E91DEC9F-6569-431A-B7AA-BCF9BA27EFE5}</Project>
-      <Name>Iridio</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
       <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
       <Name>Markdown.Xaml</Name>
