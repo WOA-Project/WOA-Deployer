@@ -144,10 +144,10 @@
       <Version>7.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
-      <Version>1.1.19</Version>
+      <Version>1.1.31</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI.WPF">
-      <Version>13.0.1</Version>
+      <Version>13.2.2</Version>
     </PackageReference>
     <PackageReference Include="Serilog.Sinks.File">
       <Version>4.1.0</Version>
@@ -160,6 +160,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN\Iridio\Source\Iridio\Iridio.csproj">
+      <Project>{bcb71ddf-9109-4921-b4ac-d71c1fe3df39}</Project>
+      <Name>Iridio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.BinaryBundle\Deployer.BinaryBundle.csproj">
       <Project>{82b5b652-01f8-4a8f-b761-ded87b0e6a7e}</Project>
       <Name>Deployer.BinaryBundle</Name>
@@ -195,22 +199,6 @@
     <ProjectReference Include="..\Deployer.Wpf\Deployer.Wpf.csproj">
       <Project>{5ee0cd99-0553-480f-bb4a-a9bf2cdac4fa}</Project>
       <Name>Deployer.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Markdown.XAML\src\Markdown.Xaml\Markdown.Xaml.csproj">
-      <Project>{ef4ea04a-2f25-450a-8f7b-029cd5a02be0}</Project>
-      <Name>Markdown.Xaml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
-      <Project>{0F24E550-CA98-493C-A829-F34F8AD85BFD}</Project>
-      <Name>Zafiro.UI.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
-      <Project>{6FC79263-C506-47B4-A4EC-69F4AC2138A0}</Project>
-      <Name>Zafiro.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

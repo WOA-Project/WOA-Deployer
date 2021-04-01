@@ -28,7 +28,7 @@ namespace Deployer.Tests
             var compilation = sut.Compile("fake.src", assignments.Select(pair => new Assignment(pair.Key, pair.Value)));
 
             compilation
-                .MapRight(unit => FormattingExtensions.AsString((IBoundNode) unit))
+                .MapRight(unit => ((IBoundNode) unit).Stringyfy())
                 .Should()
                 .BeEquivalentTo(Either.Success<Errors, string>(modified), options => options.ComparingByMembers<Option<string>>());
         }

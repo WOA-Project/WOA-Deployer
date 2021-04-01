@@ -50,6 +50,14 @@
     <Compile Include="WoaDeployerBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SuperJMN\Iridio\Source\Iridio.Runtime\Iridio.Runtime.csproj">
+      <Project>{9DA69809-D40B-45CD-B084-4C543BD48FF0}</Project>
+      <Name>Iridio.Runtime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\SuperJMN\Iridio\Source\Iridio\Iridio.csproj">
+      <Project>{BCB71DDF-9109-4921-B4AC-D71C1FE3DF39}</Project>
+      <Name>Iridio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Deployer.Core\Deployer.Core.csproj">
       <Project>{63C92B03-742B-4E52-81D7-A8211EC4475D}</Project>
       <Name>Deployer.Core</Name>
@@ -61,14 +69,6 @@
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj">
       <Project>{CCFD0C3E-EE16-4B41-A77D-250C7017E8B5}</Project>
       <Name>RunProcessAsTask</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core.Net4x\Zafiro.Core.Net4x.csproj">
-      <Project>{F53E333E-E0A3-4E3F-9C7E-20ED6FDBC0BD}</Project>
-      <Name>Zafiro.Core.Net4x</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
-      <Name>Zafiro.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +83,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies">
       <Version>1.1.0</Version>
+    </PackageReference>
+    <PackageReference Include="Zafiro.Core">
+      <Version>2.4.6</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />

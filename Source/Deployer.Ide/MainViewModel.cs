@@ -10,12 +10,9 @@ using System.Threading.Tasks;
 using Deployer.Core;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
-using Deployer.Net4x;
 using Deployer.Wpf;
 using DynamicData;
 using Iridio.Binding.Model;
-using Iridio.Runtime;
-using Iridio.Runtime.ReturnValues;
 using ReactiveUI;
 using Zafiro.Core.Files;
 using Zafiro.Core.Patterns.Either;
@@ -118,7 +115,7 @@ namespace Deployer.Ide
 
         public ReactiveCommand<Unit, Either<DeployerCompilerError, Script>> CompileCore { get; }
 
-        public ReactiveCommand<Unit, Either<DeployerError, Success>> RunCore { get; }
+        public ReactiveCommand<Unit, Either<DeployerError, DeploymentSuccess>> RunCore { get; }
 
         public ReactiveCommand<Unit, Unit> Run { get; }
 
@@ -143,7 +140,7 @@ namespace Deployer.Ide
 
         public OperationStatusViewModel Status { get; }
 
-        private IEnumerable<string> Extract(Either<DeployerError, Success> either)
+        private IEnumerable<string> Extract(Either<DeployerError, DeploymentSuccess> either)
         {
             return either.MapRight(s => (IEnumerable<string>) new[] {"Execution finished successfully"})
                 .Handle(s => s.Items);

@@ -21,6 +21,6 @@ namespace Deployer.Filesystem
         Task PrepareForRemoval();
         Task ClearAs(DiskType diskType);
         Task<IPartition> CreateMbrPartition(MbrType mbrType, ByteSize size = default);
-        Task<IPartition> CreateGptPartition(GptType gptType, ByteSize desiredSize = default);
+        Task<IPartition> CreateGptPartition(GptType gptType, string gptName, ByteSize desiredSize = default);
     }
 }

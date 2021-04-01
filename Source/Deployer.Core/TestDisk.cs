@@ -26,7 +26,7 @@ namespace Deployer.Core
             throw new NotImplementedException();
         }
 
-        public Task<IPartition> CreateGptPartition(GptType gptType, ByteSize desiredSize)
+        public Task<IPartition> CreateGptPartition(GptType gptType, string gptName, ByteSize desiredSize)
         {
             throw new NotImplementedException();
         }

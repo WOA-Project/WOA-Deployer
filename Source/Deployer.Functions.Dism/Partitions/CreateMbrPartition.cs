@@ -16,11 +16,11 @@ namespace Deployer.Functions.Partitions
             this.fileSystem = fileSystem;
         }
 
-        public async Task<string> Execute(int diskNumber, string partitionType, string sizeString = null)
+        public async Task<string> Execute(int diskNumber, string partitionType, string gptName, string sizeString = null)
         {
             var size = sizeString != null ? ByteSize.Parse(sizeString) : default;
             var disk = await fileSystem.GetDisk(diskNumber);
-            var partition = await disk.CreateGptPartition(GptType.FromString(partitionType), size);
+            var partition = await disk.CreateGptPartition(GptType.FromString(partitionType), gptName, size);
 
             var descriptor = FileSystemMixin.GetDescriptor(partition);
             return await descriptor;

@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
-using Iridio.Runtime.ReturnValues;
+using Iridio.Runtime;
 
 namespace Deployer.Core.Deployers.Errors.Deployer
 {
     public class ExecutionFailed : DeployerError
     {
-        public RuntimeErrors Errors { get; }
+        public RunError Error { get; }
 
-        public ExecutionFailed(RuntimeErrors errors)
+        public ExecutionFailed(RunError error)
         {
-            Errors = errors;
+            Error = error;
         }
 
-        public override IEnumerable<string> Items => Errors.SelectMany(x => x.Items);
+        public override IEnumerable<string> Items => new []{ Error.ToString() };
 
         public override string ToString()
         {

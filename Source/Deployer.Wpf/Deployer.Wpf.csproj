@@ -38,9 +38,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xaml.Behaviors">
-      <HintPath>C:\Users\SuperJMN\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -156,18 +153,6 @@
       <Project>{05EC5E58-0B54-4BF0-8EAE-29827C4732E6}</Project>
       <Name>Deployer.Tools.Wim</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj">
-      <Project>{48D712E7-7654-4104-89F6-1C1F98DCB407}</Project>
-      <Name>Zafiro.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI.Wpf\Zafiro.UI.Wpf.csproj">
-      <Project>{0F24E550-CA98-493C-A829-F34F8AD85BFD}</Project>
-      <Name>Zafiro.UI.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.UI\Zafiro.UI.csproj">
-      <Project>{6FC79263-C506-47B4-A4EC-69F4AC2138A0}</Project>
-      <Name>Zafiro.UI</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\appicon.ico" />
@@ -196,6 +181,9 @@
     </PackageReference>
     <PackageReference Include="ValueConverters">
       <Version>2.0.20011.1</Version>
+    </PackageReference>
+    <PackageReference Include="Zafiro.UI.Wpf">
+      <Version>2.4.6</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

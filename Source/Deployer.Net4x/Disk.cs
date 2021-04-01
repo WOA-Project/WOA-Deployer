@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ByteSizeLib;
 using Deployer.Core;
 using Deployer.Filesystem;
+using Deployer.Filesystem.Gpt;
 using Serilog;
 
 namespace Deployer.Net4x
@@ -191,10 +192,17 @@ namespace Deployer.Net4x
             return $"Disk {Number} ({FriendlyName})";
         }
 
-        public async Task<IPartition> CreateGptPartition(GptType gptType, ByteSize size = default)
+        public async Task<IPartition> CreateGptPartition(GptType gptType, string gptName, ByteSize size = default)
         {
-            var sizeStr = size == default ? "-UseMaximumSize" : $"-Size {size.ToString().Replace(" ", "")}";
-            await PowerShellMixin.ExecuteScript($"New-Partition -DiskNumber {Number} {sizeStr} -GptType '{{{gptType.Guid}}}'");
+            using (var context = await GptContextFactory.Create(Number, FileAccess.Write))
+            {
+                if (size == default)
+                {
+                    size = context.AvailableSize;
+                }
+
+                context.Add(new Entry(gptName, size, gptType));
+            }
 
             var partitions = await GetPartitions();
             return partitions.Last();

@@ -7,7 +7,6 @@ using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Interaction;
 using Deployer.Wpf;
 using Grace.DependencyInjection.Attributes;
-using Iridio.Runtime.ReturnValues;
 using Optional;
 using ReactiveUI;
 using Zafiro.Core.Patterns.Either;
@@ -40,7 +39,7 @@ namespace Deployer.Gui.ViewModels.Sections
 
         public OperationStatusViewModel OperationStatus { get; }
 
-        public ReactiveCommand<Unit, Either<DeployerError, Success>> RunScript { get; set; }
+        public ReactiveCommand<Unit, Either<DeployerError, DeploymentSuccess>> RunScript { get; set; }
 
         public IObservable<bool> IsBusyObservable { get; }
 

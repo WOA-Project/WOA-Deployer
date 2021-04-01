@@ -8,11 +8,8 @@
     <PackageReference Include="ByteSize" Version="2.0.0" />
     <PackageReference Include="Optional" Version="4.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="System.Reactive" Version="4.4.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Zafiro.Core" Version="2.4.6" />
   </ItemGroup>
 
 </Project>

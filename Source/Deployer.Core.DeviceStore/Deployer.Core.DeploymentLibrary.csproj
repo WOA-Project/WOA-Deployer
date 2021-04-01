@@ -6,10 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="ExtendedXmlSerializer" Version="3.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
+    <PackageReference Include="Zafiro.Core" Version="2.4.6" />
   </ItemGroup>
 
 </Project>

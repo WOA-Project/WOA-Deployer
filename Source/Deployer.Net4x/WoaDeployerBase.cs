@@ -15,12 +15,11 @@ using Iridio.Binding;
 using Iridio.Common;
 using Iridio.Parsing;
 using Iridio.Runtime;
-using Iridio.Runtime.ReturnValues;
 using Zafiro.Core;
 using Zafiro.Core.Files;
 using Zafiro.Core.FileSystem;
-using Zafiro.Core.Net4x;
 using Zafiro.Core.Patterns.Either;
+using Zafiro.UI;
 using Binder = Iridio.Binding.Binder;
 
 namespace Deployer.Net4x
@@ -42,7 +41,7 @@ namespace Deployer.Net4x
 
         public IObservable<string> Messages => deployer.Messages;
 
-        public Task<Either<DeployerError, Success>> Run(string scriptPath)
+        public Task<Either<DeployerError, DeploymentSuccess>> Run(string scriptPath)
         {
             return deployer.Run(scriptPath);
         }
@@ -61,7 +60,7 @@ namespace Deployer.Net4x
                 block.Export<DeployerCompiler>().As<IDeployerCompiler>().Lifestyle.Singleton();
                 block.Export<Downloader>().As<IDownloader>().Lifestyle.Singleton();
                 block.ExportFactory<string, IFileSystemOperations, IDownloader, IZafiroFile>((path, fo, dl) =>
-                    new ZafiroFile(new Uri(path), fo, dl));
+                    new DesktopZafiroFile(new Uri(path), fo, dl));
                 block.Export<IridioRequirementsAnalyzer>().As<IRequirementsAnalyzer>().Lifestyle.Singleton();
                 block.Export<ScriptRunner>().As<IScriptRunner>().Lifestyle.Singleton();
                 block.ExportFactory(() => OperationProgress).As<IOperationProgress>().Lifestyle.Singleton();

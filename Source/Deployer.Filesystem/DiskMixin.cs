@@ -4,18 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using ByteSizeLib;
 using Deployer.Filesystem.Gpt;
 
 namespace Deployer.Filesystem
 {
     public static class DiskMixin
     {
-        public static Task<IPartition> CreatePartition(this IDisk self, GptType gptType, string label = "")
-        {
-            return self.CreateGptPartition(gptType, ByteSize.MaxValue);
-        }
-
         public static async Task<IList<IVolume>> GetVolumes(this IDisk self)
         {
             var partitions = await self.GetPartitions();

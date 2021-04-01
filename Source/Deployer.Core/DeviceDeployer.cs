@@ -1,8 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Deployer.Core.Deployers.Errors.Deployer;
-using Iridio.Runtime;
-using Iridio.Runtime.ReturnValues;
 using Zafiro.Core.Patterns.Either;
 
 namespace Deployer.Core
@@ -18,14 +16,19 @@ namespace Deployer.Core
             this.deployer = deployer;
         }
 
-        public async Task<Either<DeployerError, Success>> Deploy(DeploymentRequest deploymentRequest)
+        public async Task<Either<DeployerError, DeploymentSuccess>> Deploy(DeploymentRequest deploymentRequest)
         {
             return await Run(Path.Combine(FeedFolder, deploymentRequest.ScriptPath));
         }
 
-        private Task<Either<DeployerError, Success>> Run(string bootstrapPath)
+        private Task<Either<DeployerError, DeploymentSuccess>> Run(string bootstrapPath)
         {
             return deployer.Run(bootstrapPath);
         }
+    }
+
+    public class DeploymentSuccess
+    {
+
     }
 }

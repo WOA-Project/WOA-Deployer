@@ -9,10 +9,9 @@ using Deployer.Core.Compiler;
 using Deployer.Core.Deployers.Errors.Compiler;
 using Deployer.Core.Deployers.Errors.Deployer;
 using Deployer.Core.Requirements;
+using Iridio;
 using Iridio.Binding.Model;
 using Iridio.Runtime;
-using Iridio.Runtime.ReturnValues;
-using NLog;
 using Serilog;
 using Zafiro.Core;
 using Zafiro.Core.FileSystem;
@@ -41,7 +40,7 @@ namespace Deployer.Core.Deployers
 
         public IObservable<string> Messages { get; }
 
-        public async Task<Either<DeployerError, Success>> Run(string path)
+        public async Task<Either<DeployerError, DeploymentSuccess>> Run(string path)
         {
             operationProgress.Send(new Unknown());
             
@@ -55,9 +54,9 @@ namespace Deployer.Core.Deployers
                     .MapRight(async c =>
                     {
                         var task = await scriptRunner.Run(c);
-                        return task.MapLeft(delegate(RuntimeErrors errors)
+                        return task.MapLeft(error => 
                         {
-                            var deployerError = (DeployerError) new ExecutionFailed(errors);
+                            var deployerError = (DeployerError) new ExecutionFailed(error);
                             Log.Error($"The deployment has failed: {deployerError}");
                             return deployerError;
                         });
@@ -65,13 +64,12 @@ namespace Deployer.Core.Deployers
                     .RightTask();
                 operationProgress.Send(new Done());
                 internalMessages.OnNext("");
-                return mapLeft;
+                return mapLeft
+                    .MapRight(summary => new DeploymentSuccess());
             }
-
-            
         }
 
-        private Either<Iridio.Common.Errors, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
+        private Either<CompilerError, Script> Compile(string path, IEnumerable<FulfilledRequirement> toInject)
         {
             var assignments = GetAssignments(toInject);
             var compilation = Compiler.Compile(path, assignments);

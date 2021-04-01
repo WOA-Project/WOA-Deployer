@@ -14,7 +14,6 @@ using Deployer.Core.Interaction;
 using Deployer.Wpf;
 using DynamicData;
 using Grace.DependencyInjection.Attributes;
-using Iridio.Runtime.ReturnValues;
 using Optional;
 using ReactiveUI;
 using Zafiro.Core.FileSystem;
@@ -90,7 +89,7 @@ namespace Deployer.Gui.ViewModels.Sections
             set => this.RaiseAndSetIfChanged(ref device, value);
         }
 
-        public ReactiveCommand<Unit, Either<DeployerError, Success>> Deploy { get; set; }
+        public ReactiveCommand<Unit, Either<DeployerError, DeploymentSuccess>> Deploy { get; set; }
 
         public ReadOnlyObservableCollection<DeploymentDto> FilteredDeployments => deployments;
 

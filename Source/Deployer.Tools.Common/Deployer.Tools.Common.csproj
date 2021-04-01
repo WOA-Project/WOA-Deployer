@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Zafiro.Core" Version="2.4.6" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RunProcessAsTask\src\RunProcessAsTask\RunProcessAsTask.csproj" />
-    <ProjectReference Include="..\Zafiro\Source\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 
 </Project>

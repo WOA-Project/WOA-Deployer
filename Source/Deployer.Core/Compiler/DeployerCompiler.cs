@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iridio;
 using Iridio.Binding;
 using Iridio.Binding.Model;
 using Iridio.Common;
@@ -27,17 +28,18 @@ namespace Deployer.Core.Compiler
             this.preprocessor = preprocessor;
         }
 
-        public Either<Errors, Script> Compile(string path, IEnumerable<Assignment> toInject)
+        public Either<CompilerError, Script> Compile(string path, IEnumerable<Assignment> toInject)
         {
             var input = preprocessor.Process(path);
             var parsed = parser.Parse(input);
 
             return parsed
-                .MapLeft(error => new Errors(new Error(ErrorKind.UnableToParse, error.Message)))
+                .MapLeft(error => (CompilerError)new ParseError(error))
                 .MapRight(script => TryInject(script, toInject).Match(syntax => syntax, () => script))
                 .MapRight(script =>
                 {
-                    var either = binder.Bind(script);
+                    var either = binder.Bind(script)
+                        .MapLeft(errors => (CompilerError)new BindError(errors));
                     return either;
                 });
         }

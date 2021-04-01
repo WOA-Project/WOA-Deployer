@@ -1,22 +1,22 @@
 using System.Collections.Generic;
-using System.Linq;
+using Iridio;
 
 namespace Deployer.Core.Deployers.Errors.Compiler
 {
     public class UnableToCompile : DeployerCompilerError
     {
-        public Iridio.Common.Errors Errors { get; }
+        public CompilerError Error { get; }
 
-        public UnableToCompile(Iridio.Common.Errors errors)
+        public UnableToCompile(CompilerError error)
         {
-            Errors = errors;
+            Error = error;
         }
 
         public override string ToString()
         {
-            return string.Join(", ", Errors);
+            return string.Join(", ", Error);
         }
 
-        public override IEnumerable<string> Items => Errors.Select(s => s.ToString());
+        public override IEnumerable<string> Items => new[] { Error.ToString() };
     }
 }
